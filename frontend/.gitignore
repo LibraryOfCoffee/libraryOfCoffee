@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# 一時的にgithub pagesに公開する際にdocsを使うためignore
+docs/*
