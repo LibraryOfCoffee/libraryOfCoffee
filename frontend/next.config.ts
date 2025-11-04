@@ -7,11 +7,11 @@ const nextConfig: NextConfig = {
   ...(process.env.NODE_ENV === "development"
     ? {}
     : {
-        output: "export",
-        basePath: "/frontend",
-        assetPrefix: "/frontend",
-        distDir: "docs",
-      }),
+      output: "export",
+      basePath: "/frontend",
+      assetPrefix: "/libraryOfCoffee",
+      distDir: "docs",
+    }),
   /* ここまで */
 };
 
