@@ -1,0 +1,36 @@
+.lp-section {
+  margin-bottom: 80px;
+}
+
+.lp-section-container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.lp-section-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.lp-section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: left;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.lp-section-icon {
+  display: flex;
+  justify-content: left;
+  margin-bottom: 8px;
+}
+
+.lp-section-main-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1.5;
+  color: #111827;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
