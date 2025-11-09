@@ -244,24 +244,7 @@ export default function LP() {
             </div>
           </div>
         </Section>
-
-
-        {/* CTA Section */}
-        <section className="lp-cta">
-          <div className="lp-cta-container">
-            <h2 className="lp-cta-title">
-              今すぐ無料でネットショップを開設
-            </h2>
-            <p className="lp-cta-subtitle">
-              クレジットカード不要・最短30秒で完了
-            </p>
-            <button className="lp-button-large">
-              無料ではじめる
-            </button>
-          </div>
-        </section>
       </div >
     </>
-
   );
 }
