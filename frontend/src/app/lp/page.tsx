@@ -79,7 +79,7 @@ export default function LP() {
         {/* Features Section */}
         <Section
           title={'豆図書のメリット'}
-          subtitle={`「選べる」「試せる」「知れる」　様々の珈琲を体験できる。`}
+          subtitle={`「選べる」「試せる」「知れる」　様々な珈琲を体験できる。`}
         >
           <div className="lp-features-grid">
             {
