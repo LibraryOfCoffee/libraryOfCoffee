@@ -9,7 +9,7 @@ import './lp.css';
 const featureList = [
   {
     number: "01",
-    title: "気軽に選ぶ",
+    title: "選べる",
     iconElement: <FaBeer size={50} />,
     subtitle: "毎月変わる10店舗のリストから気になる珈琲を選択",
     details: [
@@ -20,7 +20,7 @@ const featureList = [
   },
   {
     number: "02",
-    title: "飲んで試せる",
+    title: "試せる",
     iconElement: <FaBeer size={50} />,
     subtitle: "気になる豆2種類とおすすめ1種類の合計3種類が届く",
     details: [
@@ -31,7 +31,7 @@ const featureList = [
   },
   {
     number: "03",
-    title: "知識・体験が広がる",
+    title: "知れる",
     iconElement: <FaBeer size={50} />,
     subtitle: "店舗のこだわりや珈琲豆の特徴を分かりやすく紹介",
     details: [
@@ -62,11 +62,11 @@ export default function LP() {
                   <img height={380} alt="lp-hero-gradient"></img>
                 </div>
                 <h1 className="lp-hero-title">
-                  色んな珈琲と出会える豆図書
+                  色々な珈琲と出会える豆図書
                 </h1>
                 <p className="lp-hero-subtitle">
-                  高品質なコーヒー豆を30gで気軽にお試し。<br />
-                  自分好みのコーヒー豆を見つけたい・美味しい入れ方を探求したいあなたに。
+                  高品質な珈琲豆を30gで気軽にお試し。<br />
+                  自分好みの珈琲豆を見つけたい・美味しい入れ方を探求したいあなたに。
                 </p>
                 <button className="lp-button-large">
                   XXXXXを購入する
@@ -74,11 +74,12 @@ export default function LP() {
               </div>
             </div>
           </div>
+
         </section>
         {/* Features Section */}
         <Section
           title={'豆図書のメリット'}
-          subtitle={`美味しい珈琲豆って何だろう？珈琲豆を気軽に選び・自宅で飲んでみて・知識や体験を広げよう！`}
+          subtitle={`「選べる」「試せる」「知れる」　様々の珈琲を体験できる。`}
         >
           <div className="lp-features-grid">
             {
@@ -97,7 +98,7 @@ export default function LP() {
         </Section>
 
         <Section
-          title={'色んな珈琲豆と出会える場所。豆図書'}
+          title={'色々な珈琲豆と出会える場所。豆図書'}
           subtitle={'利用者の声'}
         >
           <div className="lp-testimonials-grid">
