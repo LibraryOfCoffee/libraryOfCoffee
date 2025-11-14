@@ -1,4 +1,5 @@
 'use client'
+import Image from "next/image";
 import './header.css';
 
 export default function Header() {
@@ -12,7 +13,12 @@ export default function Header() {
           <div>
             <a className="lp-logo" href={"/lp"}>
               {/* FIXME 仮置き */}
-              <img width={80} height={40} style={{ background: 'yellow' }} />
+              <Image
+                src="/logo.svg"
+                alt="logo"
+                height={40}
+                width={80}
+              />
             </a>
           </div>
           <div>

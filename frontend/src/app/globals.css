@@ -76,15 +76,3 @@ a {
   color: inherit; /* 親要素の色を継承 */
   text-decoration: none; /* 下線を削除 */
 }
-
-a:visited {
-  color: inherit;
-}
-
-a:hover {
-  color: inherit;
-}
-
-a:active {
-  color: inherit;
-}

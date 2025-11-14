@@ -9,11 +9,11 @@
 
 .lp-section-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .lp-section-title {
-  font-size: 1rem;
+  font-size: 0.75rem;
   font-weight: 600;
   text-align: left;
   color: #111827;
@@ -31,6 +31,5 @@
   font-weight: bold;
   line-height: 1.5;
   color: #111827;
-  margin-bottom: 1.5rem;
   text-align: left;
 }

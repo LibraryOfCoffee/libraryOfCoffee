@@ -1,4 +1,5 @@
 import './userVoiceCard.css';
+import Image from "next/image";
 
 interface QA {
   question: string;
@@ -27,7 +28,12 @@ export default function UserVoiceCard({
   return (
     <div className="user-voice-card">
       <div className="user-voice-card-image">
-        <img src={imageUrl} alt={userName} />
+        <Image
+          src={imageUrl}
+          alt={userName}
+          height={200}
+          width={1000}
+        />
       </div>
       <div className="user-voice-card-content">
         <h3 className="user-voice-card-title">

@@ -1,4 +1,5 @@
 import { PropsWithChildren } from 'react';
+import Image from "next/image";
 import './section.css';
 
 interface SectionProps {
@@ -15,7 +16,12 @@ export default function Section({ title, subtitle, children }: PropsWithChildren
             {title}
           </h2>
           <div className="lp-section-icon">
-            <img height={25} width={100} />
+            <Image
+              src="/leafLine.png"
+              alt="leafLine"
+              height={25}
+              width={80}
+            />
           </div>
           <p className="lp-section-main-text">
             {subtitle}

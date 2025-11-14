@@ -7,9 +7,8 @@ import Section from './_components/Section/section';
 import UserVoiceCard from './_components/UserVoiceCard/userVoiceCard';
 import { FaRegLightbulb } from 'react-icons/fa';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Autoplay } from 'swiper/modules';
+import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
-import 'swiper/css/pagination';
 import './lp.css';
 import { MdCheckBox, MdOutlineCoffeeMaker } from "react-icons/md";
 
@@ -82,7 +81,7 @@ export default function LP() {
                   自分好みの珈琲豆を見つけたい・美味しい入れ方を探求したいあなたに。
                 </p>
                 <a className="lp-button-large" href="https://zcgqx8-tr.myshopify.com/">
-                  XXXXXを購入する
+                  珈琲を購入する
                 </a>
               </div>
             </div>
@@ -115,16 +114,10 @@ export default function LP() {
           subtitle={'利用者の声'}
         >
           <Swiper
-            modules={[Pagination, Autoplay]}
+            modules={[Autoplay]}
             spaceBetween={20}
             slidesPerView={1.3}
             centeredSlides={true}
-            loop={true}
-            initialSlide={0}
-            threshold={5}
-            resistance={true}
-            resistanceRatio={0.85}
-            pagination={{ clickable: true }}
             autoplay={{
               delay: 3000,
               disableOnInteraction: false,
@@ -143,7 +136,7 @@ export default function LP() {
           >
             <SwiperSlide>
               <UserVoiceCard
-                imageUrl="/path/to/image.jpg"
+                imageUrl="/lpUsers/nakamura.png"
                 userName="中林さん"
                 userAge="20代"
                 userGender="男性"
@@ -154,7 +147,7 @@ export default function LP() {
             </SwiperSlide>
             <SwiperSlide>
               <UserVoiceCard
-                imageUrl="/path/to/image.jpg"
+                imageUrl="/lpUsers/furuhori.png"
                 userName="古堀さん"
                 userAge="50代"
                 userGender="男性"
@@ -165,7 +158,7 @@ export default function LP() {
             </SwiperSlide>
             <SwiperSlide>
               <UserVoiceCard
-                imageUrl="/path/to/image.jpg"
+                imageUrl="/lpUsers/akiyama.png"
                 userName="秋山さん（母）"
                 userAge="50代"
                 userGender="女性"
