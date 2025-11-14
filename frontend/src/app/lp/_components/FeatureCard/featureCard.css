@@ -33,7 +33,7 @@
 
 /* 見出し */
 .feature-card-heading {
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: bold;
   color: #111827;
   margin-bottom: 1.5rem;
@@ -52,6 +52,7 @@
 }
 
 .feature-card-list-item {
+  font-size: 0.8rem;
   display: flex;
   align-items: flex-start;
   color: #4b5563;

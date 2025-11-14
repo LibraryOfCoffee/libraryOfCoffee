@@ -1,7 +1,5 @@
 .user-voice-card {
-  display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
   background-color: #ffffff;
   border-radius: 0.5rem;
   overflow: hidden;
@@ -10,7 +8,7 @@
 
 .user-voice-card-image {
   width: 100%;
-  height: 150px;
+  height: 200px;
   overflow: hidden;
 }
 
@@ -21,26 +19,25 @@
 }
 
 .user-voice-card-content {
-  padding: 0 2rem 2rem;
+  padding: 0 1rem 1rem;
 }
 
 .user-voice-card-title {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   font-weight: bold;
   color: #111827;
-  margin-bottom: 1.5rem;
 }
 
 .user-voice-card-tags {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
 }
 
 .user-voice-card-tag {
-  font-size: 1rem;
-  color: #111827;
+  font-size: 0.75rem;
+  color: gray;
   line-height: 1.8;
 }
 

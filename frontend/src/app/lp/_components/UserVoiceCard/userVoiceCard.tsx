@@ -10,8 +10,9 @@ interface UserVoiceCardProps {
   userName: string;
   userAge: string;
   userGender: string;
+  userOccupation: string;
   tags: string[];
-  qaList: QA[];
+  comment: string;
 }
 
 export default function UserVoiceCard({
@@ -19,8 +20,9 @@ export default function UserVoiceCard({
   userName,
   userAge,
   userGender,
+  userOccupation,
   tags,
-  qaList,
+  comment,
 }: UserVoiceCardProps) {
   return (
     <div className="user-voice-card">
@@ -29,7 +31,7 @@ export default function UserVoiceCard({
       </div>
       <div className="user-voice-card-content">
         <h3 className="user-voice-card-title">
-          {userName}（{userAge} {userGender}）
+          {userAge} {userGender} {userOccupation} {userName}
         </h3>
         <div className="user-voice-card-tags">
           {tags.map((tag, index) => (
@@ -39,16 +41,7 @@ export default function UserVoiceCard({
           ))}
         </div>
         <div className="user-voice-card-qa-list">
-          {qaList.map((qa, index) => (
-            <div key={index} className="user-voice-card-qa-item">
-              <h4 className="user-voice-card-question">― {qa.question}</h4>
-              {
-                qa.answers.map((answer, index) => {
-                  return <p key={index} className="user-voice-card-answer">{answer}</p>
-                })
-              }
-            </div>
-          ))}
+          {comment}
         </div>
       </div>
     </div>

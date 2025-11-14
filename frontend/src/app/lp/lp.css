@@ -99,10 +99,31 @@
 }
 
 /* Testimonials Section */
-.lp-testimonials-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
+.lp-testimonials-swiper {
+  padding: 2rem 0 4rem;
+  margin: 0 -2rem;
+  width: calc(100% + 4rem);
+}
+
+@media (min-width: 768px) {
+  .lp-testimonials-swiper {
+    margin: 0;
+    width: 100%;
+  }
+}
+
+.lp-testimonials-swiper .swiper-slide {
+  height: auto;
+  display: flex;
+}
+
+.lp-testimonials-swiper .swiper-pagination-bullet {
+  background-color: #2563eb;
+  opacity: 0.5;
+}
+
+.lp-testimonials-swiper .swiper-pagination-bullet-active {
+  opacity: 1;
 }
 
 .lp-testimonial-card {
@@ -207,10 +228,6 @@
 
   .lp-features-grid {
     grid-template-columns: repeat(3, 1fr);
-  }
-
-  .lp-testimonials-grid {
-    grid-template-columns: repeat(2, 1fr);
   }
 
   .lp-pricing-grid {

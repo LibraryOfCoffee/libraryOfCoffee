@@ -20,6 +20,9 @@ importers:
       react-icons:
         specifier: ^5.5.0
         version: 5.5.0(react@19.2.0)
+      swiper:
+        specifier: ^12.0.3
+        version: 12.0.3
     devDependencies:
       '@biomejs/biome':
         specifier: 2.2.0
@@ -569,6 +572,10 @@ packages:
       babel-plugin-macros:
         optional: true
 
+  swiper@12.0.3:
+    resolution: {integrity: sha512-BHd6U1VPEIksrXlyXjMmRWO0onmdNPaTAFduzqR3pgjvi7KfmUCAm/0cj49u2D7B0zNjMw02TSeXfinC1hDCXg==}
+    engines: {node: '>= 4.7.0'}
+
   to-regex-range@5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
@@ -1038,6 +1045,8 @@ snapshots:
     dependencies:
       client-only: 0.0.1
       react: 19.2.0
+
+  swiper@12.0.3: {}
 
   to-regex-range@5.0.1:
     dependencies:

@@ -1,0 +1,6 @@
+{
+  "env": {
+      "CLAUDE_CODE_USE_BEDROCK": "true",
+      "AWS_REGION": "us-west-2"
+  }
+}

@@ -10,13 +10,13 @@ export default function Header() {
       <nav className="lp-nav">
         <div className="lp-nav-content">
           <div>
-            <a className="lp-logo" onClick={clickLogo}>
+            <a className="lp-logo" href={"/lp"}>
               {/* FIXME 仮置き */}
               <img width={80} height={40} style={{ background: 'yellow' }} />
             </a>
           </div>
           <div>
-            <a onClick={clickLogo}>
+            <a href='https://zcgqx8-tr.myshopify.com/' >
               <p>豆を購入する</p>
             </a>
           </div>
