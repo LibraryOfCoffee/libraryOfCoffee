@@ -18,7 +18,12 @@ const featureList = [
   {
     number: "01",
     title: "選べる",
-    iconElement: <MdCheckBox size={50} />,
+    iconElement: <Image
+      src="/lpIcons/36576.jpg"
+      alt="lp-icons-36576"
+      height={120}
+      width={120}
+    />,
     subtitle: "毎月変わる10店舗のリストから気になる珈琲を選択",
     details: [
       '1種類当たり30gで気軽にチャレンジ',
@@ -29,7 +34,12 @@ const featureList = [
   {
     number: "02",
     title: "試せる",
-    iconElement: <MdOutlineCoffeeMaker size={50} />,
+    iconElement: <Image
+      src="/lpIcons/36583.jpg"
+      alt="lp-icons-36583"
+      height={120}
+      width={120}
+    />,
     subtitle: "気になる豆2種類とおすすめ1種類の合計3種類が届く",
     details: [
       '自分の気になる豆を体験',
@@ -40,7 +50,12 @@ const featureList = [
   {
     number: "03",
     title: "知れる",
-    iconElement: <FaRegLightbulb size={50} />,
+    iconElement: <Image
+      src="/lpIcons/36573.jpg"
+      alt="lp-icons-36573"
+      height={120}
+      width={120}
+    />,
     subtitle: "店舗のこだわりや珈琲豆の特徴を分かりやすく紹介",
     details: [
       '店舗のこだわりがわかる',
