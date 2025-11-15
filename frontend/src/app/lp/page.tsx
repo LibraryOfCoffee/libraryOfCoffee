@@ -11,6 +11,7 @@ import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import './lp.css';
 import { MdCheckBox, MdOutlineCoffeeMaker } from "react-icons/md";
+import moveToShopify from "./_lib/PurchaseLinkUtil/purchaseLinkUtil";
 
 
 const featureList = [
@@ -80,8 +81,8 @@ export default function LP() {
                   高品質な珈琲豆を30gで気軽にお試し。<br />
                   自分好みの珈琲豆を見つけたい・美味しい入れ方を探求したいあなたに。
                 </p>
-                <a className="lp-button-large" href="https://zcgqx8-tr.myshopify.com/">
-                  珈琲を購入する
+                <a className="lp-button-large" onClick={() => moveToShopify()}>
+                  今すぐ始める
                 </a>
               </div>
             </div>
@@ -141,7 +142,7 @@ export default function LP() {
                 userAge="20代"
                 userGender="男性"
                 userOccupation="会社員"
-                tags={["社会人", "休日は家で珈琲", "新鮮さが大切"]}
+                tags={["休日は家で珈琲", "新鮮さが大切"]}
                 comment={"量がちょうどよく、豆が余らないのが嬉しいです。少量だからいつもの新鮮な味を楽しめます。"}
               />
             </SwiperSlide>
@@ -152,7 +153,7 @@ export default function LP() {
                 userAge="50代"
                 userGender="男性"
                 userOccupation="自営業"
-                tags={["抽出の探究", "お家で名店の味", "お店のレシピ"]}
+                tags={["抽出の探究", "お家で名店の味"]}
                 comment={"普段はいけない隠れた名店の味を気軽に体験できるのが嬉しいです。お店の入れ方を参考に自分に合った抽出を研究しています。"}
               />
             </SwiperSlide>
@@ -163,7 +164,7 @@ export default function LP() {
                 userAge="50代"
                 userGender="女性"
                 userOccupation="会社員"
-                tags={["新しい出会い", "自分だけの一杯", "暮らしに香る時間"]}
+                tags={["新しい出会い", "自分だけの一杯"]}
                 comment={"定期的に届く豆が生活の楽しみになりました。毎回違う味に出会えて、自分の\"好き\"が少しずつ見えてきます。"}
               />
             </SwiperSlide>
@@ -174,7 +175,7 @@ export default function LP() {
                 userAge="20代"
                 userGender="男性"
                 userOccupation="学生"
-                tags={["コーヒーをディグる", "味の背景まで楽しむ", "知るほど美味しい"]}
+                tags={["コーヒーをディグる", "味の背景まで楽しむ"]}
                 comment={"コーヒー豆の情報が分かりやすくまとまっているおかげで、さらに自分で調べて\"ディグる\"楽しさに出会えました。"}
               />
             </SwiperSlide>

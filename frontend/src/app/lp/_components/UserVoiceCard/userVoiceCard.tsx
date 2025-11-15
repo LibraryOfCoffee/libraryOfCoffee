@@ -41,9 +41,9 @@ export default function UserVoiceCard({
         </h3>
         <div className="user-voice-card-tags">
           {tags.map((tag, index) => (
-            <div key={index} className="user-voice-card-tag">
+            <span key={index} className="user-voice-card-tag">
               #{tag}
-            </div>
+            </span>
           ))}
         </div>
         <p className="user-voice-card-qa-list">

@@ -1,6 +1,7 @@
 'use client'
 import Image from "next/image";
 import './header.css';
+import moveToShopify from "../../_lib/PurchaseLinkUtil/purchaseLinkUtil";
 
 export default function Header() {
 
@@ -21,12 +22,12 @@ export default function Header() {
             </a>
           </div>
           <div className="lp-publish-link">
-            <a href='https://zcgqx8-tr.myshopify.com/' >
-              <p>豆を購入する</p>
+            <a onClick={() => moveToShopify()}>
+              <p>今すぐ始める</p>
             </a>
           </div>
         </div>
       </nav>
-    </header>
+    </header >
   );
 }
