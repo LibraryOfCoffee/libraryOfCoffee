@@ -224,7 +224,7 @@ export default function LP() {
                   <span className="lp-pricing-feature-text">決済手数料 3.6%+40円</span>
                 </li>
               </ul>
-              <button className="lp-button-secondary">
+              <button className="lp-button-secondary" onClick={() => moveToShopify()}>
                 今すぐ始める
               </button>
             </div>
