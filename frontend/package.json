@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome check",
-    "format": "biome format --write",
-    "gh-pages:deploy": "next build && touch ./docs/.nojekyll && gh-pages -d docs "
+    "format": "biome format --write"
   },
   "dependencies": {
     "next": "16.0.0",

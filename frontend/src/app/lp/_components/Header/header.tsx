@@ -3,9 +3,7 @@ import Image from "next/image";
 import './header.css';
 
 export default function Header() {
-  const clickLogo = () => {
-    window.alert('ロゴが押されました')
-  }
+
   return (
     <header className="lp-header">
       <nav className="lp-nav">
@@ -21,7 +19,7 @@ export default function Header() {
               />
             </a>
           </div>
-          <div>
+          <div className="lp-publish-link">
             <a href='https://zcgqx8-tr.myshopify.com/' >
               <p>豆を購入する</p>
             </a>
