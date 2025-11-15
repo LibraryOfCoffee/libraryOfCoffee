@@ -143,7 +143,7 @@ export default function LP() {
                 userGender="男性"
                 userOccupation="会社員"
                 tags={["休日は家で珈琲", "新鮮さが大切"]}
-                comment={"量がちょうどよく、豆が余らないのが嬉しいです。少量だからいつもの新鮮な味を楽しめます。"}
+                comment={"量がちょうどよく、豆が余らないのが嬉しいです。少量だからいつも新鮮な味を楽しめます。"}
               />
             </SwiperSlide>
             <SwiperSlide>
@@ -154,7 +154,7 @@ export default function LP() {
                 userGender="男性"
                 userOccupation="自営業"
                 tags={["抽出の探究", "お家で名店の味"]}
-                comment={"普段はいけない隠れた名店の味を気軽に体験できるのが嬉しいです。お店の入れ方を参考に自分に合った抽出を研究しています。"}
+                comment={"普段は行けない隠れた名店の味を気軽に体験できるのが嬉しいです。お店の入れ方を参考に、自分に合った抽出を研究しています。"}
               />
             </SwiperSlide>
             <SwiperSlide>
