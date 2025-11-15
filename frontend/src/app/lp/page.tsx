@@ -5,6 +5,7 @@ import Header from './_components/Header/header';
 import FeatureCard from './_components/FeatureCard/featureCard';
 import Section from './_components/Section/section';
 import UserVoiceCard from './_components/UserVoiceCard/userVoiceCard';
+import ShopSection from './_components/ShopSection/shopSection';
 import { FaRegLightbulb } from 'react-icons/fa';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
@@ -224,11 +225,12 @@ export default function LP() {
                 </li>
               </ul>
               <button className="lp-button-secondary">
-                詳しく見る
+                今すぐ始める
               </button>
             </div>
           </div>
         </Section>
+        <ShopSection />
       </div >
     </>
   );
