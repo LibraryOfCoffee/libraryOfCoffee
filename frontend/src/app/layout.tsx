@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Library Of Coffee",
-  description: "コーヒー豆の図書館",
+  description: "珈琲豆の図書館",
 };
 
 export default function RootLayout({
