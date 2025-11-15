@@ -136,7 +136,7 @@ export default function LP() {
             slidesPerView={1.3}
             centeredSlides={true}
             autoplay={{
-              delay: 3000,
+              delay: 5000,
               disableOnInteraction: false,
             }}
             breakpoints={{
