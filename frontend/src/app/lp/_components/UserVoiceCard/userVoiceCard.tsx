@@ -46,9 +46,9 @@ export default function UserVoiceCard({
             </div>
           ))}
         </div>
-        <div className="user-voice-card-qa-list">
+        <p className="user-voice-card-qa-list">
           {comment}
-        </div>
+        </p>
       </div>
     </div>
   );
