@@ -137,7 +137,7 @@ export default function LP() {
             <SwiperSlide>
               <UserVoiceCard
                 imageUrl="/lpUsers/nakamura.png"
-                userName="中林さん"
+                userName="Y.Nさん"
                 userAge="20代"
                 userGender="男性"
                 userOccupation="会社員"
@@ -148,7 +148,7 @@ export default function LP() {
             <SwiperSlide>
               <UserVoiceCard
                 imageUrl="/lpUsers/furuhori.png"
-                userName="古堀さん"
+                userName="T.Kさん"
                 userAge="50代"
                 userGender="男性"
                 userOccupation="自営業"
@@ -159,12 +159,23 @@ export default function LP() {
             <SwiperSlide>
               <UserVoiceCard
                 imageUrl="/lpUsers/akiyama.png"
-                userName="秋山さん（母）"
+                userName="T.Aさん"
                 userAge="50代"
                 userGender="女性"
                 userOccupation="会社員"
                 tags={["新しい出会い", "自分だけの一杯", "暮らしに香る時間"]}
                 comment={"定期的に届く豆が生活の楽しみになりました。毎回違う味に出会えて、自分の\"好き\"が少しずつ見えてきます。"}
+              />
+            </SwiperSlide>
+            <SwiperSlide>
+              <UserVoiceCard
+                imageUrl="/lpUsers/nakamura.png"
+                userName="F.Aさん"
+                userAge="20代"
+                userGender="男性"
+                userOccupation="学生"
+                tags={["コーヒーをディグる", "味の背景まで楽しむ", "知るほど美味しい"]}
+                comment={"コーヒー豆の情報が分かりやすくまとまっているおかげで、さらに自分で調べて\"ディグる\"楽しさに出会えました。"}
               />
             </SwiperSlide>
           </Swiper>

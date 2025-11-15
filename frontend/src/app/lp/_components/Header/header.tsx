@@ -4,6 +4,7 @@ import './header.css';
 
 export default function Header() {
 
+
   return (
     <header className="lp-header">
       <nav className="lp-nav">
