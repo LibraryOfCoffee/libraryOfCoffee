@@ -16,18 +16,6 @@ const shops: Shop[] = [
   { name: "Arabica", logoUrl: "/shopLogos/shop.png", websiteUrl: "https://example.com/arabica" },
   { name: "A COFFEE", logoUrl: "/shopLogos/shop.png", websiteUrl: "https://example.com/acoffee" },
   { name: "THE COFFEE FIGHTERS", logoUrl: "/shopLogos/shop.png", websiteUrl: "https://example.com/fighters" },
-  { name: "COFFEE COUNTY", logoUrl: "/shopLogos/shop.png", websiteUrl: "https://example.com/county" },
-  { name: "SUPREME", logoUrl: "/shopLogos/shop.png", websiteUrl: "https://example.com/supreme" },
-  { name: "COYOTE", logoUrl: "/shopLogos/shop.png", websiteUrl: "https://example.com/coyote" },
-  { name: "COFFEE", logoUrl: "/shopLogos/shop.png", websiteUrl: "https://example.com/demoblog" },
-  { name: "CRAFTSMAN", logoUrl: "/shopLogos/shop.png", websiteUrl: "https://example.com/craftsman" },
-  { name: "ETHICUS", logoUrl: "/shopLogos/shop.png", websiteUrl: "https://example.com/ethicus" },
-  { name: "High Coffee", logoUrl: "/shopLogos/shop.png", websiteUrl: "https://example.com/highcoffee" },
-  { name: "GLITCH", logoUrl: "/shopLogos/shop.png", websiteUrl: "https://example.com/glitch" },
-  { name: "THE ROAST ROOM", logoUrl: "/shopLogos/shop.png", websiteUrl: "https://example.com/roastroom" },
-  { name: "K COFFEE", logoUrl: "/shopLogos/shop.png", websiteUrl: "https://example.com/kcoffee" },
-  { name: "OBSCURA", logoUrl: "/shopLogos/shop.png", websiteUrl: "https://example.com/obscura" },
-  { name: "TRUNK", logoUrl: "/shopLogos/shop.png", websiteUrl: "https://example.com/trunk" },
 ];
 
 export default function ShopSection() {
@@ -74,6 +62,7 @@ export default function ShopSection() {
           </a>
         ))}
       </div>
+      <p className="shop-comming-soon">Comming Soon...</p>
     </div>
   );
 }

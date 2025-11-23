@@ -11,7 +11,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import './lp.css';
-import { MdCheckBox, MdOutlineCoffeeMaker } from "react-icons/md";
 import moveToShopify from "./_lib/PurchaseLinkUtil/purchaseLinkUtil";
 
 
@@ -20,7 +19,7 @@ const featureList = [
     number: "01",
     title: "選べる",
     iconElement: <Image
-      src="/lpIcons/36576.jpg"
+      src="/lpIcons/36576_1.png"
       alt="lp-icons-36576"
       height={120}
       width={120}
@@ -36,7 +35,7 @@ const featureList = [
     number: "02",
     title: "試せる",
     iconElement: <Image
-      src="/lpIcons/36583.jpg"
+      src="/lpIcons/36583_1.png"
       alt="lp-icons-36583"
       height={120}
       width={120}
@@ -52,7 +51,7 @@ const featureList = [
     number: "03",
     title: "知れる",
     iconElement: <Image
-      src="/lpIcons/36573.jpg"
+      src="/lpIcons/36573_1.png"
       alt="lp-icons-36573"
       height={120}
       width={120}
@@ -175,7 +174,7 @@ export default function LP() {
             </SwiperSlide>
             <SwiperSlide>
               <UserVoiceCard
-                imageUrl="/lpUsers/akiyama.png"
+                imageUrl="/lpUsers/Woman.png"
                 userName="T.Aさん"
                 userAge="50代"
                 userGender="女性"
@@ -186,7 +185,7 @@ export default function LP() {
             </SwiperSlide>
             <SwiperSlide>
               <UserVoiceCard
-                imageUrl="/lpUsers/nakamura.png"
+                imageUrl="/lpUsers/Student.png"
                 userName="F.Aさん"
                 userAge="20代"
                 userGender="男性"
