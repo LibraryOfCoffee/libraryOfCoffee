@@ -6,6 +6,7 @@ import FeatureCard from './_components/FeatureCard/featureCard';
 import Section from './_components/Section/section';
 import UserVoiceCard from './_components/UserVoiceCard/userVoiceCard';
 import ShopSection from './_components/ShopSection/shopSection';
+import PricingCard from './_components/PricingCard/pricingCard';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
@@ -201,31 +202,23 @@ export default function LP() {
           subtitle={'料金プラン'}
         >
           <div className="lp-pricing-grid">
-            {/* Free Plan */}
-            <div className="lp-pricing-card">
-              <h3 className="lp-pricing-title">スタンダードプラン</h3>
-              <div className="lp-pricing-price">
-                <span className="lp-pricing-amount">0円</span>
-                <span className="lp-pricing-period">/月</span>
-              </div>
-              <ul className="lp-pricing-features">
-                <li className="lp-pricing-feature">
-                  <span className="lp-pricing-feature-icon">✓</span>
-                  <span className="lp-pricing-feature-text">初期費用0円</span>
-                </li>
-                <li className="lp-pricing-feature">
-                  <span className="lp-pricing-feature-icon">✓</span>
-                  <span className="lp-pricing-feature-text">月額費用0円</span>
-                </li>
-                <li className="lp-pricing-feature">
-                  <span className="lp-pricing-feature-icon">✓</span>
-                  <span className="lp-pricing-feature-text">決済手数料 3.6%+40円</span>
-                </li>
-              </ul>
-              <button className="lp-button-secondary" onClick={() => moveToShopify()}>
-                今すぐ始める
-              </button>
-            </div>
+            <PricingCard
+              planName="XXXXXX"
+              planSubtitle="試してみたい方におすすめのプラン"
+              price={1500}
+              taxIncluded={true}
+              freeShipping={true}
+              coffeeTypes={3}
+              cupsPerType={3}
+              totalCups={9}
+              initialSetItems={[
+                { text: '気になる珈琲店舗の豆が届く' },
+                { text: '珈琲豆30g×3店舗' },
+                { text: '各店舗の淹れ方解説付き' }
+              ]}
+              ctaText="このプランで始める"
+              onCtaClick={() => moveToShopify()}
+            />
           </div>
         </Section>
         <ShopSection />

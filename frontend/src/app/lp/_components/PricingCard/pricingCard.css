@@ -1,0 +1,157 @@
+/* カード本体 */
+.pricing-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 32px 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* プラン名とサブタイトル */
+.pricing-card-plan-name {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  text-align: center;
+  margin: 0;
+}
+
+.pricing-card-subtitle {
+  font-size: 14px;
+  color: #4b5563;
+  text-align: center;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* 価格 */
+.pricing-card-price {
+  text-align: center;
+  margin: 8px 0;
+}
+
+.pricing-card-price-amount {
+  font-size: 36px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.pricing-card-price-tax {
+  font-size: 14px;
+  color: #6b7280;
+  margin-left: 4px;
+}
+
+/* 送料無料バッジ */
+.pricing-card-free-shipping {
+  text-align: center;
+  color: #2563eb;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+/* 区切り線 */
+.pricing-card-divider {
+  height: 1px;
+  background-color: #e5e7eb;
+  margin: 8px 0;
+}
+
+/* 杯数サマリー */
+.pricing-card-summary {
+  text-align: center;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.pricing-card-summary-text {
+  font-size: 24px;
+  color: #111827;
+  font-weight: 600;
+}
+
+.pricing-card-summary-total {
+  font-size: 36px;
+  color: #111827;
+  font-weight: 700;
+}
+
+.pricing-card-summary-label {
+  font-size: 16px;
+  color: #111827;
+  font-weight: 400;
+}
+
+.pricing-card-summary-note {
+  font-size: 12px;
+  color: #6b7280;
+  text-align: right;
+}
+
+/* 初回セット */
+.pricing-card-initial-set {
+  background-color: #f9fafb;
+  padding: 20px;
+  border-radius: 12px;
+  margin: 8px 0;
+}
+
+.pricing-card-initial-set-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pricing-card-initial-set-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pricing-card-initial-set-check {
+  color: #10b981;
+  font-size: 20px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.pricing-card-initial-set-text {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.5;
+}
+
+/* CTAボタン */
+.pricing-card-cta {
+  background-color: #111827;
+  color: #ffffff;
+  padding: 16px;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 8px;
+}
+
+.pricing-card-cta:hover {
+  background-color: #1f2937;
+}
+
+/* レスポンシブ */
+@media (min-width: 768px) {
+  .pricing-card {
+    padding: 40px 32px;
+  }
+}
