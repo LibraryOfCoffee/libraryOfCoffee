@@ -10,12 +10,12 @@ interface Shop {
 }
 
 const shops: Shop[] = [
-  { name: "ROASTED COFFEE LABORATORY", logoUrl: "/shopLogos/shop.png", websiteUrl: "https://example.com/roasted" },
-  { name: "19 COFFEE ROASTERS", logoUrl: "/shopLogos/shop.png", websiteUrl: "https://example.com/19coffee" },
-  { name: "COFFEE", logoUrl: "/shopLogos/shop.png", websiteUrl: "https://example.com/kawasaki" },
-  { name: "Arabica", logoUrl: "/shopLogos/shop.png", websiteUrl: "https://example.com/arabica" },
-  { name: "A COFFEE", logoUrl: "/shopLogos/shop.png", websiteUrl: "https://example.com/acoffee" },
-  { name: "THE COFFEE FIGHTERS", logoUrl: "/shopLogos/shop.png", websiteUrl: "https://example.com/fighters" },
+  { name: "NORTHNODE COFFEE", logoUrl: "/shopLogos/northNodeCoffee.jpg", websiteUrl: "https://example.com/roasted" },
+  { name: "ゆるり珈琲", logoUrl: "/shopLogos/yururi.png", websiteUrl: "https://example.com/19coffee" },
+  { name: "MOSHIMOSHI COFFEE", logoUrl: "/shopLogos/moshimoshiCoffee.png", websiteUrl: "https://example.com/kawasaki" },
+  { name: "LUSH COFFEE", logoUrl: "/shopLogos/lushCoffee.png", websiteUrl: "https://example.com/arabica" },
+  { name: "Tama Coffee Roaster", logoUrl: "/shopLogos/TamaCoffeeRoaster.png", websiteUrl: "https://example.com/arabica" },
+  { name: "maruca coffee", logoUrl: "/shopLogos/marucaCoffee.jpg", websiteUrl: "https://example.com/acoffee" },
 ];
 
 export default function ShopSection() {
