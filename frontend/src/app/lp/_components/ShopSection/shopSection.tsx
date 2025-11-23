@@ -15,7 +15,7 @@ const shops: Shop[] = [
   { name: "MOSHIMOSHI COFFEE", logoUrl: "/shopLogos/moshimoshiCoffee.png", websiteUrl: "https://moshimoshi.buyshop.jp/" },
   { name: "LUSH COFFEE", logoUrl: "/shopLogos/lushCoffee.png", websiteUrl: "https://lush-coffee.com/" },
   { name: "Tama Coffee Roaster", logoUrl: "/shopLogos/TamaCoffeeRoaster.png", websiteUrl: "https://www.tamacoffeeroaster.com/" },
-  { name: "maruca coffee", logoUrl: "/shopLogos/marucaCoffee.jpg", websiteUrl: "https://marucacoffee.com/" },
+  { name: "maruca coffee", logoUrl: "/shopLogos/marucaCoffee.png", websiteUrl: "https://marucacoffee.com/" },
 ];
 
 export default function ShopSection() {

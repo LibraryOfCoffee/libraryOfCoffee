@@ -6,7 +6,6 @@ import FeatureCard from './_components/FeatureCard/featureCard';
 import Section from './_components/Section/section';
 import UserVoiceCard from './_components/UserVoiceCard/userVoiceCard';
 import ShopSection from './_components/ShopSection/shopSection';
-import { FaRegLightbulb } from 'react-icons/fa';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
