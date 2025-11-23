@@ -8,8 +8,8 @@ interface PricingCardProps {
   planName: string;
   planSubtitle: string;
   price: number;
-  taxIncluded?: boolean;
-  freeShipping?: boolean;
+  taxIncluded: boolean;
+  freeShipping: boolean;
   coffeeTypes: number;
   cupsPerType: number;
   totalCups: number;
@@ -51,7 +51,7 @@ export default function PricingCard({
           <span className="pricing-card-summary-text">{coffeeTypes}</span>
           <span className="pricing-card-summary-label">種類</span>
           <span className="pricing-card-summary-text">×{cupsPerType}</span>
-          <span className="pricing-card-summary-label">杯分</span>
+          <span className="pricing-card-summary-label">杯</span>
           <span className="pricing-card-summary-label">約</span>
           <span className="pricing-card-summary-total">{totalCups}</span>
           <span className="pricing-card-summary-label">杯分</span>
