@@ -152,7 +152,7 @@ export default function LP() {
           >
             <SwiperSlide>
               <UserVoiceCard
-                imageUrl="/lpUsers/nakamura.png"
+                imageUrl="/lpUsers/20man.png"
                 userName="Y.Nさん"
                 userAge="20代"
                 userGender="男性"
@@ -163,7 +163,7 @@ export default function LP() {
             </SwiperSlide>
             <SwiperSlide>
               <UserVoiceCard
-                imageUrl="/lpUsers/furuhori.png"
+                imageUrl="/lpUsers/50man.png"
                 userName="T.Kさん"
                 userAge="50代"
                 userGender="男性"
