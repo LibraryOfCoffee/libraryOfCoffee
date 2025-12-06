@@ -11,6 +11,14 @@
   gap: 16px;
 }
 
+/* プラン名ヘッダー */
+.pricing-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
 /* プラン名とサブタイトル */
 .pricing-card-plan-name {
   font-size: 28px;
@@ -20,12 +28,39 @@
   margin: 0;
 }
 
+/* 吹き出しバッジ */
+.pricing-card-badge {
+  position: relative;
+  background-color: #fef3c7;
+  color: #92400e;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pricing-card-badge::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #fef3c7;
+}
+
 .pricing-card-subtitle {
   font-size: 14px;
   color: #4b5563;
   text-align: center;
   margin: 0;
   line-height: 1.5;
+  white-space: pre-wrap;
 }
 
 /* 価格 */

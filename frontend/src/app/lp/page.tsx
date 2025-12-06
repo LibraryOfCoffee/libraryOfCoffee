@@ -203,8 +203,8 @@ export default function LP() {
         >
           <div className="lp-pricing-grid">
             <PricingCard
-              planName="XXXXXX"
-              planSubtitle="試してみたい方におすすめのプラン"
+              planName="スタンダード"
+              planSubtitle={`様々な珈琲店舗の豆を\n毎月３種類体験できるプラン`}
               price={1500}
               taxIncluded={true}
               freeShipping={true}
