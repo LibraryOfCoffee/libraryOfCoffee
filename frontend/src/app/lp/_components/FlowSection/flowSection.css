@@ -1,0 +1,54 @@
+.flow-section {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.flow-steps-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  align-items: center;
+}
+
+.flow-step-arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #D4A574;
+  margin: 0.5rem 0;
+}
+
+.flow-step-arrow svg {
+  width: 30px;
+  height: 30px;
+  transform: rotate(90deg);
+}
+
+@media (min-width: 768px) {
+  .flow-step-arrow {
+    margin: 0.75rem 0;
+  }
+
+  .flow-step-arrow svg {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .flow-steps-container {
+    flex-direction: row;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .flow-step-arrow {
+    margin: 0 1rem;
+  }
+
+  .flow-step-arrow svg {
+    width: 40px;
+    height: 40px;
+    transform: rotate(0deg);
+  }
+}

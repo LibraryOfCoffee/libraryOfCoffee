@@ -7,6 +7,7 @@ import Section from './_components/Section/section';
 import UserVoiceCard from './_components/UserVoiceCard/userVoiceCard';
 import ShopSection from './_components/ShopSection/shopSection';
 import PricingCard from './_components/PricingCard/pricingCard';
+import FlowSection from './_components/FlowSection/flowSection';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
@@ -60,7 +61,7 @@ const featureList = [
     details: [
       '店舗のこだわりがわかる',
       '豆の産地や焙煎などの背景を知れる',
-      '店舗おすすめの入れ方が体験可能'
+      '店舗おすすめの淹れ方が体験可能'
     ]
   },
 ]
@@ -196,7 +197,12 @@ export default function LP() {
             </SwiperSlide>
           </Swiper>
         </Section>
-
+        <Section
+          title={'ご利用の流れ'}
+          subtitle={'簡単ステップで珈琲体験をスタート'}
+        >
+          <FlowSection />
+        </Section>
         <Section
           title={'利用料'}
           subtitle={'料金プラン'}
