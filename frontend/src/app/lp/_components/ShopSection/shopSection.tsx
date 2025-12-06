@@ -33,12 +33,8 @@ export default function ShopSection() {
           />
         </div>
         <h3 className="shop-list-title">
-          様々な<br />珈琲店舗との出会い。
+          様々な珈琲店舗との出会い
         </h3>
-        <p className="shop-list-description">
-          珈琲を楽しむ新しい形。<br />XXXXXXXX珈琲を。
-        </p>
-
       </div>
 
       <div className="shop-list-grid">
