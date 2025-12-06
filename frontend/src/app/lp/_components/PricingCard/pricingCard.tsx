@@ -36,7 +36,7 @@ export default function PricingCard({
       <div className="pricing-card-header">
         <h3 className="pricing-card-plan-name">{planName}</h3>
         <div className="pricing-card-badge">
-          近日プランは拡充予定！
+          近日プランは追加予定！
         </div>
       </div>
       <p className="pricing-card-subtitle">{planSubtitle}</p>

@@ -47,8 +47,41 @@
   object-fit: contain;
 }
 
-.shop-comming-soon {
+/* Coming Soon Container */
+.shop-coming-soon-container {
   text-align: center;
+  padding: 32px 20px;
+}
+
+.shop-coming-soon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.shop-coming-soon-line {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #8b7355, transparent);
+}
+
+.shop-coming-soon-text {
+  font-size: 18px;
+  font-weight: 600;
+  color: #5d4e37;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.shop-coming-soon-subtitle {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 400;
 }
 
 @media (max-width: 768px) {
@@ -59,6 +92,15 @@
   .shop-item {
     max-width: 120px;
   }
+
+  .shop-coming-soon {
+    gap: 16px;
+  }
+
+  .shop-coming-soon-text {
+    font-size: 16px;
+    letter-spacing: 1.5px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -68,5 +110,15 @@
 
   .shop-item {
     max-width: 100px;
+  }
+
+  .shop-coming-soon {
+    gap: 12px;
+    max-width: 320px;
+  }
+
+  .shop-coming-soon-text {
+    font-size: 14px;
+    letter-spacing: 1px;
   }
 }

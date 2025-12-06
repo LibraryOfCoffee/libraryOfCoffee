@@ -212,7 +212,7 @@ export default function LP() {
               cupsPerType={3}
               totalCups={9}
               initialSetItems={[
-                { text: '気になる珈琲店舗の豆が届く' },
+                { text: '気になる珈琲店舗から豆をセレクト' },
                 { text: '珈琲豆30g×3店舗' },
                 { text: '各店舗の淹れ方解説付き' }
               ]}

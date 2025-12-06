@@ -58,7 +58,14 @@ export default function ShopSection() {
           </a>
         ))}
       </div>
-      <p className="shop-comming-soon">Comming Soon...</p>
+      <div className="shop-coming-soon-container">
+        <div className="shop-coming-soon">
+          <div className="shop-coming-soon-line"></div>
+          <span className="shop-coming-soon-text">Coming Soon</span>
+          <div className="shop-coming-soon-line"></div>
+        </div>
+        <p className="shop-coming-soon-subtitle">新しい店舗が続々追加予定</p>
+      </div>
     </div>
   );
 }
