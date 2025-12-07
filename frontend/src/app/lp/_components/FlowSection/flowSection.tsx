@@ -14,10 +14,10 @@ export default function FlowSection() {
   const steps: Step[] = [
     {
       title: "会員登録",
-      label: "初回は無料で会員登録",
+      label: "初回のみ",
       description: [
-        "メールアドレスで簡単登録",
-        "プラン購入前に、今月の珈琲豆リストをチェック",
+        "無料で新規会員登録",
+        "メールアドレスのみで簡単(目安1分)",
       ],
       icon: (
         <Image
@@ -31,8 +31,8 @@ export default function FlowSection() {
     {
       title: "珈琲豆を登録",
       description: [
-        "珈琲豆・店舗情報をチェック",
-        "気になる4種を登録",
+        "珈琲豆・店舗情報を確認",
+        "気になる4種を登録 or 豆図書にお任せ",
         "※初回以降は毎月登録となります。その月の登録期間を過ぎると、自動で「月のおすすめ」が４種登録されます。",
       ],
       icon: (
@@ -75,7 +75,6 @@ export default function FlowSection() {
     {
       title: "様々な珈琲体験",
       description: [
-        "新しい珈琲との出会い",
         "新鮮な珈琲を味わう",
         "珈琲豆の特徴を知る",
         "店舗の味やこだわりを体験"
