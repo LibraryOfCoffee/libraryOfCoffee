@@ -22,9 +22,16 @@ export default function Header() {
             </a>
           </div>
           <div className="lp-publish-link">
-            <a onClick={() => moveToShopify()}>
-              <p>今すぐ始める</p>
-            </a>
+            <div className="lp-publish-link-login">
+              <a onClick={() => moveToShopify()}>
+                <p>ログイン</p>
+              </a>
+            </div>
+            <div className="lp-publish-link-register">
+              <a onClick={() => moveToShopify()}>
+                <p>今すぐ始める</p>
+              </a>
+            </div>
           </div>
         </div>
       </nav>
