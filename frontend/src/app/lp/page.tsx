@@ -84,7 +84,7 @@ export default function LP() {
                 {/* FIXME: img部分仮置き */}
                 <div className='lp-hero-main-image'>
                   <Image
-                    src="/lpHeroImage.png"
+                    src="/heroImage.png"
                     alt="lp-hero-gradient"
                     height={300}
                     width={9900}
