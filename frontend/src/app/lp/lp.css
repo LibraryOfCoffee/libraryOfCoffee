@@ -45,6 +45,7 @@
 
 .lp-hero-main-image {
   margin-bottom: 16px;
+  max-width: 300px;
 }
 
 .lp-hero-container {
