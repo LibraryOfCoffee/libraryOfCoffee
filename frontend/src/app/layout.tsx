@@ -35,7 +35,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
       </body>
-      <GoogleAnalytics gaId={process.env.GOOGLE_GA_ID} />
+      <GoogleAnalytics gaId={process.env.GOOGLE_GA_ID ?? "no-config"} />
     </html>
   );
 }
