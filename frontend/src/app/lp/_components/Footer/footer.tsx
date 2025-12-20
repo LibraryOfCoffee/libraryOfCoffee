@@ -30,8 +30,11 @@ export default function Footer() {
         <div className="lp-footer-bottom">
           <p className="lp-footer-contact">
             お問い合わせ：
-            <a href="mailto:inquiry@mametosho.com" className="lp-footer-email">
-              inquiry@mametosho.com
+            <a
+              href="mailto:libraryofcoffeebeans@gmail.com"
+              className="lp-footer-email"
+            >
+              libraryofcoffeebeans@gmail.com
             </a>
           </p>
           <p className="lp-footer-copyright">
