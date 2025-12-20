@@ -26,7 +26,7 @@ const featureList = [
         width={120}
       />
     ),
-    subtitle: "毎月変わる10店舗のリストから気になる珈琲を選択",
+    subtitle: "毎月変わる店舗から気になる珈琲豆を選択",
     details: [
       "1種類当たり30gで気軽にチャレンジ",
       "どの珈琲豆を選んでも、定額1,500円",
@@ -108,7 +108,7 @@ export default function LP() {
                 <div className="notice-container">
                   <span className="notice">
                     ※2026/01/05
-                    サービス開始に向けて準備中です。アカウント登録をして楽しみにお待ちください。サービス開始時期にはメールにてご案内を差し上げます。アカウント登録の際には料金は発生しません。
+                    サービス開始に向けて準備中です。アカウント登録をして楽しみにお待ちください。サービス開始時にメールにてご案内をいたします。アカウント登録の際には料金は発生しません。
                   </span>
                 </div>
               </div>
@@ -223,7 +223,7 @@ export default function LP() {
           <div className="lp-pricing-grid">
             <PricingCard
               planName="スタンダード"
-              planSubtitle={`様々な珈琲店舗の豆を\n毎月３種類体験できるプラン`}
+              planSubtitle={`様々な珈琲店舗の豆を\n毎月3種類体験できるプラン`}
               price={1500}
               taxIncluded={true}
               freeShipping={true}
@@ -232,7 +232,7 @@ export default function LP() {
               totalCups={9}
               initialSetItems={[
                 { text: "気になる珈琲店舗から豆をセレクト" },
-                { text: "珈琲豆30g×3店舗" },
+                { text: "珈琲豆30g×3種類" },
                 { text: "各店舗の淹れ方解説付き" },
               ]}
               ctaText="事前登録する"
