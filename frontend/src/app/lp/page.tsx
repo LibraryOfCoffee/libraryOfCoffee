@@ -1,70 +1,75 @@
-"use client"
+"use client";
 
 import Image from "next/image";
-import Header from './_components/Header/header';
-import FeatureCard from './_components/FeatureCard/featureCard';
-import Section from './_components/Section/section';
-import UserVoiceCard from './_components/UserVoiceCard/userVoiceCard';
-import ShopSection from './_components/ShopSection/shopSection';
-import PricingCard from './_components/PricingCard/pricingCard';
-import FlowSection from './_components/FlowSection/flowSection';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules';
-import 'swiper/css';
-import './lp.css';
+import Header from "./_components/Header/header";
+import FeatureCard from "./_components/FeatureCard/featureCard";
+import Section from "./_components/Section/section";
+import UserVoiceCard from "./_components/UserVoiceCard/userVoiceCard";
+import ShopSection from "./_components/ShopSection/shopSection";
+import PricingCard from "./_components/PricingCard/pricingCard";
+import FlowSection from "./_components/FlowSection/flowSection";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+import "swiper/css";
+import "./lp.css";
 import moveToShopify from "./_lib/PurchaseLinkUtil/purchaseLinkUtil";
-
 
 const featureList = [
   {
     number: "01",
     title: "選べる",
-    iconElement: <Image
-      src="/lpIcons/36576_1.png"
-      alt="lp-icons-36576"
-      height={120}
-      width={120}
-    />,
+    iconElement: (
+      <Image
+        src="/lpIcons/36576_1.png"
+        alt="lp-icons-36576"
+        height={120}
+        width={120}
+      />
+    ),
     subtitle: "毎月変わる10店舗のリストから気になる珈琲を選択",
     details: [
-      '1種類当たり30gで気軽にチャレンジ',
-      'どの珈琲豆を選んでも、定額1,500円',
-      '普段行けない地元で愛される店舗'
-    ]
+      "1種類当たり30gで気軽にチャレンジ",
+      "どの珈琲豆を選んでも、定額1,500円",
+      "普段行けない地元で愛される店舗",
+    ],
   },
   {
     number: "02",
     title: "試せる",
-    iconElement: <Image
-      src="/lpIcons/36583_1.png"
-      alt="lp-icons-36583"
-      height={120}
-      width={120}
-    />,
+    iconElement: (
+      <Image
+        src="/lpIcons/36583_1.png"
+        alt="lp-icons-36583"
+        height={120}
+        width={120}
+      />
+    ),
     subtitle: "気になる豆2種類とおすすめ1種類の合計3種類が届く",
     details: [
-      '自分の気になる豆を体験',
-      '未知なる珈琲豆との出会い',
-      '注文後の焙煎なので新鮮な豆が届く'
-    ]
+      "自分の気になる豆を体験",
+      "未知なる珈琲豆との出会い",
+      "注文後の焙煎なので新鮮な豆が届く",
+    ],
   },
   {
     number: "03",
     title: "知れる",
-    iconElement: <Image
-      src="/lpIcons/36573_1.png"
-      alt="lp-icons-36573"
-      height={120}
-      width={120}
-    />,
+    iconElement: (
+      <Image
+        src="/lpIcons/36573_1.png"
+        alt="lp-icons-36573"
+        height={120}
+        width={120}
+      />
+    ),
     subtitle: "店舗のこだわりや珈琲豆の特徴を分かりやすく紹介",
     details: [
-      '店舗のこだわりがわかる',
-      '豆の産地や焙煎などの背景を知れる',
-      '店舗おすすめの淹れ方が体験可能'
-    ]
+      "店舗のこだわりがわかる",
+      "豆の産地や焙煎などの背景を知れる",
+      "店舗おすすめの淹れ方が体験可能",
+    ],
   },
-]
+];
 
 export default function LP() {
   return (
@@ -82,7 +87,7 @@ export default function LP() {
 
               <div className="lp-hero-content">
                 {/* FIXME: img部分仮置き */}
-                <div className='lp-hero-main-image'>
+                <div className="lp-hero-main-image">
                   <Image
                     src="/heroImage.png"
                     alt="lp-hero-gradient"
@@ -90,45 +95,48 @@ export default function LP() {
                     width={9900}
                   />
                 </div>
-                <h1 className="lp-hero-title">
-                  色々な珈琲と出会える豆図書
-                </h1>
+                <h1 className="lp-hero-title">色々な珈琲と出会える豆図書</h1>
                 <p className="lp-hero-subtitle">
-                  高品質な珈琲豆を30gで気軽にお試し。<br />
+                  高品質な珈琲豆を30gで気軽にお試し。
+                  <br />
                   自分好みの珈琲豆を見つけたい・美味しい入れ方を探求したいあなたに。
                 </p>
                 <a className="lp-button-large" onClick={() => moveToShopify()}>
-                  今すぐ始める
+                  事前登録する
                 </a>
+                {/* FIXME: サービス開始時には削除 */}
+                <div className="notice-container">
+                  <span className="notice">
+                    ※2026/01/05
+                    サービス開始に向けて準備中です。アカウント登録をして楽しみにお待ちください。サービス開始時期にはメールにてご案内を差し上げます。アカウント登録の際には料金は発生しません。
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-
         </section>
         {/* Features Section */}
         <Section
-          title={'豆図書のメリット'}
+          title={"豆図書のメリット"}
           subtitle={`「選べる」「試せる」「知れる」　様々な珈琲を体験できる。`}
         >
           <div className="lp-features-grid">
-            {
-              featureList.map((feature, index) =>
-                <FeatureCard
-                  key={index}
-                  number={feature.number}
-                  mainTitle={feature.title}
-                  iconElement={feature.iconElement}
-                  heading={feature.subtitle}
-                  features={feature.details}
-                />
-              )
-            }
+            {featureList.map((feature, index) => (
+              <FeatureCard
+                key={index}
+                number={feature.number}
+                mainTitle={feature.title}
+                iconElement={feature.iconElement}
+                heading={feature.subtitle}
+                features={feature.details}
+              />
+            ))}
           </div>
         </Section>
 
         <Section
-          title={'色々な珈琲豆と出会える場所。豆図書'}
-          subtitle={'利用者の声'}
+          title={"色々な珈琲豆と出会える場所。豆図書"}
+          subtitle={"利用者の声"}
         >
           <Swiper
             modules={[Autoplay]}
@@ -159,7 +167,9 @@ export default function LP() {
                 userGender="男性"
                 userOccupation="会社員"
                 tags={["休日は家で珈琲", "新鮮さが大切"]}
-                comment={"量がちょうどよく、豆が余らないのが嬉しいです。少量だからいつも新鮮な味を楽しめます。"}
+                comment={
+                  "量がちょうどよく、豆が余らないのが嬉しいです。少量だからいつも新鮮な味を楽しめます。"
+                }
               />
             </SwiperSlide>
             <SwiperSlide>
@@ -170,7 +180,9 @@ export default function LP() {
                 userGender="男性"
                 userOccupation="自営業"
                 tags={["抽出の探究", "お家で名店の味"]}
-                comment={"普段は行けない隠れた名店の味を気軽に体験できるのが嬉しいです。お店の入れ方を参考に、自分に合った抽出を研究しています。"}
+                comment={
+                  "普段は行けない隠れた名店の味を気軽に体験できるのが嬉しいです。お店の入れ方を参考に、自分に合った抽出を研究しています。"
+                }
               />
             </SwiperSlide>
             <SwiperSlide>
@@ -181,7 +193,9 @@ export default function LP() {
                 userGender="女性"
                 userOccupation="会社員"
                 tags={["新しい出会い", "自分だけの一杯"]}
-                comment={"定期的に届く豆が生活の楽しみになりました。毎回違う味に出会えて、自分の\"好き\"が少しずつ見えてきます。"}
+                comment={
+                  '定期的に届く豆が生活の楽しみになりました。毎回違う味に出会えて、自分の"好き"が少しずつ見えてきます。'
+                }
               />
             </SwiperSlide>
             <SwiperSlide>
@@ -192,21 +206,20 @@ export default function LP() {
                 userGender="男性"
                 userOccupation="学生"
                 tags={["珈琲をディグる", "味の背景まで楽しむ"]}
-                comment={"珈琲豆の情報が分かりやすくまとまっているおかげで、さらに自分で調べて\"ディグる\"楽しさに出会えました。"}
+                comment={
+                  '珈琲豆の情報が分かりやすくまとまっているおかげで、さらに自分で調べて"ディグる"楽しさに出会えました。'
+                }
               />
             </SwiperSlide>
           </Swiper>
         </Section>
         <Section
-          title={'ご利用の流れ'}
-          subtitle={'簡単ステップで珈琲体験をスタート'}
+          title={"ご利用の流れ"}
+          subtitle={"簡単ステップで珈琲体験をスタート"}
         >
           <FlowSection />
         </Section>
-        <Section
-          title={'利用料'}
-          subtitle={'料金プラン'}
-        >
+        <Section title={"利用料"} subtitle={"料金プラン"}>
           <div className="lp-pricing-grid">
             <PricingCard
               planName="スタンダード"
@@ -218,17 +231,17 @@ export default function LP() {
               cupsPerType={3}
               totalCups={9}
               initialSetItems={[
-                { text: '気になる珈琲店舗から豆をセレクト' },
-                { text: '珈琲豆30g×3店舗' },
-                { text: '各店舗の淹れ方解説付き' }
+                { text: "気になる珈琲店舗から豆をセレクト" },
+                { text: "珈琲豆30g×3店舗" },
+                { text: "各店舗の淹れ方解説付き" },
               ]}
-              ctaText="このプランで始める"
+              ctaText="事前登録する"
               onCtaClick={() => moveToShopify()}
             />
           </div>
         </Section>
         <ShopSection />
-      </div >
+      </div>
     </>
   );
 }

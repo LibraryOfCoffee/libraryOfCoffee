@@ -1,24 +1,16 @@
-'use client'
+"use client";
 import Image from "next/image";
-import './header.css';
+import "./header.css";
 import moveToShopify from "../../_lib/PurchaseLinkUtil/purchaseLinkUtil";
 
 export default function Header() {
-
-
   return (
     <header className="lp-header">
       <nav className="lp-nav">
         <div className="lp-nav-content">
           <div>
             <a className="lp-logo" href={"/lp"}>
-              {/* FIXME 仮置き */}
-              <Image
-                src="/logo.svg"
-                alt="logo"
-                height={40}
-                width={80}
-              />
+              <Image src="/logo.svg" alt="logo" height={40} width={80} />
             </a>
           </div>
           <div className="lp-publish-link">
@@ -29,12 +21,12 @@ export default function Header() {
             </div>
             <div className="lp-publish-link-register">
               <a onClick={() => moveToShopify()}>
-                <p>今すぐ始める</p>
+                <p>事前登録する</p>
               </a>
             </div>
           </div>
         </div>
       </nav>
-    </header >
+    </header>
   );
 }

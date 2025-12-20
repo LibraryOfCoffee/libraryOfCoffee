@@ -1,4 +1,4 @@
-import './pricingCard.css';
+import "./pricingCard.css";
 
 interface InitialSetItem {
   text: string;
@@ -29,20 +29,20 @@ export default function PricingCard({
   totalCups,
   initialSetItems,
   ctaText,
-  onCtaClick
+  onCtaClick,
 }: PricingCardProps) {
   return (
     <div className="pricing-card">
       <div className="pricing-card-header">
         <h3 className="pricing-card-plan-name">{planName}</h3>
-        <div className="pricing-card-badge">
-          新プラン追加予定！
-        </div>
+        <div className="pricing-card-badge">新プラン追加予定！</div>
       </div>
       <p className="pricing-card-subtitle">{planSubtitle}</p>
 
       <div className="pricing-card-price">
-        <span className="pricing-card-price-amount">¥{price.toLocaleString()}</span>
+        <span className="pricing-card-price-amount">
+          ¥{price.toLocaleString()}
+        </span>
         {taxIncluded && <span className="pricing-card-price-tax">(税込)</span>}
       </div>
 
@@ -80,6 +80,13 @@ export default function PricingCard({
       <button className="pricing-card-cta" onClick={onCtaClick}>
         {ctaText}
       </button>
+      {/* FIXME: サービス開始時には削除 */}
+      <div>
+        <span className="notice">
+          ※事前登録では料金は発生しません。2026/01/05
+          サービス開始に向けて準備中です。
+        </span>
+      </div>
     </div>
   );
 }
