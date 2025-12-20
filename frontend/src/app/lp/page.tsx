@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Header from "./_components/Header/header";
+import Footer from "./_components/Footer/footer";
 import FeatureCard from "./_components/FeatureCard/featureCard";
 import Section from "./_components/Section/section";
 import UserVoiceCard from "./_components/UserVoiceCard/userVoiceCard";
@@ -107,7 +108,7 @@ export default function LP() {
                 {/* FIXME: サービス開始時には削除 */}
                 <div className="notice-container">
                   <span className="notice">
-                    ※2026/01/05
+                    ※2026/01/06
                     サービス開始に向けて準備中です。アカウント登録をして楽しみにお待ちください。サービス開始時にメールにてご案内をいたします。アカウント登録の際には料金は発生しません。
                   </span>
                 </div>
@@ -117,6 +118,7 @@ export default function LP() {
         </section>
         {/* Features Section */}
         <Section
+          id="features"
           title={"豆図書のメリット"}
           subtitle={`「選べる」「試せる」「知れる」　様々な珈琲を体験できる。`}
         >
@@ -135,6 +137,7 @@ export default function LP() {
         </Section>
 
         <Section
+          id="testimonials"
           title={"色々な珈琲豆と出会える場所。豆図書"}
           subtitle={"利用者の声"}
         >
@@ -214,12 +217,13 @@ export default function LP() {
           </Swiper>
         </Section>
         <Section
+          id="flow"
           title={"ご利用の流れ"}
           subtitle={"簡単ステップで珈琲体験をスタート"}
         >
           <FlowSection />
         </Section>
-        <Section title={"利用料"} subtitle={"料金プラン"}>
+        <Section id="pricing" title={"利用料"} subtitle={"料金プラン"}>
           <div className="lp-pricing-grid">
             <PricingCard
               planName="スタンダード"
@@ -242,6 +246,7 @@ export default function LP() {
         </Section>
         <ShopSection />
       </div>
+      <Footer />
     </>
   );
 }

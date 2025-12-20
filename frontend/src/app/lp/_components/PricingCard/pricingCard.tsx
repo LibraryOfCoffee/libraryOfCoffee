@@ -83,7 +83,7 @@ export default function PricingCard({
       {/* FIXME: サービス開始時には削除 */}
       <div>
         <span className="notice">
-          ※事前登録では料金は発生しません。2026/01/05
+          ※事前登録では料金は発生しません。2026/01/06
           サービス開始に向けて準備中です。
         </span>
       </div>

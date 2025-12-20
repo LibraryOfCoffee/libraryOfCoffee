@@ -3,13 +3,14 @@ import Image from "next/image";
 import './section.css';
 
 interface SectionProps {
+  id?: string;
   title: string;
   subtitle: string;
 }
 
-export default function Section({ title, subtitle, children }: PropsWithChildren<SectionProps>) {
+export default function Section({ id, title, subtitle, children }: PropsWithChildren<SectionProps>) {
   return (
-    <section className="lp-section">
+    <section id={id} className="lp-section">
       <div className="lp-section-container">
         <div className="lp-section-header">
           <h2 className="lp-section-title">
