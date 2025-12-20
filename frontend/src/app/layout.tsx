@@ -36,7 +36,6 @@ export default function RootLayout({
         {children}
       </body>
       <GoogleAnalytics gaId={process.env.GOOGLE_GA_ID ?? "no-config"} />
-      <GoogleAnalytics gaId={process.env.GOOGLE_GA_ID_NETLIFY ?? "no-config"} />
     </html>
   );
 }
