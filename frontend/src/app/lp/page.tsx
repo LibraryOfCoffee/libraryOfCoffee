@@ -162,7 +162,7 @@ export default function LP() {
             <SwiperSlide>
               <UserVoiceCard
                 imageUrl="/lpUsers/20man.png"
-                userName="Y.Nさん"
+                userName="Y.Mさん"
                 userAge="20代"
                 userGender="男性"
                 userOccupation="会社員"
