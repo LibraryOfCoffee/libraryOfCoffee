@@ -6,4 +6,4 @@ java = "25.0.1"
 
 terraform = "1.14.0"
 tflint = "latest"
-tfivy = "latest"
+trivy = "latest"
