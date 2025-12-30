@@ -20,11 +20,13 @@ repositories {
 }
 
 dependencies {
+	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:4.0.0")
 	runtimeOnly("com.mysql:mysql-connector-j")
+	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 	testImplementation("org.springframework.boot:spring-boot-starter-actuator-test")
 	testImplementation("org.springframework.boot:spring-boot-starter-security-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
