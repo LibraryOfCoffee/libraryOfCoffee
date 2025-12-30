@@ -42,6 +42,7 @@ module "frontend" {
   memory          = 512
   enable_https    = true
   certificate_arn = module.acm.certificate_arn
+  api_url         = "http://${module.backend.service_discovery_endpoint}:8080"
 }
 
 # ============================================

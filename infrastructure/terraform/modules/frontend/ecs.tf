@@ -25,6 +25,13 @@ resource "aws_ecs_task_definition" "main" {
         }
       ]
 
+      environment = [
+        {
+          name  = "API_URL"
+          value = var.api_url
+        }
+      ]
+
       logConfiguration = {
         logDriver = "awslogs"
         options = {

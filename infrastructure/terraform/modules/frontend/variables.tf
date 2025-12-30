@@ -61,3 +61,8 @@ variable "certificate_arn" {
   type        = string
   description = "ACM certificate ARN for HTTPS (required if enable_https is true)"
 }
+
+variable "api_url" {
+  type        = string
+  description = "Backend API URL"
+}
