@@ -5,8 +5,7 @@ module "vpc" {
 module "acm" {
   source = "../../modules/acm"
 
-  domain_name               = "dev.mametosho.com"
-  subject_alternative_names = []
+  domain_name = "dev.mametosho.com"
 }
 
 module "cd" {
@@ -36,7 +35,13 @@ module "frontend" {
   public_subnet_ids  = module.vpc.public_subnet_ids
   private_subnet_ids = module.vpc.private_subnet_ids
   ecr_repository_url = module.ecr_frontend.repository_url
-  certificate_arn    = module.acm.certificate_arn  # ACM検証完了まで待機
+
+  image_tag       = "latest"
+  container_port  = 3000
+  cpu             = 256
+  memory          = 512
+  enable_https    = true
+  certificate_arn = module.acm.certificate_arn
 }
 
 # ============================================
@@ -62,10 +67,11 @@ module "aurora" {
 
   instance_class = "db.t3.medium"
   instance_count = 1
+  engine_version = "8.0.mysql_aurora.3.11.1"
 
-  # dev環境では削除保護を無効化
-  deletion_protection = false
-  skip_final_snapshot = true
+  backup_retention_period = 7
+  skip_final_snapshot     = true
+  deletion_protection     = false
 
   # Backendからのアクセスを許可
   allowed_security_group_ids = [module.backend.ecs_security_group_id]
@@ -79,6 +85,11 @@ module "backend" {
   vpc_id             = module.vpc.vpc_id
   private_subnet_ids = module.vpc.private_subnet_ids
   ecr_repository_url = module.ecr_backend.repository_url
+
+  image_tag      = "latest"
+  container_port = 8080
+  cpu            = 256
+  memory         = 512
 
   # Frontendからのアクセスを許可
   allowed_security_group_ids = [module.frontend.ecs_security_group_id]

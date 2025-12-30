@@ -35,35 +35,29 @@ variable "ecr_repository_url" {
 variable "image_tag" {
   type        = string
   description = "Docker image tag"
-  default     = "latest"
 }
 
 variable "container_port" {
   type        = number
   description = "Container port"
-  default     = 3000
 }
 
 variable "cpu" {
   type        = number
   description = "Fargate CPU units (256, 512, 1024, 2048, 4096)"
-  default     = 256
 }
 
 variable "memory" {
   type        = number
   description = "Fargate memory (MB)"
-  default     = 512
 }
 
 variable "enable_https" {
   type        = bool
   description = "Enable HTTPS listener"
-  default     = true
 }
 
 variable "certificate_arn" {
   type        = string
   description = "ACM certificate ARN for HTTPS (required if enable_https is true)"
-  default     = ""
 }

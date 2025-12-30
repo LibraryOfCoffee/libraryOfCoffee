@@ -31,35 +31,29 @@ variable "allowed_security_group_ids" {
 variable "instance_class" {
   type        = string
   description = "Aurora instance class"
-  default     = "db.t3.medium"
 }
 
 variable "instance_count" {
   type        = number
   description = "Number of Aurora instances"
-  default     = 1
 }
 
 variable "engine_version" {
   type        = string
   description = "Aurora MySQL engine version"
-  default     = "8.0.mysql_aurora.3.05.2"
 }
 
 variable "backup_retention_period" {
   type        = number
   description = "Backup retention period in days"
-  default     = 7
 }
 
 variable "skip_final_snapshot" {
   type        = bool
   description = "Skip final snapshot on deletion"
-  default     = false
 }
 
 variable "deletion_protection" {
   type        = bool
   description = "Enable deletion protection"
-  default     = true
 }

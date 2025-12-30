@@ -30,54 +30,45 @@ variable "ecr_repository_url" {
 variable "image_tag" {
   type        = string
   description = "Docker image tag"
-  default     = "latest"
 }
 
 variable "container_port" {
   type        = number
   description = "Container port"
-  default     = 8080
 }
 
 variable "cpu" {
   type        = number
   description = "Fargate CPU units (256, 512, 1024, 2048, 4096)"
-  default     = 256
 }
 
 variable "memory" {
   type        = number
   description = "Fargate memory (MB)"
-  default     = 512
 }
 
 variable "allowed_security_group_ids" {
   type        = list(string)
   description = "Security group IDs allowed to access backend (e.g., frontend ECS)"
-  default     = []
 }
 
 # Aurora connection settings
 variable "db_host" {
   type        = string
   description = "Aurora database host endpoint"
-  default     = ""
 }
 
 variable "db_port" {
   type        = number
   description = "Aurora database port"
-  default     = 3306
 }
 
 variable "db_name" {
   type        = string
   description = "Aurora database name"
-  default     = "coffee"
 }
 
 variable "db_secrets_arn" {
   type        = string
   description = "Secrets Manager ARN for database credentials"
-  default     = ""
 }
