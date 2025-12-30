@@ -1,9 +1,16 @@
-name: Deploy CS API
-run-name: "Deploy to ${{ inputs.environment }} @${{ github.ref_name }}"
+name: Deploy Backend
+run-name: "Deploy ${{ inputs.module }} to ${{ inputs.environment }} @${{ github.ref_name }}"
 
 on:
   workflow_dispatch:
     inputs:
+      module:
+        description: 'デプロイするモジュール'
+        required: true
+        type: choice
+        options:
+          - cs-api
+          - admin-api
       environment:
         description: 'デプロイ先環境'
         required: true
@@ -61,11 +68,11 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./backend
-          file: ./backend/cs-api/Dockerfile
+          file: ./backend/${{ inputs.module }}/Dockerfile
           push: true
           tags: |
-            ${{ steps.login-ecr.outputs.registry }}/cs-api-${{ inputs.environment }}:${{ steps.set-tag.outputs.tag }}
-            ${{ steps.login-ecr.outputs.registry }}/cs-api-${{ inputs.environment }}:latest
+            ${{ steps.login-ecr.outputs.registry }}/${{ inputs.module }}-${{ inputs.environment }}:${{ steps.set-tag.outputs.tag }}
+            ${{ steps.login-ecr.outputs.registry }}/${{ inputs.module }}-${{ inputs.environment }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -85,6 +92,6 @@ jobs:
       - name: Deploy to ECS
         run: |
           aws ecs update-service \
-            --cluster ${{ env.AWS_ACCOUNT_ID }}-${{ inputs.environment }}-cs-api \
-            --service ${{ env.AWS_ACCOUNT_ID }}-${{ inputs.environment }}-cs-api \
+            --cluster ${{ env.AWS_ACCOUNT_ID }}-${{ inputs.environment }}-${{ inputs.module }} \
+            --service ${{ env.AWS_ACCOUNT_ID }}-${{ inputs.environment }}-${{ inputs.module }} \
             --force-new-deployment
