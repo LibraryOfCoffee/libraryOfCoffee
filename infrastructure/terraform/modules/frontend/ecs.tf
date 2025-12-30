@@ -59,5 +59,5 @@ resource "aws_ecs_service" "main" {
     container_port   = var.container_port
   }
 
-  depends_on = [aws_lb_listener.main]
+  depends_on = [aws_lb_listener.http]
 }

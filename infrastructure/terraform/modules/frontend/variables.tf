@@ -55,3 +55,15 @@ variable "memory" {
   description = "Fargate memory (MB)"
   default     = 512
 }
+
+variable "enable_https" {
+  type        = bool
+  description = "Enable HTTPS listener"
+  default     = true
+}
+
+variable "certificate_arn" {
+  type        = string
+  description = "ACM certificate ARN for HTTPS (required if enable_https is true)"
+  default     = ""
+}
