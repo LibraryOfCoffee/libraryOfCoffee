@@ -1,0 +1,17 @@
+spring:
+  sql:
+    init:
+      mode: always
+      schema-locations: file:../../infrastructure/db/schema.sql
+      data-locations: file:../../infrastructure/db/local-data.sql
+
+  docker:
+    compose:
+      enabled: true
+      file: ../compose.yml
+      lifecycle-management: start-and-stop
+
+logging:
+  level:
+    com.mametosho: DEBUG
+    org.mybatis: DEBUG
