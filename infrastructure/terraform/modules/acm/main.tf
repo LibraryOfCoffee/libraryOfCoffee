@@ -12,3 +12,12 @@ resource "aws_acm_certificate" "main" {
     Name = var.domain_name
   }
 }
+
+# 証明書の検証完了を待つ（DNS設定後に有効になるまで待機）
+resource "aws_acm_certificate_validation" "main" {
+  certificate_arn = aws_acm_certificate.main.arn
+
+  timeouts {
+    create = "30m"  # DNS反映を待つ（最大30分）
+  }
+}

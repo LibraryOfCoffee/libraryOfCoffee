@@ -36,7 +36,7 @@ module "frontend" {
   public_subnet_ids  = module.vpc.public_subnet_ids
   private_subnet_ids = module.vpc.private_subnet_ids
   ecr_repository_url = module.ecr_frontend.repository_url
-  certificate_arn    = module.acm.certificate_arn
+  certificate_arn    = module.acm.certificate_arn  # ACM検証完了まで待機
 }
 
 # ACM DNS検証用レコード（お名前.comで手動設定が必要）
