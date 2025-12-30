@@ -26,7 +26,7 @@ module "frontend" {
   account_id         = local.account_id
   env                = local.env
   vpc_id             = module.vpc.vpc_id
-  public_subnet_id   = module.vpc.public_subnet_id
-  private_subnet_id  = module.vpc.private_subnet_id
+  public_subnet_ids  = module.vpc.public_subnet_ids
+  private_subnet_ids = module.vpc.private_subnet_ids
   ecr_repository_url = module.ecr_frontend.repository_url
 }

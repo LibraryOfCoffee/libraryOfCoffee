@@ -17,14 +17,14 @@ variable "vpc_id" {
   description = "VPC ID"
 }
 
-variable "public_subnet_id" {
-  type        = string
-  description = "Public subnet ID for ALB"
+variable "public_subnet_ids" {
+  type        = list(string)
+  description = "Public subnet IDs for ALB"
 }
 
-variable "private_subnet_id" {
-  type        = string
-  description = "Private subnet ID for ECS tasks"
+variable "private_subnet_ids" {
+  type        = list(string)
+  description = "Private subnet IDs for ECS tasks"
 }
 
 variable "ecr_repository_url" {
