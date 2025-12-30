@@ -1,13 +1,22 @@
 package com.mametosho.presentation.controller
 
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RestController
+import com.mametosho.application.usecase.FindSampleDetailUsecase
+import com.mametosho.presentation.dto.response.SampleResponse
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class SampleController() {
-  @GetMapping("/api/sample")
-  fun sample(): ResponseEntity<String> {
-    return ResponseEntity.ok("Sample response")
-  }
+@RequestMapping("/api/samples")
+class SampleController(
+    private val findSampleDetailUsecase: FindSampleDetailUsecase
+) {
+    @GetMapping("/{id}")
+    fun getSampleById(@PathVariable id: Long): ResponseEntity<SampleResponse> {
+        val sample = findSampleDetailUsecase.execute(id)
+            ?: return ResponseEntity.notFound().build()
+        return ResponseEntity.ok(SampleResponse.from(sample))
+    }
 }

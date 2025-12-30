@@ -7,23 +7,10 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      maximum-pool-size: ${DB_POOL_SIZE:10}
-      minimum-idle: ${DB_POOL_MIN_IDLE:5}
-      connection-timeout: ${DB_CONNECTION_TIMEOUT:30000}
 
 mybatis:
-  mapper-locations: classpath:mapper/**/*.xml
-  type-aliases-package: com.mametosho.backend.domain
   configuration:
     map-underscore-to-camel-case: true
-    default-fetch-size: 100
-    default-statement-timeout: 30
 
 server:
   port: ${SERVER_PORT:8080}
-
-logging:
-  level:
-    root: ${LOG_LEVEL:INFO}
-    com.mametosho: ${APP_LOG_LEVEL:INFO}
