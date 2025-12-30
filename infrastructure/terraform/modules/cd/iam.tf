@@ -21,7 +21,7 @@ resource "aws_iam_role" "main" {
 }
 
 # ECR Push 用ポリシー
-resource "aws_iam_role_policy" "main" {
+resource "aws_iam_role_policy" "ecr" {
   name = "ecr-push"
   role = aws_iam_role.main.id
 
@@ -49,6 +49,27 @@ resource "aws_iam_role_policy" "main" {
           "ecr:CompleteLayerUpload"
         ]
         Resource = "arn:aws:ecr:${var.aws_region}:${var.account_id}:repository/*"
+      }
+    ]
+  })
+}
+
+# ECS Deploy 用ポリシー
+resource "aws_iam_role_policy" "ecs" {
+  name = "ecs-deploy"
+  role = aws_iam_role.main.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "ECSUpdateService"
+        Effect = "Allow"
+        Action = [
+          "ecs:UpdateService",
+          "ecs:DescribeServices"
+        ]
+        Resource = "arn:aws:ecs:${var.aws_region}:${var.account_id}:service/*/*"
       }
     ]
   })
