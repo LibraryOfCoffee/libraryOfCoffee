@@ -55,3 +55,9 @@ variable "memory" {
   description = "Fargate memory (MB)"
   default     = 512
 }
+
+variable "certificate_arn" {
+  type        = string
+  description = "ACM certificate ARN for HTTPS"
+  default     = ""
+}
