@@ -66,3 +66,8 @@ variable "api_url" {
   type        = string
   description = "Backend API URL"
 }
+
+variable "desired_count" {
+  type        = number
+  description = "Number of ECS tasks to run"
+}

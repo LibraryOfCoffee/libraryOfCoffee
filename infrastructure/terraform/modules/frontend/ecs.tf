@@ -51,7 +51,7 @@ resource "aws_ecs_service" "main" {
   name            = "${var.account_id}-${var.env}-frontend"
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.main.arn
-  desired_count   = 1
+  desired_count   = var.desired_count
   launch_type     = "FARGATE"
 
   network_configuration {

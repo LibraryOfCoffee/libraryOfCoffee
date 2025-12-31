@@ -72,3 +72,8 @@ variable "db_secrets_arn" {
   type        = string
   description = "Secrets Manager ARN for database credentials"
 }
+
+variable "desired_count" {
+  type        = number
+  description = "Number of ECS tasks to run"
+}
