@@ -15,7 +15,6 @@ variable "env" {
 variable "image_retention_days" {
   type        = number
   description = "Number of days to retain untagged images"
-  default     = 90 # 3ヶ月
 }
 
 variable "image_tag_mutability" {

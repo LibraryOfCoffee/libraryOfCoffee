@@ -1,0 +1,9 @@
+spring:
+  sql:
+    init:
+      mode: never
+
+logging:
+  level:
+    com.mametosho: DEBUG
+    org.mybatis: DEBUG

@@ -42,7 +42,7 @@
 }
 
 .pricing-card-badge::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -6px;
   left: 50%;

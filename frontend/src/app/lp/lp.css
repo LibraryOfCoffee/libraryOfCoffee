@@ -12,7 +12,9 @@
 .lp-container {
   min-height: 100vh;
   background-color: #ffffff;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", sans-serif;
   padding: 6rem 2rem 5rem;
 }
 
@@ -26,7 +28,10 @@
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s;
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  box-shadow:
+    rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px,
+    rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 .lp-button-secondary {
@@ -44,7 +49,6 @@
 .lp-button-secondary:hover {
   background-color: #e5e7eb;
 }
-
 
 /* Hero Section */
 .lp-hero {
