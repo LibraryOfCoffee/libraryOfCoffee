@@ -13,6 +13,7 @@ on:
     branches: [main]
     paths:
       - .github/workflows/github-pages.yml
+      - docs/swagger/*.yml
 
 permissions:
   contents: read
@@ -72,9 +73,19 @@ jobs:
         with:
           name: schemaspy output
           path: ./schemaspy-output
+  swagger-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: swagger output
+          path: ./docs/swagger
 
   deploy:
-    needs: [scemaspy-build]
+    needs: [scemaspy-build, swagger-build]
     runs-on: ubuntu-latest
     steps:
       - name: Download Schemaspy output
@@ -82,6 +93,11 @@ jobs:
         with:
           name: schemaspy output
           path: ./output/schemaspy
+      - name: Download Swagger output
+        uses: actions/download-artifact@v4
+        with:
+          name: swagger output
+          path: ./output/swagger
 
       - name: Upload page artifact 
         uses: actions/upload-pages-artifact@v4

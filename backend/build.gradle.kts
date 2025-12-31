@@ -3,6 +3,7 @@ plugins {
 	kotlin("plugin.spring") version "2.3.0" apply false
 	id("org.springframework.boot") version "4.0.0" apply false
 	id("io.spring.dependency-management") version "1.1.7" apply false
+	id("org.springdoc.openapi-gradle-plugin") version "1.9.0" apply false
 }
 
 allprojects {
@@ -33,4 +34,11 @@ subprojects {
 	tasks.withType<Test> {
 		useJUnitPlatform()
 	}
+}
+
+// OpenAPI 生成タスク（全モジュール）
+tasks.register("generateAllOpenApiDocs") {
+	group = "documentation"
+	description = "Generate OpenAPI specs for all API modules"
+	dependsOn(":cs-api:generateOpenApiDocs", ":admin-api:generateOpenApiDocs")
 }
