@@ -1,16 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import Header from "./_components/Header/header";
-import Footer from "./_components/Footer/footer";
-import FeatureCard from "./_components/FeatureCard/featureCard";
-import Section from "./_components/Section/section";
-import UserVoiceCard from "./_components/UserVoiceCard/userVoiceCard";
-import ShopSection from "./_components/ShopSection/shopSection";
-import PricingCard from "./_components/PricingCard/pricingCard";
-import FlowSection from "./_components/FlowSection/flowSection";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import FeatureCard from "./_components/FeatureCard/featureCard";
+import FlowSection from "./_components/FlowSection/flowSection";
+import Footer from "./_components/Footer/footer";
+import Header from "./_components/Header/header";
+import PricingCard from "./_components/PricingCard/pricingCard";
+import Section from "./_components/Section/section";
+import ShopSection from "./_components/ShopSection/shopSection";
+import UserVoiceCard from "./_components/UserVoiceCard/userVoiceCard";
 import "swiper/css";
 import "./lp.css";
 import moveToShopify from "./_lib/PurchaseLinkUtil/purchaseLinkUtil";
@@ -102,9 +102,13 @@ export default function LP() {
                   <br />
                   自分好みの珈琲豆を見つけたい・美味しい入れ方を探求したいあなたに。
                 </p>
-                <a className="lp-button-large" onClick={() => moveToShopify()}>
+                <button
+                  type="button"
+                  className="lp-button-large"
+                  onClick={() => moveToShopify()}
+                >
                   事前登録する
-                </a>
+                </button>
                 {/* FIXME: サービス開始時には削除 */}
                 <div className="notice-container">
                   <span className="notice">

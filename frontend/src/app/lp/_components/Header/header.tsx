@@ -15,14 +15,14 @@ export default function Header() {
           </div>
           <div className="lp-publish-link">
             <div className="lp-publish-link-login">
-              <a onClick={() => moveToShopify()}>
-                <p>ログイン</p>
-              </a>
+              <button type="button" onClick={() => moveToShopify()}>
+                ログイン
+              </button>
             </div>
             <div className="lp-publish-link-register">
-              <a onClick={() => moveToShopify()}>
-                <p>事前登録する</p>
-              </a>
+              <button type="button" onClick={() => moveToShopify()}>
+                事前登録する
+              </button>
             </div>
           </div>
         </div>

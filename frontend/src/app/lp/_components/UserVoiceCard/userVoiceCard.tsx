@@ -1,10 +1,5 @@
-import './userVoiceCard.css';
+import "./userVoiceCard.css";
 import Image from "next/image";
-
-interface QA {
-  question: string;
-  answers: string[];
-}
 
 interface UserVoiceCardProps {
   imageUrl: string;
@@ -28,12 +23,7 @@ export default function UserVoiceCard({
   return (
     <div className="user-voice-card">
       <div className="user-voice-card-image">
-        <Image
-          src={imageUrl}
-          alt={userName}
-          height={200}
-          width={1000}
-        />
+        <Image src={imageUrl} alt={userName} height={200} width={1000} />
       </div>
       <div className="user-voice-card-content">
         <h3 className="user-voice-card-title">
@@ -46,11 +36,8 @@ export default function UserVoiceCard({
             </span>
           ))}
         </div>
-        <p className="user-voice-card-qa-list">
-          {comment}
-        </p>
+        <p className="user-voice-card-qa-list">{comment}</p>
       </div>
     </div>
   );
 }
-

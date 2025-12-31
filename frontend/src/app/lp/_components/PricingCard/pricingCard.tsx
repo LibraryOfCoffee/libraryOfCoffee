@@ -77,7 +77,7 @@ export default function PricingCard({
         </ul>
       </div>
 
-      <button className="pricing-card-cta" onClick={onCtaClick}>
+      <button type="button" className="pricing-card-cta" onClick={onCtaClick}>
         {ctaText}
       </button>
       {/* FIXME: サービス開始時には削除 */}

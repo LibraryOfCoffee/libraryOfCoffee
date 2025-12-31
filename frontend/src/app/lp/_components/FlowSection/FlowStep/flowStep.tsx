@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import "./flowStep.css";
 
 interface FlowStepProps {
@@ -17,19 +17,13 @@ export default function FlowStep({
   return (
     <div className="flow-step">
       <div className="flow-step-card">
-        {label && (
-          <div className="flow-step-label">
-            {label}
-          </div>
-        )}
-        <div className="flow-step-icon">
-          {icon}
-        </div>
+        {label && <div className="flow-step-label">{label}</div>}
+        <div className="flow-step-icon">{icon}</div>
         <div className="flow-step-content">
           <h3 className="flow-step-title">{title}</h3>
           <ul className="flow-step-description">
             {description.map((item, index) => (
-              <li key={index} className={item.startsWith('※') ? 'note' : ''}>
+              <li key={index} className={item.startsWith("※") ? "note" : ""}>
                 {item}
               </li>
             ))}

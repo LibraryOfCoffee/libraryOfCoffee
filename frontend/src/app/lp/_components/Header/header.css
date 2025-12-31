@@ -1,4 +1,3 @@
-
 /* Header */
 .lp-header {
   position: fixed;
@@ -30,7 +29,6 @@
 
 .lp-publish-link {
   display: flex;
-  gap: 1rem;
   align-items: center;
   height: 100%;
 }
@@ -44,10 +42,20 @@
   justify-content: center;
 }
 
-.lp-publish-link a {
+.lp-publish-link button {
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
   width: 110px;
   text-align: center;
+  background: none;
+  border: none;
+}
+
+.lp-publish-link-login button {
+  color: #111827;
+}
+
+.lp-publish-link-register button {
+  color: white;
 }

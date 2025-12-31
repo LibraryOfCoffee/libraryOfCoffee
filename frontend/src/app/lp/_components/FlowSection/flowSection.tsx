@@ -1,5 +1,5 @@
-import React from "react";
 import Image from "next/image";
+import React from "react";
 import FlowStep from "./FlowStep/flowStep";
 import "./flowSection.css";
 
@@ -15,10 +15,7 @@ export default function FlowSection() {
     {
       title: "会員登録",
       label: "初回のみ",
-      description: [
-        "無料で新規会員登録",
-        "メールアドレスのみで簡単(目安1分)",
-      ],
+      description: ["無料で新規会員登録", "メールアドレスのみで簡単(目安1分)"],
       icon: (
         <Image
           src="/lpUseCases/1.png"
@@ -77,7 +74,7 @@ export default function FlowSection() {
       description: [
         "新鮮な珈琲を味わう",
         "珈琲豆の特徴を知る",
-        "店舗の味やこだわりを体験"
+        "店舗の味やこだわりを体験",
       ],
       icon: (
         <Image
@@ -103,7 +100,7 @@ export default function FlowSection() {
             />
             {index < steps.length - 1 && (
               <div className="flow-step-arrow">
-                <svg viewBox="0 0 40 40" fill="none">
+                <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
                   <path
                     d="M15 10L25 20L15 30"
                     stroke="currentColor"
