@@ -62,7 +62,7 @@ jobs:
             -p root
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: schemaspy output
           path: ./schemaspy-output
@@ -72,13 +72,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download Schemaspy output
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: schemaspy output
           path: ./output/schemaspy
 
       - name: Upload page artifact 
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: ./output
 
