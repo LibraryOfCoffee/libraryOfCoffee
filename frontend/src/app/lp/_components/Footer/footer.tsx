@@ -31,10 +31,10 @@ export default function Footer() {
           <p className="lp-footer-contact">
             お問い合わせ：
             <a
-              href="mailto:libraryofcoffeebeans@gmail.com"
+              href="mailto:inquiry@m.mametosho.com"
               className="lp-footer-email"
             >
-              libraryofcoffeebeans@gmail.com
+              inquiry@m.mametosho.com
             </a>
           </p>
           <p className="lp-footer-copyright">
