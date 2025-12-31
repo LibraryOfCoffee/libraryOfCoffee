@@ -34,6 +34,11 @@ jobs:
           MYSQL_DATABASE: app
         ports:
           - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -50,6 +55,7 @@ jobs:
       - name: Run SchemaSpy
         run: |
           mkdir -p schemaspy-output
+          chmod -R 777 schemaspy-output
           docker run --rm \
             --network host \
             -v ${{ github.workspace }}/schemaspy-output:/output \
@@ -58,9 +64,9 @@ jobs:
             -host 127.0.0.1 \
             -port 3306 \
             -db app \
+            -s app \
             -u root \
             -p root
-
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
