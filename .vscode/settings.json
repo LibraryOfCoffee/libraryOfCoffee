@@ -1,4 +1,7 @@
 {
   "java.configuration.updateBuildConfiguration": "automatic",
-  "java.compile.nullAnalysis.mode": "automatic"
+  "java.compile.nullAnalysis.mode": "automatic",
+  "kotlin.languageServer.enabled": true,
+  "java.project.sourcePaths": ["backend/cs-api/src/main/kotlin", "backend/admin-api/src/main/kotlin", "backend/common/src/main/kotlin"],
+  "java.project.referencedLibraries": ["backend/build/libs/**/*.jar"]
 }
