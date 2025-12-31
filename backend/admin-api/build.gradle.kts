@@ -25,7 +25,7 @@ dependencies {
 openApi {
 	apiDocsUrl.set("http://localhost:8081/v3/api-docs.yaml")
 	outputDir.set(file("${rootProject.projectDir}/../docs/swagger"))
-	outputFileName.set("admin-api.yaml")
+	outputFileName.set("admin-api.yml")
 	customBootRun {
 		args.set(listOf("--spring.profiles.active=openapi"))
 	}
