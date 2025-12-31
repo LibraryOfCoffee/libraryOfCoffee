@@ -40,6 +40,7 @@ module "frontend" {
   container_port  = 3000
   cpu             = 256
   memory          = 512
+  desired_count   = 1
   enable_https    = true
   certificate_arn = module.acm.certificate_arn
   api_url         = "http://${module.backend.service_discovery_endpoint}:8080"
@@ -91,6 +92,7 @@ module "backend" {
   container_port = 8080
   cpu            = 256
   memory         = 512
+  desired_count  = 1
 
   # Frontendからのアクセスを許可
   allowed_security_group_ids = [module.frontend.ecs_security_group_id]
