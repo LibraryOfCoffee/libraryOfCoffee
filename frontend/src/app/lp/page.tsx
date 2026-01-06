@@ -107,15 +107,8 @@ export default function LP() {
                   className="lp-button-large"
                   onClick={() => moveToShopify()}
                 >
-                  事前登録する
+                  今すぐ始める
                 </button>
-                {/* FIXME: サービス開始時には削除 */}
-                <div className="notice-container">
-                  <span className="notice">
-                    ※2026/01/06
-                    サービス開始に向けて準備中です。アカウント登録をして楽しみにお待ちください。サービス開始時にメールにてご案内をいたします。アカウント登録の際には料金は発生しません。
-                  </span>
-                </div>
               </div>
             </div>
           </div>
@@ -243,7 +236,7 @@ export default function LP() {
                 { text: "珈琲豆30g×3種類" },
                 { text: "各店舗の淹れ方解説付き" },
               ]}
-              ctaText="事前登録する"
+              ctaText="このプランで始める"
               onCtaClick={() => moveToShopify()}
             />
           </div>

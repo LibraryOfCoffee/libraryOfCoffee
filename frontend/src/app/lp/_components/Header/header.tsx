@@ -21,7 +21,7 @@ export default function Header() {
             </div>
             <div className="lp-publish-link-register">
               <button type="button" onClick={() => moveToShopify()}>
-                事前登録する
+                今すぐ始める
               </button>
             </div>
           </div>
