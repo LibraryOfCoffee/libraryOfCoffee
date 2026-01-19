@@ -8,6 +8,8 @@ interface PricingCardProps {
   planName: string;
   planSubtitle: string;
   price: number;
+  campaignPrice?: number;
+  campaignText?: string;
   taxIncluded: boolean;
   freeShipping: boolean;
   coffeeTypes: number;
@@ -22,6 +24,8 @@ export default function PricingCard({
   planName,
   planSubtitle,
   price,
+  campaignPrice,
+  campaignText,
   taxIncluded = true,
   freeShipping = false,
   coffeeTypes,
@@ -39,10 +43,27 @@ export default function PricingCard({
       </div>
       <p className="pricing-card-subtitle">{planSubtitle}</p>
 
+      {campaignPrice && campaignText && (
+        <div className="pricing-card-campaign-badge">{campaignText}</div>
+      )}
+
       <div className="pricing-card-price">
-        <span className="pricing-card-price-amount">
-          ¥{price.toLocaleString()}
-        </span>
+        {campaignPrice ? (
+          <>
+            <div className="pricing-card-price-original">
+              <span className="pricing-card-price-original-amount">
+                ¥{price.toLocaleString()}
+              </span>
+            </div>
+            <span className="pricing-card-price-amount pricing-card-price-campaign">
+              ¥{campaignPrice.toLocaleString()}
+            </span>
+          </>
+        ) : (
+          <span className="pricing-card-price-amount">
+            ¥{price.toLocaleString()}
+          </span>
+        )}
         {taxIncluded && <span className="pricing-card-price-tax">(税込)</span>}
       </div>
 

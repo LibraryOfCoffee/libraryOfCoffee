@@ -226,6 +226,8 @@ export default function LP() {
               planName="スタンダード"
               planSubtitle={`様々な珈琲店舗の豆を\n毎月3種類体験できるプラン`}
               price={1500}
+              campaignPrice={1200}
+              campaignText="初月お得キャンペーン実施中！"
               taxIncluded={true}
               freeShipping={true}
               coffeeTypes={3}
