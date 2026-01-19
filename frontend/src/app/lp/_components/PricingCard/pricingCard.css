@@ -63,16 +63,61 @@
   white-space: pre-wrap;
 }
 
+/* キャンペーンバッジ */
+.pricing-card-campaign-badge {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 24px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(239, 68, 68, 0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
 /* 価格 */
 .pricing-card-price {
   text-align: center;
   margin: 8px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.pricing-card-price-original {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pricing-card-price-original-amount {
+  font-size: 20px;
+  font-weight: 500;
+  color: #9ca3af;
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
 }
 
 .pricing-card-price-amount {
   font-size: 36px;
   font-weight: 700;
   color: #111827;
+}
+
+.pricing-card-price-campaign {
+  color: #ef4444;
+  font-size: 42px;
 }
 
 .pricing-card-price-tax {
