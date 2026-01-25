@@ -212,7 +212,9 @@ export default function LP() {
               />
             </SwiperSlide>
           </Swiper>
-          <p className="lp-testimonials-note">※サービスα版にてご購入いただいた方の声</p>
+          <p className="lp-testimonials-note">
+            ※サービスα版にてご購入いただいた方の声
+          </p>
         </Section>
         <Section
           id="flow"
