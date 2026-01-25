@@ -116,6 +116,13 @@
   display: flex;
 }
 
+.lp-testimonials-note {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  text-align: right;
+  margin-top: 0.5rem;
+}
+
 /* Pricing Section */
 .lp-pricing-grid {
   display: grid;
