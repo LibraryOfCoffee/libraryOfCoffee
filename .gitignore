@@ -100,3 +100,6 @@ override.tf.json
 terraform.rc
 
 # End of https://www.toptal.com/developers/gitignore/api/nextjs,terraform,kotlin
+
+# Claude Code local settings
+*.local.json
