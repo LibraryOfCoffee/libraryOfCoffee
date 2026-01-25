@@ -213,7 +213,7 @@ export default function LP() {
             </SwiperSlide>
           </Swiper>
           <p className="lp-testimonials-note">
-            ※4月から9月提供のサービスα版にてご購入いただいた方の声
+            ※サービスα版にてご購入いただいた方の声
           </p>
         </Section>
         <Section
