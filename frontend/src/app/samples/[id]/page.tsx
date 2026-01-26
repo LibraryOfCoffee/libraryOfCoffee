@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import "./sample.css";
 
 type SampleItem = {
@@ -20,6 +21,31 @@ async function fetchSampleItem(id: string): Promise<SampleItem> {
   }
 
   return res.json();
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+
+  try {
+    const item = await fetchSampleItem(id);
+    return {
+      title: item.name,
+      description: `サンプルアイテム: ${item.name}`,
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  } catch {
+    return {
+      title: "サンプル",
+      description: "サンプルページ",
+      robots: {
+        index: false,
+        follow: false,
+      },
+    };
+  }
 }
 
 export default async function SamplePage({ params }: Props) {
