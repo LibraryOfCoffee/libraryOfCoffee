@@ -13,7 +13,7 @@ import ShopSection from "./_components/ShopSection/shopSection";
 import UserVoiceCard from "./_components/UserVoiceCard/userVoiceCard";
 import "swiper/css";
 import "./lp.css";
-import moveToShopify from "./_lib/PurchaseLinkUtil/purchaseLinkUtil";
+import { moveToCoffeeBeanListPage} from "./_lib/PurchaseLinkUtil/purchaseLinkUtil";
 
 const featureList = [
   {
@@ -105,7 +105,7 @@ export default function LP() {
                 <button
                   type="button"
                   className="lp-button-large"
-                  onClick={() => moveToShopify()}
+                  onClick={() => moveToCoffeeBeanListPage()}
                 >
                   今すぐ始める
                 </button>
@@ -242,7 +242,7 @@ export default function LP() {
                 { text: "各店舗の淹れ方解説付き" },
               ]}
               ctaText="このプランで始める"
-              onCtaClick={() => moveToShopify()}
+              onCtaClick={() => moveToCoffeeBeanListPage()}
             />
           </div>
         </Section>
