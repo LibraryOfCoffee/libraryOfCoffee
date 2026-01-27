@@ -1,7 +1,10 @@
 "use client";
 import Image from "next/image";
 import "./header.css";
-import moveToShopify from "../../_lib/PurchaseLinkUtil/purchaseLinkUtil";
+import {
+  moveToCoffeeBeanListPage,
+  moveToLoginPage,
+} from "../../_lib/PurchaseLinkUtil/purchaseLinkUtil";
 
 export default function Header() {
   return (
@@ -15,12 +18,12 @@ export default function Header() {
           </div>
           <div className="lp-publish-link">
             <div className="lp-publish-link-login">
-              <button type="button" onClick={() => moveToShopify()}>
+              <button type="button" onClick={() => moveToLoginPage()}>
                 ログイン
               </button>
             </div>
             <div className="lp-publish-link-register">
-              <button type="button" onClick={() => moveToShopify()}>
+              <button type="button" onClick={() => moveToCoffeeBeanListPage()}>
                 今すぐ始める
               </button>
             </div>
