@@ -2,8 +2,8 @@
 import Image from "next/image";
 import "./header.css";
 import {
-  moveToLoginPage,
   moveToCoffeeBeanListPage,
+  moveToLoginPage,
 } from "../../_lib/PurchaseLinkUtil/purchaseLinkUtil";
 
 export default function Header() {
