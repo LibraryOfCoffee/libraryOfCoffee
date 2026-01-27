@@ -1,7 +1,10 @@
 "use client";
 import Image from "next/image";
 import "./header.css";
-import { moveToLoginPage, moveToCoffeeBeanListPage} from "../../_lib/PurchaseLinkUtil/purchaseLinkUtil";
+import {
+  moveToLoginPage,
+  moveToCoffeeBeanListPage,
+} from "../../_lib/PurchaseLinkUtil/purchaseLinkUtil";
 
 export default function Header() {
   return (

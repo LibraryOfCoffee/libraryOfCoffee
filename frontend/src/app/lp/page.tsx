@@ -13,7 +13,7 @@ import ShopSection from "./_components/ShopSection/shopSection";
 import UserVoiceCard from "./_components/UserVoiceCard/userVoiceCard";
 import "swiper/css";
 import "./lp.css";
-import { moveToCoffeeBeanListPage} from "./_lib/PurchaseLinkUtil/purchaseLinkUtil";
+import { moveToCoffeeBeanListPage } from "./_lib/PurchaseLinkUtil/purchaseLinkUtil";
 
 const featureList = [
   {
