@@ -1,0 +1,4755 @@
+{
+  "version": "2.6",
+  "children": [
+    {
+      "type": "frame",
+      "id": "D4NOb",
+      "x": 0,
+      "y": 0,
+      "name": "SP版 - 豆図書サブスク",
+      "clip": true,
+      "width": 390,
+      "fill": "#F5F2ED",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "Jvf9G",
+          "name": "Header",
+          "width": "fill_container",
+          "height": 56,
+          "fill": "#FFFFFF",
+          "padding": [
+            0,
+            20
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "HwVXL",
+              "name": "logo",
+              "width": 80,
+              "height": 26,
+              "fill": {
+                "type": "image",
+                "enabled": true,
+                "url": "./images/logo.png",
+                "mode": "fit"
+              }
+            },
+            {
+              "type": "frame",
+              "id": "0ny2j",
+              "name": "headerActions",
+              "gap": 12,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "WGGXc",
+                  "name": "login",
+                  "fill": "#3C2415",
+                  "content": "ログイン",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "TyTUp",
+                  "name": "headerCta",
+                  "fill": "#8B5A2B",
+                  "cornerRadius": 100,
+                  "padding": [
+                    8,
+                    16
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "SU2DB",
+                      "name": "ctaText",
+                      "fill": "#FFFFFF",
+                      "content": "今すぐ始める",
+                      "fontFamily": "Inter",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "5WV6Z",
+          "name": "Hero Section",
+          "metadata": {
+            "type": "unsplash",
+            "username": "pariwatt",
+            "link": "https://unsplash.com/@pariwatt",
+            "author": "pariwat pannium"
+          },
+          "width": "fill_container",
+          "height": 480,
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "./images/hero-image.png",
+            "mode": "fill"
+          },
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            60,
+            24,
+            40,
+            24
+          ],
+          "justifyContent": "end",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "FIQ5N",
+              "name": "heroOverlay",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "justifyContent": "end",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "npRmh",
+                  "name": "badge",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 100,
+                  "gap": 6,
+                  "padding": [
+                    8,
+                    16
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "M1ENt",
+                      "name": "badgeIcon",
+                      "width": 16,
+                      "height": 16,
+                      "iconFontName": "coffee",
+                      "iconFontFamily": "lucide",
+                      "fill": "#8B5A2B"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Y30Om",
+                      "name": "badgeText",
+                      "fill": "#8B5A2B",
+                      "content": "今だけ初月1,200円",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "lMXiB",
+                  "name": "heroTitle",
+                  "fill": "#FFFFFF",
+                  "textGrowth": "fixed-width",
+                  "width": 300,
+                  "content": "あなただけの\nコーヒー体験を",
+                  "lineHeight": 1.3,
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 32,
+                  "fontWeight": "bold"
+                },
+                {
+                  "type": "text",
+                  "id": "hQle7",
+                  "name": "heroSub",
+                  "fill": "#FFFFFFCC",
+                  "textGrowth": "fixed-width",
+                  "width": 280,
+                  "content": "毎月届く、厳選された3種の豆で\n新しい味わいとの出会いを",
+                  "lineHeight": 1.6,
+                  "textAlign": "center",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "W7ERD",
+                  "name": "heroCta",
+                  "fill": "#8B5A2B",
+                  "cornerRadius": 100,
+                  "gap": 8,
+                  "padding": [
+                    16,
+                    40
+                  ],
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "GPGbp",
+                      "name": "ctaText",
+                      "fill": "#FFFFFF",
+                      "content": "今すぐ始める",
+                      "fontFamily": "Inter",
+                      "fontSize": 16,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "X9lOk",
+                      "name": "ctaIcon",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "arrow-right",
+                      "iconFontFamily": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "CVmsU",
+          "name": "Features Section",
+          "width": "fill_container",
+          "fill": "#FFFFFF",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": [
+            48,
+            24
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "kxkl7",
+              "name": "featTitle",
+              "fill": "#3C2415",
+              "content": "豆図書が選ばれる理由",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "bold"
+            },
+            {
+              "type": "frame",
+              "id": "oQymf",
+              "name": "featGrid",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "TZSLP",
+                  "name": "feat1",
+                  "width": "fill_container",
+                  "fill": "#F5F2ED",
+                  "cornerRadius": 16,
+                  "gap": 16,
+                  "padding": 20,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "OXs5o",
+                      "name": "feat1Icon",
+                      "width": 56,
+                      "height": 56,
+                      "fill": "#8B5A2B",
+                      "cornerRadius": 100,
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "ZYIgr",
+                          "name": "feat1IconInner",
+                          "width": 24,
+                          "height": 24,
+                          "iconFontName": "hand-heart",
+                          "iconFontFamily": "lucide",
+                          "fill": "#FFFFFF"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "cs388",
+                      "name": "feat1Content",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "B3hTR",
+                          "name": "feat1Title",
+                          "fill": "#3C2415",
+                          "content": "毎月3種を自由に選択",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "GqmIl",
+                          "name": "feat1Desc",
+                          "fill": "#6B5B4D",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "豊富なラインナップから、あなた好みの豆を毎月選べます",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "vvBE2",
+                  "name": "feat2",
+                  "width": "fill_container",
+                  "fill": "#F5F2ED",
+                  "cornerRadius": 16,
+                  "gap": 16,
+                  "padding": 20,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "b53fP",
+                      "name": "feat2Icon",
+                      "width": 56,
+                      "height": 56,
+                      "fill": "#D4A574",
+                      "cornerRadius": 100,
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "0mgoj",
+                          "name": "feat2IconInner",
+                          "width": 24,
+                          "height": 24,
+                          "iconFontName": "truck",
+                          "iconFontFamily": "lucide",
+                          "fill": "#FFFFFF"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "N2AfC",
+                      "name": "feat2Content",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "NCWVf",
+                          "name": "feat2Title",
+                          "fill": "#3C2415",
+                          "content": "新鮮なまま毎月届く",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Kf4A2",
+                          "name": "feat2Desc",
+                          "fill": "#6B5B4D",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "焙煎したての豆を毎月20日前後にお届け。鮮度が違います",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "1C2AO",
+                  "name": "feat3",
+                  "width": "fill_container",
+                  "fill": "#F5F2ED",
+                  "cornerRadius": 16,
+                  "gap": 16,
+                  "padding": 20,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "YFBVU",
+                      "name": "feat3Icon",
+                      "width": 56,
+                      "height": 56,
+                      "fill": "#7D9B76",
+                      "cornerRadius": 100,
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "xPvHa",
+                          "name": "feat3IconInner",
+                          "width": 24,
+                          "height": 24,
+                          "iconFontName": "book-open",
+                          "iconFontFamily": "lucide",
+                          "fill": "#FFFFFF"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "RDxxB",
+                      "name": "feat3Content",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "OBel0",
+                          "name": "feat3Title",
+                          "fill": "#3C2415",
+                          "content": "コーヒーの知識も深まる",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Gjb0M",
+                          "name": "feat3Desc",
+                          "fill": "#6B5B4D",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "産地やテイストの解説カード付き。毎月新しい発見があります",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "oX5EX",
+          "name": "How It Works",
+          "width": "fill_container",
+          "fill": "#F5F2ED",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": [
+            48,
+            24
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "sbuyk",
+              "name": "howTitle",
+              "fill": "#3C2415",
+              "content": "ご利用の流れ",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "bold"
+            },
+            {
+              "type": "frame",
+              "id": "wZZS7",
+              "name": "stepsContainer",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "H5SR8",
+                  "name": "step1",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "gap": 16,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "PQfvB",
+                      "name": "step1Num",
+                      "width": 40,
+                      "height": 40,
+                      "fill": "#8B5A2B",
+                      "cornerRadius": 100,
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "rkDbv",
+                          "name": "step1NumText",
+                          "fill": "#FFFFFF",
+                          "content": "1",
+                          "fontFamily": "Inter",
+                          "fontSize": 18,
+                          "fontWeight": "bold"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Zqj2z",
+                      "name": "step1Content",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "n2ewV",
+                          "name": "step1Title",
+                          "fill": "#3C2415",
+                          "content": "気になる珈琲豆を選択",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "DyTUI",
+                          "name": "step1Desc",
+                          "fill": "#6B5B4D",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "✓ 珈琲豆・店舗情報を確認\n✓ 気になる4種を登録 or 豆図書にお任せ\n\n※初回以降は毎月登録となります。その月の登録期間を過ぎると、自動で「月のおすすめ」が４種登録されます。",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "T1QRi",
+                  "name": "step2",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "gap": 16,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "oywqR",
+                      "name": "step2Num",
+                      "width": 40,
+                      "height": 40,
+                      "fill": "#8B5A2B",
+                      "cornerRadius": 100,
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "dT2vv",
+                          "name": "step2NumText",
+                          "fill": "#FFFFFF",
+                          "content": "2",
+                          "fontFamily": "Inter",
+                          "fontSize": 18,
+                          "fontWeight": "bold"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "WP1la",
+                      "name": "step2Content",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "BsY8I",
+                          "name": "step2Title",
+                          "fill": "#3C2415",
+                          "content": "お届け先登録",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Q4ZZR",
+                          "name": "step2Desc",
+                          "fill": "#6B5B4D",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "✓ 目安1分で登録完了",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "s45ET",
+                  "name": "step3",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "gap": 16,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "FKuqn",
+                      "name": "step3Num",
+                      "width": 40,
+                      "height": 40,
+                      "fill": "#8B5A2B",
+                      "cornerRadius": 100,
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "NNxve",
+                          "name": "step3NumText",
+                          "fill": "#FFFFFF",
+                          "content": "3",
+                          "fontFamily": "Inter",
+                          "fontSize": 18,
+                          "fontWeight": "bold"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "SIHcx",
+                      "name": "step3Content",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "RsuK9",
+                          "name": "step3Title",
+                          "fill": "#3C2415",
+                          "content": "珈琲豆が届く",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "soEZH",
+                          "name": "step3Desc",
+                          "fill": "#6B5B4D",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "✓ 登録した豆から２種＋「月のおすすめ」から１種が届く\n\n※必ず異なる３種類の豆が届きます。",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "btvvm",
+                  "name": "step4",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "gap": 16,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "xnMXg",
+                      "name": "step4Num",
+                      "width": 40,
+                      "height": 40,
+                      "fill": "#8B5A2B",
+                      "cornerRadius": 100,
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "54ZLm",
+                          "name": "step4NumText",
+                          "fill": "#FFFFFF",
+                          "content": "4",
+                          "fontFamily": "Inter",
+                          "fontSize": 18,
+                          "fontWeight": "bold"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "1Au8Z",
+                      "name": "step4Content",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 6,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "WTrLq",
+                          "name": "step4Title",
+                          "fill": "#3C2415",
+                          "content": "様々な珈琲体験",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "z48ID",
+                          "name": "step4Desc",
+                          "fill": "#6B5B4D",
+                          "textGrowth": "fixed-width",
+                          "width": "fill_container",
+                          "content": "✓ 新鮮な珈琲を味わう\n✓ 珈琲豆の特徴を知る\n✓ 店舗の味やこだわりを体験",
+                          "lineHeight": 1.5,
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "fUDYD",
+          "name": "Bean Selection",
+          "width": "fill_container",
+          "fill": "#FFFFFF",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            48,
+            24
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "AmBzE",
+              "name": "beanTitle",
+              "fill": "#3C2415",
+              "content": "今月のおすすめ豆",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "bold"
+            },
+            {
+              "type": "text",
+              "id": "gtyBN",
+              "name": "beanSubtitle",
+              "fill": "#6B5B4D",
+              "content": "毎月8種類の珈琲豆から選べます",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "EvnI9",
+              "name": "beanGrid",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "0HrqB",
+                  "name": "bean1",
+                  "clip": true,
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "PKvdu",
+                      "name": "bean1Img",
+                      "metadata": {
+                        "type": "unsplash",
+                        "username": "dangcong",
+                        "link": "https://unsplash.com/@dangcong",
+                        "author": "Dang Cong"
+                      },
+                      "width": "fill_container",
+                      "height": 160,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/bean1.png",
+                        "mode": "fill"
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "zOYWu",
+                      "name": "bean1Content",
+                      "width": "fill_container",
+                      "fill": "#F5F2ED",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "roDFF",
+                          "name": "bean1Tag",
+                          "fill": "#8B5A2B",
+                          "cornerRadius": 100,
+                          "padding": [
+                            4,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "FhOy1",
+                              "name": "bean1TagText",
+                              "fill": "#FFFFFF",
+                              "content": "人気No.1",
+                              "fontFamily": "Inter",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "cFf9X",
+                          "name": "bean1Name",
+                          "fill": "#3C2415",
+                          "content": "エチオピア イルガチェフェ",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "BOztp",
+                          "name": "bean1Desc",
+                          "fill": "#6B5B4D",
+                          "content": "フローラルな香りと柑橘系の酸味",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "X6Bt1",
+                          "name": "bean1Taste",
+                          "gap": 8,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "94aZC",
+                              "name": "taste1",
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 4,
+                              "padding": [
+                                4,
+                                8
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "gKto4",
+                                  "name": "taste1Text",
+                                  "fill": "#8B5A2B",
+                                  "content": "華やか",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 11,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "fVmdX",
+                              "name": "taste2",
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 4,
+                              "padding": [
+                                4,
+                                8
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "I0cny",
+                                  "name": "taste2Text",
+                                  "fill": "#8B5A2B",
+                                  "content": "フルーティー",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 11,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "dIgib",
+                  "name": "bean2",
+                  "clip": true,
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Gjet2",
+                      "name": "bean2Img",
+                      "metadata": {
+                        "type": "unsplash",
+                        "username": "indraprojects",
+                        "link": "https://unsplash.com/@indraprojects",
+                        "author": "Indra Projects"
+                      },
+                      "width": "fill_container",
+                      "height": 160,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/bean2.png",
+                        "mode": "fill"
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "0AM3l",
+                      "name": "bean2Content",
+                      "width": "fill_container",
+                      "fill": "#F5F2ED",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "XrbLa",
+                          "name": "bean2Tag",
+                          "fill": "#7D9B76",
+                          "cornerRadius": 100,
+                          "padding": [
+                            4,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "VBnYq",
+                              "name": "bean2TagText",
+                              "fill": "#FFFFFF",
+                              "content": "深煎り",
+                              "fontFamily": "Inter",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "0O5t8",
+                          "name": "bean2Name",
+                          "fill": "#3C2415",
+                          "content": "グアテマラ アンティグア",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "3Qn9n",
+                          "name": "bean2Desc",
+                          "fill": "#6B5B4D",
+                          "content": "チョコレートのような甘みとコク",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "bk1WO",
+                          "name": "bean2Taste",
+                          "gap": 8,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "YApQE",
+                              "name": "taste3",
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 4,
+                              "padding": [
+                                4,
+                                8
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "y1wCL",
+                                  "name": "taste3Text",
+                                  "fill": "#8B5A2B",
+                                  "content": "ビター",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 11,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "H5bLy",
+                              "name": "taste4",
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 4,
+                              "padding": [
+                                4,
+                                8
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "OU7NI",
+                                  "name": "taste4Text",
+                                  "fill": "#8B5A2B",
+                                  "content": "ナッツ",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 11,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "wQnS7",
+                  "name": "bean3",
+                  "clip": true,
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "tK0dQ",
+                      "name": "bean3Img",
+                      "metadata": {
+                        "type": "unsplash",
+                        "username": "homniom_coffee",
+                        "link": "https://unsplash.com/@homniom_coffee",
+                        "author": "Homniom Coffee"
+                      },
+                      "width": "fill_container",
+                      "height": 160,
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/bean3.png",
+                        "mode": "fill"
+                      }
+                    },
+                    {
+                      "type": "frame",
+                      "id": "jbpah",
+                      "name": "bean3Content",
+                      "width": "fill_container",
+                      "fill": "#F5F2ED",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 16,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "0bNO4",
+                          "name": "bean3Tag",
+                          "fill": "#D4A574",
+                          "cornerRadius": 100,
+                          "padding": [
+                            4,
+                            10
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "Jcveo",
+                              "name": "bean3TagText",
+                              "fill": "#FFFFFF",
+                              "content": "浅煎り",
+                              "fontFamily": "Inter",
+                              "fontSize": 11,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "BZ5rQ",
+                          "name": "bean3Name",
+                          "fill": "#3C2415",
+                          "content": "ケニア AA",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "text",
+                          "id": "IwK5l",
+                          "name": "bean3Desc",
+                          "fill": "#6B5B4D",
+                          "content": "ベリー系の酸味と明るい後味",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Am9Ol",
+                          "name": "bean3Taste",
+                          "gap": 8,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "rPQEP",
+                              "name": "taste5",
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 4,
+                              "padding": [
+                                4,
+                                8
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "UAmFG",
+                                  "name": "taste5Text",
+                                  "fill": "#8B5A2B",
+                                  "content": "酸味",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 11,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "frame",
+                              "id": "7uXcU",
+                              "name": "taste6",
+                              "fill": "#FFFFFF",
+                              "cornerRadius": 4,
+                              "padding": [
+                                4,
+                                8
+                              ],
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "cZGxP",
+                                  "name": "taste6Text",
+                                  "fill": "#8B5A2B",
+                                  "content": "ベリー",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 11,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "sC54t",
+          "name": "Pricing Section",
+          "width": "fill_container",
+          "fill": "#3C2415",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            48,
+            24
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "szgZh",
+              "name": "pricingTitle",
+              "fill": "#FFFFFF",
+              "content": "シンプルな料金プラン",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "bold"
+            },
+            {
+              "type": "text",
+              "id": "rNSyp",
+              "name": "pricingSubtitle",
+              "fill": "#FFFFFFBB",
+              "content": "いつでも解約OK",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "e3TQS",
+              "name": "pricingCards",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "IrOl1",
+                  "name": "plan2",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": 20,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "OTGx1",
+                      "name": "plan2Badge",
+                      "fill": "#7D9B76",
+                      "cornerRadius": 100,
+                      "padding": [
+                        8,
+                        16
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "5ptBO",
+                          "name": "plan2BadgeText",
+                          "fill": "#FFFFFF",
+                          "content": "今だけ初月1,200円",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "bold"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "dtyNn",
+                      "name": "plan2Header",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "OpvyG",
+                          "name": "plan2Name",
+                          "fill": "#3C2415",
+                          "content": "月額プラン",
+                          "fontFamily": "Inter",
+                          "fontSize": 16,
+                          "fontWeight": "600"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "3FpaT",
+                          "name": "plan2Price",
+                          "gap": 4,
+                          "alignItems": "end",
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "m3hmb",
+                              "name": "plan2Yen",
+                              "fill": "#8B5A2B",
+                              "content": "¥",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "dMa6q",
+                              "name": "plan2Amount",
+                              "fill": "#8B5A2B",
+                              "content": "1,500",
+                              "fontFamily": "Inter",
+                              "fontSize": 32,
+                              "fontWeight": "bold"
+                            },
+                            {
+                              "type": "text",
+                              "id": "O2mOG",
+                              "name": "plan2Period",
+                              "fill": "#6B5B4D",
+                              "content": "/月",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "esepI",
+                          "name": "plan2Desc",
+                          "fill": "#6B5B4D",
+                          "content": "30g × 3種類 / 毎月届く",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "MLUdU",
+                      "name": "plan2Btn",
+                      "width": "fill_container",
+                      "fill": "#8B5A2B",
+                      "cornerRadius": 100,
+                      "padding": [
+                        14,
+                        0
+                      ],
+                      "justifyContent": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "kLZrf",
+                          "name": "plan2BtnText",
+                          "fill": "#FFFFFF",
+                          "content": "今すぐ始める",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "g6O54",
+                      "name": "features",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": [
+                        12,
+                        0,
+                        0,
+                        0
+                      ],
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "aQKvJ",
+                          "name": "feat1",
+                          "gap": 8,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "xS7Sq",
+                              "name": "icon1",
+                              "width": 16,
+                              "height": 16,
+                              "iconFontName": "check",
+                              "iconFontFamily": "lucide",
+                              "fill": "#7D9B76"
+                            },
+                            {
+                              "type": "text",
+                              "id": "CGWnv",
+                              "name": "text1",
+                              "fill": "#6B5B4D",
+                              "content": "毎月8種類の珈琲豆から3種類選べる",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "LNsel",
+                          "name": "feat2",
+                          "gap": 8,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "Wc9NZ",
+                              "name": "icon2",
+                              "width": 16,
+                              "height": 16,
+                              "iconFontName": "check",
+                              "iconFontFamily": "lucide",
+                              "fill": "#7D9B76"
+                            },
+                            {
+                              "type": "text",
+                              "id": "bC93R",
+                              "name": "text2",
+                              "fill": "#6B5B4D",
+                              "content": "送料無料でお届け",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "rIJhv",
+                          "name": "feat3",
+                          "gap": 8,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "yTRdt",
+                              "name": "icon3",
+                              "width": 16,
+                              "height": 16,
+                              "iconFontName": "check",
+                              "iconFontFamily": "lucide",
+                              "fill": "#7D9B76"
+                            },
+                            {
+                              "type": "text",
+                              "id": "YYd4i",
+                              "name": "text3",
+                              "fill": "#6B5B4D",
+                              "content": "いつでも解約・スキップOK",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "RlS3d",
+          "name": "Testimonials",
+          "clip": true,
+          "width": "fill_container",
+          "fill": "#FFFFFF",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            48,
+            0
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "WGLOs",
+              "name": "testimonialTitle",
+              "fill": "#3C2415",
+              "content": "お客様の声",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "bold"
+            },
+            {
+              "type": "frame",
+              "id": "Juzsf",
+              "name": "testimonialCards",
+              "gap": 12,
+              "padding": [
+                0,
+                24
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "X6qWy",
+                  "name": "test1",
+                  "width": 280,
+                  "fill": "#F5F2ED",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "8oxYR",
+                      "name": "test1Quote",
+                      "fill": "#3C2415",
+                      "textGrowth": "fixed-width",
+                      "width": 240,
+                      "content": "「毎月届く豆を選ぶのが楽しみ。解説カードのおかげでコーヒーの知識も増えました！」",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Gvcgs",
+                      "name": "test1User",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "BVRwE",
+                          "name": "test1Avatar",
+                          "metadata": {
+                            "type": "unsplash",
+                            "username": "silverkblack",
+                            "link": "https://unsplash.com/@silverkblack",
+                            "author": "Vitaly Gariev"
+                          },
+                          "clip": true,
+                          "width": 40,
+                          "height": 40,
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "./images/user1.png",
+                            "mode": "fill"
+                          },
+                          "cornerRadius": 100,
+                          "layout": "vertical",
+                          "justifyContent": "center",
+                          "alignItems": "center"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "C7WjI",
+                          "name": "test1Info",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "WPhAn",
+                              "name": "test1Name",
+                              "fill": "#3C2415",
+                              "content": "田中 美咲さん",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "TzIqW",
+                              "name": "test1Meta",
+                              "fill": "#6B5B4D",
+                              "content": "30代・会社員",
+                              "fontFamily": "Inter",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "aVy3m",
+                  "name": "test2",
+                  "width": 280,
+                  "fill": "#F5F2ED",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "EF40z",
+                      "name": "test2Quote",
+                      "fill": "#3C2415",
+                      "textGrowth": "fixed-width",
+                      "width": 240,
+                      "content": "「スーパーの豆とは比べものにならない香り。家族全員がコーヒー好きになりました」",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "ghFbr",
+                      "name": "test2User",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "f28WO",
+                          "name": "test2Avatar",
+                          "metadata": {
+                            "type": "unsplash",
+                            "username": "sinabahar76",
+                            "link": "https://unsplash.com/@sinabahar76",
+                            "author": "Sina Bahar"
+                          },
+                          "clip": true,
+                          "width": 40,
+                          "height": 40,
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "./images/user2.png",
+                            "mode": "fill"
+                          },
+                          "cornerRadius": 100,
+                          "layout": "vertical",
+                          "justifyContent": "center",
+                          "alignItems": "center"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "tLoEf",
+                          "name": "test2Info",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "5cq5Z",
+                              "name": "test2Name",
+                              "fill": "#3C2415",
+                              "content": "佐藤 健太さん",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "we676",
+                              "name": "test2Meta",
+                              "fill": "#6B5B4D",
+                              "content": "40代・自営業",
+                              "fontFamily": "Inter",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Ceo4T",
+                  "name": "test3",
+                  "width": 280,
+                  "fill": "#F5F2ED",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "GhpTf",
+                      "name": "test3Quote",
+                      "fill": "#3C2415",
+                      "textGrowth": "fixed-width",
+                      "width": 240,
+                      "content": "「コーヒー初心者でも安心。毎月届くカードで産地の知識が増えて、より深く味わえるようになりました」",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "bbz7W",
+                      "name": "test3User",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "eE37n",
+                          "name": "test3Avatar",
+                          "metadata": {
+                            "type": "unsplash",
+                            "username": "bernhardvisuals",
+                            "link": "https://unsplash.com/@bernhardvisuals",
+                            "author": "Tim Bernhard"
+                          },
+                          "clip": true,
+                          "width": 40,
+                          "height": 40,
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "./images/user3.png",
+                            "mode": "fill"
+                          },
+                          "cornerRadius": 100,
+                          "layout": "vertical",
+                          "justifyContent": "center",
+                          "alignItems": "center"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "YGc4m",
+                          "name": "test3Info",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "eoXVL",
+                              "name": "test3Name",
+                              "fill": "#3C2415",
+                              "content": "山本 あやかさん",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "S3gtJ",
+                              "name": "test3Meta",
+                              "fill": "#6B5B4D",
+                              "content": "20代・学生",
+                              "fontFamily": "Inter",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "MTuUU",
+                  "name": "test4",
+                  "width": 280,
+                  "fill": "#F5F2ED",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "TP2Cg",
+                      "name": "test4Quote",
+                      "fill": "#3C2415",
+                      "textGrowth": "fixed-width",
+                      "width": 240,
+                      "content": "「在宅勤務のお供に最高。毎朝の楽しみができて、仕事の効率も上がった気がします」",
+                      "lineHeight": 1.6,
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "p0J7e",
+                      "name": "test4User",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "8IONA",
+                          "name": "test4Avatar",
+                          "metadata": {
+                            "type": "unsplash",
+                            "username": "silverkblack",
+                            "link": "https://unsplash.com/@silverkblack",
+                            "author": "Vitaly Gariev"
+                          },
+                          "clip": true,
+                          "width": 40,
+                          "height": 40,
+                          "fill": {
+                            "type": "image",
+                            "enabled": true,
+                            "url": "./images/user4.png",
+                            "mode": "fill"
+                          },
+                          "cornerRadius": 100,
+                          "layout": "vertical",
+                          "justifyContent": "center",
+                          "alignItems": "center"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "LLAhD",
+                          "name": "test4Info",
+                          "layout": "vertical",
+                          "gap": 2,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "4BEHr",
+                              "name": "test4Name",
+                              "fill": "#3C2415",
+                              "content": "高橋 誠さん",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "text",
+                              "id": "ZVdrt",
+                              "name": "test4Meta",
+                              "fill": "#6B5B4D",
+                              "content": "30代・エンジニア",
+                              "fontFamily": "Inter",
+                              "fontSize": 11,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "i467M",
+              "name": "scrollIndicator",
+              "gap": 6,
+              "padding": [
+                16,
+                0,
+                0,
+                0
+              ],
+              "justifyContent": "center",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "tjyPP",
+                  "name": "dot1",
+                  "fill": "#8B5A2B",
+                  "width": 8,
+                  "height": 8
+                },
+                {
+                  "type": "ellipse",
+                  "id": "XJyxm",
+                  "name": "dot2",
+                  "fill": "#D9D4CE",
+                  "width": 8,
+                  "height": 8
+                },
+                {
+                  "type": "ellipse",
+                  "id": "1AwAU",
+                  "name": "dot3",
+                  "fill": "#D9D4CE",
+                  "width": 8,
+                  "height": 8
+                },
+                {
+                  "type": "ellipse",
+                  "id": "yB9gT",
+                  "name": "dot4",
+                  "fill": "#D9D4CE",
+                  "width": 8,
+                  "height": 8
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "sBeUy",
+          "name": "Partner Shops",
+          "width": "fill_container",
+          "fill": "#F5F2ED",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            48,
+            24
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "ELz7W",
+              "name": "shopsTitle",
+              "fill": "#3C2415",
+              "content": "参加ロースター",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 20,
+              "fontWeight": "bold"
+            },
+            {
+              "type": "text",
+              "id": "ukucM",
+              "name": "shopsSubtitle",
+              "fill": "#6B5B4D",
+              "content": "全国の厳選されたロースターが参加しています",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "cdNWq",
+              "name": "shopsGrid",
+              "width": "fill_container",
+              "gap": 16,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "m7RGu",
+                  "name": "shop1",
+                  "width": 72,
+                  "height": 72,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "KaB5R",
+                      "name": "shop1Icon",
+                      "width": 48,
+                      "height": 48,
+                      "fill": "#3C2415",
+                      "cornerRadius": 100,
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "iHK1q",
+                          "name": "shop1Text",
+                          "fill": "#FFFFFF",
+                          "content": "A",
+                          "fontFamily": "Inter",
+                          "fontSize": 20,
+                          "fontWeight": "bold"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "nSIzr",
+                  "name": "shop2",
+                  "width": 72,
+                  "height": 72,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "MdbbY",
+                      "name": "shop2Icon",
+                      "width": 48,
+                      "height": 48,
+                      "fill": "#8B5A2B",
+                      "cornerRadius": 100,
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "blPJH",
+                          "name": "shop2Text",
+                          "fill": "#FFFFFF",
+                          "content": "B",
+                          "fontFamily": "Inter",
+                          "fontSize": 20,
+                          "fontWeight": "bold"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "7Ggjr",
+                  "name": "shop3",
+                  "width": 72,
+                  "height": 72,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "vGy9C",
+                      "name": "shop3Icon",
+                      "width": 48,
+                      "height": 48,
+                      "fill": "#D4A574",
+                      "cornerRadius": 100,
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "uLtns",
+                          "name": "shop3Text",
+                          "fill": "#FFFFFF",
+                          "content": "C",
+                          "fontFamily": "Inter",
+                          "fontSize": 20,
+                          "fontWeight": "bold"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "uQOtF",
+                  "name": "shop4",
+                  "width": 72,
+                  "height": 72,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "YbMnQ",
+                      "name": "shop4Icon",
+                      "width": 48,
+                      "height": 48,
+                      "fill": "#7D9B76",
+                      "cornerRadius": 100,
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "TJaOR",
+                          "name": "shop4Text",
+                          "fill": "#FFFFFF",
+                          "content": "D",
+                          "fontFamily": "Inter",
+                          "fontSize": 20,
+                          "fontWeight": "bold"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "YP0b4",
+              "name": "shopsGrid2",
+              "width": "fill_container",
+              "gap": 16,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "OMSpo",
+                  "name": "shop5",
+                  "width": 72,
+                  "height": 72,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "AZ6Ea",
+                      "name": "shop5Icon",
+                      "width": 48,
+                      "height": 48,
+                      "fill": "#6B5B4D",
+                      "cornerRadius": 100,
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "QphNk",
+                          "name": "shop5Text",
+                          "fill": "#FFFFFF",
+                          "content": "E",
+                          "fontFamily": "Inter",
+                          "fontSize": 20,
+                          "fontWeight": "bold"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "7I1On",
+                  "name": "shop6",
+                  "width": 72,
+                  "height": 72,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "II9nY",
+                      "name": "shop6Icon",
+                      "width": 48,
+                      "height": 48,
+                      "fill": "#C9B8A5",
+                      "cornerRadius": 100,
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "OOHOn",
+                          "name": "shop6Text",
+                          "fill": "#FFFFFF",
+                          "content": "F",
+                          "fontFamily": "Inter",
+                          "fontSize": 20,
+                          "fontWeight": "bold"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "DMFQY",
+                  "name": "shop7",
+                  "width": 72,
+                  "height": 72,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "JTFUB",
+                      "name": "shop7Icon",
+                      "width": 48,
+                      "height": 48,
+                      "fill": "#B5A08A",
+                      "cornerRadius": 100,
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "QIQwF",
+                          "name": "shop7Text",
+                          "fill": "#FFFFFF",
+                          "content": "G",
+                          "fontFamily": "Inter",
+                          "fontSize": 20,
+                          "fontWeight": "bold"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "VAh2g",
+                  "name": "shop8",
+                  "width": 72,
+                  "height": 72,
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "hpJRP",
+                      "name": "shop8Icon",
+                      "width": 48,
+                      "height": 48,
+                      "fill": "#E8DDD0",
+                      "cornerRadius": 100,
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "B6JqL",
+                          "name": "shop8Text",
+                          "fill": "#3C2415",
+                          "content": "H",
+                          "fontFamily": "Inter",
+                          "fontSize": 20,
+                          "fontWeight": "bold"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "zIzqX",
+              "name": "moreText",
+              "fill": "#6B5B4D",
+              "content": "...他 20店舗以上",
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "D7RBE",
+          "name": "Final CTA",
+          "width": "fill_container",
+          "fill": "#F5F2ED",
+          "layout": "vertical",
+          "gap": 20,
+          "padding": [
+            56,
+            24
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "kYefb",
+              "name": "ctaTitle",
+              "fill": "#3C2415",
+              "textGrowth": "fixed-width",
+              "width": 300,
+              "content": "新しいコーヒー体験を\n始めませんか？",
+              "lineHeight": 1.4,
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 24,
+              "fontWeight": "bold"
+            },
+            {
+              "type": "text",
+              "id": "bBNoW",
+              "name": "ctaSubtitle",
+              "fill": "#6B5B4D",
+              "content": "今だけ初月1,200円・いつでも解約OK",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "eP6D0",
+              "name": "ctaBtn",
+              "fill": "#8B5A2B",
+              "cornerRadius": 100,
+              "gap": 8,
+              "padding": [
+                16,
+                48
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "1MNnv",
+                  "name": "ctaBtnText",
+                  "fill": "#FFFFFF",
+                  "content": "今すぐ始める",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "icon_font",
+                  "id": "sl81X",
+                  "name": "ctaBtnIcon",
+                  "width": 18,
+                  "height": 18,
+                  "iconFontName": "arrow-right",
+                  "iconFontFamily": "lucide",
+                  "fill": "#FFFFFF"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "HLaKu",
+          "name": "Footer",
+          "width": "fill_container",
+          "fill": "#3C2415",
+          "layout": "vertical",
+          "gap": 24,
+          "padding": [
+            32,
+            24
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "ehREG",
+              "name": "footerLogo",
+              "fill": "#FFFFFF",
+              "content": "豆図書",
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "bold"
+            },
+            {
+              "type": "frame",
+              "id": "8AHTP",
+              "name": "footerLinks",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "mG6eR",
+                  "name": "footerLink1",
+                  "fill": "#FFFFFFBB",
+                  "content": "会社概要",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "ljmAP",
+                  "name": "footerLink2",
+                  "fill": "#FFFFFFBB",
+                  "content": "利用規約",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "fj4NB",
+                  "name": "footerLink3",
+                  "fill": "#FFFFFFBB",
+                  "content": "お問い合わせ",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "normal"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "aWJS3",
+              "name": "footerCopy",
+              "fill": "#FFFFFF88",
+              "content": "© 2025 豆図書 All Rights Reserved.",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "U6cgE",
+      "x": 980,
+      "y": 0,
+      "name": "SP - Step1 豆選択",
+      "clip": true,
+      "width": 390,
+      "fill": "#F5F2ED",
+      "layout": "vertical",
+      "children": [
+        {
+          "id": "Ls0Ol",
+          "type": "ref",
+          "ref": "GTTgc",
+          "name": "beanHeader",
+          "width": "fill_container"
+        },
+        {
+          "id": "IChRd",
+          "type": "ref",
+          "ref": "4Euck",
+          "name": "beanStepIndicator",
+          "width": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "DvqKp",
+          "name": "beanContent",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            24,
+            20
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "dkBKw",
+              "name": "beanTitle",
+              "fill": "#3C2415",
+              "content": "希望する豆を4種類選んでください",
+              "fontFamily": "Inter",
+              "fontSize": 18,
+              "fontWeight": "bold"
+            },
+            {
+              "type": "frame",
+              "id": "OZty8",
+              "name": "selectedCounter",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 12,
+              "padding": 12,
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "9c6Pf",
+                  "name": "selectedLabel",
+                  "fill": "#6B5B4D",
+                  "content": "選択中",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "515Z5",
+                  "name": "selectedCount",
+                  "gap": 4,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "R5RAF",
+                      "name": "selectedNum",
+                      "fill": "#8B5A2B",
+                      "content": "3",
+                      "fontFamily": "Inter",
+                      "fontSize": 20,
+                      "fontWeight": "bold"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Mw8Nx",
+                      "name": "selectedSlash",
+                      "fill": "#6B5B4D",
+                      "content": "/ 4種類",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "rd0bF",
+              "name": "beanList",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "id": "lPFKS",
+                  "type": "ref",
+                  "ref": "CqBT6",
+                  "name": "bean1",
+                  "width": "fill_container",
+                  "stroke": {
+                    "thickness": 2,
+                    "fill": "#8B5A2B"
+                  },
+                  "descendants": {
+                    "Fdr1g": {
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/bean1.png",
+                        "mode": "fill"
+                      }
+                    },
+                    "oNOko/VQDX0": {
+                      "content": "人気No.1"
+                    },
+                    "46Dtu": {
+                      "content": "エチオピア イルガチェフェ"
+                    },
+                    "ShzKl": {
+                      "content": "フローラルな香りと柑橘系の酸味"
+                    },
+                    "BLSTm": {
+                      "fill": "#8B5A2B",
+                      "stroke": {
+                        "thickness": 2,
+                        "fill": "#8B5A2B"
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "iYSHa",
+                  "type": "ref",
+                  "ref": "CqBT6",
+                  "name": "bean2",
+                  "width": "fill_container",
+                  "stroke": {
+                    "thickness": 2,
+                    "fill": "#8B5A2B"
+                  },
+                  "descendants": {
+                    "Fdr1g": {
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/bean2.png",
+                        "mode": "fill"
+                      }
+                    },
+                    "oNOko": {
+                      "fill": "#7D9B76"
+                    },
+                    "oNOko/VQDX0": {
+                      "content": "定番"
+                    },
+                    "46Dtu": {
+                      "content": "グアテマラ アンティグア"
+                    },
+                    "ShzKl": {
+                      "content": "チョコレートのような甘みとコク"
+                    },
+                    "BLSTm": {
+                      "fill": "#8B5A2B",
+                      "stroke": {
+                        "thickness": 2,
+                        "fill": "#8B5A2B"
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "j0zGD",
+                  "type": "ref",
+                  "ref": "CqBT6",
+                  "name": "bean3",
+                  "width": "fill_container",
+                  "stroke": {
+                    "thickness": 2,
+                    "fill": "#8B5A2B"
+                  },
+                  "descendants": {
+                    "Fdr1g": {
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/bean3.png",
+                        "mode": "fill"
+                      }
+                    },
+                    "oNOko": {
+                      "fill": "#D4A574"
+                    },
+                    "oNOko/VQDX0": {
+                      "content": "おすすめ"
+                    },
+                    "46Dtu": {
+                      "content": "ケニア AA"
+                    },
+                    "ShzKl": {
+                      "content": "ベリー系の酸味と明るい後味"
+                    },
+                    "BLSTm": {
+                      "fill": "#8B5A2B",
+                      "stroke": {
+                        "thickness": 2,
+                        "fill": "#8B5A2B"
+                      }
+                    }
+                  }
+                },
+                {
+                  "id": "rbRQX",
+                  "type": "ref",
+                  "ref": "CqBT6",
+                  "name": "bean4",
+                  "width": "fill_container",
+                  "descendants": {
+                    "Fdr1g": {
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/bean4.png",
+                        "mode": "fill"
+                      }
+                    },
+                    "oNOko": {
+                      "fill": "#6B5B4D"
+                    },
+                    "oNOko/VQDX0": {
+                      "content": "限定"
+                    },
+                    "46Dtu": {
+                      "content": "コロンビア スプレモ"
+                    },
+                    "ShzKl": {
+                      "content": "バランスの取れたマイルドな味わい"
+                    }
+                  }
+                },
+                {
+                  "id": "JQKu9",
+                  "type": "ref",
+                  "ref": "CqBT6",
+                  "name": "bean5",
+                  "width": "fill_container",
+                  "descendants": {
+                    "Fdr1g": {
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/bean5.png",
+                        "mode": "fill"
+                      }
+                    },
+                    "oNOko/VQDX0": {
+                      "content": "定番"
+                    },
+                    "46Dtu": {
+                      "content": "ブラジル サントス"
+                    },
+                    "ShzKl": {
+                      "content": "ナッツのような香ばしさ"
+                    }
+                  }
+                },
+                {
+                  "id": "XgQNO",
+                  "type": "ref",
+                  "ref": "CqBT6",
+                  "name": "bean6",
+                  "width": "fill_container",
+                  "descendants": {
+                    "Fdr1g": {
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/bean6.png",
+                        "mode": "fill"
+                      }
+                    },
+                    "oNOko": {
+                      "fill": "#D4A574"
+                    },
+                    "oNOko/VQDX0": {
+                      "content": "定番"
+                    },
+                    "46Dtu": {
+                      "content": "マンデリン スマトラ"
+                    },
+                    "ShzKl": {
+                      "content": "深いコクとハーブの余韻"
+                    }
+                  }
+                },
+                {
+                  "id": "cm0Ll",
+                  "type": "ref",
+                  "ref": "CqBT6",
+                  "name": "bean7",
+                  "width": "fill_container",
+                  "descendants": {
+                    "Fdr1g": {
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/bean7.png",
+                        "mode": "fill"
+                      }
+                    },
+                    "oNOko": {
+                      "fill": "#7D9B76"
+                    },
+                    "oNOko/VQDX0": {
+                      "content": "季節限定"
+                    },
+                    "46Dtu": {
+                      "content": "タンザニア キリマンジャロ"
+                    },
+                    "ShzKl": {
+                      "content": "柑橘系の爽やかな酸味"
+                    }
+                  }
+                },
+                {
+                  "id": "duT1r",
+                  "type": "ref",
+                  "ref": "CqBT6",
+                  "name": "bean8",
+                  "width": "fill_container",
+                  "descendants": {
+                    "Fdr1g": {
+                      "fill": {
+                        "type": "image",
+                        "enabled": true,
+                        "url": "./images/bean8.png",
+                        "mode": "fill"
+                      }
+                    },
+                    "oNOko/VQDX0": {
+                      "content": "人気"
+                    },
+                    "46Dtu": {
+                      "content": "コスタリカ タラス"
+                    },
+                    "ShzKl": {
+                      "content": "はちみつのような甘みと透明感"
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "cAFg8",
+          "type": "ref",
+          "ref": "ZrEy8",
+          "name": "beanFooter",
+          "width": "fill_container",
+          "descendants": {
+            "5CGfD": {
+              "content": "選択した豆"
+            },
+            "S6sp3": {
+              "content": "3 / 4種類"
+            },
+            "T4Jol": {
+              "content": "利用規約に同意してアカウント登録に進む",
+              "fontSize": 14
+            },
+            "nemBN": {
+              "enabled": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "PqRaj",
+      "x": 490,
+      "y": 0,
+      "name": "SP - Step1 プラン選択",
+      "clip": true,
+      "width": 390,
+      "fill": "#F5F2ED",
+      "layout": "vertical",
+      "children": [
+        {
+          "id": "iJbDI",
+          "type": "ref",
+          "ref": "GTTgc",
+          "name": "planHeader",
+          "width": "fill_container"
+        },
+        {
+          "id": "68tVm",
+          "type": "ref",
+          "ref": "4Euck",
+          "name": "stepIndicator",
+          "width": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "7J2qP",
+          "name": "planContent",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 16,
+          "padding": [
+            24,
+            20
+          ],
+          "children": [
+            {
+              "type": "text",
+              "id": "FO9Xi",
+              "name": "planTitle",
+              "fill": "#3C2415",
+              "content": "プランを選択してください",
+              "fontFamily": "Inter",
+              "fontSize": 20,
+              "fontWeight": "bold"
+            },
+            {
+              "type": "text",
+              "id": "vJUnL",
+              "name": "planDesc",
+              "fill": "#6B5B4D",
+              "content": "いつでも変更・解約OK。送料無料でお届けします。",
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "f3MRy",
+              "name": "planCards",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 12,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "7vsD3",
+                  "name": "planCard",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "thickness": 2,
+                    "fill": "#8B5A2B"
+                  },
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "izmOT",
+                      "name": "planBadge",
+                      "fill": "#8B5A2B",
+                      "cornerRadius": 100,
+                      "padding": [
+                        4,
+                        10
+                      ],
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Cby7T",
+                          "name": "badgeText",
+                          "fill": "#FFFFFF",
+                          "content": "人気No.1",
+                          "fontFamily": "Inter",
+                          "fontSize": 11,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "qLBKz",
+                      "name": "planTop",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "8xSDZ",
+                          "name": "planInfo",
+                          "layout": "vertical",
+                          "gap": 4,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "ONNqN",
+                              "name": "planName",
+                              "fill": "#3C2415",
+                              "content": "月額プラン",
+                              "fontFamily": "Inter",
+                              "fontSize": 16,
+                              "fontWeight": "600"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "dCNDb",
+                              "name": "planPrice",
+                              "gap": 4,
+                              "alignItems": "end",
+                              "children": [
+                                {
+                                  "type": "text",
+                                  "id": "aY4zU",
+                                  "name": "planYen",
+                                  "fill": "#8B5A2B",
+                                  "content": "¥",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 16,
+                                  "fontWeight": "600"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "uj4aC",
+                                  "name": "planAmount",
+                                  "fill": "#8B5A2B",
+                                  "content": "1,500",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 24,
+                                  "fontWeight": "bold"
+                                },
+                                {
+                                  "type": "text",
+                                  "id": "EDaDR",
+                                  "name": "planPeriod",
+                                  "fill": "#6B5B4D",
+                                  "content": "/月",
+                                  "fontFamily": "Inter",
+                                  "fontSize": 14,
+                                  "fontWeight": "normal"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "text",
+                              "id": "GTaVQ",
+                              "name": "planQty",
+                              "fill": "#6B5B4D",
+                              "content": "30g × 3種類 / 毎月届く",
+                              "fontFamily": "Inter",
+                              "fontSize": 13,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "oieAd",
+                          "name": "planRadio",
+                          "width": 24,
+                          "height": 24,
+                          "fill": "#8B5A2B",
+                          "cornerRadius": 100,
+                          "layout": "vertical",
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "YtP90",
+                              "name": "radioInner",
+                              "width": 16,
+                              "height": 16,
+                              "iconFontName": "check",
+                              "iconFontFamily": "lucide",
+                              "fill": "#FFFFFF"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "wmgoJ",
+              "name": "discountBanner",
+              "width": "fill_container",
+              "fill": "#FFF8E7",
+              "cornerRadius": 12,
+              "gap": 12,
+              "padding": 16,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "9dbHt",
+                  "name": "discountIcon",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "#D4A574",
+                  "cornerRadius": 100,
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "VYMlt",
+                      "name": "discountIconInner",
+                      "width": 20,
+                      "height": 20,
+                      "iconFontName": "percent",
+                      "iconFontFamily": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "nol7Z",
+                  "name": "discountText",
+                  "layout": "vertical",
+                  "gap": 2,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "pWh5u",
+                      "name": "discountTitle",
+                      "fill": "#3C2415",
+                      "content": "今だけ初月1,200円!",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "blo3O",
+                      "name": "discountDesc",
+                      "fill": "#6B5B4D",
+                      "content": "通常1,500円が初月1,200円になります",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "0GqQl",
+          "type": "ref",
+          "ref": "ZrEy8",
+          "name": "planFooter",
+          "width": "fill_container",
+          "descendants": {
+            "5CGfD": {
+              "content": "初月お支払い（税込）"
+            },
+            "S6sp3": {
+              "content": "¥1,200"
+            },
+            "T4Jol": {
+              "content": "豆を選ぶ"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "ytWJw",
+      "x": 1470,
+      "y": 0,
+      "name": "SP - 豆詳細",
+      "clip": true,
+      "width": 390,
+      "fill": "#F5F2ED",
+      "layout": "vertical",
+      "children": [
+        {
+          "id": "WvPw2",
+          "type": "ref",
+          "ref": "GTTgc",
+          "name": "detailHeader",
+          "width": "fill_container"
+        },
+        {
+          "type": "frame",
+          "id": "eT2nr",
+          "name": "beanHeroImg",
+          "metadata": {
+            "type": "unsplash",
+            "username": "byadoniaa",
+            "link": "https://unsplash.com/@byadoniaa",
+            "author": "Pars Sahin"
+          },
+          "width": "fill_container",
+          "height": 280,
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "./images/bean1.png",
+            "mode": "fill"
+          }
+        },
+        {
+          "type": "frame",
+          "id": "6dsdD",
+          "name": "detailContent",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 20,
+          "padding": [
+            24,
+            20
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "4AHQe",
+              "name": "titleRow",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Zkk29",
+                  "name": "beanName",
+                  "fill": "#3C2415",
+                  "content": "エチオピア イルガチェフェ",
+                  "fontFamily": "Inter",
+                  "fontSize": 22,
+                  "fontWeight": "bold"
+                },
+                {
+                  "type": "frame",
+                  "id": "EIgWH",
+                  "name": "tag",
+                  "fill": "#8B5A2B",
+                  "cornerRadius": 100,
+                  "padding": [
+                    6,
+                    12
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Hnh30",
+                      "name": "tagText",
+                      "fill": "#FFFFFF",
+                      "content": "人気No.1",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "oLF9v",
+              "name": "desc",
+              "fill": "#6B5B4D",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "フローラルな香りと柑橘系の酸味が特徴。エチオピア南部のイルガチェフェ地区で栽培される、世界でも最高品質のアラビカ種です。",
+              "lineHeight": 1.7,
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            },
+            {
+              "id": "tpCmy",
+              "type": "ref",
+              "ref": "bZjMU",
+              "name": "infoCard",
+              "width": "fill_container",
+              "descendants": {
+                "8v7Do": {
+                  "content": "エチオピア イルガチェフェ地区"
+                },
+                "mi81W": {
+                  "content": "焦煎度"
+                },
+                "ZRZdi": {
+                  "content": "中煎り"
+                },
+                "HwtIU": {
+                  "content": "ウォッシュド"
+                },
+                "9Uiz8": {
+                  "content": "LIGHT UP COFFEE"
+                }
+              }
+            },
+            {
+              "id": "7OjfM",
+              "type": "ref",
+              "ref": "Q7S3x",
+              "name": "tasteCard",
+              "width": "fill_container"
+            }
+          ]
+        },
+        {
+          "id": "BSq87",
+          "type": "ref",
+          "ref": "ZrEy8",
+          "name": "detailFooter",
+          "width": "fill_container",
+          "descendants": {
+            "4KnZ3": {
+              "enabled": false
+            },
+            "T4Jol": {
+              "content": "この豆を選ぶ"
+            },
+            "nemBN": {
+              "iconFontName": "plus"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Yq9mU",
+      "x": 1960,
+      "y": 0,
+      "name": "SP - 豆詳細モーダル",
+      "clip": true,
+      "width": 390,
+      "height": 844,
+      "fill": "#00000066",
+      "layout": "vertical",
+      "padding": [
+        0,
+        20
+      ],
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "QHDZf",
+          "name": "modalDialog",
+          "clip": true,
+          "width": "fill_container",
+          "height": 760,
+          "fill": "#FFFFFF",
+          "cornerRadius": 20,
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "lCpgU",
+              "name": "dialogHeader",
+              "width": "fill_container",
+              "padding": [
+                16,
+                20
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "gam2n",
+                  "name": "title",
+                  "fill": "#3C2415",
+                  "content": "豆の詳細",
+                  "fontFamily": "Inter",
+                  "fontSize": 18,
+                  "fontWeight": "bold"
+                },
+                {
+                  "type": "frame",
+                  "id": "epwZA",
+                  "name": "closeBtn",
+                  "width": 32,
+                  "height": 32,
+                  "fill": "#F5F2ED",
+                  "cornerRadius": 100,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "af6Ev",
+                      "name": "closeIcon",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "x",
+                      "iconFontFamily": "lucide",
+                      "fill": "#3C2415"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "3A8fm",
+              "name": "dialogBody",
+              "clip": true,
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "padding": [
+                0,
+                20,
+                20,
+                20
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "hBcqS",
+                  "name": "dialogHeroImg",
+                  "metadata": {
+                    "type": "unsplash",
+                    "username": "khoiruabdan",
+                    "link": "https://unsplash.com/@khoiruabdan",
+                    "author": "Khoiru Abdan"
+                  },
+                  "width": "fill_container",
+                  "height": 140,
+                  "fill": {
+                    "type": "image",
+                    "enabled": true,
+                    "url": "./images/bean1.png",
+                    "mode": "fill"
+                  },
+                  "cornerRadius": 12
+                },
+                {
+                  "type": "frame",
+                  "id": "6Piju",
+                  "name": "dialogTitleRow",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "8fJtB",
+                      "name": "beanName",
+                      "fill": "#3C2415",
+                      "content": "エチオピア イルガチェフェ",
+                      "fontFamily": "Inter",
+                      "fontSize": 18,
+                      "fontWeight": "bold"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "1FR60",
+                      "name": "tag",
+                      "fill": "#8B5A2B",
+                      "cornerRadius": 100,
+                      "padding": [
+                        4,
+                        10
+                      ],
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "mfN9X",
+                          "name": "tagText",
+                          "fill": "#FFFFFF",
+                          "content": "人気No.1",
+                          "fontFamily": "Inter",
+                          "fontSize": 10,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "3SnGe",
+                  "name": "desc",
+                  "fill": "#6B5B4D",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "フローラルな香りと柑橘系の酸味が特徴。エチオピア南部のイルガチェフェ地区で栽培される、世界でも最高品質のアラビカ種です。",
+                  "lineHeight": 1.7,
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "rectangle",
+                  "id": "Lrknl",
+                  "name": "sep1",
+                  "fill": "#E8E4DF",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "type": "frame",
+                  "id": "ep3gi",
+                  "name": "dialogInfoGrid",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "u6Auf",
+                      "name": "row1",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Qd5QE",
+                          "name": "r1l",
+                          "fill": "#6B5B4D",
+                          "content": "産地",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Fz9pg",
+                          "name": "r1v",
+                          "fill": "#3C2415",
+                          "content": "エチオピア イルガチェフェ地区",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "qoVmh",
+                      "name": "row2",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "siwqf",
+                          "name": "r2l",
+                          "fill": "#6B5B4D",
+                          "content": "焙煎度",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "DZ7pz",
+                          "name": "r2v",
+                          "fill": "#3C2415",
+                          "content": "中煎り",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "CmwTM",
+                      "name": "row3",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "QdJFM",
+                          "name": "r3l",
+                          "fill": "#6B5B4D",
+                          "content": "精製方法",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "pPcrQ",
+                          "name": "r3v",
+                          "fill": "#3C2415",
+                          "content": "ウォッシュド",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "yOn0k",
+                      "name": "row4",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "33RRp",
+                          "name": "r4l",
+                          "fill": "#6B5B4D",
+                          "content": "提供ロースター",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "JrLKb",
+                          "name": "r4v",
+                          "fill": "#3C2415",
+                          "content": "LIGHT UP COFFEE",
+                          "fontFamily": "Inter",
+                          "fontSize": 13,
+                          "fontWeight": "600"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "rectangle",
+                  "id": "SA9Jw",
+                  "name": "sep2",
+                  "fill": "#E8E4DF",
+                  "width": "fill_container",
+                  "height": 1
+                },
+                {
+                  "type": "text",
+                  "id": "KFIwj",
+                  "name": "tasteTitle",
+                  "fill": "#3C2415",
+                  "content": "テイストプロファイル",
+                  "fontFamily": "Inter",
+                  "fontSize": 15,
+                  "fontWeight": "bold"
+                },
+                {
+                  "type": "frame",
+                  "id": "LlDO1",
+                  "name": "tasteGrid",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "vDMw4",
+                      "name": "t1",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "MwndA",
+                          "name": "t1l",
+                          "fill": "#6B5B4D",
+                          "content": "酸味",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "SkCts",
+                          "name": "t1bg",
+                          "width": "fill_container",
+                          "height": 6,
+                          "fill": "#E8E4DF",
+                          "cornerRadius": 3,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 3,
+                              "id": "sVnc6",
+                              "x": 0,
+                              "y": 0,
+                              "name": "t1bar",
+                              "fill": "#8B5A2B",
+                              "width": 248,
+                              "height": 6
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "GsIDO",
+                      "name": "t2",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "dn0BT",
+                          "name": "t2l",
+                          "fill": "#6B5B4D",
+                          "content": "苦味",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "g8Yqn",
+                          "name": "t2bg",
+                          "width": "fill_container",
+                          "height": 6,
+                          "fill": "#E8E4DF",
+                          "cornerRadius": 3,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 3,
+                              "id": "S7GHh",
+                              "x": 0,
+                              "y": 0,
+                              "name": "t2bar",
+                              "fill": "#8B5A2B",
+                              "width": 93,
+                              "height": 6
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "0Nrlz",
+                      "name": "t3",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "kTJNd",
+                          "name": "t3l",
+                          "fill": "#6B5B4D",
+                          "content": "コク",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "jq7lW",
+                          "name": "t3bg",
+                          "width": "fill_container",
+                          "height": 6,
+                          "fill": "#E8E4DF",
+                          "cornerRadius": 3,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 3,
+                              "id": "6EdF9",
+                              "x": 0,
+                              "y": 0,
+                              "name": "t3bar",
+                              "fill": "#8B5A2B",
+                              "width": 155,
+                              "height": 6
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "yFguO",
+                      "name": "t4",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "ZR5Ws",
+                          "name": "t4l",
+                          "fill": "#6B5B4D",
+                          "content": "香り",
+                          "fontFamily": "Inter",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "uEpMU",
+                          "name": "t4bg",
+                          "width": "fill_container",
+                          "height": 6,
+                          "fill": "#E8E4DF",
+                          "cornerRadius": 3,
+                          "layout": "none",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 3,
+                              "id": "EBf2W",
+                              "x": 0,
+                              "y": 0,
+                              "name": "t4bar",
+                              "fill": "#8B5A2B",
+                              "width": 279,
+                              "height": 6
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "VvgxR",
+              "name": "dialogFooter",
+              "width": "fill_container",
+              "fill": "#FFFFFF",
+              "stroke": {
+                "thickness": {
+                  "top": 1
+                },
+                "fill": "#E8E4DF"
+              },
+              "layout": "vertical",
+              "padding": [
+                16,
+                20,
+                24,
+                20
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "BqcMp",
+                  "name": "dialogSelectBtn",
+                  "width": "fill_container",
+                  "fill": "#8B5A2B",
+                  "cornerRadius": 100,
+                  "gap": 8,
+                  "padding": [
+                    14,
+                    0
+                  ],
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "DX5wY",
+                      "name": "btnText",
+                      "fill": "#FFFFFF",
+                      "content": "この豆を選ぶ",
+                      "fontFamily": "Inter",
+                      "fontSize": 15,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "icon_font",
+                      "id": "DPlxX",
+                      "name": "btnIcon",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "plus",
+                      "iconFontFamily": "lucide",
+                      "fill": "#FFFFFF"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "GTTgc",
+      "x": 0,
+      "y": 5000,
+      "name": "AppHeader",
+      "reusable": true,
+      "width": 390,
+      "height": 56,
+      "fill": "#FFFFFF",
+      "padding": [
+        0,
+        20
+      ],
+      "justifyContent": "space_between",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "icon_font",
+          "id": "iOMuY",
+          "name": "leftIcon",
+          "width": 24,
+          "height": 24,
+          "iconFontName": "chevron-left",
+          "iconFontFamily": "lucide",
+          "fill": "#3C2415"
+        },
+        {
+          "type": "frame",
+          "id": "ftevt",
+          "name": "logo",
+          "width": 80,
+          "height": 26,
+          "fill": {
+            "type": "image",
+            "enabled": true,
+            "url": "./images/logo.png",
+            "mode": "fit"
+          }
+        },
+        {
+          "type": "frame",
+          "id": "DHJLY",
+          "name": "rightIcon",
+          "width": 24,
+          "height": 24
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "4Euck",
+      "x": 490,
+      "y": 5000,
+      "name": "StepIndicator",
+      "reusable": true,
+      "width": 390,
+      "fill": "#FFFFFF",
+      "gap": 8,
+      "padding": [
+        16,
+        24
+      ],
+      "justifyContent": "center",
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "k0poM",
+          "name": "step1",
+          "layout": "vertical",
+          "gap": 6,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "knp53",
+              "name": "step1Dot",
+              "width": 32,
+              "height": 32,
+              "fill": "#8B5A2B",
+              "cornerRadius": 100,
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "2vaAr",
+                  "name": "step1Num",
+                  "fill": "#FFFFFF",
+                  "content": "1",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "6tFRl",
+              "name": "step1Label",
+              "fill": "#8B5A2B",
+              "content": "プラン",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "ZAgky",
+          "name": "line1",
+          "fill": "#D9D4CE",
+          "width": 40,
+          "height": 2
+        },
+        {
+          "type": "frame",
+          "id": "ckFJi",
+          "name": "step2",
+          "layout": "vertical",
+          "gap": 6,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "EnR6H",
+              "name": "step2Dot",
+              "width": 32,
+              "height": 32,
+              "fill": "#D9D4CE",
+              "cornerRadius": 100,
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "YhxFo",
+                  "name": "step2Num",
+                  "fill": "#6B5B4D",
+                  "content": "2",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "izkaC",
+              "name": "step2Label",
+              "fill": "#6B5B4D",
+              "content": "豆を選ぶ",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "rectangle",
+          "id": "edLyD",
+          "name": "line2",
+          "fill": "#D9D4CE",
+          "width": 40,
+          "height": 2
+        },
+        {
+          "type": "frame",
+          "id": "C4Mlw",
+          "name": "step3",
+          "layout": "vertical",
+          "gap": 6,
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "LLGgk",
+              "name": "step3Dot",
+              "width": 32,
+              "height": 32,
+              "fill": "#D9D4CE",
+              "cornerRadius": 100,
+              "layout": "vertical",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "7iGg5",
+                  "name": "step3Num",
+                  "fill": "#6B5B4D",
+                  "content": "3",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "YnFlI",
+              "name": "step3Label",
+              "fill": "#6B5B4D",
+              "content": "登録",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "HPJ52",
+      "x": 980,
+      "y": 5000,
+      "name": "TagBadge",
+      "reusable": true,
+      "fill": "#8B5A2B",
+      "cornerRadius": 100,
+      "padding": [
+        2,
+        8
+      ],
+      "children": [
+        {
+          "type": "text",
+          "id": "VQDX0",
+          "name": "label",
+          "fill": "#FFFFFF",
+          "content": "人気No.1",
+          "fontFamily": "Inter",
+          "fontSize": 10,
+          "fontWeight": "600"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "CqBT6",
+      "x": 980,
+      "y": 5050,
+      "name": "BeanCard",
+      "reusable": true,
+      "width": 390,
+      "fill": "#FFFFFF",
+      "cornerRadius": 12,
+      "stroke": {
+        "thickness": 2,
+        "fill": "#D9D4CE"
+      },
+      "gap": 12,
+      "padding": 12,
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "frame",
+          "id": "Fdr1g",
+          "name": "beanImg",
+          "width": 72,
+          "height": 72,
+          "fill": "#D9D4CE",
+          "cornerRadius": 8
+        },
+        {
+          "type": "frame",
+          "id": "rcRul",
+          "name": "beanInfo",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 4,
+          "children": [
+            {
+              "id": "oNOko",
+              "type": "ref",
+              "ref": "HPJ52",
+              "name": "tag"
+            },
+            {
+              "type": "text",
+              "id": "46Dtu",
+              "name": "beanName",
+              "fill": "#3C2415",
+              "content": "豆名",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "ShzKl",
+              "name": "beanDesc",
+              "fill": "#6B5B4D",
+              "content": "説明文",
+              "fontFamily": "Inter",
+              "fontSize": 11,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "frame",
+              "id": "581C8",
+              "name": "detailLink",
+              "gap": 4,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "x2pSS",
+                  "name": "detailLinkText",
+                  "fill": "#8B5A2B",
+                  "content": "詳細を見る",
+                  "fontFamily": "Inter",
+                  "fontSize": 11,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "BLSTm",
+          "name": "checkMark",
+          "width": 28,
+          "height": 28,
+          "fill": "transparent",
+          "cornerRadius": 100,
+          "stroke": {
+            "thickness": 2,
+            "fill": "#D9D4CE"
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "ZrEy8",
+      "x": 0,
+      "y": 5150,
+      "name": "CTAFooter",
+      "reusable": true,
+      "width": 390,
+      "fill": "#FFFFFF",
+      "layout": "vertical",
+      "gap": 12,
+      "padding": [
+        16,
+        20,
+        32,
+        20
+      ],
+      "children": [
+        {
+          "type": "frame",
+          "id": "4KnZ3",
+          "name": "summaryRow",
+          "width": "fill_container",
+          "justifyContent": "space_between",
+          "children": [
+            {
+              "type": "text",
+              "id": "5CGfD",
+              "name": "summaryLabel",
+              "fill": "#6B5B4D",
+              "content": "サマリー",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "S6sp3",
+              "name": "summaryValue",
+              "fill": "#8B5A2B",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "600"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "HmYz7",
+          "name": "ctaButton",
+          "width": "fill_container",
+          "fill": "#8B5A2B",
+          "cornerRadius": 100,
+          "gap": 8,
+          "padding": [
+            16,
+            0
+          ],
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "T4Jol",
+              "name": "ctaText",
+              "fill": "#FFFFFF",
+              "content": "次へ進む",
+              "fontFamily": "Inter",
+              "fontSize": 16,
+              "fontWeight": "600"
+            },
+            {
+              "type": "icon_font",
+              "id": "nemBN",
+              "name": "ctaIcon",
+              "width": 18,
+              "height": 18,
+              "iconFontName": "arrow-right",
+              "iconFontFamily": "lucide",
+              "fill": "#FFFFFF"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "vyTUf",
+          "name": "loginLink",
+          "width": "fill_container",
+          "gap": 4,
+          "padding": [
+            8,
+            0,
+            0,
+            0
+          ],
+          "justifyContent": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "hAKYC",
+              "name": "loginText",
+              "fill": "#6B5B4D",
+              "content": "すでにアカウントをお持ちの方は",
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "normal"
+            },
+            {
+              "type": "text",
+              "id": "To01m",
+              "name": "loginAction",
+              "fill": "#8B5A2B",
+              "content": "ログイン",
+              "fontFamily": "Inter",
+              "fontSize": 13,
+              "fontWeight": "600"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "bZjMU",
+      "x": 490,
+      "y": 5150,
+      "name": "InfoCard",
+      "reusable": true,
+      "width": 390,
+      "fill": "#FFFFFF",
+      "cornerRadius": 16,
+      "layout": "vertical",
+      "gap": 16,
+      "padding": 20,
+      "children": [
+        {
+          "type": "text",
+          "id": "rVlVN",
+          "name": "cardTitle",
+          "fill": "#3C2415",
+          "content": "豆の情報",
+          "fontFamily": "Inter",
+          "fontSize": 16,
+          "fontWeight": "bold"
+        },
+        {
+          "type": "frame",
+          "id": "y0vTW",
+          "name": "infoGrid",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "children": [
+            {
+              "type": "frame",
+              "id": "Nnixt",
+              "name": "row1",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "gOlpX",
+                  "name": "row1Label",
+                  "fill": "#6B5B4D",
+                  "content": "産地",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "8v7Do",
+                  "name": "row1Value",
+                  "fill": "#3C2415",
+                  "content": "-",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "7clRT",
+              "name": "row2",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "mi81W",
+                  "name": "row2Label",
+                  "fill": "#6B5B4D",
+                  "content": "焦煎度",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "ZRZdi",
+                  "name": "row2Value",
+                  "fill": "#3C2415",
+                  "content": "-",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "XSTWQ",
+              "name": "row3",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "guJ7m",
+                  "name": "row3Label",
+                  "fill": "#6B5B4D",
+                  "content": "精製方法",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "HwtIU",
+                  "name": "row3Value",
+                  "fill": "#3C2415",
+                  "content": "-",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "7IxFu",
+              "name": "row4",
+              "width": "fill_container",
+              "justifyContent": "space_between",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "R8r0l",
+                  "name": "row4Label",
+                  "fill": "#6B5B4D",
+                  "content": "提供ロースター",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "text",
+                  "id": "9Uiz8",
+                  "name": "row4Value",
+                  "fill": "#3C2415",
+                  "content": "-",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Q7S3x",
+      "x": 980,
+      "y": 5150,
+      "name": "TasteProfile",
+      "reusable": true,
+      "width": 390,
+      "fill": "#FFFFFF",
+      "cornerRadius": 16,
+      "layout": "vertical",
+      "gap": 16,
+      "padding": 20,
+      "children": [
+        {
+          "type": "text",
+          "id": "etcoc",
+          "name": "tasteTitle",
+          "fill": "#3C2415",
+          "content": "テイストプロファイル",
+          "fontFamily": "Inter",
+          "fontSize": 16,
+          "fontWeight": "bold"
+        },
+        {
+          "type": "frame",
+          "id": "fDg3f",
+          "name": "tasteGrid",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 12,
+          "children": [
+            {
+              "type": "frame",
+              "id": "JvlSY",
+              "name": "taste1",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 6,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "xz5cr",
+                  "name": "taste1Label",
+                  "fill": "#6B5B4D",
+                  "content": "酸味",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "ZADLo",
+                  "name": "taste1BarBg",
+                  "width": "fill_container",
+                  "height": 8,
+                  "fill": "#E8E4DF",
+                  "cornerRadius": 4,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "paKTO",
+                      "name": "taste1BarFill",
+                      "width": 200,
+                      "height": 8,
+                      "fill": "#8B5A2B",
+                      "cornerRadius": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "y4RJD",
+              "name": "taste2",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 6,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "CV8G0",
+                  "name": "taste2Label",
+                  "fill": "#6B5B4D",
+                  "content": "苦味",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "kspQf",
+                  "name": "taste2BarBg",
+                  "width": "fill_container",
+                  "height": 8,
+                  "fill": "#E8E4DF",
+                  "cornerRadius": 4,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Cq6wR",
+                      "name": "taste2BarFill",
+                      "width": 100,
+                      "height": 8,
+                      "fill": "#8B5A2B",
+                      "cornerRadius": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "XqLhB",
+              "name": "taste3",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 6,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "GvKaf",
+                  "name": "taste3Label",
+                  "fill": "#6B5B4D",
+                  "content": "コク",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "sMmM3",
+                  "name": "taste3BarBg",
+                  "width": "fill_container",
+                  "height": 8,
+                  "fill": "#E8E4DF",
+                  "cornerRadius": 4,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "CeaIx",
+                      "name": "taste3BarFill",
+                      "width": 120,
+                      "height": 8,
+                      "fill": "#8B5A2B",
+                      "cornerRadius": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "8p20i",
+              "name": "taste4",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 6,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "CH49j",
+                  "name": "taste4Label",
+                  "fill": "#6B5B4D",
+                  "content": "香り",
+                  "fontFamily": "Inter",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "sH2T9",
+                  "name": "taste4BarBg",
+                  "width": "fill_container",
+                  "height": 8,
+                  "fill": "#E8E4DF",
+                  "cornerRadius": 4,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "VU0vu",
+                      "name": "taste4BarFill",
+                      "width": 250,
+                      "height": 8,
+                      "fill": "#8B5A2B",
+                      "cornerRadius": 4
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "57AXo",
+      "x": 0,
+      "y": -50,
+      "name": "sectionLabel_screens",
+      "fill": "#999999",
+      "content": "Screens",
+      "fontFamily": "Inter",
+      "fontSize": 24,
+      "fontWeight": "bold"
+    },
+    {
+      "type": "text",
+      "id": "5IBF1",
+      "x": 0,
+      "y": 4950,
+      "name": "sectionLabel_components",
+      "fill": "#999999",
+      "content": "Components",
+      "fontFamily": "Inter",
+      "fontSize": 24,
+      "fontWeight": "bold"
+    }
+  ]
+}

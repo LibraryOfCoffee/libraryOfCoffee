@@ -1,0 +1,32 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 20px;
+  background: var(--color-white);
+}
+
+.back {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text);
+  padding: 0;
+}
+
+.logo {
+  height: 26px;
+  width: auto;
+  object-fit: contain;
+}
+
+.spacer {
+  width: 24px;
+  height: 24px;
+}

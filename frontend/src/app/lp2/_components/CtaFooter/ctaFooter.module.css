@@ -1,0 +1,100 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 20px 32px;
+  background: var(--color-white);
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.summary {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.summaryLabel {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  font-family: var(--font-base);
+}
+
+.summaryValue {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-brown);
+  font-family: var(--font-base);
+}
+
+.priceOld {
+  font-size: 13px;
+  font-weight: normal;
+  color: var(--color-text-secondary);
+  text-decoration: line-through;
+}
+
+.priceNew {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--color-brown);
+}
+
+.subText {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  text-align: center;
+  font-family: var(--font-base);
+  margin-bottom: -8px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 0;
+  background: var(--color-brown);
+  color: var(--color-white);
+  border: none;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-base);
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.login {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  padding-top: 8px;
+  width: 100%;
+}
+
+.loginText {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  font-family: var(--font-base);
+}
+
+.loginAction {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-brown);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: var(--font-base);
+}

@@ -1,0 +1,57 @@
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  font-family: var(--font-base);
+  background: var(--color-bg);
+  overflow-x: hidden;
+}
+
+.containerStep {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  overflow-x: visible;
+}
+
+.section {
+  padding: 48px 24px;
+}
+
+.sectionTitle {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--color-text);
+  text-align: center;
+  margin: 0 0 8px;
+}
+
+.sectionSubtitle {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin: 0 0 32px;
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-brown);
+  color: var(--color-white);
+  border: none;
+  border-radius: 100px;
+  padding: 16px 40px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.3s;
+  font-family: var(--font-base);
+}
+
+.btnPrimary:hover {
+  opacity: 0.9;
+}
+
+.testimonialsSwiper {
+  padding: 4px 0;
+}

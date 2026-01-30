@@ -1,0 +1,97 @@
+"use client";
+
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
+import AppHeader from "../_components/AppHeader/appHeader";
+import BeanDetailModal from "../_components/BeanDetailModal/beanDetailModal";
+import BeanSelectCard from "../_components/BeanSelectCard/beanSelectCard";
+import CtaFooter from "../_components/CtaFooter/ctaFooter";
+import StepIndicator from "../_components/StepIndicator/stepIndicator";
+import { type BeanDetail, beans } from "../_lib/beanData";
+import { moveToCoffeeBeanListPage } from "../_lib/purchaseLinkUtil";
+import "../globals.css";
+import lp2Styles from "../lp2.module.css";
+import styles from "./beans.module.css";
+
+const MAX_SELECTION = 4;
+
+function BeansPageContent() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const preselectedBeanId = searchParams.get("bean");
+
+  const [selectedIds, setSelectedIds] = useState<string[]>(() => {
+    if (preselectedBeanId && beans.some((b) => b.id === preselectedBeanId)) {
+      return [preselectedBeanId];
+    }
+    return [];
+  });
+  const [detailBean, setDetailBean] = useState<BeanDetail | null>(null);
+
+  const toggleBean = (id: string) => {
+    setSelectedIds((prev) => {
+      if (prev.includes(id)) {
+        return prev.filter((x) => x !== id);
+      }
+      if (prev.length >= MAX_SELECTION) return prev;
+      return [...prev, id];
+    });
+  };
+
+  return (
+    <div className={`${lp2Styles.container} ${lp2Styles.containerStep}`}>
+      <AppHeader onBack={() => router.back()} />
+      <StepIndicator currentStep={2} />
+      <div className={styles.content}>
+        <h1 className={styles.title}>
+          希望する豆を{MAX_SELECTION}種類選んでください
+        </h1>
+        <div className={styles.counter}>
+          <span className={styles.counterLabel}>選択中</span>
+          <div className={styles.counterValue}>
+            <span className={styles.counterNum}>{selectedIds.length}</span>
+            <span className={styles.counterSlash}>/ {MAX_SELECTION}種類</span>
+          </div>
+        </div>
+        <div className={styles.list}>
+          {beans.map((bean) => (
+            <BeanSelectCard
+              key={bean.id}
+              bean={bean}
+              selected={selectedIds.includes(bean.id)}
+              onToggle={() => toggleBean(bean.id)}
+              onDetail={() => setDetailBean(bean)}
+            />
+          ))}
+        </div>
+      </div>
+      <CtaFooter
+        summaryLabel="選択した豆"
+        summaryValue={`${selectedIds.length} / ${MAX_SELECTION}種類`}
+        subText="利用規約に同意して"
+        ctaText="アカウント登録に進む"
+        onCtaClick={() => moveToCoffeeBeanListPage()}
+        showIcon={false}
+      />
+
+      {detailBean && (
+        <BeanDetailModal
+          bean={detailBean}
+          onClose={() => setDetailBean(null)}
+          onSelect={(bean) => {
+            toggleBean(bean.id);
+            setDetailBean(null);
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+export default function BeansPage() {
+  return (
+    <Suspense>
+      <BeansPageContent />
+    </Suspense>
+  );
+}

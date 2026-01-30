@@ -1,0 +1,55 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px 20px;
+  flex: 1;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--color-text);
+  margin: 0;
+  font-family: var(--font-base);
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--color-white);
+}
+
+.counterLabel {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  font-family: var(--font-base);
+}
+
+.counterValue {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.counterNum {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--color-brown);
+  font-family: var(--font-base);
+}
+
+.counterSlash {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  font-family: var(--font-base);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
