@@ -38,6 +38,7 @@
   font-weight: 600;
   cursor: pointer;
   font-family: var(--font-base);
+  text-decoration: none;
 }
 
 .cta {
@@ -51,6 +52,7 @@
   cursor: pointer;
   font-family: var(--font-base);
   transition: opacity 0.3s;
+  text-decoration: none;
 }
 
 .cta:hover {

@@ -65,6 +65,7 @@
 }
 
 .btn {
+  display: block;
   width: 100%;
   background: var(--color-brown);
   color: var(--color-white);
@@ -76,6 +77,8 @@
   cursor: pointer;
   font-family: var(--font-base);
   transition: opacity 0.3s;
+  text-align: center;
+  text-decoration: none;
 }
 
 .btn:hover {

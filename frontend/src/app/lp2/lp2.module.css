@@ -35,7 +35,9 @@
 .btnPrimary {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  text-decoration: none;
   background: var(--color-brown);
   color: var(--color-white);
   border: none;
