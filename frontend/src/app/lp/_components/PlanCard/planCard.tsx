@@ -1,7 +1,6 @@
 import styles from "./planCard.module.css";
 
 interface PlanCardProps {
-  badge: string;
   name: string;
   price: string;
   description: string;
@@ -10,7 +9,6 @@ interface PlanCardProps {
 }
 
 export default function PlanCard({
-  badge,
   name,
   price,
   description,
@@ -23,7 +21,6 @@ export default function PlanCard({
       className={`${styles.card} ${selected ? styles.selected : ""}`}
       onClick={onSelect}
     >
-      <span className={styles.badge}>{badge}</span>
       <div className={styles.top}>
         <div className={styles.info}>
           <span className={styles.name}>{name}</span>

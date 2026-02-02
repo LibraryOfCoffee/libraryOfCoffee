@@ -32,7 +32,6 @@ function PlanPageContent() {
         </p>
         <div className={styles.cards}>
           <PlanCard
-            badge="おすすめ"
             name="月額プラン"
             price="1,500"
             description="30g × 3種類 / 毎月届く"
