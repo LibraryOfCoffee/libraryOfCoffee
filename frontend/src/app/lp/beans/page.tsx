@@ -10,7 +10,7 @@ import StepIndicator from "../_components/StepIndicator/stepIndicator";
 import { type BeanDetail, beans } from "../_lib/beanData";
 import { moveToCoffeeBeanListPage } from "../_lib/purchaseLinkUtil";
 import "../globals.css";
-import lp2Styles from "../lp2.module.css";
+import sharedStyles from "../shared.module.css";
 import styles from "./beans.module.css";
 
 const MAX_SELECTION = 4;
@@ -39,7 +39,7 @@ function BeansPageContent() {
   };
 
   return (
-    <div className={`${lp2Styles.container} ${lp2Styles.containerStep}`}>
+    <div className={`${sharedStyles.container} ${sharedStyles.containerStep}`}>
       <AppHeader onBack={() => router.back()} />
       <StepIndicator currentStep={2} />
       <div className={styles.content}>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { LuCheck } from "react-icons/lu";
 import { getPlanPagePath } from "../../_lib/purchaseLinkUtil";
-import lp2Styles from "../../lp2.module.css";
+import sharedStyles from "../../shared.module.css";
 import styles from "./pricingSection.module.css";
 
 const features = [
@@ -12,12 +12,15 @@ const features = [
 
 export default function PricingSection() {
   return (
-    <section className={`${styles.pricing} ${lp2Styles.section}`}>
-      <h2 className={lp2Styles.sectionTitle} style={{ color: "#FFFFFF" }}>
+    <section
+      id="pricing"
+      className={`${styles.pricing} ${sharedStyles.section}`}
+    >
+      <h2 className={sharedStyles.sectionTitle} style={{ color: "#FFFFFF" }}>
         シンプルな料金プラン
       </h2>
       <p
-        className={lp2Styles.sectionSubtitle}
+        className={sharedStyles.sectionSubtitle}
         style={{ color: "rgba(255,255,255,0.73)" }}
       >
         いつでも解約OK

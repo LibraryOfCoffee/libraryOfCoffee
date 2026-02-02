@@ -1,45 +1,48 @@
-"use client";
 import Image from "next/image";
-import "./footer.css";
+import styles from "./footer.module.css";
 
 export default function Footer() {
   return (
-    <footer className="lp-footer">
-      <div className="lp-footer-container">
-        <div className="lp-footer-top">
-          <div className="lp-footer-brand">
+    <footer className={styles.footer}>
+      <div className={styles.inner}>
+        <div className={styles.top}>
+          <div className={styles.brand}>
             <Image
-              src="/logo_white.svg"
-              alt="豆図書ロゴ"
-              height={32}
-              width={64}
+              src="/logo.svg"
+              alt="豆図書"
+              width={80}
+              height={26}
+              className={styles.logo}
             />
-            <p className="lp-footer-tagline">色々な珈琲と出会える豆図書</p>
+            <p className={styles.tagline}>色々な珈琲と出会える豆図書</p>
           </div>
-
-          <nav className="lp-footer-nav">
-            <a href="#features">豆図書のメリット</a>
-            <a href="#testimonials">利用者の声</a>
-            <a href="#flow">ご利用の流れ</a>
-            <a href="#pricing">料金プラン</a>
+          <nav className={styles.links}>
+            <a href="#features" className={styles.link}>
+              選ばれる理由
+            </a>
+            <a href="#how-it-works" className={styles.link}>
+              ご利用の流れ
+            </a>
+            <a href="#beans" className={styles.link}>
+              今月のおすすめ豆
+            </a>
+            <a href="#pricing" className={styles.link}>
+              料金プラン
+            </a>
+            <a href="#testimonials" className={styles.link}>
+              お客様の声
+            </a>
           </nav>
         </div>
-
-        <div className="lp-footer-divider"></div>
-
-        <div className="lp-footer-bottom">
-          <p className="lp-footer-contact">
+        <hr className={styles.divider} />
+        <div className={styles.bottom}>
+          <p className={styles.contact}>
             お問い合わせ：
-            <a
-              href="mailto:inquiry@m.mametosho.com"
-              className="lp-footer-email"
-            >
+            <a href="mailto:inquiry@m.mametosho.com" className={styles.email}>
               inquiry@m.mametosho.com
             </a>
           </p>
-          <p className="lp-footer-copyright">
-            &copy; 2025 豆図書. All rights reserved.
-          </p>
+          <p className={styles.copy}>© 2025 豆図書. All rights reserved.</p>
         </div>
       </div>
     </footer>

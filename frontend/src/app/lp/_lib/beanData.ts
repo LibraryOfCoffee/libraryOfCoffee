@@ -22,7 +22,7 @@ export interface BeanDetail {
 export const beans: BeanDetail[] = [
   {
     id: "bean-001",
-    imageSrc: "/lp2/bean1.png",
+    imageSrc: "/lp/bean1.png",
     tag: "人気No.1",
     tagColor: "#8B5A2B",
     name: "エチオピア イルガチェフェ",
@@ -42,7 +42,7 @@ export const beans: BeanDetail[] = [
   },
   {
     id: "bean-002",
-    imageSrc: "/lp2/bean2.png",
+    imageSrc: "/lp/bean2.png",
     tag: "定番",
     tagColor: "#7D9B76",
     name: "グアテマラ アンティグア",
@@ -62,7 +62,7 @@ export const beans: BeanDetail[] = [
   },
   {
     id: "bean-003",
-    imageSrc: "/lp2/bean3.png",
+    imageSrc: "/lp/bean3.png",
     tag: "おすすめ",
     tagColor: "#D4A574",
     name: "ケニア AA",
@@ -82,7 +82,7 @@ export const beans: BeanDetail[] = [
   },
   {
     id: "bean-004",
-    imageSrc: "/lp2/bean4.png",
+    imageSrc: "/lp/bean4.png",
     tag: "限定",
     tagColor: "#6B5B4D",
     name: "コロンビア スプレモ",
@@ -102,7 +102,7 @@ export const beans: BeanDetail[] = [
   },
   {
     id: "bean-005",
-    imageSrc: "/lp2/bean5.png",
+    imageSrc: "/lp/bean5.png",
     tag: "定番",
     tagColor: "#8B5A2B",
     name: "ブラジル サントス",
@@ -122,7 +122,7 @@ export const beans: BeanDetail[] = [
   },
   {
     id: "bean-006",
-    imageSrc: "/lp2/bean6.png",
+    imageSrc: "/lp/bean6.png",
     tag: "定番",
     tagColor: "#D4A574",
     name: "マンデリン スマトラ",
@@ -142,7 +142,7 @@ export const beans: BeanDetail[] = [
   },
   {
     id: "bean-007",
-    imageSrc: "/lp2/bean7.png",
+    imageSrc: "/lp/bean7.png",
     tag: "季節限定",
     tagColor: "#7D9B76",
     name: "タンザニア キリマンジャロ",
@@ -162,7 +162,7 @@ export const beans: BeanDetail[] = [
   },
   {
     id: "bean-008",
-    imageSrc: "/lp2/bean8.png",
+    imageSrc: "/lp/bean8.png",
     tag: "人気",
     tagColor: "#8B5A2B",
     name: "コスタリカ タラス",

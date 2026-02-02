@@ -1,5 +1,5 @@
 import Image from "next/image";
-import lp2Styles from "../../lp2.module.css";
+import sharedStyles from "../../shared.module.css";
 import styles from "./partnerShops.module.css";
 
 const shops = [
@@ -37,9 +37,9 @@ const shops = [
 
 export default function PartnerShops() {
   return (
-    <section className={`${styles.shops} ${lp2Styles.section}`}>
-      <h2 className={lp2Styles.sectionTitle}>参加店舗</h2>
-      <p className={lp2Styles.sectionSubtitle}>
+    <section className={`${styles.shops} ${sharedStyles.section}`}>
+      <h2 className={sharedStyles.sectionTitle}>参加店舗</h2>
+      <p className={sharedStyles.sectionSubtitle}>
         全国の厳選された店舗が参加しています
       </p>
       <div className={styles.grid}>

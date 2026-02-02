@@ -1,34 +1,28 @@
-import "./featureCard.css";
+import type { ReactNode } from "react";
+import styles from "./featureCard.module.css";
 
 interface FeatureCardProps {
-  number: string;
-  mainTitle: string;
-  iconElement?: React.ReactNode;
-  heading: string;
-  features: string[];
+  icon: ReactNode;
+  iconColor: string;
+  title: string;
+  description: string;
 }
 
 export default function FeatureCard({
-  number,
-  mainTitle,
-  iconElement,
-  heading,
-  features,
+  icon,
+  iconColor,
+  title,
+  description,
 }: FeatureCardProps) {
   return (
-    <div className="lp-feature-card">
-      <div className="feature-card-number">メリット {number}</div>
-      <h3 className="feature-card-main-title">{mainTitle}</h3>
-      {iconElement && <div className="feature-card-icon">{iconElement}</div>}
-      <h4 className="feature-card-heading">{heading}</h4>
-      <ul className="feature-card-list">
-        {features.map((feature, index) => (
-          <li key={index} className="feature-card-list-item">
-            <span className="feature-card-check">✓</span>
-            <span>{feature}</span>
-          </li>
-        ))}
-      </ul>
+    <div className={styles.card}>
+      <div className={styles.icon} style={{ background: iconColor }}>
+        {icon}
+      </div>
+      <div className={styles.content}>
+        <h3 className={styles.title}>{title}</h3>
+        <p className={styles.desc}>{description}</p>
+      </div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import lp2Styles from "../../lp2.module.css";
+import sharedStyles from "../../shared.module.css";
 import styles from "./howItWorks.module.css";
 
 const steps = [
@@ -26,8 +26,11 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className={`${styles.how} ${lp2Styles.section}`}>
-      <h2 className={lp2Styles.sectionTitle}>ご利用の流れ</h2>
+    <section
+      id="how-it-works"
+      className={`${styles.how} ${sharedStyles.section}`}
+    >
+      <h2 className={sharedStyles.sectionTitle}>ご利用の流れ</h2>
       <div className={styles.steps}>
         {steps.map((step) => (
           <div key={step.num} className={styles.step}>

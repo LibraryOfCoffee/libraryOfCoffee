@@ -12,5 +12,5 @@ export function moveToCoffeeBeanListPage() {
 
 export function getPlanPagePath(beanId?: string) {
   const params = beanId ? `?bean=${beanId}` : "";
-  return `/lp2/plan${params}`;
+  return `/lp/plan${params}`;
 }

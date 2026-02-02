@@ -9,7 +9,7 @@ import DiscountBanner from "../_components/DiscountBanner/discountBanner";
 import PlanCard from "../_components/PlanCard/planCard";
 import StepIndicator from "../_components/StepIndicator/stepIndicator";
 import "../globals.css";
-import lp2Styles from "../lp2.module.css";
+import sharedStyles from "../lp.module.css";
 import styles from "./plan.module.css";
 
 function PlanPageContent() {
@@ -20,12 +20,12 @@ function PlanPageContent() {
 
   const handleNext = () => {
     const params = beanId ? `?bean=${beanId}` : "";
-    router.push(`/lp2/beans${params}`);
+    router.push(`/lp/beans${params}`);
   };
 
   return (
-    <div className={`${lp2Styles.container} ${lp2Styles.containerStep}`}>
-      <AppHeader onBack={() => router.push("/lp2")} />
+    <div className={`${sharedStyles.container} ${sharedStyles.containerStep}`}>
+      <AppHeader onBack={() => router.push("/lp")} />
       <StepIndicator currentStep={1} />
       <div className={styles.content}>
         <h1 className={styles.title}>プランを選択してください</h1>

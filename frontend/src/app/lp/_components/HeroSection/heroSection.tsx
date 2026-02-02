@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { LuArrowRight, LuCoffee } from "react-icons/lu";
 import { getPlanPagePath } from "../../_lib/purchaseLinkUtil";
-import lp2Styles from "../../lp2.module.css";
+import sharedStyles from "../../shared.module.css";
 import styles from "./heroSection.module.css";
 
 export default function HeroSection() {
@@ -22,7 +22,7 @@ export default function HeroSection() {
           <br />
           新しい味わいとの出会いを
         </p>
-        <Link href={getPlanPagePath()} className={lp2Styles.btnPrimary}>
+        <Link href={getPlanPagePath()} className={sharedStyles.btnPrimary}>
           今すぐ始める
           <LuArrowRight size={18} />
         </Link>
