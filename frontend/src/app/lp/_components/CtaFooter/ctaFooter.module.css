@@ -61,6 +61,12 @@
   opacity: 0.9;
 }
 
+.btnDisabled,
+.btnDisabled:hover {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .login {
   display: flex;
   justify-content: center;

@@ -72,6 +72,7 @@ function BeansPageContent() {
         ctaText="アカウント登録に進む"
         onCtaClick={() => moveToCoffeeBeanListPage()}
         showIcon={false}
+        disabled={selectedIds.length < MAX_SELECTION}
       />
 
       {detailBean && (
@@ -79,7 +80,9 @@ function BeansPageContent() {
           bean={detailBean}
           onClose={() => setDetailBean(null)}
           onSelect={(bean) => {
-            toggleBean(bean.id);
+            if (!selectedIds.includes(bean.id)) {
+              toggleBean(bean.id);
+            }
             setDetailBean(null);
           }}
         />

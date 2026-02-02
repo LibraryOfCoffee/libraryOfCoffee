@@ -12,6 +12,7 @@ interface CtaFooterProps {
   onCtaClick: () => void;
   showIcon?: boolean;
   subText?: string;
+  disabled?: boolean;
 }
 
 export default function CtaFooter({
@@ -21,6 +22,7 @@ export default function CtaFooter({
   onCtaClick,
   showIcon = true,
   subText,
+  disabled = false,
 }: CtaFooterProps) {
   return (
     <div className={styles.footer}>
@@ -29,7 +31,12 @@ export default function CtaFooter({
         <span className={styles.summaryValue}>{summaryValue}</span>
       </div>
       {subText && <span className={styles.subText}>{subText}</span>}
-      <button type="button" className={styles.btn} onClick={onCtaClick}>
+      <button
+        type="button"
+        className={`${styles.btn} ${disabled ? styles.btnDisabled : ""}`}
+        onClick={onCtaClick}
+        disabled={disabled}
+      >
         {ctaText}
         {showIcon && <LuArrowRight size={16} />}
       </button>
