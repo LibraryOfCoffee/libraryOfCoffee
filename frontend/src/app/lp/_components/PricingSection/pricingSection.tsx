@@ -26,7 +26,6 @@ export default function PricingSection() {
         いつでも解約OK
       </p>
       <div className={styles.card}>
-        <span className={styles.badge}>今だけ初月1,200円</span>
         <div className={styles.header}>
           <span className={styles.planName}>月額プラン</span>
           <div className={styles.price}>

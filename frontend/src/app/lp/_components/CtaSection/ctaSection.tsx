@@ -12,7 +12,7 @@ export default function CtaSection() {
         <br />
         始めませんか？
       </h2>
-      <p className={styles.subtitle}>今だけ初月1,200円・いつでも解約OK</p>
+      <p className={styles.subtitle}>いつでも解約OK</p>
       <Link href={getPlanPagePath()} className={sharedStyles.btnPrimary}>
         今すぐ始める
         <LuArrowRight size={18} />

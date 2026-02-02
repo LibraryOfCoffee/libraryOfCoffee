@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LuArrowRight, LuCoffee } from "react-icons/lu";
+import { LuArrowRight } from "react-icons/lu";
 import { getPlanPagePath } from "../../_lib/purchaseLinkUtil";
 import sharedStyles from "../../shared.module.css";
 import styles from "./heroSection.module.css";
@@ -8,10 +8,6 @@ export default function HeroSection() {
   return (
     <section className={styles.hero}>
       <div className={styles.overlay}>
-        <div className={styles.badge}>
-          <LuCoffee size={16} />
-          <span>今だけ初月1,200円</span>
-        </div>
         <h1 className={styles.title}>
           あなただけの
           <br />

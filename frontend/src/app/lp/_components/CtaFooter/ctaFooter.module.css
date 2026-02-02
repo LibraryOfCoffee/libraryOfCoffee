@@ -32,19 +32,6 @@
   font-family: var(--font-base);
 }
 
-.priceOld {
-  font-size: 13px;
-  font-weight: normal;
-  color: var(--color-text-secondary);
-  text-decoration: line-through;
-}
-
-.priceNew {
-  font-size: 16px;
-  font-weight: bold;
-  color: var(--color-brown);
-}
-
 .subText {
   font-size: 11px;
   color: var(--color-text-secondary);

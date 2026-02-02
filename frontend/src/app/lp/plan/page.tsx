@@ -4,8 +4,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import AppHeader from "../_components/AppHeader/appHeader";
 import CtaFooter from "../_components/CtaFooter/ctaFooter";
-import ctaFooterStyles from "../_components/CtaFooter/ctaFooter.module.css";
-import DiscountBanner from "../_components/DiscountBanner/discountBanner";
 import PlanCard from "../_components/PlanCard/planCard";
 import StepIndicator from "../_components/StepIndicator/stepIndicator";
 import "../globals.css";
@@ -42,16 +40,10 @@ function PlanPageContent() {
             onSelect={() => setSelectedPlan("monthly")}
           />
         </div>
-        <DiscountBanner />
       </div>
       <CtaFooter
-        summaryLabel="初月お支払い（税込）"
-        summaryValue={
-          <>
-            <span className={ctaFooterStyles.priceOld}>¥1,500</span>
-            <span className={ctaFooterStyles.priceNew}>¥1,200</span>
-          </>
-        }
+        summaryLabel="お支払い（税込）"
+        summaryValue="¥1,500"
         ctaText="豆を選ぶ"
         onCtaClick={handleNext}
         showIcon={false}
