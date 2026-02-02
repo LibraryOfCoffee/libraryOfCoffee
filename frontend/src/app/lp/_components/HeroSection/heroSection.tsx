@@ -14,7 +14,7 @@ export default function HeroSection() {
           コーヒー体験を
         </h1>
         <p className={styles.sub}>
-          毎月届く、厳選された3種の豆で
+          毎月届く、厳選された珈琲豆で
           <br />
           新しい味わいとの出会いを
         </p>

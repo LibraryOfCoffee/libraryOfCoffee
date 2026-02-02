@@ -7,7 +7,7 @@
       rgba(60, 36, 21, 0.3) 0%,
       rgba(60, 36, 21, 0.7) 100%
     ),
-    url("/lp/hero-image.png") center / cover no-repeat;
+    url("/hero-image.png") center / cover no-repeat;
   display: flex;
   align-items: flex-end;
   justify-content: center;
