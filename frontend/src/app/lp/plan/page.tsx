@@ -9,7 +9,7 @@ import DiscountBanner from "../_components/DiscountBanner/discountBanner";
 import PlanCard from "../_components/PlanCard/planCard";
 import StepIndicator from "../_components/StepIndicator/stepIndicator";
 import "../globals.css";
-import sharedStyles from "../lp.module.css";
+import sharedStyles from "../shared.module.css";
 import styles from "./plan.module.css";
 
 function PlanPageContent() {
