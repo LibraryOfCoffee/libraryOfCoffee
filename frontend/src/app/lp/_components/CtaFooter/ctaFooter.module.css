@@ -37,6 +37,11 @@
   color: var(--color-text-secondary);
   text-align: center;
   font-family: var(--font-base);
+}
+
+.subText a {
+  color: inherit;
+  text-decoration: underline;
   margin-bottom: -8px;
 }
 

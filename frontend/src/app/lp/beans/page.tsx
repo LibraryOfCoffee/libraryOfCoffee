@@ -68,7 +68,18 @@ function BeansPageContent() {
       <CtaFooter
         summaryLabel="選択した豆"
         summaryValue={`${selectedIds.length} / ${MAX_SELECTION}種類`}
-        subText="利用規約に同意して"
+        subText={
+          <>
+            <a
+              href="https://zcgqx8-tr.myshopify.com/pages/terms_of_service_for_lp"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              利用規約
+            </a>
+            に同意して
+          </>
+        }
         ctaText="アカウント登録に進む"
         onCtaClick={() => moveToCoffeeBeanListPage()}
         showIcon={false}

@@ -11,7 +11,7 @@ interface CtaFooterProps {
   ctaText: ReactNode;
   onCtaClick: () => void;
   showIcon?: boolean;
-  subText?: string;
+  subText?: ReactNode;
   disabled?: boolean;
 }
 
