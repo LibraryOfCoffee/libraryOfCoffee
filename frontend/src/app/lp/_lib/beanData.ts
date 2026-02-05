@@ -168,14 +168,14 @@ export const beans: BeanDetail[] = [
   },
   {
     id: "49929003139305",
-    imageSrc: "/beanImages/49929003139305.png",
+    imageSrc: "/beanImages/49929003139305.jpg",
     tag: "人気",
     tagColor: "#8B5A2B",
     name: "インドネシア（中深煎り）",
     description: "XXXXXXXX",
     detailDescription:
       "XXXXXXXX",
-    origin: "インドネシア スマトラ島北部 リントン・ニ・フタ 及び パランギナン",
+    origin: "インドネシア スマトラ島北部",
     roastLevel: "中深煎り",
     processing: "スマトラ式",
     roaster: "MOSHIMOSHI COFFEE",
