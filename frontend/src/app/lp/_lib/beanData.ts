@@ -12,6 +12,7 @@ export interface BeanDetail {
   description: string;
   detailDescription: string;
   origin: string;
+  farm: string;
   roastLevel: string;
   processing: string;
   roaster: string;
@@ -29,6 +30,7 @@ export const beans: BeanDetail[] = [
     detailDescription:
       "XXXXXXXX",
     origin: "東ティモール, エルメラ県, レテフォホ郡",
+    farm: "ロダン集落",
     roastLevel: "中煎り",
     processing: "Fully Washed",
     roaster: "LUSH COFFEE",
@@ -50,6 +52,7 @@ export const beans: BeanDetail[] = [
     detailDescription:
       "XXXXXXXX",
     origin: "東ティモール, エルメラ県, レテフォホ郡",
+    farm: "ロダン集落",
     roastLevel: "中深煎り",
     processing: "Fully Washed",
     roaster: "LUSH COFFEE",
@@ -71,6 +74,7 @@ export const beans: BeanDetail[] = [
     detailDescription:
       "XXXXXXXX",
     origin: "ウエウエテナンゴ",
+    farm: "ラ ボルサ農園",
     roastLevel: "中深煎り",
     processing: "Washed",
     roaster: "NORTH NODE COFFEE",
@@ -92,6 +96,7 @@ export const beans: BeanDetail[] = [
     detailDescription:
       "XXXXXXXX",
     origin: "シェバロイ地区",
+    farm: "ジュリアンピーク農園",
     roastLevel: "深煎り",
     processing: "Washed",
     roaster: "NORTH NODE COFFEE",
@@ -113,6 +118,7 @@ export const beans: BeanDetail[] = [
     detailDescription:
       "XXXXXXXX",
     origin: "ジンバブエ・マニカランド州",
+    farm: "",
     roastLevel: "中煎り",
     processing: "Washed",
     roaster: "Tama Coffee Roaster",
@@ -134,6 +140,7 @@ export const beans: BeanDetail[] = [
     detailDescription:
       "XXXXXXXX",
     origin: "インディブカ県マサグアラ",
+    farm: "エル・ピノ農園",
     roastLevel: "中深煎り",
     processing: "Washed",
     roaster: "Tama Coffee Roaster",
@@ -155,6 +162,7 @@ export const beans: BeanDetail[] = [
     detailDescription:
       "XXXXXXXX",
     origin: "コロンビア",
+    farm: "ブエノスアイレス農園",
     roastLevel: "浅煎り",
     processing: "サーマルショックナチュラル",
     roaster: "MOSHIMOSHI COFFEE",
@@ -176,6 +184,7 @@ export const beans: BeanDetail[] = [
     detailDescription:
       "XXXXXXXX",
     origin: "インドネシア スマトラ島北部",
+    farm: "ビンタンリマの小農家さん",
     roastLevel: "中深煎り",
     processing: "スマトラ式",
     roaster: "MOSHIMOSHI COFFEE",

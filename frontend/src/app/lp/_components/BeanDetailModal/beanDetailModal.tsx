@@ -70,6 +70,12 @@ export default function BeanDetailModal({
               <span className={styles.infoLabel}>産地</span>
               <span className={styles.infoValue}>{bean.origin}</span>
             </div>
+            {bean.farm && (
+              <div className={styles.infoRow}>
+                <span className={styles.infoLabel}>農園</span>
+                <span className={styles.infoValue}>{bean.farm}</span>
+              </div>
+            )}
             <div className={styles.infoRow}>
               <span className={styles.infoLabel}>焙煎度</span>
               <span className={styles.infoValue}>{bean.roastLevel}</span>
