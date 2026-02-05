@@ -14,11 +14,13 @@ function PlanPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const beanId = searchParams.get("bean");
-  const [selectedPlan, setSelectedPlan] = useState("monthly");
+  const [selectedPlan, setSelectedPlan] = useState("cbl-flat-1500");
 
   const handleNext = () => {
-    const params = beanId ? `?bean=${beanId}` : "";
-    router.push(`/lp/beans${params}`);
+    const query = new URLSearchParams();
+    query.set("plan", selectedPlan);
+    if (beanId) query.set("bean", beanId);
+    router.push(`/lp/beans?${query.toString()}`);
   };
 
   return (
@@ -35,8 +37,8 @@ function PlanPageContent() {
             name="月額プラン"
             price="1,500"
             description="30g × 3種類 / 毎月届く"
-            selected={selectedPlan === "monthly"}
-            onSelect={() => setSelectedPlan("monthly")}
+            selected={selectedPlan === "cbl-flat-1500"}
+            onSelect={() => setSelectedPlan("cbl-flat-1500")}
           />
         </div>
       </div>

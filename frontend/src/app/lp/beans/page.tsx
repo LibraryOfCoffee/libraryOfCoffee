@@ -18,6 +18,7 @@ const MAX_SELECTION = 4;
 function BeansPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const planId = searchParams.get("plan");
   const preselectedBeanId = searchParams.get("bean");
 
   const [selectedIds, setSelectedIds] = useState<string[]>(() => {
@@ -81,7 +82,9 @@ function BeansPageContent() {
           </>
         }
         ctaText="アカウント登録に進む"
-        onCtaClick={() => moveToCoffeeBeanListPage()}
+        onCtaClick={() =>
+          moveToCoffeeBeanListPage(planId ?? undefined, selectedIds)
+        }
         showIcon={false}
         disabled={selectedIds.length < MAX_SELECTION}
       />
