@@ -131,6 +131,11 @@
   color: var(--color-text);
 }
 
+.roasterLink {
+  color: var(--color-brown);
+  text-decoration: underline;
+}
+
 .tasteTitle {
   font-size: 15px;
   font-weight: bold;

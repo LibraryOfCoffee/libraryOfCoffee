@@ -93,13 +93,11 @@ export default function LP2() {
           </div>
         </section>
 
-        <HowItWorks />
-
         {/* Bean Selection */}
         <section
           id="beans"
           className={styles.section}
-          style={{ background: "var(--color-white)" }}
+          style={{ background: "var(--color-bg)" }}
         >
           <h2 className={styles.sectionTitle}>今月のおすすめ豆</h2>
           <p className={styles.sectionSubtitle}>
@@ -107,6 +105,8 @@ export default function LP2() {
           </p>
           <BeanShowcase beans={beans} />
         </section>
+
+        <HowItWorks />
 
         <PricingSection />
 

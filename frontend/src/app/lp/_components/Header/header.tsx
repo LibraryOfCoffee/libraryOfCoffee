@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { COFFEE_BEAN_LIST_URL, LOGIN_URL } from "../../_lib/purchaseLinkUtil";
+import Link from "next/link";
+import { getPlanPagePath, LOGIN_URL } from "../../_lib/purchaseLinkUtil";
 import styles from "./header.module.css";
 
 export default function Header() {
@@ -17,9 +18,9 @@ export default function Header() {
           <a href={LOGIN_URL} className={styles.login}>
             ログイン
           </a>
-          <a href={COFFEE_BEAN_LIST_URL} className={styles.cta}>
+          <Link href={getPlanPagePath()} className={styles.cta}>
             今すぐ始める
-          </a>
+          </Link>
         </div>
       </div>
     </header>

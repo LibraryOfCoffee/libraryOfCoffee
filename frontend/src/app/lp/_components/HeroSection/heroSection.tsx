@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LuArrowRight } from "react-icons/lu";
+import { LuArrowRight, LuChevronDown } from "react-icons/lu";
 import { getPlanPagePath } from "../../_lib/purchaseLinkUtil";
 import sharedStyles from "../../shared.module.css";
 import styles from "./heroSection.module.css";
@@ -22,6 +22,10 @@ export default function HeroSection() {
           今すぐ始める
           <LuArrowRight size={18} />
         </Link>
+        <a href="#beans" className={styles.anchorLink}>
+          豆を見る
+          <LuChevronDown size={16} />
+        </a>
       </div>
     </section>
   );

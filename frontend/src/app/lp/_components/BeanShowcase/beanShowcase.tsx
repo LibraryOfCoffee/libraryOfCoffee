@@ -17,16 +17,23 @@ export default function BeanShowcase({ beans }: BeanShowcaseProps) {
 
   return (
     <>
-      <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(2, 1fr)",
+          gap: 12,
+        }}
+      >
         {beans.map((b) => (
           <BeanCard
-            key={b.name}
+            key={b.id}
             imageSrc={b.imageSrc}
             tag={b.tag}
             tagColor={b.tagColor}
             name={b.name}
             description={b.description}
-            tastes={b.tasteProfile.map((t) => t.label)}
+            features={b.features}
+            roaster={b.roaster}
             onClick={() => setSelectedBean(b)}
           />
         ))}

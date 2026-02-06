@@ -86,7 +86,16 @@ export default function BeanDetailModal({
             </div>
             <div className={styles.infoRow}>
               <span className={styles.infoLabel}>提供ロースター</span>
-              <span className={styles.infoValue}>{bean.roaster}</span>
+              <span className={styles.infoValue}>
+                <a
+                  href={bean.roasterLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.roasterLink}
+                >
+                  {bean.roaster}
+                </a>
+              </span>
             </div>
           </div>
 

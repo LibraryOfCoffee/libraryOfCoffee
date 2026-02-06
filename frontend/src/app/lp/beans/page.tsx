@@ -44,6 +44,30 @@ function BeansPageContent() {
       <AppHeader onBack={() => router.back()} />
       <StepIndicator currentStep={2} />
       <div className={styles.content}>
+        <div className={styles.omakaseSection}>
+          <p className={styles.omakaseTerms}>
+            <a
+              href="https://zcgqx8-tr.myshopify.com/pages/terms_of_service_for_lp"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              利用規約
+            </a>
+            に同意して
+          </p>
+          <button
+            type="button"
+            className={styles.omakaseButton}
+            onClick={() => {
+              setSelectedIds([]);
+              moveToCoffeeBeanListPage(planId ?? undefined, []);
+            }}
+          >
+            おまかせでお申し込み
+            <span>→</span>
+          </button>
+          <div className={styles.omakaseDivider}>または</div>
+        </div>
         <h1 className={styles.title}>
           希望する豆を{MAX_SELECTION}種類選んでください
         </h1>

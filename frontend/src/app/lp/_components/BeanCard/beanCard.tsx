@@ -6,7 +6,8 @@ interface BeanCardProps {
   tagColor: string;
   name: string;
   description: string;
-  tastes: string[];
+  features?: string[];
+  roaster?: string;
   onClick?: () => void;
 }
 
@@ -16,7 +17,8 @@ export default function BeanCard({
   tagColor,
   name,
   description,
-  tastes,
+  features,
+  roaster,
   onClick,
 }: BeanCardProps) {
   return (
@@ -24,20 +26,24 @@ export default function BeanCard({
       <div
         className={styles.img}
         style={{ backgroundImage: `url(${imageSrc})` }}
-      />
+      >
+        {roaster && <p className={styles.roasterName}>{roaster}</p>}
+      </div>
       <div className={styles.content}>
         <span className={styles.tag} style={{ background: tagColor }}>
           {tag}
         </span>
         <h3 className={styles.name}>{name}</h3>
         <p className={styles.desc}>{description}</p>
-        <div className={styles.tastes}>
-          {tastes.map((taste) => (
-            <span key={taste} className={styles.taste}>
-              {taste}
-            </span>
-          ))}
-        </div>
+        {features && features.length > 0 && (
+          <div className={styles.features}>
+            {features.map((f) => (
+              <span key={f} className={styles.featureItem}>
+                {f}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
     </button>
   );
