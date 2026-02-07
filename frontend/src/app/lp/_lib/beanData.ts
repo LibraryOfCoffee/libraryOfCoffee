@@ -18,7 +18,6 @@ export interface BeanDetail {
   roaster: string;
   roasterLink: string;
   tasteProfile: TasteProfile[];
-  features?: string[];
 }
 
 export const beans: BeanDetail[] = [
@@ -28,7 +27,7 @@ export const beans: BeanDetail[] = [
     tag: "中煎り",
     tagColor: "#A6683D",
     name: "東ティモール",
-    description: "XXXXXXXXXXX",
+    description: "レモンやみかんの様な酸味とヘーゼルナッツを思わせる...",
     detailDescription: "XXXXXXXX",
     origin: "東ティモール, エルメラ県, レテフォホ郡",
     farm: "ロダン集落",
@@ -43,7 +42,6 @@ export const beans: BeanDetail[] = [
       { label: "コク", value: 60 },
       { label: "香り", value: 80 },
     ],
-    features: ["コク", "最高"],
   },
   {
     id: "49928994849001",
@@ -51,7 +49,7 @@ export const beans: BeanDetail[] = [
     tag: "中深煎り",
     tagColor: "#5C3317",
     name: "東ティモール",
-    description: "XXXXXXXX",
+    description: "レモンやみかんの様な酸味とヘーゼルナッツを思わせる...",
     detailDescription: "XXXXXXXX",
     origin: "東ティモール, エルメラ県, レテフォホ郡",
     farm: "ロダン集落",
@@ -66,7 +64,6 @@ export const beans: BeanDetail[] = [
       { label: "コク", value: 80 },
       { label: "香り", value: 80 },
     ],
-    features: ["コク", "最高"],
   },
   {
     id: "49929671770345",
@@ -74,7 +71,7 @@ export const beans: BeanDetail[] = [
     tag: "中深煎り",
     tagColor: "#5C3317",
     name: "グアテマラ",
-    description: "XXXXXXXX",
+    description: "レモンやみかんの様な酸味とヘーゼルナッツを思わせる...",
     detailDescription: "XXXXXXXX",
     origin: "ウエウエテナンゴ",
     farm: "ラ ボルサ農園",
@@ -89,7 +86,6 @@ export const beans: BeanDetail[] = [
       { label: "コク", value: 80 },
       { label: "香り", value: 60 },
     ],
-    features: ["コク", "最高"],
   },
   {
     id: "49929740910825",
@@ -97,7 +93,7 @@ export const beans: BeanDetail[] = [
     tag: "深煎り",
     tagColor: "#321E14",
     name: "インディア",
-    description: "XXXXXXXX",
+    description: "レモンやみかんの様な酸味とヘーゼルナッツを思わせる...",
     detailDescription: "XXXXXXXX",
     origin: "シェバロイ地区",
     farm: "ジュリアンピーク農園",
@@ -112,7 +108,6 @@ export const beans: BeanDetail[] = [
       { label: "コク", value: 80 },
       { label: "香り", value: 60 },
     ],
-    features: ["コク", "最高"],
   },
   {
     id: "49929754771689",
@@ -120,7 +115,7 @@ export const beans: BeanDetail[] = [
     tag: "中深煎り",
     tagColor: "#5C3317",
     name: "ルワンダ",
-    description: "XXXXXXXX",
+    description: "レモンやみかんの様な酸味とヘーゼルナッツを思わせる...",
     detailDescription: "XXXXXXXX",
     origin: "ジンバブエ・マニカランド州",
     farm: "",
@@ -135,7 +130,6 @@ export const beans: BeanDetail[] = [
       { label: "コク", value: 80 },
       { label: "香り", value: 80 },
     ],
-    features: ["コク", "最高"],
   },
   {
     id: "49929756672233",
@@ -158,7 +152,6 @@ export const beans: BeanDetail[] = [
       { label: "コク", value: 80 },
       { label: "香り", value: 60 },
     ],
-    features: ["コク", "最高"],
   },
   {
     id: "49918863933673",
@@ -181,7 +174,6 @@ export const beans: BeanDetail[] = [
       { label: "コク", value: 40 },
       { label: "香り", value: 100 },
     ],
-    features: ["コク", "最高"],
   },
   {
     id: "49929003139305",
@@ -204,7 +196,6 @@ export const beans: BeanDetail[] = [
       { label: "コク", value: 60 },
       { label: "香り", value: 80 },
     ],
-    features: ["コク", "最高"],
   },
 ];
 

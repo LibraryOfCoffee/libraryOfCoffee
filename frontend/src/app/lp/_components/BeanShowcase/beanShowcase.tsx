@@ -32,7 +32,6 @@ export default function BeanShowcase({ beans }: BeanShowcaseProps) {
             tagColor={b.tagColor}
             name={b.name}
             description={b.description}
-            features={b.features}
             roaster={b.roaster}
             onClick={() => setSelectedBean(b)}
           />

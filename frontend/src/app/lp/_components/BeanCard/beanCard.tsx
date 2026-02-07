@@ -6,7 +6,6 @@ interface BeanCardProps {
   tagColor: string;
   name: string;
   description: string;
-  features?: string[];
   roaster?: string;
   onClick?: () => void;
 }
@@ -17,7 +16,6 @@ export default function BeanCard({
   tagColor,
   name,
   description,
-  features,
   roaster,
   onClick,
 }: BeanCardProps) {
@@ -35,15 +33,7 @@ export default function BeanCard({
         </span>
         <h3 className={styles.name}>{name}</h3>
         <p className={styles.desc}>{description}</p>
-        {features && features.length > 0 && (
-          <div className={styles.features}>
-            {features.map((f) => (
-              <span key={f} className={styles.featureItem}>
-                {f}
-              </span>
-            ))}
-          </div>
-        )}
+        <p className={styles.detailLink}>詳細を見る</p>
       </div>
     </button>
   );
