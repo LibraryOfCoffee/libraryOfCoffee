@@ -13,13 +13,13 @@ import styles from "./plan.module.css";
 function PlanPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const beanId = searchParams.get("bean");
+  const beanId = searchParams.get("beanId");
   const [selectedPlan, setSelectedPlan] = useState("cbl-flat-1500");
 
   const handleNext = () => {
     const query = new URLSearchParams();
-    query.set("plan", selectedPlan);
-    if (beanId) query.set("bean", beanId);
+    query.set("planId", selectedPlan);
+    if (beanId) query.set("beanId", beanId);
     router.push(`/lp/beans?${query.toString()}`);
   };
 

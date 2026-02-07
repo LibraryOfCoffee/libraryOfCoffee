@@ -18,8 +18,8 @@ const MAX_SELECTION = 4;
 function BeansPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const planId = searchParams.get("plan");
-  const preselectedBeanId = searchParams.get("bean");
+  const planId = searchParams.get("planId");
+  const preselectedBeanId = searchParams.get("beanId");
 
   const [selectedIds, setSelectedIds] = useState<string[]>(() => {
     if (preselectedBeanId && beans.some((b) => b.id === preselectedBeanId)) {
