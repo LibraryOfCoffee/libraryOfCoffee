@@ -22,6 +22,7 @@ export default function BeanShowcase({ beans }: BeanShowcaseProps) {
           display: "grid",
           gridTemplateColumns: "repeat(2, 1fr)",
           gap: 12,
+          alignItems: "stretch",
         }}
       >
         {beans.map((b) => (
