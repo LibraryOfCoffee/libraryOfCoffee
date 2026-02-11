@@ -40,7 +40,7 @@ export default function PartnerShops() {
     <section className={`${styles.shops} ${sharedStyles.section}`}>
       <h2 className={sharedStyles.sectionTitle}>参加店舗</h2>
       <p className={sharedStyles.sectionSubtitle}>
-        全国の厳選された店舗が参加しています
+        様々な自家焙煎店舗が参加しています
       </p>
       <div className={styles.grid}>
         {shops.map((shop) => (

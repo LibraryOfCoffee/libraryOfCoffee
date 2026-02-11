@@ -8,22 +8,19 @@ export default function HeroSection() {
   return (
     <section className={styles.hero}>
       <div className={styles.overlay}>
-        <h1 className={styles.title}>
-          あなただけの
-          <br />
-          コーヒー体験を
-        </h1>
-        <p className={styles.sub}>
-          毎月届く、厳選された珈琲豆で
-          <br />
-          新しい味わいとの出会いを
-        </p>
-        <Link href={getPlanPagePath()} className={sharedStyles.btnPrimary}>
-          今すぐ始める
-          <LuArrowRight size={18} />
-        </Link>
+        <div className={styles.mainContent}>
+          <h1 className={styles.title}>
+            豆を溜めず
+            <br />
+            経験を貯める
+          </h1>
+          <Link href={getPlanPagePath()} className={sharedStyles.btnPrimary}>
+            豆を選ぶ
+            <LuArrowRight size={18} />
+          </Link>
+        </div>
         <a href="#beans" className={styles.anchorLink}>
-          豆を見る
+          初回のラインナップ
           <LuChevronDown size={16} />
         </a>
       </div>

@@ -1,6 +1,6 @@
 .hero {
   width: 100%;
-  height: 480px;
+  height: 400px;
   background:
     linear-gradient(
       180deg,
@@ -9,7 +9,7 @@
     ),
     url("/hero-image.png") center / cover no-repeat;
   display: flex;
-  align-items: flex-end;
+  align-items: stretch;
   justify-content: center;
 }
 
@@ -17,9 +17,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  padding: 60px 24px 40px;
+  padding: 24px;
   width: 100%;
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding-top: 40px;
 }
 
 .title {
@@ -32,23 +41,15 @@
   max-width: 300px;
 }
 
-.sub {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 14px;
-  text-align: center;
-  line-height: 1.6;
-  margin: 0;
-  max-width: 280px;
-}
-
 .anchorLink {
   display: flex;
   align-items: center;
   gap: 4px;
   color: rgba(255, 255, 255, 0.8);
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: bold;
   text-decoration: none;
-  margin-top: 8px;
+  margin-top: auto;
   transition: color 0.2s;
 }
 

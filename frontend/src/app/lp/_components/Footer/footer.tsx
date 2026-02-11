@@ -17,14 +17,11 @@ export default function Footer() {
             <p className={styles.tagline}>色々な珈琲と出会える豆図書</p>
           </div>
           <nav className={styles.links}>
-            <a href="#features" className={styles.link}>
-              選ばれる理由
-            </a>
             <a href="#how-it-works" className={styles.link}>
               ご利用の流れ
             </a>
             <a href="#beans" className={styles.link}>
-              今月のおすすめ豆
+              初回のラインナップ
             </a>
             <a href="#pricing" className={styles.link}>
               料金プラン

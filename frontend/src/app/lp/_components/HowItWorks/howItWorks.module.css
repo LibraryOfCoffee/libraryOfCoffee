@@ -5,15 +5,15 @@
 .steps {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  background: var(--color-bg);
+  border-radius: 16px;
+  padding: 16px;
 }
 
 .step {
   display: flex;
   gap: 16px;
-  background: var(--color-bg);
-  border-radius: 16px;
-  padding: 16px;
+  padding: 16px 0;
 }
 
 .num {

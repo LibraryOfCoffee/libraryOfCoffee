@@ -1,13 +1,12 @@
 import Link from "next/link";
 import { LuCheck } from "react-icons/lu";
-import { getPlanPagePath } from "../../_lib/purchaseLinkUtil";
 import sharedStyles from "../../shared.module.css";
 import styles from "./pricingSection.module.css";
 
 const features = [
-  "毎月8種類の珈琲豆から3種類選べる",
+  "毎月8種類の珈琲豆から3種類お届け",
   "送料無料でお届け",
-  "いつでも解約・スキップOK",
+  "いつでも解約OK",
 ];
 
 export default function PricingSection() {
@@ -19,12 +18,6 @@ export default function PricingSection() {
       <h2 className={sharedStyles.sectionTitle} style={{ color: "#FFFFFF" }}>
         シンプルな料金プラン
       </h2>
-      <p
-        className={sharedStyles.sectionSubtitle}
-        style={{ color: "rgba(255,255,255,0.73)" }}
-      >
-        いつでも解約OK
-      </p>
       <div className={styles.card}>
         <div className={styles.header}>
           <span className={styles.planName}>月額プラン</span>
@@ -35,8 +28,8 @@ export default function PricingSection() {
           </div>
           <span className={styles.desc}>30g × 3種類 / 毎月届く</span>
         </div>
-        <Link href={getPlanPagePath()} className={styles.btn}>
-          今すぐ始める
+        <Link href="/lp/beans?planId=cbl-flat-1500" className={styles.btn}>
+          このプランで豆を選ぶ
         </Link>
         <ul className={styles.features}>
           {features.map((feat) => (

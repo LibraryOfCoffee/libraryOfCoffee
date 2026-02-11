@@ -14,7 +14,7 @@ export default function CtaSection() {
       </h2>
       <p className={styles.subtitle}>いつでも解約OK</p>
       <Link href={getPlanPagePath()} className={sharedStyles.btnPrimary}>
-        今すぐ始める
+        豆を選ぶ
         <LuArrowRight size={18} />
       </Link>
     </section>

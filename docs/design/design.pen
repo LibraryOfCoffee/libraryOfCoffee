@@ -259,231 +259,46 @@
               "id": "kxkl7",
               "name": "featTitle",
               "fill": "#3C2415",
-              "content": "豆図書が選ばれる理由",
+              "content": "珈琲は飲むだけのものですか\n出会うものですか",
               "textAlign": "center",
               "fontFamily": "Inter",
               "fontSize": 22,
               "fontWeight": "bold"
             },
             {
-              "type": "frame",
-              "id": "oQymf",
-              "name": "featGrid",
+              "type": "text",
+              "id": "ZTLar",
+              "name": "featTitle",
+              "fill": "#3C2415",
+              "textGrowth": "fixed-width",
               "width": "fill_container",
-              "layout": "vertical",
-              "gap": 20,
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "TZSLP",
-                  "name": "feat1",
-                  "width": "fill_container",
-                  "fill": "#F5F2ED",
-                  "cornerRadius": 16,
-                  "gap": 16,
-                  "padding": 20,
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "OXs5o",
-                      "name": "feat1Icon",
-                      "width": 56,
-                      "height": 56,
-                      "fill": "#8B5A2B",
-                      "cornerRadius": 100,
-                      "layout": "vertical",
-                      "justifyContent": "center",
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "icon_font",
-                          "id": "ZYIgr",
-                          "name": "feat1IconInner",
-                          "width": 24,
-                          "height": 24,
-                          "iconFontName": "hand-heart",
-                          "iconFontFamily": "lucide",
-                          "fill": "#FFFFFF"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "cs388",
-                      "name": "feat1Content",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 4,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "B3hTR",
-                          "name": "feat1Title",
-                          "fill": "#3C2415",
-                          "content": "毎月3種を自由に選択",
-                          "fontFamily": "Inter",
-                          "fontSize": 16,
-                          "fontWeight": "600"
-                        },
-                        {
-                          "type": "text",
-                          "id": "GqmIl",
-                          "name": "feat1Desc",
-                          "fill": "#6B5B4D",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "豊富なラインナップから、あなた好みの豆を毎月選べます",
-                          "lineHeight": 1.5,
-                          "fontFamily": "Inter",
-                          "fontSize": 13,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "vvBE2",
-                  "name": "feat2",
-                  "width": "fill_container",
-                  "fill": "#F5F2ED",
-                  "cornerRadius": 16,
-                  "gap": 16,
-                  "padding": 20,
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "b53fP",
-                      "name": "feat2Icon",
-                      "width": 56,
-                      "height": 56,
-                      "fill": "#D4A574",
-                      "cornerRadius": 100,
-                      "layout": "vertical",
-                      "justifyContent": "center",
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "icon_font",
-                          "id": "0mgoj",
-                          "name": "feat2IconInner",
-                          "width": 24,
-                          "height": 24,
-                          "iconFontName": "truck",
-                          "iconFontFamily": "lucide",
-                          "fill": "#FFFFFF"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "N2AfC",
-                      "name": "feat2Content",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 4,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "NCWVf",
-                          "name": "feat2Title",
-                          "fill": "#3C2415",
-                          "content": "新鮮なまま毎月届く",
-                          "fontFamily": "Inter",
-                          "fontSize": 16,
-                          "fontWeight": "600"
-                        },
-                        {
-                          "type": "text",
-                          "id": "Kf4A2",
-                          "name": "feat2Desc",
-                          "fill": "#6B5B4D",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "焙煎したての豆を毎月20日前後にお届け。鮮度が違います",
-                          "lineHeight": 1.5,
-                          "fontFamily": "Inter",
-                          "fontSize": 13,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "frame",
-                  "id": "1C2AO",
-                  "name": "feat3",
-                  "width": "fill_container",
-                  "fill": "#F5F2ED",
-                  "cornerRadius": 16,
-                  "gap": 16,
-                  "padding": 20,
-                  "alignItems": "center",
-                  "children": [
-                    {
-                      "type": "frame",
-                      "id": "YFBVU",
-                      "name": "feat3Icon",
-                      "width": 56,
-                      "height": 56,
-                      "fill": "#7D9B76",
-                      "cornerRadius": 100,
-                      "layout": "vertical",
-                      "justifyContent": "center",
-                      "alignItems": "center",
-                      "children": [
-                        {
-                          "type": "icon_font",
-                          "id": "xPvHa",
-                          "name": "feat3IconInner",
-                          "width": 24,
-                          "height": 24,
-                          "iconFontName": "book-open",
-                          "iconFontFamily": "lucide",
-                          "fill": "#FFFFFF"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "frame",
-                      "id": "RDxxB",
-                      "name": "feat3Content",
-                      "width": "fill_container",
-                      "layout": "vertical",
-                      "gap": 4,
-                      "children": [
-                        {
-                          "type": "text",
-                          "id": "OBel0",
-                          "name": "feat3Title",
-                          "fill": "#3C2415",
-                          "content": "コーヒーの知識も深まる",
-                          "fontFamily": "Inter",
-                          "fontSize": 16,
-                          "fontWeight": "600"
-                        },
-                        {
-                          "type": "text",
-                          "id": "Gjb0M",
-                          "name": "feat3Desc",
-                          "fill": "#6B5B4D",
-                          "textGrowth": "fixed-width",
-                          "width": "fill_container",
-                          "content": "産地やテイストの解説カード付き。毎月新しい発見があります",
-                          "lineHeight": 1.5,
-                          "fontFamily": "Inter",
-                          "fontSize": 13,
-                          "fontWeight": "normal"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
+              "content": "100gという「量」で豆を買うとき、\n飲み切るまでの「作業」を課してはいないでしょうか。\n\n流れ作業のように消費される珈琲。\n新しい豆と出会うはずだった機会が失われています。",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 13
+            },
+            {
+              "type": "text",
+              "id": "qn2Ws",
+              "name": "featTitle",
+              "fill": "#3C2415",
+              "content": "珈琲を『消費』から『体験』へ",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "bold"
+            },
+            {
+              "type": "text",
+              "id": "G4wS4",
+              "name": "featTitle",
+              "fill": "#3C2415",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "豆図書が届けるのは30g×3種類。\n毎月様々な焙煎所の珈琲豆を少しずつ楽しめます。\n\n豆を溜めずに、経験を貯める。 \nそんな新しいコーヒーライフ、始めてみませんか。",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 13
             }
           ]
         },
@@ -3318,6 +3133,60 @@
               "fontFamily": "Inter",
               "fontSize": 13,
               "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "bIsC1",
+          "name": "Features Section",
+          "width": "fill_container",
+          "fill": "#FFFFFF",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": [
+            48,
+            24
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "gGgZi",
+              "name": "featTitle",
+              "fill": "#3C2415",
+              "content": "珈琲は、飲むだけのものですか。\nそれとも、出会うものですか。",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "bold"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "ZipWR",
+          "name": "Features Section",
+          "width": "fill_container",
+          "fill": "#FFFFFF",
+          "layout": "vertical",
+          "gap": 32,
+          "padding": [
+            48,
+            24
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "cUIXN",
+              "name": "featTitle",
+              "fill": "#3C2415",
+              "content": "珈琲は、飲むだけのものですか。\nそれとも、出会うものですか。",
+              "textAlign": "center",
+              "fontFamily": "Inter",
+              "fontSize": 22,
+              "fontWeight": "bold"
             }
           ]
         }

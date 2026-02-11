@@ -19,7 +19,7 @@ export default function Header() {
             ログイン
           </a>
           <Link href={getPlanPagePath()} className={styles.cta}>
-            今すぐ始める
+            豆を選ぶ
           </Link>
         </div>
       </div>

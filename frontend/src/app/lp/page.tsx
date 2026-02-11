@@ -1,7 +1,6 @@
-import { LuBookOpen, LuHandHeart, LuTruck } from "react-icons/lu";
 import BeanShowcase from "./_components/BeanShowcase/beanShowcase";
+import ConceptSection from "./_components/ConceptSection/conceptSection";
 import CtaSection from "./_components/CtaSection/ctaSection";
-import FeatureCard from "./_components/FeatureCard/featureCard";
 import Footer from "./_components/Footer/footer";
 import Header from "./_components/Header/header";
 import HeroSection from "./_components/HeroSection/heroSection";
@@ -12,27 +11,6 @@ import TestimonialsCarousel from "./_components/TestimonialsCarousel/testimonial
 import { beans } from "./_lib/beanData";
 import "./globals.css";
 import styles from "./shared.module.css";
-
-const features = [
-  {
-    icon: <LuHandHeart size={24} />,
-    iconColor: "#8B5A2B",
-    title: "毎月3種を自由に選択",
-    description: "豊富なラインナップから、あなた好みの豆を毎月選べます",
-  },
-  {
-    icon: <LuTruck size={24} />,
-    iconColor: "#D4A574",
-    title: "新鮮なまま毎月届く",
-    description: "焙煎したての豆を毎月20日前後にお届け。鮮度が違います",
-  },
-  {
-    icon: <LuBookOpen size={24} />,
-    iconColor: "#7D9B76",
-    title: "コーヒーの知識も深まる",
-    description: "産地やテイストの解説カード付き。毎月新しい発見があります",
-  },
-];
 
 const testimonials = [
   {
@@ -73,25 +51,7 @@ export default function LP2() {
         <div style={{ height: 56 }} />
         <HeroSection />
 
-        {/* Features */}
-        <section
-          id="features"
-          className={styles.section}
-          style={{ background: "var(--color-white)" }}
-        >
-          <h2 className={styles.sectionTitle}>豆図書が選ばれる理由</h2>
-          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-            {features.map((f) => (
-              <FeatureCard
-                key={f.title}
-                icon={f.icon}
-                iconColor={f.iconColor}
-                title={f.title}
-                description={f.description}
-              />
-            ))}
-          </div>
-        </section>
+        <ConceptSection />
 
         {/* Bean Selection */}
         <section
@@ -99,7 +59,7 @@ export default function LP2() {
           className={styles.section}
           style={{ background: "var(--color-bg)" }}
         >
-          <h2 className={styles.sectionTitle}>今月のおすすめ豆</h2>
+          <h2 className={styles.sectionTitle}>初回のラインナップ</h2>
           <p className={styles.sectionSubtitle}>
             毎月8種類の珈琲豆から選べます
           </p>
