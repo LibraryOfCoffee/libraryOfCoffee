@@ -8,9 +8,9 @@ export function moveToCoffeeBeanListPage(planId?: string, beanIds?: string[]) {
   const url = new URL("https://zcgqx8-tr.myshopify.com/pages/from-lp-to-login");
   if (planId) url.searchParams.set("planId", planId);
   if (beanIds) {
-    for (const id of beanIds) {
-      url.searchParams.append("beanId", id);
-    }
+    beanIds.forEach((id, index) => {
+      url.searchParams.set(`beanId${index + 1}`, id);
+    });
   }
   window.location.href = url.toString();
 }
