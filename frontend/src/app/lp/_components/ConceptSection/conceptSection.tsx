@@ -22,9 +22,7 @@ export default function ConceptSection() {
       </div>
 
       <div className={styles.block}>
-        <h2 className={styles.title}>
-          珈琲を『消費』から『体験』へ
-        </h2>
+        <h2 className={styles.title}>珈琲を『消費』から『体験』へ</h2>
         <p className={styles.body}>
           豆図書が届けるのは30g×3種類。
           <br />
