@@ -1,0 +1,62 @@
+.indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 24px;
+  background: var(--color-white);
+}
+
+.group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 100px;
+  background: #d9d4ce;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-base);
+}
+
+.dotActive {
+  background: var(--color-brown);
+  color: var(--color-white);
+}
+
+.label {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  font-family: var(--font-base);
+}
+
+.labelActive {
+  color: var(--color-brown);
+  font-weight: 600;
+}
+
+.line {
+  width: 40px;
+  height: 2px;
+  background: #d9d4ce;
+  margin-bottom: 22px;
+}
+
+.lineActive {
+  background: var(--color-brown);
+}
