@@ -19,7 +19,7 @@ const shops = [
     websiteUrl: "https://moshimoshi.buyshop.jp/",
   },
   {
-    name: "LUSH COFFEE",
+    name: "LUSH-COFFEE",
     logoUrl: "/shopLogos/lushCoffee.png",
     websiteUrl: "https://lush-coffee.com/",
   },

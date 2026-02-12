@@ -36,7 +36,7 @@ export const beans: BeanDetail[] = [
     farm: "ロダン集落",
     roastLevel: "中煎り",
     processing: "Fully Washed",
-    roaster: "LUSH COFFEE",
+    roaster: "LUSH-COFFEE",
     roasterLink: "https://lush-coffee.com/",
     tasteProfile: [
       { label: "酸味", value: 60 },
@@ -60,7 +60,7 @@ export const beans: BeanDetail[] = [
     farm: "ロダン集落",
     roastLevel: "中深煎り",
     processing: "Fully Washed",
-    roaster: "LUSH COFFEE",
+    roaster: "LUSH-COFFEE",
     roasterLink: "https://lush-coffee.com/",
     tasteProfile: [
       { label: "酸味", value: 40 },
