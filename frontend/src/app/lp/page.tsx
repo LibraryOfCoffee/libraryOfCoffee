@@ -16,8 +16,6 @@ import styles from "./shared.module.css";
 
 export const metadata: Metadata = {
   title: "色々な珈琲と出会える定額サブスク",
-  description:
-    "豆図書は、様々な店舗の中から気になる珈琲豆を選んで30g×3種類が届く定額サブスクリプションサービスです。月額1,500円（税込・送料無料）で、注文後焙煎の新鮮な豆をお届けします。",
 };
 
 const organizationJsonLd = {
