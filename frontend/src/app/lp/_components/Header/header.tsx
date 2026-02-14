@@ -1,35 +1,28 @@
-"use client";
 import Image from "next/image";
-import "./header.css";
-import {
-  moveToCoffeeBeanListPage,
-  moveToLoginPage,
-} from "../../_lib/PurchaseLinkUtil/purchaseLinkUtil";
+import Link from "next/link";
+import { getPlanPagePath, LOGIN_URL } from "../../_lib/purchaseLinkUtil";
+import styles from "./header.module.css";
 
 export default function Header() {
   return (
-    <header className="lp-header">
-      <nav className="lp-nav">
-        <div className="lp-nav-content">
-          <div>
-            <a className="lp-logo" href={"/lp"}>
-              <Image src="/logo.svg" alt="logo" height={40} width={80} />
-            </a>
-          </div>
-          <div className="lp-publish-link">
-            <div className="lp-publish-link-login">
-              <button type="button" onClick={() => moveToLoginPage()}>
-                ログイン
-              </button>
-            </div>
-            <div className="lp-publish-link-register">
-              <button type="button" onClick={() => moveToCoffeeBeanListPage()}>
-                今すぐ始める
-              </button>
-            </div>
-          </div>
+    <header className={styles.header}>
+      <div className={styles.inner}>
+        <Image
+          src="/logo.svg"
+          alt="豆図書"
+          width={80}
+          height={26}
+          className={styles.logo}
+        />
+        <div className={styles.actions}>
+          <a href={LOGIN_URL} className={styles.login}>
+            ログイン
+          </a>
+          <Link href={getPlanPagePath()} className={styles.cta}>
+            豆を選ぶ
+          </Link>
         </div>
-      </nav>
+      </div>
     </header>
   );
 }

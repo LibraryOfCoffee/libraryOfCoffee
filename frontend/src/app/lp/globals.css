@@ -1,0 +1,17 @@
+:root {
+  --color-brown-dark: #3c2415;
+  --color-brown: #8b5a2b;
+  --color-brown-light: #d4a574;
+  --color-green: #7d9b76;
+  --color-bg: #f5f2ed;
+  --color-text: #3c2415;
+  --color-text-secondary: #6b5b4d;
+  --color-white: #ffffff;
+  --font-base:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+}
+
+.swiper-slide {
+  height: auto;
+  display: flex;
+}

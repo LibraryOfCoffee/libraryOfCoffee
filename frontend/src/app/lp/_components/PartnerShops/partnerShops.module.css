@@ -1,0 +1,38 @@
+.shops {
+  background: var(--color-bg);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  justify-content: center;
+}
+
+.item {
+  background: var(--color-white);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+
+.item:hover {
+  opacity: 0.8;
+}
+
+.logo {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+.more {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin: 24px 0 0;
+}
