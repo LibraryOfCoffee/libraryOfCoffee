@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import BeanShowcase from "./_components/BeanShowcase/beanShowcase";
 import ConceptSection from "./_components/ConceptSection/conceptSection";
 import CtaSection from "./_components/CtaSection/ctaSection";
@@ -9,8 +10,42 @@ import PartnerShops from "./_components/PartnerShops/partnerShops";
 import PricingSection from "./_components/PricingSection/pricingSection";
 import TestimonialsCarousel from "./_components/TestimonialsCarousel/testimonialsCarousel";
 import { beans } from "./_lib/beanData";
+import { JsonLd } from "./_lib/jsonLd";
 import "./globals.css";
 import styles from "./shared.module.css";
+
+export const metadata: Metadata = {
+  title: "色々な珈琲と出会える定額サブスク",
+};
+
+const organizationJsonLd = {
+  "@context": "https://schema.org" as const,
+  "@type": "Organization",
+  name: "豆図書",
+  url: "https://mametosho.com",
+  logo: "https://mametosho.com/logo.png",
+};
+
+const webSiteJsonLd = {
+  "@context": "https://schema.org" as const,
+  "@type": "WebSite",
+  name: "豆図書",
+  url: "https://mametosho.com",
+};
+
+const productJsonLd = {
+  "@context": "https://schema.org" as const,
+  "@type": "Product",
+  name: "豆図書 珈琲豆サブスクリプション",
+  description:
+    "毎月届く珈琲豆の定額サブスク。注文後焙煎の新鮮な豆30g×3種類をお届け。",
+  offers: {
+    "@type": "Offer",
+    price: "1500",
+    priceCurrency: "JPY",
+    availability: "https://schema.org/InStock",
+  },
+};
 
 const testimonials = [
   {
@@ -46,6 +81,9 @@ const testimonials = [
 export default function LP2() {
   return (
     <>
+      <JsonLd data={organizationJsonLd} />
+      <JsonLd data={webSiteJsonLd} />
+      <JsonLd data={productJsonLd} />
       <Header />
       <div className={styles.container}>
         <div style={{ height: 56 }} />
