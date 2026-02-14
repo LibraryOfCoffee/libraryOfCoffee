@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://mametosho.com"),
+  metadataBase: new URL(process.env.URL ?? "https://mametosho.com"),
   title: {
     default: "豆図書",
     template: "%s | 豆図書",
