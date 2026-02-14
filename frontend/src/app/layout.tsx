@@ -28,9 +28,17 @@ export const metadata: Metadata = {
     siteName: "豆図書",
     locale: "ja_JP",
     type: "website",
+    images: [
+      {
+        url: "/ogImage.jpeg",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
+    images: ["/ogImage.jpeg"],
   },
 };
 
