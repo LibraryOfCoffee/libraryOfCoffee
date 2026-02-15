@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/ogImage.jpeg",
+        url: "/ogImageRectangle.jpeg",
         width: 1200,
         height: 630,
       },
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary",
-    images: ["/ogImage.jpeg"],
+    images: ["/ogImageSquare.jpeg"],
   },
 };
 
