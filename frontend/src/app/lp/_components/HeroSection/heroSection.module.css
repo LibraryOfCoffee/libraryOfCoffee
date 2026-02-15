@@ -7,7 +7,7 @@
       rgba(60, 36, 21, 0.3) 0%,
       rgba(60, 36, 21, 0.7) 100%
     ),
-    url("/hero-image.png") center / cover no-repeat;
+    url("/hero-image.jpeg") center / cover no-repeat;
   display: flex;
   align-items: stretch;
   justify-content: center;
