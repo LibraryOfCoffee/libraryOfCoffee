@@ -38,7 +38,13 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary",
-    images: ["/ogImageSquare.jpeg"],
+    images: [
+      {
+        url: "/ogImageSquare.jpeg",
+        width: 1024,
+        height: 1024,
+      },
+    ],
   },
 };
 
