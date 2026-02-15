@@ -14,14 +14,31 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "豆図書",
+  metadataBase: new URL(process.env.URL ?? "https://mametosho.com"),
+  title: {
+    default: "豆図書",
+    template: "%s | 豆図書",
+  },
   description:
-    "様々な店舗の中から気になる珈琲豆を選んで、30g×3種類が届くサービス。注文後焙煎の新鮮な豆で、自分好みの一杯を見つけませんか？定額1,500円(税込・送料無料)で、店舗のこだわりや豆の特徴を学びながら様々な珈琲体験を。",
+    "珈琲豆のサブスク「豆図書」。豆を溜めずに、経験を貯める。様々な自家焙煎店舗・ロースタリーのこだわり自家焙煎珈琲豆を30g×3種の少量多品種でお届け。ハンドドリップで楽しむ試し飲み体験を、定額で。",
   openGraph: {
     title: "豆図書",
     description:
-      "様々な店舗の中から気になる珈琲豆を選んで、30g×3種類が届くサービス。注文後焙煎の新鮮な豆で、自分好みの一杯を見つけませんか？定額1,500円(税込・送料無料)で、店舗のこだわりや豆の特徴を学びながら様々な珈琲体験を。",
+      "珈琲豆のサブスク「豆図書」。豆を溜めずに、経験を貯める。様々な自家焙煎店舗・ロースタリーのこだわり自家焙煎珈琲豆を30g×3種の少量多品種でお届け。ハンドドリップで楽しむ試し飲み体験を、定額で。",
+    siteName: "豆図書",
+    locale: "ja_JP",
     type: "website",
+    images: [
+      {
+        url: "/ogImageRectangle.jpeg",
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    images: ["/ogImageSquare.jpeg"],
   },
 };
 

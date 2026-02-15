@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import AppHeader from "../_components/AppHeader/appHeader";
 import BeanDetailModal from "../_components/BeanDetailModal/beanDetailModal";
@@ -14,6 +14,7 @@ import sharedStyles from "../shared.module.css";
 import styles from "./beans.module.css";
 
 const MAX_SELECTION = 4;
+const VALID_PLAN_IDS = ["cbl-flat-1500"];
 
 function BeansPageContent() {
   const router = useRouter();
@@ -28,6 +29,10 @@ function BeansPageContent() {
     return [];
   });
   const [detailBean, setDetailBean] = useState<BeanDetail | null>(null);
+
+  if (!planId || !VALID_PLAN_IDS.includes(planId)) {
+    redirect("/lp/plan");
+  }
 
   const toggleBean = (id: string) => {
     setSelectedIds((prev) => {
