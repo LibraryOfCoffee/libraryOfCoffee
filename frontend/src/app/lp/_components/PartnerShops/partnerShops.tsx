@@ -33,6 +33,16 @@ const shops = [
     logoUrl: "/shopLogos/marucaCoffee.png",
     websiteUrl: "https://marucacoffee.com/",
   },
+  {
+    name: "+ninth coffee",
+    logoUrl: "/shopLogos/addNinthCoffee.png",
+    websiteUrl: "https://www.addninthcoffee.com/",
+  },
+  {
+    name: "Black Sloth Coffee",
+    logoUrl: "/shopLogos/blackSlothCoffee.png",
+    websiteUrl: "https://bscnet.base.shop/",
+  },
 ];
 
 export default function PartnerShops() {
