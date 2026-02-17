@@ -10,6 +10,7 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "@microsoft/clarity": "^1.0.2",
     "@next/third-parties": "^16.0.10",
     "next": "16.0.7",
     "react": "19.2.1",
