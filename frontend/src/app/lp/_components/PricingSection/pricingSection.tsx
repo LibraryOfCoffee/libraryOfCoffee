@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { LuCheck } from "react-icons/lu";
 import sharedStyles from "../../shared.module.css";
+import LinkWithLoading from "../LinkWithLoading/linkWithLoading";
 import styles from "./pricingSection.module.css";
 
 const features = [
@@ -28,9 +28,12 @@ export default function PricingSection() {
           </div>
           <span className={styles.desc}>30g × 3種類 / 毎月届く</span>
         </div>
-        <Link href="/lp/beans?planId=cbl-flat-1500" className={styles.btn}>
+        <LinkWithLoading
+          href="/lp/beans?planId=cbl-flat-1500"
+          className={styles.btn}
+        >
           このプランで豆を選ぶ
-        </Link>
+        </LinkWithLoading>
         <ul className={styles.features}>
           {features.map((feat) => (
             <li key={feat} className={styles.feat}>

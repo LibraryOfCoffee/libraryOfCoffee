@@ -6,6 +6,7 @@ import AppHeader from "../_components/AppHeader/appHeader";
 import BeanDetailModal from "../_components/BeanDetailModal/beanDetailModal";
 import BeanSelectCard from "../_components/BeanSelectCard/beanSelectCard";
 import CtaFooter from "../_components/CtaFooter/ctaFooter";
+import LoadingOverlay from "../_components/LoadingOverlay/loadingOverlay";
 import StepIndicator from "../_components/StepIndicator/stepIndicator";
 import { type BeanDetail, beans } from "../_lib/beanData";
 import { moveToCoffeeBeanListPage } from "../_lib/purchaseLinkUtil";
@@ -29,6 +30,7 @@ function BeansPageContent() {
     return [];
   });
   const [detailBean, setDetailBean] = useState<BeanDetail | null>(null);
+  const [loading, setLoading] = useState(false);
 
   if (!planId || !VALID_PLAN_IDS.includes(planId)) {
     redirect("/lp/plan");
@@ -46,6 +48,7 @@ function BeansPageContent() {
 
   return (
     <div className={`${sharedStyles.container} ${sharedStyles.containerStep}`}>
+      {loading && <LoadingOverlay />}
       <AppHeader onBack={() => router.back()} />
       <StepIndicator currentStep={2} />
       <div className={styles.content}>
@@ -64,6 +67,7 @@ function BeansPageContent() {
             type="button"
             className={styles.omakaseButton}
             onClick={() => {
+              setLoading(true);
               setSelectedIds([]);
               moveToCoffeeBeanListPage(planId ?? undefined, []);
             }}
