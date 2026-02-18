@@ -18,10 +18,11 @@ function PlanPageContent() {
   const [selectedPlan, setSelectedPlan] = useState("cbl-flat-1500");
   const [loading, setLoading] = useState(false);
 
-  const handleNext = () => {
+  const handleSelect = (planId: string) => {
+    setSelectedPlan(planId);
     setLoading(true);
     const query = new URLSearchParams();
-    query.set("planId", selectedPlan);
+    query.set("planId", planId);
     if (beanId) query.set("beanId", beanId);
     router.push(`/lp/beans?${query.toString()}`);
   };
@@ -42,7 +43,7 @@ function PlanPageContent() {
             price="1,500"
             description="30g × 3種類 / 毎月届く"
             selected={selectedPlan === "cbl-flat-1500"}
-            onSelect={() => setSelectedPlan("cbl-flat-1500")}
+            onSelect={() => handleSelect("cbl-flat-1500")}
           />
         </div>
       </div>
@@ -50,7 +51,7 @@ function PlanPageContent() {
         summaryLabel="お支払い（税込）"
         summaryValue="¥1,500"
         ctaText="豆を選ぶ"
-        onCtaClick={handleNext}
+        onCtaClick={() => handleSelect(selectedPlan)}
         showIcon={false}
       />
     </div>
