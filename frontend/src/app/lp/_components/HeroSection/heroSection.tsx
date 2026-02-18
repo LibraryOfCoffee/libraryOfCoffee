@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { LuArrowRight, LuChevronDown } from "react-icons/lu";
 import { getPlanPagePath } from "../../_lib/purchaseLinkUtil";
 import sharedStyles from "../../shared.module.css";
+import LinkWithLoading from "../LinkWithLoading/linkWithLoading";
 import styles from "./heroSection.module.css";
 
 export default function HeroSection() {
@@ -14,10 +14,13 @@ export default function HeroSection() {
             <br />
             経験を貯める
           </h1>
-          <Link href={getPlanPagePath()} className={sharedStyles.btnPrimary}>
+          <LinkWithLoading
+            href={getPlanPagePath()}
+            className={sharedStyles.btnPrimary}
+          >
             豆を選ぶ
             <LuArrowRight size={18} />
-          </Link>
+          </LinkWithLoading>
         </div>
         <a href="#beans" className={styles.anchorLink}>
           初回のラインナップ

@@ -1,8 +1,9 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { type ReactNode, useState } from "react";
 import { LuArrowRight } from "react-icons/lu";
 import { moveToLoginPage } from "../../_lib/purchaseLinkUtil";
+import LoadingOverlay from "../LoadingOverlay/loadingOverlay";
 import styles from "./ctaFooter.module.css";
 
 interface CtaFooterProps {
@@ -24,32 +25,46 @@ export default function CtaFooter({
   subText,
   disabled = false,
 }: CtaFooterProps) {
+  const [loading, setLoading] = useState(false);
+
   return (
-    <div className={styles.footer}>
-      <div className={styles.summary}>
-        <span className={styles.summaryLabel}>{summaryLabel}</span>
-        <span className={styles.summaryValue}>{summaryValue}</span>
-      </div>
-      {subText && <span className={styles.subText}>{subText}</span>}
-      <button
-        type="button"
-        className={`${styles.btn} ${disabled ? styles.btnDisabled : ""}`}
-        onClick={onCtaClick}
-        disabled={disabled}
-      >
-        {ctaText}
-        {showIcon && <LuArrowRight size={16} />}
-      </button>
-      <div className={styles.login}>
-        <span className={styles.loginText}>すでにアカウントをお持ちの方は</span>
+    <>
+      {loading && <LoadingOverlay />}
+      <div className={styles.footer}>
+        <div className={styles.summary}>
+          <span className={styles.summaryLabel}>{summaryLabel}</span>
+          <span className={styles.summaryValue}>{summaryValue}</span>
+        </div>
+        {subText && <span className={styles.subText}>{subText}</span>}
         <button
           type="button"
-          className={styles.loginAction}
-          onClick={() => moveToLoginPage()}
+          className={`${styles.btn} ${disabled ? styles.btnDisabled : ""}`}
+          onClick={() => {
+            setLoading(true);
+            onCtaClick();
+          }}
+          disabled={disabled || loading}
         >
-          ログイン
+          {ctaText}
+          {showIcon && <LuArrowRight size={16} />}
         </button>
+        <div className={styles.login}>
+          <span className={styles.loginText}>
+            すでにアカウントをお持ちの方は
+          </span>
+          <button
+            type="button"
+            className={styles.loginAction}
+            onClick={() => {
+              setLoading(true);
+              moveToLoginPage();
+            }}
+            disabled={loading}
+          >
+            ログイン
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

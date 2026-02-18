@@ -6,6 +6,7 @@ import type { BeanDetail } from "../../_lib/beanData";
 import { getPlanPagePath } from "../../_lib/purchaseLinkUtil";
 import BeanCard from "../BeanCard/beanCard";
 import BeanDetailModal from "../BeanDetailModal/beanDetailModal";
+import LoadingOverlay from "../LoadingOverlay/loadingOverlay";
 
 interface BeanShowcaseProps {
   beans: BeanDetail[];
@@ -14,9 +15,11 @@ interface BeanShowcaseProps {
 export default function BeanShowcase({ beans }: BeanShowcaseProps) {
   const router = useRouter();
   const [selectedBean, setSelectedBean] = useState<BeanDetail | null>(null);
+  const [loading, setLoading] = useState(false);
 
   return (
     <>
+      {loading && <LoadingOverlay />}
       <div
         style={{
           display: "grid",
@@ -42,7 +45,10 @@ export default function BeanShowcase({ beans }: BeanShowcaseProps) {
         <BeanDetailModal
           bean={selectedBean}
           onClose={() => setSelectedBean(null)}
-          onSelect={(bean) => router.push(getPlanPagePath(bean.id))}
+          onSelect={(bean) => {
+            setLoading(true);
+            router.push(getPlanPagePath(bean.id));
+          }}
         />
       )}
     </>
