@@ -1,6 +1,5 @@
 import Image from "next/image";
-import { getPlanPagePath, LOGIN_URL } from "../../_lib/purchaseLinkUtil";
-import LinkWithLoading from "../LinkWithLoading/linkWithLoading";
+import { LOGIN_URL } from "../../_lib/purchaseLinkUtil";
 import styles from "./header.module.css";
 
 export default function Header() {
@@ -18,9 +17,6 @@ export default function Header() {
           <a href={LOGIN_URL} className={styles.login}>
             ログイン
           </a>
-          <LinkWithLoading href={getPlanPagePath()} className={styles.cta}>
-            豆を選ぶ
-          </LinkWithLoading>
         </div>
       </div>
     </header>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import BeanShowcase from "./_components/BeanShowcase/beanShowcase";
 import ConceptSection from "./_components/ConceptSection/conceptSection";
 import CtaSection from "./_components/CtaSection/ctaSection";
+import FloatingCta from "./_components/FloatingCta/floatingCta";
 import Footer from "./_components/Footer/footer";
 import Header from "./_components/Header/header";
 import HeroSection from "./_components/HeroSection/heroSection";
@@ -86,7 +87,6 @@ export default function LP2() {
       <JsonLd data={productJsonLd} />
       <Header />
       <div className={styles.container}>
-        <div style={{ height: 56 }} />
         <HeroSection />
 
         <ConceptSection />
@@ -132,6 +132,7 @@ export default function LP2() {
         <CtaSection />
       </div>
       <Footer />
+      <FloatingCta />
     </>
   );
 }
