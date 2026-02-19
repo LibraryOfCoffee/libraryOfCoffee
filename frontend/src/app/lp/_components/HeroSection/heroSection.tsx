@@ -1,4 +1,4 @@
-import { LuArrowRight, LuChevronDown } from "react-icons/lu";
+import { LuChevronDown, LuChevronRight } from "react-icons/lu";
 import { getPlanPagePath } from "../../_lib/purchaseLinkUtil";
 import sharedStyles from "../../shared.module.css";
 import LinkWithLoading from "../LinkWithLoading/linkWithLoading";
@@ -16,10 +16,10 @@ export default function HeroSection() {
           </h1>
           <LinkWithLoading
             href={getPlanPagePath()}
-            className={sharedStyles.btnPrimary}
+            className={`${sharedStyles.btnPrimary} ${styles.ctaBtn}`}
           >
             豆を選ぶ
-            <LuArrowRight size={18} />
+            <LuChevronRight className={styles.ctaArrow} size={22} />
           </LinkWithLoading>
         </div>
         <a href="#beans" className={styles.anchorLink}>

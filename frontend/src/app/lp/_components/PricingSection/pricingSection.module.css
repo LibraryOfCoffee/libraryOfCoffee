@@ -57,6 +57,7 @@
 
 .btn {
   display: block;
+  position: relative;
   width: 100%;
   background: var(--color-brown);
   color: var(--color-white);
@@ -70,6 +71,13 @@
   transition: opacity 0.3s;
   text-align: center;
   text-decoration: none;
+}
+
+.btnArrow {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .btn:hover {
