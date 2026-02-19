@@ -1,4 +1,4 @@
-import { LuCheck } from "react-icons/lu";
+import { LuCheck, LuChevronRight } from "react-icons/lu";
 import sharedStyles from "../../shared.module.css";
 import LinkWithLoading from "../LinkWithLoading/linkWithLoading";
 import styles from "./pricingSection.module.css";
@@ -33,6 +33,7 @@ export default function PricingSection() {
           className={styles.btn}
         >
           このプランで豆を選ぶ
+          <LuChevronRight className={styles.btnArrow} size={22} />
         </LinkWithLoading>
         <ul className={styles.features}>
           {features.map((feat) => (

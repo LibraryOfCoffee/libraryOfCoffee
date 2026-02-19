@@ -41,6 +41,19 @@
   max-width: 300px;
 }
 
+.ctaBtn {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+}
+
+.ctaArrow {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .anchorLink {
   display: flex;
   align-items: center;
