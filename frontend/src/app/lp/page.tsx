@@ -41,41 +41,30 @@ const productJsonLd = {
   description:
     "毎月届く珈琲豆の定額サブスク。注文後焙煎の新鮮な豆30g×3種類をお届け。",
   image: "https://mametosho.com/ogImageRectangle.jpeg",
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "5",
-    reviewCount: "4",
-    bestRating: "5",
-    worstRating: "1",
-  },
   review: [
     {
       "@type": "Review",
       reviewBody:
         "量がちょうどよく、豆が余らないのが嬉しいです。少量だからいつも新鮮な味を楽しめます。",
       author: { "@type": "Person", name: "Y.M" },
-      reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
     },
     {
       "@type": "Review",
       reviewBody:
         "隠れた名店の味を気軽に体験できるのが嬉しいです。お店の淹れ方を参考に、自分に合った抽出を研究しています。",
       author: { "@type": "Person", name: "T.K" },
-      reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
     },
     {
       "@type": "Review",
       reviewBody:
         "定期的に届く豆が生活の楽しみになりました。毎回違う味に出会えて、自分の好きが少しずつ見えてきます。",
       author: { "@type": "Person", name: "T.A" },
-      reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
     },
     {
       "@type": "Review",
       reviewBody:
         "珈琲豆の情報が分かりやすくまとまっているおかげで、さらに自分で調べてディグる楽しさに出会えました。",
       author: { "@type": "Person", name: "F.A" },
-      reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
     },
   ],
   offers: {
