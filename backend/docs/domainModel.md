@@ -1,5 +1,18 @@
 # ドメインモデル図
 
+## 集約一覧
+
+| 集約 | 概要 |
+|------|------|
+| [Administrator](domains/administrator.md) | 管理画面にログインする管理者 |
+| [Customer](domains/customer.md) | 顧客とそのサブスクリプション契約 |
+| [SubscriptionPlan](domains/subscriptionPlan.md) | サブスクリプションのプラン |
+| [MonthlySubscriptionDetail](domains/monthlySubscriptionDetail.md) | 月次の配送内容と発送ステータス |
+| [Shop](domains/shop.md) | 珈琲豆を提供する店舗 |
+| [CoffeeBean](domains/coffeeBean.md) | 店舗が提供する珈琲豆 |
+| [Taste](domains/taste.md) | テイスト評価の種別（酸味・苦味など） |
+| [CoffeeListGroup](domains/coffeeListGroup.md) | CSサイトに表示する珈琲豆リスト |
+
 ## ドメインモデル図
 
 ```mermaid
