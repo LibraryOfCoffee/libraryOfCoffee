@@ -1,8 +1,8 @@
-package com.mametosho.infrastructure.persistence.mapper
+package com.mametosho.infrastructure.persistence.mybatis.mapper
 
-import com.mametosho.infrastructure.persistence.entity.SampleEntity
-import org.apache.ibatis.annotations.Select
+import com.mametosho.infrastructure.persistence.mybatis.entity.SampleEntity
 import org.apache.ibatis.annotations.Mapper
+import org.apache.ibatis.annotations.Select
 
 @Mapper
 interface SampleMapper {

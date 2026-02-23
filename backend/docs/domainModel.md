@@ -1,5 +1,18 @@
 # ドメインモデル図
 
+## 集約一覧
+
+| 集約 | 概要 |
+|------|------|
+| [Administrator](domains/administrator.md) | 管理画面にログインする管理者 |
+| [Customer](domains/customer.md) | 顧客とそのサブスクリプション契約 |
+| [SubscriptionPlan](domains/subscriptionPlan.md) | サブスクリプションのプラン |
+| [MonthlySubscriptionDetail](domains/monthlySubscriptionDetail.md) | 月次の配送内容と発送ステータス |
+| [Shop](domains/shop.md) | 珈琲豆を提供する店舗 |
+| [CoffeeBean](domains/coffeeBean.md) | 店舗が提供する珈琲豆 |
+| [Taste](domains/taste.md) | テイスト評価の種別（酸味・苦味など） |
+| [CoffeeListGroup](domains/coffeeListGroup.md) | CSサイトに表示する珈琲豆リスト |
+
 ## ドメインモデル図
 
 ```mermaid
@@ -232,10 +245,3 @@ classDiagram
 | `*--` (塗りつぶし菱形) | コンポジション。親が子のライフサイクルを管理 |
 | `o--` (白抜き菱形) | ID参照。他の集約をIDで参照（直接保持しない） |
 | `-->` | 依存。値オブジェクトの利用など |
-
-## 集約設計の方針
-
-| 方針 | 説明 |
-|------|------|
-| **Customer が CustomerSubscription を包含** | 契約は顧客のライフサイクルに従属するため、顧客集約の子エンティティとする |
-| **MonthlySubscriptionDetail は別集約** | 操作タイミング・アクターが異なり、月次データが増え続けるため顧客集約から分離 |

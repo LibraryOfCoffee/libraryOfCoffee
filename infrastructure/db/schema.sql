@@ -1,11 +1,11 @@
-CREATE TABLE sample (
+CREATE TABLE IF NOT EXISTS sample (
     id   BIGINT       AUTO_INCREMENT PRIMARY KEY                               COMMENT 'ID',
     name VARCHAR(255) NOT NULL                                                 COMMENT '名前',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                             COMMENT '作成日時',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='サンプルテーブル';
 
-CREATE TABLE administrators (
+CREATE TABLE IF NOT EXISTS administrators (
     id              CHAR(26)     NOT NULL PRIMARY KEY                          COMMENT '管理者ID',
     email           VARCHAR(255) NOT NULL UNIQUE                               COMMENT 'メールアドレス',
     hashed_password VARCHAR(255) NOT NULL                                      COMMENT 'ハッシュ化されたパスワード',
@@ -14,7 +14,7 @@ CREATE TABLE administrators (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='管理者テーブル';
 
-CREATE TABLE customers (
+CREATE TABLE IF NOT EXISTS customers (
     id                  CHAR(26)     NOT NULL PRIMARY KEY                      COMMENT '顧客ID',
     shopify_customer_id VARCHAR(255) NOT NULL UNIQUE                           COMMENT 'ShopifyのカスタマーID',
     status              ENUM('active', 'withdrawn') NOT NULL                   COMMENT 'ステータス',
@@ -22,7 +22,7 @@ CREATE TABLE customers (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='顧客テーブル';
 
-CREATE TABLE subscription_plans (
+CREATE TABLE IF NOT EXISTS subscription_plans (
     id                      CHAR(26)     NOT NULL PRIMARY KEY                  COMMENT 'プランID',
     shopify_subscription_id VARCHAR(255) NOT NULL UNIQUE                       COMMENT 'ShopifyのサブスクリプションID',
     price                   INT          NOT NULL                              COMMENT '価格',
@@ -31,7 +31,7 @@ CREATE TABLE subscription_plans (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='サブスクリプションプランマスタテーブル';
 
-CREATE TABLE shops (
+CREATE TABLE IF NOT EXISTS shops (
     id              CHAR(26)      NOT NULL PRIMARY KEY                         COMMENT '店舗ID',
     shopify_shop_id VARCHAR(255)  NOT NULL UNIQUE                              COMMENT 'ShopifyのショップID',
     name            VARCHAR(255)  NOT NULL                                     COMMENT '店舗名',
@@ -41,21 +41,21 @@ CREATE TABLE shops (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='店舗マスタテーブル';
 
-CREATE TABLE tastes (
+CREATE TABLE IF NOT EXISTS tastes (
     id   CHAR(26)     NOT NULL PRIMARY KEY                                     COMMENT 'テイストID',
     name VARCHAR(255) NOT NULL                                                 COMMENT 'テイスト名',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                             COMMENT '作成日時',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='テイストマスタテーブル';
 
-CREATE TABLE coffee_list_groups (
+CREATE TABLE IF NOT EXISTS coffee_list_groups (
     id          CHAR(26) NOT NULL PRIMARY KEY                                  COMMENT 'グループID',
     description TEXT                                                           COMMENT 'グループの説明',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                             COMMENT '作成日時',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='珈琲リストグループマスタテーブル';
 
-CREATE TABLE customer_subscriptions (
+CREATE TABLE IF NOT EXISTS customer_subscriptions (
     id                   CHAR(26) NOT NULL PRIMARY KEY                         COMMENT '契約ID',
     customer_id          CHAR(26) NOT NULL                                     COMMENT '顧客ID',
     subscription_plan_id CHAR(26) NOT NULL                                     COMMENT 'プランID',
@@ -68,7 +68,7 @@ CREATE TABLE customer_subscriptions (
     FOREIGN KEY (subscription_plan_id) REFERENCES subscription_plans (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='顧客のサブスクリプション契約テーブル';
 
-CREATE TABLE coffee_beans (
+CREATE TABLE IF NOT EXISTS coffee_beans (
     id                CHAR(26)      NOT NULL PRIMARY KEY                       COMMENT '珈琲豆ID',
     shop_id           CHAR(26)      NOT NULL                                   COMMENT '店舗ID',
     shopify_bean_id   VARCHAR(255)  NOT NULL UNIQUE                            COMMENT 'Shopifyの珈琲豆ID',
@@ -83,7 +83,7 @@ CREATE TABLE coffee_beans (
     FOREIGN KEY (shop_id) REFERENCES shops (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='珈琲豆のマスタテーブル';
 
-CREATE TABLE monthly_subscription_details (
+CREATE TABLE IF NOT EXISTS monthly_subscription_details (
     id                       CHAR(26) NOT NULL PRIMARY KEY                     COMMENT '詳細ID',
     customer_subscription_id CHAR(26) NOT NULL                                 COMMENT '契約ID',
     month                    DATE     NOT NULL                                 COMMENT '対象年月',
@@ -95,7 +95,7 @@ CREATE TABLE monthly_subscription_details (
     FOREIGN KEY (customer_subscription_id) REFERENCES customer_subscriptions (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='月次サブスクリプション詳細テーブル';
 
-CREATE TABLE coffee_bean_images (
+CREATE TABLE IF NOT EXISTS coffee_bean_images (
     id            CHAR(26)      NOT NULL PRIMARY KEY                           COMMENT '画像ID',
     coffee_bean_id CHAR(26)     NOT NULL                                       COMMENT '珈琲豆ID',
     type          ENUM('main') NOT NULL                                        COMMENT '画像種別',
@@ -105,7 +105,7 @@ CREATE TABLE coffee_bean_images (
     FOREIGN KEY (coffee_bean_id) REFERENCES coffee_beans (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='珈琲豆の画像テーブル';
 
-CREATE TABLE coffee_bean_tastes (
+CREATE TABLE IF NOT EXISTS coffee_bean_tastes (
     id               CHAR(26) NOT NULL PRIMARY KEY                             COMMENT '評価ID',
     coffee_bean_id   CHAR(26) NOT NULL                                         COMMENT '珈琲豆ID',
     tastes_id        CHAR(26) NOT NULL                                         COMMENT 'テイストID',
@@ -117,7 +117,7 @@ CREATE TABLE coffee_bean_tastes (
     FOREIGN KEY (tastes_id) REFERENCES tastes (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='珈琲豆のテイスト評価テーブル';
 
-CREATE TABLE shop_images (
+CREATE TABLE IF NOT EXISTS shop_images (
     id        CHAR(26)      NOT NULL PRIMARY KEY                               COMMENT '画像ID',
     shop_id   CHAR(26)      NOT NULL                                           COMMENT '店舗ID',
     type      ENUM('main') NOT NULL                                            COMMENT '画像種別',
@@ -127,7 +127,7 @@ CREATE TABLE shop_images (
     FOREIGN KEY (shop_id) REFERENCES shops (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='店舗の画像テーブル';
 
-CREATE TABLE coffee_list_childs (
+CREATE TABLE IF NOT EXISTS coffee_list_childs (
     id                   CHAR(26) NOT NULL PRIMARY KEY                         COMMENT '明細ID',
     coffee_list_group_id CHAR(26) NOT NULL                                     COMMENT 'グループID',
     coffee_bean_id       CHAR(26) NOT NULL                                     COMMENT '珈琲豆ID',
@@ -138,7 +138,7 @@ CREATE TABLE coffee_list_childs (
     FOREIGN KEY (coffee_bean_id) REFERENCES coffee_beans (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='珈琲リスト明細テーブル';
 
-CREATE TABLE customer_coffee_bean_choices (
+CREATE TABLE IF NOT EXISTS customer_coffee_bean_choices (
     id                             CHAR(26) NOT NULL PRIMARY KEY               COMMENT '選択ID',
     monthly_subscription_detail_id CHAR(26) NOT NULL                           COMMENT '月次詳細ID',
     coffee_bean_id                 CHAR(26) NOT NULL                           COMMENT '珈琲豆ID',
@@ -149,7 +149,7 @@ CREATE TABLE customer_coffee_bean_choices (
     FOREIGN KEY (coffee_bean_id) REFERENCES coffee_beans (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='顧客が選択した珈琲豆テーブル';
 
-CREATE TABLE actual_shipping_coffee_beans (
+CREATE TABLE IF NOT EXISTS actual_shipping_coffee_beans (
     id                             CHAR(26) NOT NULL PRIMARY KEY               COMMENT '発送豆ID',
     monthly_subscription_detail_id CHAR(26) NOT NULL                           COMMENT '月次詳細ID',
     coffee_bean_id                 CHAR(26) NOT NULL                           COMMENT '珈琲豆ID',

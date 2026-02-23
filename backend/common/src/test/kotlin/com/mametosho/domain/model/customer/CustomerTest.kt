@@ -1,0 +1,146 @@
+package com.mametosho.domain.model.customer
+
+import com.mametosho.domain.model.subscriptionplan.SubscriptionPlanId
+import org.junit.jupiter.api.assertThrows
+import java.time.LocalDate
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+
+class CustomerTest {
+
+    private fun createCustomer(
+        status: CustomerStatus = CustomerStatus.ACTIVE,
+        subscriptions: List<CustomerSubscription> = emptyList(),
+    ): Customer = Customer(
+        id = CustomerId("01J000000000000000000CUST1"),
+        shopifyCustomerId = ShopifyCustomerId("shopify-customer-1"),
+        status = status,
+        subscriptions = subscriptions,
+    )
+
+    private fun createSubscription(
+        id: String = "01J00000000000000000SUB001",
+        planId: String = "01J0000000000000000PLAN001",
+        status: SubscriptionStatus = SubscriptionStatus.ACTIVE,
+    ): CustomerSubscription = CustomerSubscription(
+        id = CustomerSubscriptionId(id),
+        subscriptionPlanId = SubscriptionPlanId(planId),
+        status = status,
+        contractPeriod = ContractPeriod(from = LocalDate.of(2025, 1, 1), to = null),
+    )
+
+    @Test
+    fun `正常にCustomerを生成できる`() {
+        val customer = createCustomer()
+        assertEquals(CustomerStatus.ACTIVE, customer.status)
+        assertTrue(customer.subscriptions.isEmpty())
+    }
+
+    @Test
+    fun `契約を追加できる`() {
+        val customer = createCustomer()
+        val updated = customer.addSubscription(
+            id = CustomerSubscriptionId("01J00000000000000000SUB001"),
+            subscriptionPlanId = SubscriptionPlanId("01J0000000000000000PLAN001"),
+            contractedFrom = LocalDate.of(2025, 1, 1),
+        )
+        assertEquals(1, updated.subscriptions.size)
+        assertEquals(SubscriptionStatus.ACTIVE, updated.subscriptions[0].status)
+    }
+
+    @Test
+    fun `退会済み顧客に契約を追加すると例外が発生する`() {
+        val customer = createCustomer(status = CustomerStatus.WITHDRAWN)
+        assertThrows<IllegalStateException> {
+            customer.addSubscription(
+                id = CustomerSubscriptionId("01J00000000000000000SUB001"),
+                subscriptionPlanId = SubscriptionPlanId("01J0000000000000000PLAN001"),
+                contractedFrom = LocalDate.of(2025, 1, 1),
+            )
+        }
+    }
+
+    @Test
+    fun `同一プランのACTIVE契約がある場合は追加すると例外が発生する`() {
+        val planId = "01J0000000000000000PLAN001"
+        val customer = createCustomer(
+            subscriptions = listOf(createSubscription(planId = planId)),
+        )
+        assertThrows<IllegalStateException> {
+            customer.addSubscription(
+                id = CustomerSubscriptionId("01J00000000000000000SUB002"),
+                subscriptionPlanId = SubscriptionPlanId(planId),
+                contractedFrom = LocalDate.of(2025, 6, 1),
+            )
+        }
+    }
+
+    @Test
+    fun `同一プランでもCANCELED契約なら新しい契約を追加できる`() {
+        val planId = "01J0000000000000000PLAN001"
+        val customer = createCustomer(
+            subscriptions = listOf(createSubscription(planId = planId, status = SubscriptionStatus.CANCELED)),
+        )
+        val updated = customer.addSubscription(
+            id = CustomerSubscriptionId("01J00000000000000000SUB002"),
+            subscriptionPlanId = SubscriptionPlanId(planId),
+            contractedFrom = LocalDate.of(2025, 6, 1),
+        )
+        assertEquals(2, updated.subscriptions.size)
+    }
+
+    @Test
+    fun `異なるプランなら複数の契約を追加できる`() {
+        val customer = createCustomer(
+            subscriptions = listOf(createSubscription(planId = "01J0000000000000000PLAN001")),
+        )
+        val updated = customer.addSubscription(
+            id = CustomerSubscriptionId("01J00000000000000000SUB002"),
+            subscriptionPlanId = SubscriptionPlanId("01J0000000000000000PLAN002"),
+            contractedFrom = LocalDate.of(2025, 6, 1),
+        )
+        assertEquals(2, updated.subscriptions.size)
+    }
+
+    @Test
+    fun `退会するとステータスがWITHDRAWNになる`() {
+        val customer = createCustomer()
+        val withdrawn = customer.withdraw()
+        assertEquals(CustomerStatus.WITHDRAWN, withdrawn.status)
+    }
+
+    @Test
+    fun `退会すると全ACTIVE契約がCANCELEDになる`() {
+        val customer = createCustomer(
+            subscriptions = listOf(
+                createSubscription(id = "01J00000000000000000SUB001", planId = "01J0000000000000000PLAN001"),
+                createSubscription(id = "01J00000000000000000SUB002", planId = "01J0000000000000000PLAN002"),
+            ),
+        )
+        val withdrawn = customer.withdraw()
+        assertTrue(withdrawn.subscriptions.all { it.status == SubscriptionStatus.CANCELED })
+    }
+
+    @Test
+    fun `退会すると全BAN契約もCANCELEDになる`() {
+        val customer = createCustomer(
+            subscriptions = listOf(
+                createSubscription(id = "01J00000000000000000SUB001", status = SubscriptionStatus.BAN),
+            ),
+        )
+        val withdrawn = customer.withdraw()
+        assertEquals(SubscriptionStatus.CANCELED, withdrawn.subscriptions[0].status)
+    }
+
+    @Test
+    fun `退会時に既にCANCELEDの契約はそのまま`() {
+        val customer = createCustomer(
+            subscriptions = listOf(
+                createSubscription(id = "01J00000000000000000SUB001", status = SubscriptionStatus.CANCELED),
+            ),
+        )
+        val withdrawn = customer.withdraw()
+        assertEquals(SubscriptionStatus.CANCELED, withdrawn.subscriptions[0].status)
+    }
+}
