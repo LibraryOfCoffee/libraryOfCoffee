@@ -118,7 +118,7 @@ export default function LP2() {
         >
           <h2 className={styles.sectionTitle}>初回のラインナップ</h2>
           <p className={styles.sectionSubtitle}>
-            毎月8種類の珈琲豆から選べます
+            毎月6種類の珈琲豆からお好みの2種を選べます
           </p>
           <BeanShowcase beans={beans} />
         </section>

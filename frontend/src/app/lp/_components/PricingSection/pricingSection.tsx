@@ -4,7 +4,7 @@ import LinkWithLoading from "../LinkWithLoading/linkWithLoading";
 import styles from "./pricingSection.module.css";
 
 const features = [
-  "毎月8種類の珈琲豆から3種類お届け",
+  "選んだ2種＋おすすめ1種の計3種をお届け",
   "送料無料でお届け",
   "いつでも解約OK",
 ];
