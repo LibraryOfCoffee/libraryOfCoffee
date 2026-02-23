@@ -27,6 +27,9 @@ SPRING_PROFILES_ACTIVE=local ./gradlew :admin-api:bootRun
 
 # OpenAPIドキュメント生成（docs/swagger/に出力）
 ./gradlew generateAllOpenApiDocs
+
+# 静的解析（detekt）
+./gradlew detekt
 ```
 
 ## 技術スタック
@@ -36,6 +39,7 @@ SPRING_PROFILES_ACTIVE=local ./gradlew :admin-api:bootRun
 - **MyBatis** 4.0.0（ORMではなくSQLマッパー）
 - **MySQL** 8.4（localプロファイルではDocker Composeで自動起動）
 - **springdoc-openapi** 2.8.6（Swagger UI）
+- **detekt** 1.23.8（Kotlin静的解析）
 
 ## アーキテクチャ
 

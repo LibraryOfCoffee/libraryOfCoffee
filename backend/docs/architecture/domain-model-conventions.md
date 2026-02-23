@@ -92,6 +92,79 @@ data class CoffeeBeanTaste(
 }
 ```
 
+## KDoc
+
+すべてのドメインモデルクラスにKDocを付与する。KDocは **日本語** で記述する。
+
+KDoc内のドメイン用語は `docs/domains/` 配下の仕様書で定義された **ユビキタス言語** に従う。
+Kotlinの定数名（`ACTIVE`, `CANCELED` 等）ではなく、仕様書の表記（`active`, `canceled` 等）を使用する。
+
+```kotlin
+// Good — 仕様書の用語に従う
+/** 契約ステータス。active → canceled の遷移。 */
+
+// Bad — Kotlin定数名を使ってしまっている
+/** 契約ステータス。ACTIVE → CANCELED の遷移。 */
+```
+
+### 集約ルート・エンティティ・値オブジェクト
+
+クラスの概要、ドメイン上の役割、`@property` タグでプロパティの説明を記載する。
+
+```kotlin
+/**
+ * 顧客を表す集約ルート。
+ *
+ * Shopifyの顧客と1対1で紐づき、顧客が持つサブスクリプション契約のライフサイクルを管理する。
+ *
+ * @property id 顧客ID
+ * @property shopifyCustomerId Shopifyの顧客ID。システム内で一意
+ * @property status 顧客ステータス
+ * @property subscriptions サブスクリプション契約一覧
+ */
+data class Customer(...)
+```
+
+### メソッド
+
+メソッドの概要、`@param`、`@return`、`@throws` を記載する。
+
+```kotlin
+/**
+ * 契約を追加する。
+ *
+ * @param id 新しい契約のID
+ * @param subscriptionPlanId 契約するプランのID
+ * @param contractedFrom 契約開始日
+ * @return 契約が追加された新しい[Customer]
+ * @throws IllegalStateException 退会済み（withdrawn）の顧客の場合
+ */
+fun addSubscription(...): Customer
+```
+
+### ID型（value class）
+
+1行のKDocで役割を簡潔に記述する。
+
+```kotlin
+/** 顧客のID。 */
+@JvmInline
+value class CustomerId(val value: String)
+```
+
+### Enum
+
+クラスの概要と状態遷移がある場合はその説明を記載する。
+
+```kotlin
+/**
+ * 顧客ステータス。
+ *
+ * active → withdrawn の不可逆な遷移のみ許可される。
+ */
+enum class CustomerStatus { ... }
+```
+
 ## 例外メッセージ
 
 `require` / `check` / 例外のメッセージは **英語** で記述する。
