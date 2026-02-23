@@ -41,43 +41,23 @@ SPRING_PROFILES_ACTIVE=local ./gradlew :admin-api:bootRun
 - **springdoc-openapi** 2.8.6（Swagger UI）
 - **detekt** 1.23.8（Kotlin静的解析）
 
-## アーキテクチャ
+## アーキテクチャ・実装規約
 
-### マルチモジュール構成
+設計観点ごとにドキュメントを分けている。実装時は該当するドキュメントを参照すること。
 
-```
-backend/
-├── common/       # 共有コード：ドメインモデル、リポジトリIF、インフラ実装
-├── cs-api/       # 顧客向けAPI (port 8080)
-└── admin-api/    # 管理者向けAPI (port 8081)
-```
-
-`cs-api`と`admin-api`は`common`モジュールに依存する。ドメインロジック・永続化層はすべて`common`に配置する。
-
-### DDDレイヤー構造
-
-各モジュール内のパッケージ構成はDDD（ドメイン駆動設計）に従う。
-
-**common モジュール** (`com.mametosho`):
-- `domain.model/` — ドメインモデル（集約ルート、エンティティ、値オブジェクト）
-- `domain.repository/` — リポジトリインターフェース
-- `infrastructure.persistence.mapper/` — MyBatisマッパー（インターフェース）
-- `infrastructure.persistence.entity/` — DBエンティティ
-- `infrastructure.persistence.repository/` — リポジトリ実装
-- `infrastructure.config/` — SecurityConfigなど
-
-**cs-api / admin-api** (`com.mametosho.cs` / `com.mametosho.admin`):
-- `application.usecase/` — ユースケース（`@Service`）
-- `presentation.controller/` — RESTコントローラ
-- `presentation.dto.response/` — レスポンスDTO
-- `config/` — OpenApiConfigなど
+| 観点 | ドキュメント |
+|------|-------------|
+| パッケージ構成・モジュール構成 | [`docs/architecture/package-structure.md`](docs/architecture/package-structure.md) |
+| ドメインモデル実装規約 | [`docs/architecture/domain-model-conventions.md`](docs/architecture/domain-model-conventions.md) |
+| CQRSクエリ側実装規約 | [`docs/architecture/cqrs-query-conventions.md`](docs/architecture/cqrs-query-conventions.md) |
+| コントローラ・OpenAPI実装規約 | [`docs/architecture/controller-conventions.md`](docs/architecture/controller-conventions.md) |
 
 ### コード追加時の指針
 
-- **新しいAPIエンドポイント**: controller → usecase → repository(IF) → repositoryImpl + mapper の順で実装
-- **ドメインモデル**: `common/domain/model/` に配置。Spring依存を持たせない。実装規約は [`docs/architecture/domain-model-conventions.md`](docs/architecture/domain-model-conventions.md) を参照
-- **リポジトリ**: インターフェースは`domain/repository/`、実装は`infrastructure/persistence/repository/`
-- **コントローラ**: Swagger/OpenAPIアノテーション（`@Operation`, `@ApiResponses`, `@Tag`等）を付与する
+- **新しいAPIエンドポイント（コマンド側）**: controller → usecase → repository(IF) → repositoryImpl + mapper の順で実装
+- **新しいAPIエンドポイント（クエリ側・CQRS）**: [CQRSクエリ側実装規約](docs/architecture/cqrs-query-conventions.md) に従う
+- **ドメインモデル**: [ドメインモデル実装規約](docs/architecture/domain-model-conventions.md) に従う
+- **コントローラ**: [コントローラ・OpenAPI実装規約](docs/architecture/controller-conventions.md) に従う
 
 ## プロファイル
 

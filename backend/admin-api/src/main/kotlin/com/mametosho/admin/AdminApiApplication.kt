@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication(scanBasePackages = ["com.mametosho"])
-@MapperScan("com.mametosho.infrastructure.persistence.mapper")
+@MapperScan("com.mametosho.infrastructure.persistence.mybatis.mapper")
 class AdminApiApplication
 
 fun main(args: Array<String>) {
