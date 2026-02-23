@@ -13,15 +13,15 @@ class CustomerTest {
         status: CustomerStatus = CustomerStatus.ACTIVE,
         subscriptions: List<CustomerSubscription> = emptyList(),
     ): Customer = Customer(
-        id = CustomerId("01J000000000000000000CUST1"),
+        id = CustomerId("00000000-0000-4000-8000-00000000000a"),
         shopifyCustomerId = ShopifyCustomerId("shopify-customer-1"),
         status = status,
         subscriptions = subscriptions,
     )
 
     private fun createSubscription(
-        id: String = "01J00000000000000000SUB001",
-        planId: String = "01J0000000000000000PLAN001",
+        id: String = "00000000-0000-4000-8000-00000000000b",
+        planId: String = "00000000-0000-4000-8000-00000000000d",
         status: SubscriptionStatus = SubscriptionStatus.ACTIVE,
     ): CustomerSubscription = CustomerSubscription(
         id = CustomerSubscriptionId(id),
@@ -41,8 +41,8 @@ class CustomerTest {
     fun `契約を追加できる`() {
         val customer = createCustomer()
         val updated = customer.addSubscription(
-            id = CustomerSubscriptionId("01J00000000000000000SUB001"),
-            subscriptionPlanId = SubscriptionPlanId("01J0000000000000000PLAN001"),
+            id = CustomerSubscriptionId("00000000-0000-4000-8000-00000000000b"),
+            subscriptionPlanId = SubscriptionPlanId("00000000-0000-4000-8000-00000000000d"),
             contractedFrom = LocalDate.of(2025, 1, 1),
         )
         assertEquals(1, updated.subscriptions.size)
@@ -54,8 +54,8 @@ class CustomerTest {
         val customer = createCustomer(status = CustomerStatus.WITHDRAWN)
         assertThrows<IllegalStateException> {
             customer.addSubscription(
-                id = CustomerSubscriptionId("01J00000000000000000SUB001"),
-                subscriptionPlanId = SubscriptionPlanId("01J0000000000000000PLAN001"),
+                id = CustomerSubscriptionId("00000000-0000-4000-8000-00000000000b"),
+                subscriptionPlanId = SubscriptionPlanId("00000000-0000-4000-8000-00000000000d"),
                 contractedFrom = LocalDate.of(2025, 1, 1),
             )
         }
@@ -63,13 +63,13 @@ class CustomerTest {
 
     @Test
     fun `同一プランのACTIVE契約がある場合は追加すると例外が発生する`() {
-        val planId = "01J0000000000000000PLAN001"
+        val planId = "00000000-0000-4000-8000-00000000000d"
         val customer = createCustomer(
             subscriptions = listOf(createSubscription(planId = planId)),
         )
         assertThrows<IllegalStateException> {
             customer.addSubscription(
-                id = CustomerSubscriptionId("01J00000000000000000SUB002"),
+                id = CustomerSubscriptionId("00000000-0000-4000-8000-00000000000c"),
                 subscriptionPlanId = SubscriptionPlanId(planId),
                 contractedFrom = LocalDate.of(2025, 6, 1),
             )
@@ -78,12 +78,12 @@ class CustomerTest {
 
     @Test
     fun `同一プランでもCANCELED契約なら新しい契約を追加できる`() {
-        val planId = "01J0000000000000000PLAN001"
+        val planId = "00000000-0000-4000-8000-00000000000d"
         val customer = createCustomer(
             subscriptions = listOf(createSubscription(planId = planId, status = SubscriptionStatus.CANCELED)),
         )
         val updated = customer.addSubscription(
-            id = CustomerSubscriptionId("01J00000000000000000SUB002"),
+            id = CustomerSubscriptionId("00000000-0000-4000-8000-00000000000c"),
             subscriptionPlanId = SubscriptionPlanId(planId),
             contractedFrom = LocalDate.of(2025, 6, 1),
         )
@@ -93,11 +93,11 @@ class CustomerTest {
     @Test
     fun `異なるプランなら複数の契約を追加できる`() {
         val customer = createCustomer(
-            subscriptions = listOf(createSubscription(planId = "01J0000000000000000PLAN001")),
+            subscriptions = listOf(createSubscription(planId = "00000000-0000-4000-8000-00000000000d")),
         )
         val updated = customer.addSubscription(
-            id = CustomerSubscriptionId("01J00000000000000000SUB002"),
-            subscriptionPlanId = SubscriptionPlanId("01J0000000000000000PLAN002"),
+            id = CustomerSubscriptionId("00000000-0000-4000-8000-00000000000c"),
+            subscriptionPlanId = SubscriptionPlanId("00000000-0000-4000-8000-00000000000e"),
             contractedFrom = LocalDate.of(2025, 6, 1),
         )
         assertEquals(2, updated.subscriptions.size)
@@ -114,8 +114,8 @@ class CustomerTest {
     fun `退会すると全ACTIVE契約がCANCELEDになる`() {
         val customer = createCustomer(
             subscriptions = listOf(
-                createSubscription(id = "01J00000000000000000SUB001", planId = "01J0000000000000000PLAN001"),
-                createSubscription(id = "01J00000000000000000SUB002", planId = "01J0000000000000000PLAN002"),
+                createSubscription(id = "00000000-0000-4000-8000-00000000000b", planId = "00000000-0000-4000-8000-00000000000d"),
+                createSubscription(id = "00000000-0000-4000-8000-00000000000c", planId = "00000000-0000-4000-8000-00000000000e"),
             ),
         )
         val withdrawn = customer.withdraw()
@@ -126,7 +126,7 @@ class CustomerTest {
     fun `退会すると全BAN契約もCANCELEDになる`() {
         val customer = createCustomer(
             subscriptions = listOf(
-                createSubscription(id = "01J00000000000000000SUB001", status = SubscriptionStatus.BAN),
+                createSubscription(id = "00000000-0000-4000-8000-00000000000b", status = SubscriptionStatus.BAN),
             ),
         )
         val withdrawn = customer.withdraw()
@@ -137,7 +137,7 @@ class CustomerTest {
     fun `退会時に既にCANCELEDの契約はそのまま`() {
         val customer = createCustomer(
             subscriptions = listOf(
-                createSubscription(id = "01J00000000000000000SUB001", status = SubscriptionStatus.CANCELED),
+                createSubscription(id = "00000000-0000-4000-8000-00000000000b", status = SubscriptionStatus.CANCELED),
             ),
         )
         val withdrawn = customer.withdraw()

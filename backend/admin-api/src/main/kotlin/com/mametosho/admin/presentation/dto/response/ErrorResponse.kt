@@ -14,6 +14,6 @@ data class ErrorResponse(
     @Schema(description = "エラー概要", example = "Not Found")
     val error: String,
 
-    @Schema(description = "リクエストパス", example = "/api/admin/resources/01JCLGR0000000000000000099")
+    @Schema(description = "リクエストパス", example = "/api/admin/resources/550e8400-e29b-41d4-a716-446655440099")
     val path: String,
 )
