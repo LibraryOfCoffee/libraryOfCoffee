@@ -53,7 +53,7 @@ common/src/main/kotlin/com/mametosho/
 │   ├── controller/                    # RESTコントローラ
 │   └── dto/
 │       └── response/                  # レスポンスDTO
-└── config/                            # OpenApiConfigなど
+└── config/                            # OpenApiConfig, GlobalExceptionHandlerなど
 ```
 
 ### レイヤー依存ルール

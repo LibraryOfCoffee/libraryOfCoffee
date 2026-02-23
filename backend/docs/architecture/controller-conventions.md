@@ -122,6 +122,34 @@ class SampleController(
 - [ ] ExampleObjectのJSONは複数行でインデントが揃っているか
 - [ ] 末尾カンマのスタイルが統一されているか
 
+## エラーハンドリング
+
+`GlobalExceptionHandler`（`@RestControllerAdvice`）が各モジュールの`config`パッケージに配置されており、例外を一括でJSON形式のエラーレスポンスに変換する。
+
+### エラーレスポンス形式
+
+```json
+{
+  "timestamp": "2026-02-23T12:00:00.000+00:00",
+  "status": 404,
+  "error": "Not Found",
+  "path": "/api/samples/999"
+}
+```
+
+### ハンドリング対象
+
+| 例外 | ステータス | 説明 |
+|------|-----------|------|
+| `NoResourceFoundException` | 404 | 存在しないパスへのアクセス |
+| `Exception`（フォールバック） | 500 | 予期しないエラー |
+
+コントローラ内でリソースが見つからない場合は `ResponseEntity.notFound().build()` を返す（ExceptionHandlerは経由しない）。
+
+### エラーレスポンスDTO
+
+`ErrorResponse`が各モジュールの`presentation/dto/response/`に配置されている。`GlobalExceptionHandler`から参照される。
+
 ## レスポンスDTO
 
 ### Schemaアノテーション
