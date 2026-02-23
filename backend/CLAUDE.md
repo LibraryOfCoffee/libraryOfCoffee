@@ -45,19 +45,29 @@ SPRING_PROFILES_ACTIVE=local ./gradlew :admin-api:bootRun
 
 設計観点ごとにドキュメントを分けている。実装時は該当するドキュメントを参照すること。
 
+### 実装規約
+
 | 観点 | ドキュメント |
 |------|-------------|
-| パッケージ構成・モジュール構成 | [`docs/architecture/package-structure.md`](docs/architecture/package-structure.md) |
-| ドメインモデル実装規約 | [`docs/architecture/domain-model-conventions.md`](docs/architecture/domain-model-conventions.md) |
-| CQRSクエリ側実装規約 | [`docs/architecture/cqrs-query-conventions.md`](docs/architecture/cqrs-query-conventions.md) |
-| コントローラ・OpenAPI実装規約 | [`docs/architecture/controller-conventions.md`](docs/architecture/controller-conventions.md) |
+| パッケージ構成・モジュール構成 | [`docs/architecture/implementation/package-structure.md`](docs/architecture/implementation/package-structure.md) |
+| ドメインモデル | [`docs/architecture/implementation/domain-model-conventions.md`](docs/architecture/implementation/domain-model-conventions.md) |
+| CQRSクエリ側 | [`docs/architecture/implementation/cqrs-query-conventions.md`](docs/architecture/implementation/cqrs-query-conventions.md) |
+| コントローラ・OpenAPI | [`docs/architecture/implementation/controller-conventions.md`](docs/architecture/implementation/controller-conventions.md) |
+
+### テスト規約
+
+| 観点 | ドキュメント |
+|------|-------------|
+| テスト共通 | [`docs/architecture/test/test-conventions.md`](docs/architecture/test/test-conventions.md) |
+| ドメインモデル | [`docs/architecture/test/domain-model-test-conventions.md`](docs/architecture/test/domain-model-test-conventions.md) |
 
 ### コード追加時の指針
 
 - **新しいAPIエンドポイント（コマンド側）**: controller → usecase → repository(IF) → repositoryImpl + mapper の順で実装
-- **新しいAPIエンドポイント（クエリ側・CQRS）**: [CQRSクエリ側実装規約](docs/architecture/cqrs-query-conventions.md) に従う
-- **ドメインモデル**: [ドメインモデル実装規約](docs/architecture/domain-model-conventions.md) に従う
-- **コントローラ**: [コントローラ・OpenAPI実装規約](docs/architecture/controller-conventions.md) に従う
+- **新しいAPIエンドポイント（クエリ側・CQRS）**: [CQRSクエリ側実装規約](docs/architecture/implementation/cqrs-query-conventions.md) に従う
+- **ドメインモデル**: [ドメインモデル実装規約](docs/architecture/implementation/domain-model-conventions.md) に従う
+- **コントローラ**: [コントローラ・OpenAPI実装規約](docs/architecture/implementation/controller-conventions.md) に従う
+- **テスト**: [テスト共通規約](docs/architecture/test/test-conventions.md) と各層のテスト規約に従う
 
 ## プロファイル
 

@@ -13,8 +13,8 @@ class CoffeeBeanTest {
         tastes: List<CoffeeBeanTaste> = emptyList(),
         images: List<CoffeeBeanImage> = emptyList(),
     ): CoffeeBean = CoffeeBean(
-        id = CoffeeBeanId("01J000000000000000000BEAN1"),
-        shopId = ShopId("01J000000000000000000SHOP1"),
+        id = CoffeeBeanId("00000000-0000-4000-8000-000000000001"),
+        shopId = ShopId("00000000-0000-4000-8000-000000000003"),
         shopifyBeanId = ShopifyBeanId("shopify-bean-1"),
         name = "エチオピア イルガチェフェ",
         description = "フルーティーな香りが特徴",
@@ -44,13 +44,13 @@ class CoffeeBeanTest {
     fun `異なるTasteIdのテイスト評価を複数持てる`() {
         val tastes = listOf(
             CoffeeBeanTaste(
-                id = CoffeeBeanTasteId("01J0000000000000000TASTE01"),
-                tasteId = TasteId("01J00000000000000000TASTE1"),
+                id = CoffeeBeanTasteId("00000000-0000-4000-8000-000000000006"),
+                tasteId = TasteId("00000000-0000-4000-8000-000000000004"),
                 evaluationValue = 3,
             ),
             CoffeeBeanTaste(
-                id = CoffeeBeanTasteId("01J0000000000000000TASTE02"),
-                tasteId = TasteId("01J00000000000000000TASTE2"),
+                id = CoffeeBeanTasteId("00000000-0000-4000-8000-000000000007"),
+                tasteId = TasteId("00000000-0000-4000-8000-000000000005"),
                 evaluationValue = 5,
             ),
         )
@@ -60,15 +60,15 @@ class CoffeeBeanTest {
 
     @Test
     fun `同じTasteIdのテイスト評価が重複する場合は例外が発生する`() {
-        val duplicateTasteId = TasteId("01J00000000000000000TASTE1")
+        val duplicateTasteId = TasteId("00000000-0000-4000-8000-000000000004")
         val tastes = listOf(
             CoffeeBeanTaste(
-                id = CoffeeBeanTasteId("01J0000000000000000TASTE01"),
+                id = CoffeeBeanTasteId("00000000-0000-4000-8000-000000000006"),
                 tasteId = duplicateTasteId,
                 evaluationValue = 3,
             ),
             CoffeeBeanTaste(
-                id = CoffeeBeanTasteId("01J0000000000000000TASTE02"),
+                id = CoffeeBeanTasteId("00000000-0000-4000-8000-000000000007"),
                 tasteId = duplicateTasteId,
                 evaluationValue = 5,
             ),
@@ -82,7 +82,7 @@ class CoffeeBeanTest {
     fun `画像を持つCoffeeBeanを生成できる`() {
         val images = listOf(
             CoffeeBeanImage(
-                id = CoffeeBeanImageId("01J0000000000000000IMAGE01"),
+                id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000009"),
                 type = CoffeeBeanImageType.MAIN,
                 imageUrl = ImageUrl("https://example.com/bean.jpg"),
             ),

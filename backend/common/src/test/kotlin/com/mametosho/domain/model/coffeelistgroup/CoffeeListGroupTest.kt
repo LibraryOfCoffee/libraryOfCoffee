@@ -10,7 +10,7 @@ class CoffeeListGroupTest {
     private fun createCoffeeListGroup(
         children: List<CoffeeListChild> = emptyList(),
     ): CoffeeListGroup = CoffeeListGroup(
-        id = CoffeeListGroupId("01J00000000000000000GROUP1"),
+        id = CoffeeListGroupId("00000000-0000-4000-8000-00000000000f"),
         description = "2026年2月のおすすめ珈琲豆",
         children = children,
     )
@@ -32,12 +32,12 @@ class CoffeeListGroupTest {
     fun `異なるCoffeeBeanIdの明細を複数持てる`() {
         val children = listOf(
             CoffeeListChild(
-                id = CoffeeListChildId("01J00000000000000000CHILD1"),
-                coffeeBeanId = CoffeeBeanId("01J000000000000000000BEAN1"),
+                id = CoffeeListChildId("00000000-0000-4000-8000-000000000010"),
+                coffeeBeanId = CoffeeBeanId("00000000-0000-4000-8000-000000000001"),
             ),
             CoffeeListChild(
-                id = CoffeeListChildId("01J00000000000000000CHILD2"),
-                coffeeBeanId = CoffeeBeanId("01J000000000000000000BEAN2"),
+                id = CoffeeListChildId("00000000-0000-4000-8000-000000000011"),
+                coffeeBeanId = CoffeeBeanId("00000000-0000-4000-8000-000000000002"),
             ),
         )
         val group = createCoffeeListGroup(children = children)
@@ -46,14 +46,14 @@ class CoffeeListGroupTest {
 
     @Test
     fun `同じCoffeeBeanIdの明細が重複する場合は例外が発生する`() {
-        val duplicateBeanId = CoffeeBeanId("01J000000000000000000BEAN1")
+        val duplicateBeanId = CoffeeBeanId("00000000-0000-4000-8000-000000000001")
         val children = listOf(
             CoffeeListChild(
-                id = CoffeeListChildId("01J00000000000000000CHILD1"),
+                id = CoffeeListChildId("00000000-0000-4000-8000-000000000010"),
                 coffeeBeanId = duplicateBeanId,
             ),
             CoffeeListChild(
-                id = CoffeeListChildId("01J00000000000000000CHILD2"),
+                id = CoffeeListChildId("00000000-0000-4000-8000-000000000011"),
                 coffeeBeanId = duplicateBeanId,
             ),
         )
@@ -66,27 +66,27 @@ class CoffeeListGroupTest {
     fun `addChildで珈琲豆を追加できる`() {
         val group = createCoffeeListGroup()
         val updated = group.addChild(
-            id = CoffeeListChildId("01J00000000000000000CHILD1"),
-            coffeeBeanId = CoffeeBeanId("01J000000000000000000BEAN1"),
+            id = CoffeeListChildId("00000000-0000-4000-8000-000000000010"),
+            coffeeBeanId = CoffeeBeanId("00000000-0000-4000-8000-000000000001"),
         )
         assertEquals(1, updated.children.size)
-        assertEquals(CoffeeBeanId("01J000000000000000000BEAN1"), updated.children[0].coffeeBeanId)
+        assertEquals(CoffeeBeanId("00000000-0000-4000-8000-000000000001"), updated.children[0].coffeeBeanId)
     }
 
     @Test
     fun `addChildで既に存在する珈琲豆を追加すると例外が発生する`() {
-        val beanId = CoffeeBeanId("01J000000000000000000BEAN1")
+        val beanId = CoffeeBeanId("00000000-0000-4000-8000-000000000001")
         val group = createCoffeeListGroup(
             children = listOf(
                 CoffeeListChild(
-                    id = CoffeeListChildId("01J00000000000000000CHILD1"),
+                    id = CoffeeListChildId("00000000-0000-4000-8000-000000000010"),
                     coffeeBeanId = beanId,
                 ),
             ),
         )
         assertThrows<IllegalArgumentException> {
             group.addChild(
-                id = CoffeeListChildId("01J00000000000000000CHILD2"),
+                id = CoffeeListChildId("00000000-0000-4000-8000-000000000011"),
                 coffeeBeanId = beanId,
             )
         }
@@ -94,11 +94,11 @@ class CoffeeListGroupTest {
 
     @Test
     fun `removeChildで珈琲豆を削除できる`() {
-        val beanId = CoffeeBeanId("01J000000000000000000BEAN1")
+        val beanId = CoffeeBeanId("00000000-0000-4000-8000-000000000001")
         val group = createCoffeeListGroup(
             children = listOf(
                 CoffeeListChild(
-                    id = CoffeeListChildId("01J00000000000000000CHILD1"),
+                    id = CoffeeListChildId("00000000-0000-4000-8000-000000000010"),
                     coffeeBeanId = beanId,
                 ),
             ),
@@ -111,7 +111,7 @@ class CoffeeListGroupTest {
     fun `removeChildで存在しない珈琲豆を削除すると例外が発生する`() {
         val group = createCoffeeListGroup()
         assertThrows<IllegalArgumentException> {
-            group.removeChild(CoffeeBeanId("01J000000000000000000BEAN1"))
+            group.removeChild(CoffeeBeanId("00000000-0000-4000-8000-000000000001"))
         }
     }
 }

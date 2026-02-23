@@ -35,14 +35,14 @@ import com.mametosho.domain.model.shop.ShopId
 
 `@JvmInline value class` を使う。ランタイムコストなしで型安全性を確保する。
 
-IDには **ULID** を採用する。`value: String` で保持する。
+IDには **UUIDv4** を採用する。`value: String` で保持する。
 
 ```kotlin
 @JvmInline
 value class CoffeeBeanId(val value: String)
 ```
 
-- ドメインモデルのID → `value: String`（ULID）
+- ドメインモデルのID → `value: String`（UUIDv4）
 - 外部システムのID（Shopify等）→ `value: String`
 
 ## Enum

@@ -13,8 +13,8 @@ class CustomerSubscriptionTest {
         status: SubscriptionStatus = SubscriptionStatus.ACTIVE,
         contractPeriod: ContractPeriod = ContractPeriod(from = LocalDate.of(2025, 1, 1), to = null),
     ): CustomerSubscription = CustomerSubscription(
-        id = CustomerSubscriptionId("01J00000000000000000SUB001"),
-        subscriptionPlanId = SubscriptionPlanId("01J0000000000000000PLAN001"),
+        id = CustomerSubscriptionId("00000000-0000-4000-8000-00000000000b"),
+        subscriptionPlanId = SubscriptionPlanId("00000000-0000-4000-8000-00000000000d"),
         status = status,
         contractPeriod = contractPeriod,
     )

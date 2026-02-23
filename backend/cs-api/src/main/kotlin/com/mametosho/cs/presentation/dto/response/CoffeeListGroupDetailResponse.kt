@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "珈琲リストグループ詳細レスポンス")
 data class CoffeeListGroupDetailResponse(
-    @Schema(description = "グループID", example = "01JCLGR0000000000000000001")
+    @Schema(description = "グループID", example = "550e8400-e29b-41d4-a716-446655440001")
     val id: String,
 
     @Schema(description = "グループの説明", example = "2026年2月のおすすめ珈琲豆")
@@ -19,7 +19,7 @@ data class CoffeeListGroupDetailResponse(
 ) {
     @Schema(description = "珈琲豆詳細")
     data class CoffeeBeanDetail(
-        @Schema(description = "珈琲豆ID", example = "01JBEAN0000000000000000001")
+        @Schema(description = "珈琲豆ID", example = "6ba7b810-9dad-41d4-80b5-246655440001")
         val id: String,
 
         @Schema(description = "珈琲豆名", example = "エチオピア イルガチェフェ G1")
@@ -65,7 +65,7 @@ data class CoffeeListGroupDetailResponse(
 
     @Schema(description = "珈琲豆画像")
     data class CoffeeBeanImageDetail(
-        @Schema(description = "画像ID", example = "01JCBIM0000000000000000001")
+        @Schema(description = "画像ID", example = "7cc7c820-ae3e-41d4-90c6-346655440001")
         val id: String,
 
         @Schema(description = "画像種別", example = "main")
@@ -87,10 +87,10 @@ data class CoffeeListGroupDetailResponse(
 
     @Schema(description = "珈琲豆テイスト評価")
     data class CoffeeBeanTasteDetail(
-        @Schema(description = "テイスト評価ID", example = "01JCBTA0000000000000000001")
+        @Schema(description = "テイスト評価ID", example = "8dd8d830-bf4f-41d4-a0d7-446655440001")
         val id: String,
 
-        @Schema(description = "テイストID", example = "01JTAST0000000000000000001")
+        @Schema(description = "テイストID", example = "9ee9e940-c050-41d4-b0e8-546655440001")
         val tasteId: String,
 
         @Schema(description = "テイスト名", example = "酸味")

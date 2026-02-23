@@ -34,3 +34,6 @@ jobs:
 
       - name: Test
         run: ./gradlew test
+
+      - name: Detekt
+        run: ./gradlew detekt
