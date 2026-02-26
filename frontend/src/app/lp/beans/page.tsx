@@ -14,7 +14,7 @@ import "../globals.css";
 import sharedStyles from "../shared.module.css";
 import styles from "./beans.module.css";
 
-const MAX_SELECTION = 4;
+const MAX_SELECTION = 2;
 const VALID_PLAN_IDS = ["cbl-flat-1500"];
 
 function BeansPageContent() {
