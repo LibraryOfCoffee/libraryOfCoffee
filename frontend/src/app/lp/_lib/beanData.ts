@@ -152,10 +152,8 @@ export const beans: BeanDetail[] = [
     tagColor: "#A6683D",
     name: "ブルンジ",
     subName: "ブルンジ カランボ",
-    description:
-      "温かいうちに感じる赤りんごのような力強い甘さ。",
-    detailDescription:
-      "XXXXXXXX",
+    description: "温かいうちに感じる赤りんごのような力強い甘さ。",
+    detailDescription: "XXXXXXXX",
     origin: "ブルンジ ムインガ",
     farm: "カランボ CWS",
     roastLevel: "中煎り",
