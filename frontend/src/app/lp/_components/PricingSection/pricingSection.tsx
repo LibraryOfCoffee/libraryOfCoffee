@@ -29,7 +29,7 @@ export default function PricingSection() {
           <span className={styles.desc}>30g × 3種類 / 毎月届く</span>
         </div>
         <LinkWithLoading
-          href="/lp/beans?planId=cbl-flat-1500"
+          href="/lp/beans?planId=cbl-3b-30g"
           className={styles.btn}
         >
           このプランで豆を選ぶ

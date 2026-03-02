@@ -15,7 +15,7 @@ import sharedStyles from "../shared.module.css";
 import styles from "./beans.module.css";
 
 const MAX_SELECTION = 2;
-const VALID_PLAN_IDS = ["cbl-flat-1500"];
+const VALID_PLAN_IDS = ["cbl-3b-30g"];
 
 function BeansPageContent() {
   const router = useRouter();
