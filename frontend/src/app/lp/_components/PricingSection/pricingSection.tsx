@@ -4,7 +4,7 @@ import LinkWithLoading from "../LinkWithLoading/linkWithLoading";
 import styles from "./pricingSection.module.css";
 
 const features = [
-  "選んだ2種＋おすすめ1種の計3種をお届け",
+  "最大2種まで選べる＋おすすめで計3種をお届け",
   "送料無料でお届け",
   "いつでも解約OK",
 ];
