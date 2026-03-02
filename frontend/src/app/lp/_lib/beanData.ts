@@ -159,7 +159,7 @@ export const beans: BeanDetail[] = [
     farm: "カランボ CWS",
     roastLevel: "中煎り",
     processing: "ウォッシュド",
-    roaster: "MARUCA COFFEE",
+    roaster: "marucacoffee",
     roasterLink: "https://marucacoffee.com//",
     tasteProfile: [
       { label: "酸味", value: 20 },
