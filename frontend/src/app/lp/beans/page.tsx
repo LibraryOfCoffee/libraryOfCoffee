@@ -14,8 +14,8 @@ import "../globals.css";
 import sharedStyles from "../shared.module.css";
 import styles from "./beans.module.css";
 
-const MAX_SELECTION = 4;
-const VALID_PLAN_IDS = ["cbl-flat-1500"];
+const MAX_SELECTION = 2;
+const VALID_PLAN_IDS = ["cbl-3b-30g"];
 
 function BeansPageContent() {
   const router = useRouter();
@@ -78,7 +78,7 @@ function BeansPageContent() {
           <div className={styles.omakaseDivider}>または</div>
         </div>
         <h1 className={styles.title}>
-          希望する豆を{MAX_SELECTION}種類選んでください
+          希望する豆を最大{MAX_SELECTION}種類まで選んでください
         </h1>
         <div className={styles.counter}>
           <span className={styles.counterLabel}>選択中</span>
@@ -119,7 +119,7 @@ function BeansPageContent() {
           moveToCoffeeBeanListPage(planId ?? undefined, selectedIds)
         }
         showIcon={false}
-        disabled={selectedIds.length < MAX_SELECTION}
+        disabled={selectedIds.length === 0}
       />
 
       {detailBean && (

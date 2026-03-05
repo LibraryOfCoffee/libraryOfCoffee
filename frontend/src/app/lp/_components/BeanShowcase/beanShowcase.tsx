@@ -37,6 +37,7 @@ export default function BeanShowcase({ beans }: BeanShowcaseProps) {
             name={b.name}
             description={b.description}
             roaster={b.roaster}
+            isSpecialty={b.isSpecialty}
             onClick={() => setSelectedBean(b)}
           />
         ))}

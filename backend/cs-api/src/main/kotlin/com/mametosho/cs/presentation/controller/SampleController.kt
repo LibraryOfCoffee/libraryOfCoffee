@@ -39,18 +39,40 @@ class SampleController(
                             ExampleObject(
                                 name = "success",
                                 summary = "取得成功例",
-                                value = """{"id": 1, "name": "コーヒー豆A"}"""
-                            )
-                        ]
-                    )
-                ]
+                                value = """
+                                    {
+                                      "id": 1,
+                                      "name": "コーヒー豆A"
+                                    }
+                                """,
+                            ),
+                        ],
+                    ),
+                ],
             ),
             ApiResponse(
                 responseCode = "404",
                 description = "サンプルが見つかりません",
-                content = [Content()]
-            )
-        ]
+                content = [
+                    Content(
+                        examples = [
+                            ExampleObject(
+                                name = "not_found",
+                                summary = "サンプルが見つからない場合",
+                                value = """
+                                    {
+                                      "timestamp": "2026-02-23T12:00:00.000+00:00",
+                                      "status": 404,
+                                      "error": "Not Found",
+                                      "path": "/api/samples/999"
+                                    }
+                                """,
+                            ),
+                        ],
+                    ),
+                ],
+            ),
+        ],
     )
     fun getSampleById(
         @Parameter(description = "サンプルID", required = true)

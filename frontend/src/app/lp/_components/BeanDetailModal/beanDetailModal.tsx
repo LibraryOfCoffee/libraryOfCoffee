@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { LuPlus, LuX } from "react-icons/lu";
-import type { BeanDetail } from "../../_lib/beanData";
+import { LuCrown, LuPlus, LuX } from "react-icons/lu";
+import { type BeanDetail, SPECIALTY_TAG_COLOR } from "../../_lib/beanData";
 import styles from "./beanDetailModal.module.css";
 
 interface BeanDetailModalProps {
@@ -49,10 +49,17 @@ export default function BeanDetailModal({
         </div>
 
         <div className={styles.body}>
-          <div
-            className={styles.hero}
-            style={{ backgroundImage: `url(${bean.imageSrc})` }}
-          />
+          <div className={styles.heroWrap}>
+            <div
+              className={styles.hero}
+              style={{ backgroundImage: `url(${bean.imageSrc})` }}
+            />
+            {bean.isSpecialty && (
+              <span className={styles.crown}>
+                <LuCrown size={16} color={SPECIALTY_TAG_COLOR} />
+              </span>
+            )}
+          </div>
 
           <div className={styles.titleRow}>
             <h3>{bean.name}</h3>

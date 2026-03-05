@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { LuCrown } from "react-icons/lu";
 import BeanShowcase from "./_components/BeanShowcase/beanShowcase";
 import ConceptSection from "./_components/ConceptSection/conceptSection";
 import CtaSection from "./_components/CtaSection/ctaSection";
@@ -10,7 +11,7 @@ import HowItWorks from "./_components/HowItWorks/howItWorks";
 import PartnerShops from "./_components/PartnerShops/partnerShops";
 import PricingSection from "./_components/PricingSection/pricingSection";
 import TestimonialsCarousel from "./_components/TestimonialsCarousel/testimonialsCarousel";
-import { beans } from "./_lib/beanData";
+import { beans, SPECIALTY_TAG_COLOR } from "./_lib/beanData";
 import { JsonLd } from "./_lib/jsonLd";
 import "./globals.css";
 import styles from "./shared.module.css";
@@ -118,7 +119,11 @@ export default function LP2() {
         >
           <h2 className={styles.sectionTitle}>初回のラインナップ</h2>
           <p className={styles.sectionSubtitle}>
-            毎月8種類の珈琲豆から選べます
+            毎月6種類の珈琲豆からお好みの2種を選べます
+          </p>
+          <p className={styles.crownNote}>
+            <LuCrown size={14} color={SPECIALTY_TAG_COLOR} />
+            王冠マークはスペシャリティコーヒーを示します
           </p>
           <BeanShowcase beans={beans} />
         </section>

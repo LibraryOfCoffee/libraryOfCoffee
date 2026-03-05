@@ -1,0 +1,35 @@
+complexity:
+  LongParameterList:
+    constructorThreshold: 10
+    ignoreDefaultParameters: true
+  TooManyFunctions:
+    thresholdInFiles: 20
+    thresholdInClasses: 20
+    thresholdInInterfaces: 20
+
+style:
+  MaxLineLength:
+    maxLineLength: 140
+  WildcardImport:
+    active: false
+  ReturnCount:
+    max: 5
+    excludeGuardClauses: true
+  ForbiddenComment:
+    comments:
+      - reason: 'Forbidden FIXME todo marker in comment, please fix the problem.'
+        value: 'FIXME:'
+      - reason: 'Forbidden STOPSHIP todo marker in comment, please address the problem before shipping the code.'
+        value: 'STOPSHIP:'
+  MagicNumber:
+    ignoreEnums: true
+    ignoreAnnotation: true
+    ignorePropertyDeclaration: true
+
+performance:
+  SpreadOperator:
+    active: false
+
+exceptions:
+  TooGenericExceptionCaught:
+    active: false

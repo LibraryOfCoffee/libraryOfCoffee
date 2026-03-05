@@ -1,3 +1,5 @@
+import { LuCrown } from "react-icons/lu";
+import { SPECIALTY_TAG_COLOR } from "../../_lib/beanData";
 import styles from "./beanCard.module.css";
 
 interface BeanCardProps {
@@ -7,6 +9,7 @@ interface BeanCardProps {
   name: string;
   description: string;
   roaster?: string;
+  isSpecialty?: boolean;
   onClick?: () => void;
 }
 
@@ -17,6 +20,7 @@ export default function BeanCard({
   name,
   description,
   roaster,
+  isSpecialty,
   onClick,
 }: BeanCardProps) {
   return (
@@ -25,6 +29,11 @@ export default function BeanCard({
         className={styles.img}
         style={{ backgroundImage: `url(${imageSrc})` }}
       >
+        {isSpecialty && (
+          <span className={styles.crown}>
+            <LuCrown size={14} color={SPECIALTY_TAG_COLOR} />
+          </span>
+        )}
         {roaster && <p className={styles.roasterName}>{roaster}</p>}
       </div>
       <div className={styles.content}>

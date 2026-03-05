@@ -1,5 +1,5 @@
-import { LuCheck } from "react-icons/lu";
-import type { BeanDetail } from "../../_lib/beanData";
+import { LuCheck, LuCrown } from "react-icons/lu";
+import { type BeanDetail, SPECIALTY_TAG_COLOR } from "../../_lib/beanData";
 import styles from "./beanSelectCard.module.css";
 
 interface BeanSelectCardProps {
@@ -27,10 +27,17 @@ export default function BeanSelectCard({
         onChange={onToggle}
       />
       <label htmlFor={inputId} className={styles.label}>
-        <div
-          className={styles.image}
-          style={{ backgroundImage: `url(${bean.imageSrc})` }}
-        />
+        <div className={styles.imageWrap}>
+          <div
+            className={styles.image}
+            style={{ backgroundImage: `url(${bean.imageSrc})` }}
+          />
+          {bean.isSpecialty && (
+            <span className={styles.crown}>
+              <LuCrown size={12} color={SPECIALTY_TAG_COLOR} />
+            </span>
+          )}
+        </div>
         <div className={styles.info}>
           <span className={styles.tag} style={{ background: bean.tagColor }}>
             {bean.tag}

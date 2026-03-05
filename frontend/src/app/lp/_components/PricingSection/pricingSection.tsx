@@ -4,7 +4,7 @@ import LinkWithLoading from "../LinkWithLoading/linkWithLoading";
 import styles from "./pricingSection.module.css";
 
 const features = [
-  "毎月8種類の珈琲豆から3種類お届け",
+  "最大2種まで選べる＋おすすめで計3種をお届け",
   "送料無料でお届け",
   "いつでも解約OK",
 ];
@@ -29,7 +29,7 @@ export default function PricingSection() {
           <span className={styles.desc}>30g × 3種類 / 毎月届く</span>
         </div>
         <LinkWithLoading
-          href="/lp/beans?planId=cbl-flat-1500"
+          href="/lp/beans?planId=cbl-3b-30g"
           className={styles.btn}
         >
           このプランで豆を選ぶ

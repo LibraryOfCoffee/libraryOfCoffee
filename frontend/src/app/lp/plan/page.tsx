@@ -15,7 +15,7 @@ function PlanPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const beanId = searchParams.get("beanId");
-  const [selectedPlan, setSelectedPlan] = useState("cbl-flat-1500");
+  const [selectedPlan, setSelectedPlan] = useState("cbl-3b-30g");
   const [loading, setLoading] = useState(false);
 
   const handleSelect = (planId: string) => {
@@ -42,8 +42,8 @@ function PlanPageContent() {
             name="月額プラン"
             price="1,500"
             description="30g × 3種類 / 毎月届く"
-            selected={selectedPlan === "cbl-flat-1500"}
-            onSelect={() => handleSelect("cbl-flat-1500")}
+            selected={selectedPlan === "cbl-3b-30g"}
+            onSelect={() => handleSelect("cbl-3b-30g")}
           />
         </div>
       </div>
