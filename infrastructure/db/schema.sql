@@ -78,6 +78,7 @@ CREATE TABLE IF NOT EXISTS coffee_beans (
     farm              VARCHAR(255)                                             COMMENT '農園',
     roast_level       ENUM('light', 'medium', 'city', 'french') NOT NULL       COMMENT '焙煎度',
     processing_method ENUM('fully_washed', 'washed', 'thermal_shock_natural', 'natural', 'wet_hulling', 'honey') NOT NULL COMMENT '精製方法',
+    is_specialty      BOOLEAN       NOT NULL DEFAULT FALSE                     COMMENT 'スペシャルティコーヒーかどうか',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                             COMMENT '作成日時',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時',
     FOREIGN KEY (shop_id) REFERENCES shops (id)

@@ -22,6 +22,7 @@ class CoffeeBeanTest {
         farm = "イルガチェフェ農園",
         roastLevel = RoastLevel.LIGHT,
         processingMethod = ProcessingMethod.WASHED,
+        isSpecialty = false,
         images = images,
         tastes = tastes,
     )

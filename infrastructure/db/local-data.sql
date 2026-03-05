@@ -64,25 +64,25 @@ INSERT IGNORE INTO customer_subscriptions (id, customer_id, subscription_plan_id
 -- ------------------------------------------------------------
 -- coffee_beans（珈琲豆）各店舗2種ずつ
 -- ------------------------------------------------------------
-INSERT IGNORE INTO coffee_beans (id, shop_id, shopify_bean_id, name, description, origin, farm, roast_level, processing_method) VALUES
+INSERT IGNORE INTO coffee_beans (id, shop_id, shopify_bean_id, name, description, origin, farm, roast_level, processing_method, is_specialty) VALUES
 ('01JBEAN0000000000000000001', '01JSHOP0000000000000000001', 'gid://shopify/Product/400001', 'エチオピア イルガチェフェ G1',
  '花のような華やかなフレーバーと、柑橘系の明るい酸味が特徴。クリーンカップで後味もすっきり。',
- 'エチオピア', 'イルガチェフェ コチャレ地区', 'light', 'washed'),
+ 'エチオピア', 'イルガチェフェ コチャレ地区', 'light', 'washed', TRUE),
 ('01JBEAN0000000000000000002', '01JSHOP0000000000000000001', 'gid://shopify/Product/400002', 'グアテマラ アンティグア',
  'チョコレートのような甘いコクと、スパイシーな余韻。バランスの良い味わいが楽しめます。',
- 'グアテマラ', 'アンティグア農園', 'city', 'fully_washed'),
+ 'グアテマラ', 'アンティグア農園', 'city', 'fully_washed', FALSE),
 ('01JBEAN0000000000000000003', '01JSHOP0000000000000000002', 'gid://shopify/Product/400003', 'ケニア AA ニエリ',
  'ブラックカラントのような濃厚な果実感と、しっかりとしたボディ。力強い味わいの一杯。',
- 'ケニア', 'ニエリ地区', 'medium', 'fully_washed'),
+ 'ケニア', 'ニエリ地区', 'medium', 'fully_washed', TRUE),
 ('01JBEAN0000000000000000004', '01JSHOP0000000000000000002', 'gid://shopify/Product/400004', 'コスタリカ ハニー',
  'はちみつのような甘みとトロピカルフルーツのフレーバー。ハニープロセスならではの複雑な味わい。',
- 'コスタリカ', 'タラス地区 ラ・ミニータ農園', 'medium', 'honey'),
+ 'コスタリカ', 'タラス地区 ラ・ミニータ農園', 'medium', 'honey', TRUE),
 ('01JBEAN0000000000000000005', '01JSHOP0000000000000000003', 'gid://shopify/Product/400005', 'ブラジル サントス No.2',
  '定番のブラジル豆。ナッツのような香ばしさと、まろやかなコク。どなたでも飲みやすい一杯。',
- 'ブラジル', 'サントス地区', 'city', 'natural'),
+ 'ブラジル', 'サントス地区', 'city', 'natural', FALSE),
 ('01JBEAN0000000000000000006', '01JSHOP0000000000000000003', 'gid://shopify/Product/400006', 'インドネシア マンデリン G1',
  '大地を思わせる深いコクと、ハーブのような独特の風味。深煎り好きにおすすめの個性派。',
- 'インドネシア', 'リントン地区', 'french', 'wet_hulling');
+ 'インドネシア', 'リントン地区', 'french', 'wet_hulling', FALSE);
 
 -- ------------------------------------------------------------
 -- monthly_subscription_details（月次サブスクリプション詳細）

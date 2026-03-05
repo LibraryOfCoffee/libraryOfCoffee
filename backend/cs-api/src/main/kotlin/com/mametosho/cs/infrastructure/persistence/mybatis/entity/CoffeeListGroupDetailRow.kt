@@ -15,6 +15,7 @@ data class CoffeeListGroupDetailRow(
     val beanFarm: String?,
     val beanRoastLevel: String,
     val beanProcessingMethod: String,
+    val beanIsSpecialty: Boolean,
     val imageId: String?,
     val imageType: String?,
     val imageUrl: String?,

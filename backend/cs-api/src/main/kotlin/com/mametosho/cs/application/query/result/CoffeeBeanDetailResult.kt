@@ -11,6 +11,7 @@ data class CoffeeBeanDetailResult(
     val farm: String?,
     val roastLevel: String,
     val processingMethod: String,
+    val isSpecialty: Boolean,
     val images: List<CoffeeBeanImageDetailResult>,
     val tastes: List<CoffeeBeanTasteDetailResult>,
 )
