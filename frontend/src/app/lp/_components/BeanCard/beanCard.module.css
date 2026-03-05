@@ -33,6 +33,20 @@
   flex: 1;
 }
 
+.crown {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
 .tag {
   display: inline-block;
   align-self: flex-start;

@@ -32,6 +32,16 @@
   margin: 0 0 32px;
 }
 
+.crownNote {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin: -20px 0 24px;
+}
+
 .btnPrimary {
   display: inline-flex;
   align-items: center;

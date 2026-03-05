@@ -25,6 +25,7 @@ Shopifyの商品と1対1で紐づく。産地、焙煎度、精製方法、テ�
 | farm | String? | 農園 |
 | roastLevel | RoastLevel | 焙煎度（light / medium / city / french） |
 | processingMethod | ProcessingMethod | 精製方法（fully_washed / washed / thermal_shock_natural / natural / wet_hulling / honey） |
+| isSpecialty | Boolean | スペシャルティコーヒーかどうか |
 | images | List\<CoffeeBeanImage\> | 珈琲豆画像一覧 |
 | tastes | List\<CoffeeBeanTaste\> | テイスト評価一覧 |
 

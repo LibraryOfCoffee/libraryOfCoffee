@@ -16,6 +16,7 @@ import com.mametosho.domain.model.shop.ShopId
  * @property farm 農園名。不明な場合はnull
  * @property roastLevel 焙煎度
  * @property processingMethod 精製方法
+ * @property isSpecialty スペシャルティコーヒーかどうか
  * @property images 画像一覧
  * @property tastes テイスト評価一覧。同一TasteIdの重複は不可
  */
@@ -29,6 +30,7 @@ data class CoffeeBean(
     val farm: String?,
     val roastLevel: RoastLevel,
     val processingMethod: ProcessingMethod,
+    val isSpecialty: Boolean,
     val images: List<CoffeeBeanImage>,
     val tastes: List<CoffeeBeanTaste>,
 ) {

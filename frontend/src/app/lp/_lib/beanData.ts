@@ -19,7 +19,10 @@ export interface BeanDetail {
   roaster: string;
   roasterLink: string;
   tasteProfile: TasteProfile[];
+  isSpecialty: boolean;
 }
+
+export const SPECIALTY_TAG_COLOR = "#C4972A";
 
 export const beans: BeanDetail[] = [
   {
@@ -46,6 +49,7 @@ export const beans: BeanDetail[] = [
       { label: "コク", value: 80 },
       { label: "香り", value: 100 },
     ],
+    isSpecialty: true,
   },
   {
     id: "49928992751849",
@@ -70,6 +74,7 @@ export const beans: BeanDetail[] = [
       { label: "コク", value: 60 },
       { label: "香り", value: 80 },
     ],
+    isSpecialty: true,
   },
   {
     id: "49929003139305",
@@ -95,6 +100,7 @@ export const beans: BeanDetail[] = [
       { label: "コク", value: 60 },
       { label: "香り", value: 80 },
     ],
+    isSpecialty: true,
   },
   {
     id: "50464689684713",
@@ -119,6 +125,7 @@ export const beans: BeanDetail[] = [
       { label: "コク", value: 60 },
       { label: "香り", value: 80 },
     ],
+    isSpecialty: true,
   },
   {
     id: "49929756672233",
@@ -144,6 +151,7 @@ export const beans: BeanDetail[] = [
       { label: "コク", value: 80 },
       { label: "香り", value: 60 },
     ],
+    isSpecialty: true,
   },
   {
     id: "49929740910825",
@@ -168,6 +176,7 @@ export const beans: BeanDetail[] = [
       { label: "コク", value: 80 },
       { label: "香り", value: 60 },
     ],
+    isSpecialty: false,
   },
 ];
 

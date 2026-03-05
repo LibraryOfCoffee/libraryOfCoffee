@@ -43,6 +43,7 @@ class CoffeeListGroupQueryServiceImpl(
             farm = bean.beanFarm,
             roastLevel = bean.beanRoastLevel,
             processingMethod = bean.beanProcessingMethod,
+            isSpecialty = bean.beanIsSpecialty,
             images = beanRows
                 .filter { it.imageId != null }
                 .distinctBy { it.imageId }

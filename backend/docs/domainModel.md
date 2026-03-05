@@ -155,6 +155,7 @@ classDiagram
       farm: String?
       roastLevel: RoastLevel
       processingMethod: ProcessingMethod
+      isSpecialty: Boolean
       images: List~CoffeeBeanImage~
       tastes: List~CoffeeBeanTaste~
     }

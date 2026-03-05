@@ -19,6 +19,7 @@ interface CoffeeListGroupQueryMapper {
             cb.farm              AS bean_farm,
             cb.roast_level       AS bean_roast_level,
             cb.processing_method AS bean_processing_method,
+            cb.is_specialty      AS bean_is_specialty,
             cbi.id               AS image_id,
             cbi.type             AS image_type,
             cbi.image_url        AS image_url,
