@@ -25,13 +25,31 @@
   cursor: pointer;
 }
 
+.imageWrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
 .image {
   width: 72px;
   height: 72px;
   border-radius: 12px;
   background-size: cover;
   background-position: center;
-  flex-shrink: 0;
+}
+
+.crown {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 
 .info {
