@@ -80,9 +80,7 @@ function BeansPageContent() {
         <h1 className={styles.title}>
           希望する豆を最大{MAX_SELECTION}種類まで選んでください
         </h1>
-        <p className={styles.note}>
-          ※選んだ豆以外はおすすめの豆をお届けします
-        </p>
+        <p className={styles.note}>※選んだ豆以外はおすすめの豆をお届けします</p>
         <div className={styles.counter}>
           <span className={styles.counterLabel}>選択中</span>
           <div className={styles.counterValue}>
