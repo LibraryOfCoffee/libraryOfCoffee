@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { LuChevronDown, LuChevronRight } from "react-icons/lu";
 import { getPlanPagePath } from "../../_lib/purchaseLinkUtil";
 import sharedStyles from "../../shared.module.css";
@@ -7,6 +8,14 @@ import styles from "./heroSection.module.css";
 export default function HeroSection() {
   return (
     <section className={styles.hero}>
+      <Image
+        src="/hero-image.jpeg"
+        alt=""
+        fill
+        sizes="100vw"
+        priority
+        className={styles.heroBg}
+      />
       <div className={styles.overlay}>
         <div className={styles.mainContent}>
           <h1 className={styles.title}>

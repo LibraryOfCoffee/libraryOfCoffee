@@ -1,3 +1,4 @@
+import Image from "next/image";
 import styles from "./testimonialCard.module.css";
 
 interface TestimonialCardProps {
@@ -17,9 +18,12 @@ export default function TestimonialCard({
     <div className={styles.card}>
       <p className={styles.quote}>{quote}</p>
       <div className={styles.user}>
-        <div
+        <Image
+          src={avatarSrc}
+          alt={name}
+          width={40}
+          height={40}
           className={styles.avatar}
-          style={{ backgroundImage: `url(${avatarSrc})` }}
         />
         <div className={styles.info}>
           <span className={styles.name}>{name}</span>

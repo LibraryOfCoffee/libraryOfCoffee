@@ -68,15 +68,15 @@
 
 .heroWrap {
   position: relative;
-}
-
-.hero {
   width: 100%;
   min-height: 140px;
   flex-shrink: 0;
   border-radius: 12px;
-  background-size: cover;
-  background-position: center;
+  overflow: hidden;
+}
+
+.hero {
+  object-fit: cover;
 }
 
 .crown {
