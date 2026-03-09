@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
 import AppHeader from "../_components/AppHeader/appHeader";
 import BeanDetailModal from "../_components/BeanDetailModal/beanDetailModal";
 import BeanSelectCard from "../_components/BeanSelectCard/beanSelectCard";
@@ -32,16 +32,8 @@ function BeansPageContent() {
   const [detailBean, setDetailBean] = useState<BeanDetail | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const isInvalidPlan = !planId || !VALID_PLAN_IDS.includes(planId);
-
-  useEffect(() => {
-    if (isInvalidPlan) {
-      router.replace("/lp/plan");
-    }
-  }, [isInvalidPlan, router]);
-
-  if (isInvalidPlan) {
-    return null;
+  if (!planId || !VALID_PLAN_IDS.includes(planId)) {
+    redirect("/lp/plan");
   }
 
   const toggleBean = (id: string) => {
