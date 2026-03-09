@@ -80,6 +80,9 @@ function BeansPageContent() {
         <h1 className={styles.title}>
           希望する豆を最大{MAX_SELECTION}種類まで選んでください
         </h1>
+        <p className={styles.note}>
+          ※選んだ豆以外はおすすめの豆をお届けします
+        </p>
         <div className={styles.counter}>
           <span className={styles.counterLabel}>選択中</span>
           <div className={styles.counterValue}>
@@ -101,7 +104,13 @@ function BeansPageContent() {
       </div>
       <CtaFooter
         summaryLabel="選択した豆"
-        summaryValue={`${selectedIds.length} / ${MAX_SELECTION}種類`}
+        summaryValue={
+          <>
+            {`${selectedIds.length} / ${MAX_SELECTION}種類`}
+            <br />
+            <span className={styles.footerPlus}>+ おすすめの豆</span>
+          </>
+        }
         subText={
           <>
             <a
@@ -114,7 +123,7 @@ function BeansPageContent() {
             に同意して
           </>
         }
-        ctaText="アカウント登録に進む"
+        ctaText="購入に進む"
         onCtaClick={() =>
           moveToCoffeeBeanListPage(planId ?? undefined, selectedIds)
         }

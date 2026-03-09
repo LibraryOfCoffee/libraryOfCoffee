@@ -14,6 +14,13 @@
   font-family: var(--font-base);
 }
 
+.note {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin: -8px 0 0;
+  font-family: var(--font-base);
+}
+
 .counter {
   display: flex;
   align-items: center;
@@ -46,6 +53,12 @@
   font-size: 14px;
   color: var(--color-text-secondary);
   font-family: var(--font-base);
+}
+
+.footerPlus {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  font-weight: normal;
 }
 
 .list {
