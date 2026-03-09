@@ -1,6 +1,6 @@
 "use client";
 
-import { redirect, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import AppHeader from "../_components/AppHeader/appHeader";
 import BeanDetailModal from "../_components/BeanDetailModal/beanDetailModal";
@@ -33,7 +33,8 @@ function BeansPageContent() {
   const [loading, setLoading] = useState(false);
 
   if (!planId || !VALID_PLAN_IDS.includes(planId)) {
-    redirect("/lp/plan");
+    router.replace("/lp/plan");
+    return null;
   }
 
   const toggleBean = (id: string) => {
