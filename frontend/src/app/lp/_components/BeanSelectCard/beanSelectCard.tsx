@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { LuCheck, LuCrown } from "react-icons/lu";
 import { type BeanDetail, SPECIALTY_TAG_COLOR } from "../../_lib/beanData";
 import styles from "./beanSelectCard.module.css";
@@ -28,9 +29,12 @@ export default function BeanSelectCard({
       />
       <label htmlFor={inputId} className={styles.label}>
         <div className={styles.imageWrap}>
-          <div
+          <Image
+            src={bean.imageSrc}
+            alt={bean.name}
+            width={72}
+            height={72}
             className={styles.image}
-            style={{ backgroundImage: `url(${bean.imageSrc})` }}
           />
           {bean.isSpecialty && (
             <span className={styles.crown}>

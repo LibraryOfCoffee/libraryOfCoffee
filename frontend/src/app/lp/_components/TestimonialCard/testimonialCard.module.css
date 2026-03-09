@@ -26,8 +26,7 @@
   height: 40px;
   min-width: 40px;
   border-radius: 100%;
-  background-size: cover;
-  background-position: center;
+  object-fit: cover;
 }
 
 .info {
