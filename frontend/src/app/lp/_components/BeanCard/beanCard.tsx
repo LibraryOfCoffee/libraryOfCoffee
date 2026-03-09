@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { LuCrown } from "react-icons/lu";
 import { SPECIALTY_TAG_COLOR } from "../../_lib/beanData";
 import styles from "./beanCard.module.css";
@@ -25,10 +26,14 @@ export default function BeanCard({
 }: BeanCardProps) {
   return (
     <button type="button" className={styles.card} onClick={onClick}>
-      <div
-        className={styles.img}
-        style={{ backgroundImage: `url(${imageSrc})` }}
-      >
+      <div className={styles.img}>
+        <Image
+          src={imageSrc}
+          alt={name}
+          fill
+          sizes="(max-width: 768px) 50vw, 200px"
+          className={styles.imgInner}
+        />
         {isSpecialty && (
           <span className={styles.crown}>
             <LuCrown size={14} color={SPECIALTY_TAG_COLOR} />

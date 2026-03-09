@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect } from "react";
 import { LuCrown, LuPlus, LuX } from "react-icons/lu";
 import { type BeanDetail, SPECIALTY_TAG_COLOR } from "../../_lib/beanData";
@@ -50,9 +51,12 @@ export default function BeanDetailModal({
 
         <div className={styles.body}>
           <div className={styles.heroWrap}>
-            <div
+            <Image
+              src={bean.imageSrc}
+              alt={bean.name}
+              fill
+              sizes="(max-width: 440px) 100vw, 400px"
               className={styles.hero}
-              style={{ backgroundImage: `url(${bean.imageSrc})` }}
             />
             {bean.isSpecialty && (
               <span className={styles.crown}>
