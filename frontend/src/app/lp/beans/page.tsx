@@ -9,11 +9,13 @@ import CtaFooter from "../_components/CtaFooter/ctaFooter";
 import LoadingOverlay from "../_components/LoadingOverlay/loadingOverlay";
 import StepIndicator from "../_components/StepIndicator/stepIndicator";
 import { type BeanDetail, beans } from "../_lib/beanData";
-import { getPlanById, VALID_PLAN_IDS } from "../_lib/planData";
 import { moveToCoffeeBeanListPage } from "../_lib/purchaseLinkUtil";
 import "../globals.css";
 import sharedStyles from "../shared.module.css";
 import styles from "./beans.module.css";
+
+const MAX_SELECTION = 2;
+const VALID_PLAN_IDS = ["cbl-3b-30g"];
 
 function BeansPageContent() {
   const router = useRouter();
@@ -34,15 +36,12 @@ function BeansPageContent() {
     redirect("/lp/plan");
   }
 
-  const plan = getPlanById(planId);
-  const maxSelection = plan?.maxSelection ?? 2;
-
   const toggleBean = (id: string) => {
     setSelectedIds((prev) => {
       if (prev.includes(id)) {
         return prev.filter((x) => x !== id);
       }
-      if (prev.length >= maxSelection) return prev;
+      if (prev.length >= MAX_SELECTION) return prev;
       return [...prev, id];
     });
   };
@@ -79,14 +78,14 @@ function BeansPageContent() {
           <div className={styles.omakaseDivider}>または</div>
         </div>
         <h1 className={styles.title}>
-          希望する豆を最大{maxSelection}種類まで選んでください
+          希望する豆を最大{MAX_SELECTION}種類まで選んでください
         </h1>
         <p className={styles.note}>※選んだ豆以外はおすすめの豆をお届けします</p>
         <div className={styles.counter}>
           <span className={styles.counterLabel}>選択中</span>
           <div className={styles.counterValue}>
             <span className={styles.counterNum}>{selectedIds.length}</span>
-            <span className={styles.counterSlash}>/ {maxSelection}種類</span>
+            <span className={styles.counterSlash}>/ {MAX_SELECTION}種類</span>
           </div>
         </div>
         <div className={styles.list}>
@@ -105,7 +104,7 @@ function BeansPageContent() {
         summaryLabel="選択した豆"
         summaryValue={
           <>
-            {`${selectedIds.length} / ${maxSelection}種類`}
+            {`${selectedIds.length} / ${MAX_SELECTION}種類`}
             <br />
             <span className={styles.footerPlus}>+ おすすめの豆</span>
           </>
