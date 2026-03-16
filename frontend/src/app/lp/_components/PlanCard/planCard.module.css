@@ -2,19 +2,33 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 16px;
+  padding: 20px;
   border-radius: 16px;
   background: var(--color-white);
-  border: 2px solid #e8e4df;
+  border: 2px solid var(--color-border);
   cursor: pointer;
   width: 100%;
   text-align: left;
   font-family: var(--font-base);
   transition: border-color 0.2s;
+  position: relative;
 }
 
 .selected {
   border-color: var(--color-brown);
+}
+
+.badge {
+  position: absolute;
+  top: -12px;
+  left: 16px;
+  background: var(--color-badge);
+  color: var(--color-white);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 4px 16px;
+  border-radius: 100px;
+  line-height: 1.4;
 }
 
 .top {
@@ -34,6 +48,11 @@
   font-size: 16px;
   font-weight: bold;
   color: var(--color-text);
+}
+
+.catchphrase {
+  font-size: 11px;
+  color: var(--color-text-secondary);
 }
 
 .price {
@@ -61,6 +80,34 @@
 .desc {
   font-size: 13px;
   color: var(--color-text-secondary);
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--color-border);
+}
+
+.features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.feat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.featIcon {
+  color: var(--color-green);
+  flex-shrink: 0;
 }
 
 .radio {
