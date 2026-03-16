@@ -17,7 +17,7 @@ export default function PricingSection() {
         シンプルな料金プラン
       </h2>
       <p className={styles.subtitle}>
-        あなたに合った3つのプランをご用意。焙煎したての新鮮な豆を送料無料でお届けします。いつでも解約OK。
+        3つのプランをご用意。焙煎したての新鮮な豆を送料無料でお届けします。いつでも解約OK。
       </p>
       <PricingCarousel plans={plans} />
     </section>
