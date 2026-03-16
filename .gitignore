@@ -103,3 +103,5 @@ terraform.rc
 
 # Claude Code local settings
 *.local.json
+# Local Netlify folder
+.netlify

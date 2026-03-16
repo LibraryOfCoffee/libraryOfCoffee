@@ -7,6 +7,8 @@
   --color-text: #3c2415;
   --color-text-secondary: #6b5b4d;
   --color-white: #ffffff;
+  --color-border: #e8e4df;
+  --color-badge: #c0392b;
   --font-base:
     "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
 }
@@ -14,4 +16,12 @@
 .swiper-slide {
   height: auto;
   display: flex;
+}
+
+.pricing-carousel .swiper-wrapper {
+  align-items: stretch;
+}
+
+.pricing-carousel .swiper-slide {
+  align-self: stretch;
 }
