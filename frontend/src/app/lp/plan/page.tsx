@@ -7,6 +7,7 @@ import CtaFooter from "../_components/CtaFooter/ctaFooter";
 import LoadingOverlay from "../_components/LoadingOverlay/loadingOverlay";
 import PlanCard from "../_components/PlanCard/planCard";
 import StepIndicator from "../_components/StepIndicator/stepIndicator";
+import { formatPrice, getPlanById, type PlanId, plans } from "../_lib/planData";
 import "../globals.css";
 import sharedStyles from "../shared.module.css";
 import styles from "./plan.module.css";
@@ -15,17 +16,18 @@ function PlanPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const beanId = searchParams.get("beanId");
-  const [selectedPlan, setSelectedPlan] = useState("cbl-3b-30g");
+  const [selectedPlan, setSelectedPlan] = useState<PlanId | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleSelect = (planId: string) => {
-    setSelectedPlan(planId);
+  const handleNavigate = (planId: PlanId) => {
     setLoading(true);
     const query = new URLSearchParams();
     query.set("planId", planId);
     if (beanId) query.set("beanId", beanId);
     router.push(`/lp/beans?${query.toString()}`);
   };
+
+  const currentPlan = selectedPlan ? getPlanById(selectedPlan) : undefined;
 
   return (
     <div className={`${sharedStyles.container} ${sharedStyles.containerStep}`}>
@@ -35,24 +37,30 @@ function PlanPageContent() {
       <div className={styles.content}>
         <h1 className={styles.title}>プランを選択してください</h1>
         <p className={styles.desc}>
-          いつでも変更・解約OK。送料無料でお届けします。
+          焙煎したての新鮮な豆を送料無料でお届け。いつでも変更・解約OKです。
         </p>
         <div className={styles.cards}>
-          <PlanCard
-            name="月額プラン"
-            price="1,500"
-            description="30g × 3種類 / 毎月届く"
-            selected={selectedPlan === "cbl-3b-30g"}
-            onSelect={() => handleSelect("cbl-3b-30g")}
-          />
+          {plans.map((plan) => (
+            <PlanCard
+              key={plan.id}
+              plan={plan}
+              selected={selectedPlan === plan.id}
+              onSelect={() => setSelectedPlan(plan.id)}
+            />
+          ))}
         </div>
       </div>
       <CtaFooter
         summaryLabel="お支払い（税込）"
-        summaryValue="¥1,500"
+        summaryValue={
+          currentPlan ? `¥${formatPrice(currentPlan.price)}` : "未選択"
+        }
         ctaText="豆を選ぶ"
-        onCtaClick={() => handleSelect(selectedPlan)}
+        onCtaClick={() => {
+          if (selectedPlan) handleNavigate(selectedPlan);
+        }}
         showIcon={false}
+        disabled={!selectedPlan}
       />
     </div>
   );
