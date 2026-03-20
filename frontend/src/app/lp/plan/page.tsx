@@ -7,7 +7,14 @@ import CtaFooter from "../_components/CtaFooter/ctaFooter";
 import LoadingOverlay from "../_components/LoadingOverlay/loadingOverlay";
 import PlanCard from "../_components/PlanCard/planCard";
 import StepIndicator from "../_components/StepIndicator/stepIndicator";
-import { formatPrice, getPlanById, type PlanId, plans } from "../_lib/planData";
+import WeightToggle from "../_components/WeightToggle/weightToggle";
+import {
+  formatPrice,
+  getPlanById,
+  getPlansForWeight,
+  type PlanId,
+  type WeightGrams,
+} from "../_lib/planData";
 import "../globals.css";
 import sharedStyles from "../shared.module.css";
 import styles from "./plan.module.css";
@@ -16,8 +23,16 @@ function PlanPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const beanId = searchParams.get("beanId");
+  const [weight, setWeight] = useState<WeightGrams>(30);
   const [selectedPlan, setSelectedPlan] = useState<PlanId | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const filteredPlans = getPlansForWeight(weight);
+
+  const handleWeightChange = (w: WeightGrams) => {
+    setWeight(w);
+    setSelectedPlan(null);
+  };
 
   const handleNavigate = (planId: PlanId) => {
     setLoading(true);
@@ -39,8 +54,11 @@ function PlanPageContent() {
         <p className={styles.desc}>
           焙煎したての新鮮な豆を送料無料でお届け。いつでも変更・解約OKです。
         </p>
+        <div className={styles.toggleSection}>
+          <WeightToggle value={weight} onChange={handleWeightChange} />
+        </div>
         <div className={styles.cards}>
-          {plans.map((plan) => (
+          {filteredPlans.map((plan) => (
             <PlanCard
               key={plan.id}
               plan={plan}

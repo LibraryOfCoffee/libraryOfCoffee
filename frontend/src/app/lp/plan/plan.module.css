@@ -21,6 +21,10 @@
   font-family: var(--font-base);
 }
 
+.toggleSection {
+  margin-bottom: 4px;
+}
+
 .cards {
   display: flex;
   flex-direction: column;

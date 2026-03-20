@@ -20,9 +20,7 @@ export default function PricingCarousel({ plans }: PricingCarouselProps) {
       </button>
       <Swiper
         modules={[Navigation]}
-        spaceBetween={12}
-        slidesPerView={1.15}
-        centeredSlides={true}
+        slidesPerView={1}
         initialSlide={1}
         navigation={{
           prevEl: `.${styles.navPrev}`,
