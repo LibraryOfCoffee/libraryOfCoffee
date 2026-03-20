@@ -53,6 +53,41 @@ class ShopTest {
     }
 
     @Test
+    fun `nameが256文字以上の場合は例外が発生する`() {
+        assertThrows<IllegalArgumentException> {
+            createShop().copy(name = "a".repeat(256))
+        }
+    }
+
+    @Test
+    fun `introductionが空白の場合は例外が発生する`() {
+        assertThrows<IllegalArgumentException> {
+            createShop().copy(introduction = "")
+        }
+    }
+
+    @Test
+    fun `introductionが10001文字以上の場合は例外が発生する`() {
+        assertThrows<IllegalArgumentException> {
+            createShop().copy(introduction = "a".repeat(10001))
+        }
+    }
+
+    @Test
+    fun `particularが空白の場合は例外が発生する`() {
+        assertThrows<IllegalArgumentException> {
+            createShop().copy(particular = "")
+        }
+    }
+
+    @Test
+    fun `particularが10001文字以上の場合は例外が発生する`() {
+        assertThrows<IllegalArgumentException> {
+            createShop().copy(particular = "a".repeat(10001))
+        }
+    }
+
+    @Test
     fun `画像を持つShopを生成できる`() {
         val images = listOf(
             ShopImage(

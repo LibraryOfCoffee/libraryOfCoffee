@@ -41,26 +41,27 @@ class CoffeeListGroupController(
                                 summary = "取得成功例",
                                 value = """
                                     {
-                                      "id": "550e8400-e29b-41d4-a716-446655440001",
+                                      "id": "00000000-0000-4000-8000-000000000051",
                                       "description": "2026年2月のおすすめ珈琲豆",
                                       "coffeeBeans": [
                                         {
-                                          "id": "6ba7b810-9dad-41d4-80b5-246655440001",
+                                          "id": "00000000-0000-4000-8000-000000000071",
                                           "name": "エチオピア イルガチェフェ G1",
                                           "description": "花のような華やかなフレーバーと、柑橘系の明るい酸味が特徴。クリーンカップで後味もすっきり。",
                                           "origin": "エチオピア",
                                           "farm": "イルガチェフェ コチャレ地区",
                                           "roastLevel": "light",
                                           "processingMethod": "washed",
+                                          "isSpecialty": true,
                                           "images": [
-                                            { "id": "7cc7c820-ae3e-41d4-90c6-346655440001", "type": "main", "imageUrl": "https://placehold.jp/150x150.png" }
+                                            { "id": "00000000-0000-4000-8000-000000000091", "type": "main", "imageUrl": "https://placehold.jp/150x150.png" }
                                           ],
                                           "tastes": [
-                                            { "id": "8dd8d830-bf4f-41d4-a0d7-446655440001", "tasteId": "9ee9e940-c050-41d4-b0e8-546655440001", "tasteName": "酸味", "evaluationValue": 5 },
-                                            { "id": "8dd8d830-bf4f-41d4-a0d7-446655440002", "tasteId": "9ee9e940-c050-41d4-b0e8-546655440002", "tasteName": "苦味", "evaluationValue": 1 },
-                                            { "id": "8dd8d830-bf4f-41d4-a0d7-446655440003", "tasteId": "9ee9e940-c050-41d4-b0e8-546655440003", "tasteName": "甘味", "evaluationValue": 3 },
-                                            { "id": "8dd8d830-bf4f-41d4-a0d7-446655440004", "tasteId": "9ee9e940-c050-41d4-b0e8-546655440004", "tasteName": "コク", "evaluationValue": 3 },
-                                            { "id": "8dd8d830-bf4f-41d4-a0d7-446655440005", "tasteId": "9ee9e940-c050-41d4-b0e8-546655440005", "tasteName": "香り", "evaluationValue": 5 }
+                                            { "tasteId": "00000000-0000-4000-8000-000000000041", "tasteName": "酸味", "evaluationValue": 5 },
+                                            { "tasteId": "00000000-0000-4000-8000-000000000042", "tasteName": "苦味", "evaluationValue": 1 },
+                                            { "tasteId": "00000000-0000-4000-8000-000000000043", "tasteName": "甘味", "evaluationValue": 3 },
+                                            { "tasteId": "00000000-0000-4000-8000-000000000044", "tasteName": "コク", "evaluationValue": 3 },
+                                            { "tasteId": "00000000-0000-4000-8000-000000000045", "tasteName": "香り", "evaluationValue": 5 }
                                           ]
                                         }
                                       ]
@@ -85,7 +86,7 @@ class CoffeeListGroupController(
                                       "timestamp": "2026-02-23T12:00:00.000+00:00",
                                       "status": 404,
                                       "error": "Not Found",
-                                      "path": "/api/coffee-list-groups/550e8400-e29b-41d4-a716-446655440099"
+                                      "path": "/api/coffee-list-groups/00000000-0000-4000-8000-000000000099"
                                     }
                                 """,
                             ),
@@ -96,7 +97,7 @@ class CoffeeListGroupController(
         ],
     )
     fun getCoffeeListGroupDetail(
-        @Parameter(description = "珈琲リストグループID", required = true, example = "550e8400-e29b-41d4-a716-446655440001")
+        @Parameter(description = "珈琲リストグループID", required = true, example = "00000000-0000-4000-8000-000000000051")
         @PathVariable coffeeListGroupId: String,
     ): ResponseEntity<CoffeeListGroupDetailResponse> {
         val result = findCoffeeListGroupDetailUsecase.execute(coffeeListGroupId)

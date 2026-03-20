@@ -80,6 +80,62 @@ class CoffeeBeanTest {
     }
 
     @Test
+    fun `nameが空白の場合は例外が発生する`() {
+        assertThrows<IllegalArgumentException> {
+            createCoffeeBean().copy(name = "")
+        }
+    }
+
+    @Test
+    fun `nameが256文字以上の場合は例外が発生する`() {
+        assertThrows<IllegalArgumentException> {
+            createCoffeeBean().copy(name = "a".repeat(256))
+        }
+    }
+
+    @Test
+    fun `descriptionが空白の場合は例外が発生する`() {
+        assertThrows<IllegalArgumentException> {
+            createCoffeeBean().copy(description = "")
+        }
+    }
+
+    @Test
+    fun `descriptionが10001文字以上の場合は例外が発生する`() {
+        assertThrows<IllegalArgumentException> {
+            createCoffeeBean().copy(description = "a".repeat(10001))
+        }
+    }
+
+    @Test
+    fun `originが空白の場合は例外が発生する`() {
+        assertThrows<IllegalArgumentException> {
+            createCoffeeBean().copy(origin = "")
+        }
+    }
+
+    @Test
+    fun `originが256文字以上の場合は例外が発生する`() {
+        assertThrows<IllegalArgumentException> {
+            createCoffeeBean().copy(origin = "a".repeat(256))
+        }
+    }
+
+    @Test
+    fun `farmが空白の場合は例外が発生する`() {
+        assertThrows<IllegalArgumentException> {
+            createCoffeeBean().copy(farm = "")
+        }
+    }
+
+    @Test
+    fun `farmが256文字以上の場合は例外が発生する`() {
+        assertThrows<IllegalArgumentException> {
+            createCoffeeBean().copy(farm = "a".repeat(256))
+        }
+    }
+
+    @Test
     fun `画像を持つCoffeeBeanを生成できる`() {
         val images = listOf(
             CoffeeBeanImage(

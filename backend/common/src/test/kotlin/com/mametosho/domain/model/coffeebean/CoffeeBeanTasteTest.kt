@@ -37,4 +37,15 @@ class CoffeeBeanTasteTest {
             )
         }
     }
+
+    @Test
+    fun `evaluationValueが6以上の場合は例外が発生する`() {
+        assertThrows<IllegalArgumentException> {
+            CoffeeBeanTaste(
+                id = CoffeeBeanTasteId("00000000-0000-4000-8000-000000000008"),
+                tasteId = TasteId("00000000-0000-4000-8000-000000000004"),
+                evaluationValue = 6,
+            )
+        }
+    }
 }

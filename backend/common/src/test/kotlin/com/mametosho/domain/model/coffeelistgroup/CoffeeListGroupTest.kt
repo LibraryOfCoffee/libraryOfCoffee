@@ -29,6 +29,20 @@ class CoffeeListGroupTest {
     }
 
     @Test
+    fun `descriptionが空白の場合は例外が発生する`() {
+        assertThrows<IllegalArgumentException> {
+            createCoffeeListGroup().copy(description = "")
+        }
+    }
+
+    @Test
+    fun `descriptionが10001文字以上の場合は例外が発生する`() {
+        assertThrows<IllegalArgumentException> {
+            createCoffeeListGroup().copy(description = "a".repeat(10001))
+        }
+    }
+
+    @Test
     fun `異なるCoffeeBeanIdの明細を複数持てる`() {
         val children = listOf(
             CoffeeListChild(

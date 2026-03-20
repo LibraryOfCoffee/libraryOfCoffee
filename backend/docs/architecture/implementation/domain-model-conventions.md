@@ -37,13 +37,24 @@ import com.mametosho.domain.model.shop.ShopId
 
 IDには **UUIDv4** を採用する。`value: String` で保持する。
 
+すべてのID型は `init` ブロックでバリデーションを行う。
+
 ```kotlin
 @JvmInline
-value class CoffeeBeanId(val value: String)
+value class CoffeeBeanId(val value: String) {
+    init {
+        require(value.isNotBlank()) { "CoffeeBeanId must not be blank" }
+        require(UUID_REGEX.matches(value)) { "CoffeeBeanId must be a valid UUID format" }
+    }
+
+    companion object {
+        private val UUID_REGEX = Regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", RegexOption.IGNORE_CASE)
+    }
+}
 ```
 
-- ドメインモデルのID → `value: String`（UUIDv4）
-- 外部システムのID（Shopify等）→ `value: String`
+- ドメインモデルのID → `value: String`（UUIDv4）、UUID形式バリデーション付き
+- 外部システムのID（Shopify等）→ `value: String`、空白不可 + 255文字以内のバリデーション付き
 
 ## Enum
 

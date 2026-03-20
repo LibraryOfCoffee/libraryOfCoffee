@@ -8,11 +8,13 @@ package com.mametosho.domain.model.taste
  * @property id テイストID
  * @property name テイスト名。システム内で一意
  */
+@Suppress("MagicNumber")
 data class Taste(
     val id: TasteId,
     val name: String,
 ) {
     init {
         require(name.isNotBlank()) { "name must not be blank" }
+        require(name.length <= 255) { "name must be at most 255 characters, but was ${name.length}" }
     }
 }

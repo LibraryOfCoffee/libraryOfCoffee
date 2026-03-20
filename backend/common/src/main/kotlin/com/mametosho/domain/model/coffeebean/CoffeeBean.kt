@@ -20,6 +20,7 @@ import com.mametosho.domain.model.shop.ShopId
  * @property images 画像一覧
  * @property tastes テイスト評価一覧。同一TasteIdの重複は不可
  */
+@Suppress("MagicNumber")
 data class CoffeeBean(
     val id: CoffeeBeanId,
     val shopId: ShopId,
@@ -35,6 +36,16 @@ data class CoffeeBean(
     val tastes: List<CoffeeBeanTaste>,
 ) {
     init {
+        require(name.isNotBlank()) { "name must not be blank" }
+        require(name.length <= 255) { "name must be at most 255 characters, but was ${name.length}" }
+        require(description.isNotBlank()) { "description must not be blank" }
+        require(description.length <= 10000) { "description must be at most 10000 characters, but was ${description.length}" }
+        require(origin.isNotBlank()) { "origin must not be blank" }
+        require(origin.length <= 255) { "origin must be at most 255 characters, but was ${origin.length}" }
+        farm?.let {
+            require(it.isNotBlank()) { "farm must not be blank" }
+            require(it.length <= 255) { "farm must be at most 255 characters, but was ${it.length}" }
+        }
         val duplicateTasteIds = tastes.groupBy { it.tasteId }.filter { it.value.size > 1 }.keys
         require(duplicateTasteIds.isEmpty()) {
             "Duplicate tasteId is not allowed: $duplicateTasteIds"

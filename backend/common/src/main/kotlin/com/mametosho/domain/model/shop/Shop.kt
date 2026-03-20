@@ -12,6 +12,7 @@ package com.mametosho.domain.model.shop
  * @property particular こだわり
  * @property images 店舗画像一覧
  */
+@Suppress("MagicNumber")
 data class Shop(
     val id: ShopId,
     val shopifyShopId: ShopifyShopId,
@@ -22,5 +23,14 @@ data class Shop(
 ) {
     init {
         require(name.isNotBlank()) { "name must not be blank" }
+        require(name.length <= 255) { "name must be at most 255 characters, but was ${name.length}" }
+        introduction?.let {
+            require(it.isNotBlank()) { "introduction must not be blank" }
+            require(it.length <= 10000) { "introduction must be at most 10000 characters, but was ${it.length}" }
+        }
+        particular?.let {
+            require(it.isNotBlank()) { "particular must not be blank" }
+            require(it.length <= 10000) { "particular must be at most 10000 characters, but was ${it.length}" }
+        }
     }
 }

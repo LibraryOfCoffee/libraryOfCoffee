@@ -34,4 +34,14 @@ class TasteTest {
             )
         }
     }
+
+    @Test
+    fun `nameが256文字以上の場合は例外が発生する`() {
+        assertThrows<IllegalArgumentException> {
+            Taste(
+                id = TasteId("00000000-0000-4000-8000-000000000004"),
+                name = "a".repeat(256),
+            )
+        }
+    }
 }

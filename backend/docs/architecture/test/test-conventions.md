@@ -5,6 +5,7 @@
 | 層 | ドキュメント |
 |---|-------------|
 | ドメインモデル | [`domain-model-test-conventions.md`](domain-model-test-conventions.md) |
+| Repository | [`repository-test-conventions.md`](repository-test-conventions.md) |
 
 ## テストフレームワーク
 
