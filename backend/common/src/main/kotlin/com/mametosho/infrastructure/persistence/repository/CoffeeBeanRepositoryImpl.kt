@@ -13,7 +13,7 @@ class CoffeeBeanRepositoryImpl(
     private val coffeeBeanMapper: CoffeeBeanMapper,
 ) : CoffeeBeanRepository {
     override fun save(coffeeBean: CoffeeBean) {
-        coffeeBeanMapper.insertCoffeeBean(
+        coffeeBeanMapper.upsertCoffeeBean(
             CoffeeBeanEntity(
                 id = coffeeBean.id.value,
                 shopId = coffeeBean.shopId.value,
@@ -27,6 +27,7 @@ class CoffeeBeanRepositoryImpl(
                 isSpecialty = coffeeBean.isSpecialty,
             ),
         )
+        coffeeBeanMapper.deleteCoffeeBeanImagesByCoffeeBeanId(coffeeBean.id.value)
         coffeeBean.images.forEach { image ->
             coffeeBeanMapper.insertCoffeeBeanImage(
                 CoffeeBeanImageEntity(
@@ -37,6 +38,7 @@ class CoffeeBeanRepositoryImpl(
                 ),
             )
         }
+        coffeeBeanMapper.deleteCoffeeBeanTastesByCoffeeBeanId(coffeeBean.id.value)
         coffeeBean.tastes.forEach { taste ->
             coffeeBeanMapper.insertCoffeeBeanTaste(
                 CoffeeBeanTasteEntity(

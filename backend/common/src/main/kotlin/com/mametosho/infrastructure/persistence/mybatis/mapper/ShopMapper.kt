@@ -2,6 +2,7 @@ package com.mametosho.infrastructure.persistence.mybatis.mapper
 
 import com.mametosho.infrastructure.persistence.mybatis.entity.ShopEntity
 import com.mametosho.infrastructure.persistence.mybatis.entity.ShopImageEntity
+import org.apache.ibatis.annotations.Delete
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Mapper
 
@@ -11,9 +12,17 @@ interface ShopMapper {
         """
         INSERT INTO shops (id, shopify_shop_id, name, introduction, particular)
         VALUES (#{id}, #{shopifyShopId}, #{name}, #{introduction}, #{particular})
+        ON DUPLICATE KEY UPDATE
+            shopify_shop_id = VALUES(shopify_shop_id),
+            name = VALUES(name),
+            introduction = VALUES(introduction),
+            particular = VALUES(particular)
         """,
     )
-    fun insertShop(entity: ShopEntity)
+    fun upsertShop(entity: ShopEntity)
+
+    @Delete("DELETE FROM shop_images WHERE shop_id = #{shopId}")
+    fun deleteShopImagesByShopId(shopId: String)
 
     @Insert(
         """

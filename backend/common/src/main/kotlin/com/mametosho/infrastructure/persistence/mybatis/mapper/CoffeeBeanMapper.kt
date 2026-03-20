@@ -3,6 +3,7 @@ package com.mametosho.infrastructure.persistence.mybatis.mapper
 import com.mametosho.infrastructure.persistence.mybatis.entity.CoffeeBeanEntity
 import com.mametosho.infrastructure.persistence.mybatis.entity.CoffeeBeanImageEntity
 import com.mametosho.infrastructure.persistence.mybatis.entity.CoffeeBeanTasteEntity
+import org.apache.ibatis.annotations.Delete
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Mapper
 
@@ -12,9 +13,22 @@ interface CoffeeBeanMapper {
         """
         INSERT INTO coffee_beans (id, shop_id, shopify_bean_id, name, description, origin, farm, roast_level, processing_method, is_specialty)
         VALUES (#{id}, #{shopId}, #{shopifyBeanId}, #{name}, #{description}, #{origin}, #{farm}, #{roastLevel}, #{processingMethod}, #{isSpecialty})
+        ON DUPLICATE KEY UPDATE
+            shop_id = VALUES(shop_id),
+            shopify_bean_id = VALUES(shopify_bean_id),
+            name = VALUES(name),
+            description = VALUES(description),
+            origin = VALUES(origin),
+            farm = VALUES(farm),
+            roast_level = VALUES(roast_level),
+            processing_method = VALUES(processing_method),
+            is_specialty = VALUES(is_specialty)
         """,
     )
-    fun insertCoffeeBean(entity: CoffeeBeanEntity)
+    fun upsertCoffeeBean(entity: CoffeeBeanEntity)
+
+    @Delete("DELETE FROM coffee_bean_images WHERE coffee_bean_id = #{coffeeBeanId}")
+    fun deleteCoffeeBeanImagesByCoffeeBeanId(coffeeBeanId: String)
 
     @Insert(
         """
@@ -23,6 +37,9 @@ interface CoffeeBeanMapper {
         """,
     )
     fun insertCoffeeBeanImage(entity: CoffeeBeanImageEntity)
+
+    @Delete("DELETE FROM coffee_bean_tastes WHERE coffee_bean_id = #{coffeeBeanId}")
+    fun deleteCoffeeBeanTastesByCoffeeBeanId(coffeeBeanId: String)
 
     @Insert(
         """

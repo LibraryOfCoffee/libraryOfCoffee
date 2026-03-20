@@ -12,7 +12,7 @@ class ShopRepositoryImpl(
     private val shopMapper: ShopMapper,
 ) : ShopRepository {
     override fun save(shop: Shop) {
-        shopMapper.insertShop(
+        shopMapper.upsertShop(
             ShopEntity(
                 id = shop.id.value,
                 shopifyShopId = shop.shopifyShopId.value,
@@ -21,6 +21,7 @@ class ShopRepositoryImpl(
                 particular = shop.particular,
             ),
         )
+        shopMapper.deleteShopImagesByShopId(shop.id.value)
         shop.images.forEach { image ->
             shopMapper.insertShopImage(
                 ShopImageEntity(
