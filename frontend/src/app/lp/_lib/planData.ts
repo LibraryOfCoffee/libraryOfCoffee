@@ -1,4 +1,15 @@
-export type PlanId = "cbl-3b-30g" | "cbl-4b-30g" | "cbl-5b-30g";
+export type WeightGrams = 30 | 60 | 90;
+
+export type PlanId =
+  | "cbl-3b-30g"
+  | "cbl-3b-60g"
+  | "cbl-3b-90g"
+  | "cbl-4b-30g"
+  | "cbl-4b-60g"
+  | "cbl-4b-90g"
+  | "cbl-5b-30g"
+  | "cbl-5b-60g"
+  | "cbl-5b-90g";
 
 export interface PlanDetail {
   id: PlanId;
@@ -7,45 +18,96 @@ export interface PlanDetail {
   totalBeans: number;
   maxSelection: number;
   description: string;
+  weight: WeightGrams;
   catchphrase?: string;
   badge?: string;
 }
 
-export const plans: PlanDetail[] = [
+export const WEIGHT_OPTIONS: WeightGrams[] = [30, 60, 90];
+
+interface BasePlan {
+  name: string;
+  totalBeans: number;
+  maxSelection: number;
+  catchphrase?: string;
+  badge?: string;
+  variants: Record<WeightGrams, { price: number; description: string }>;
+}
+
+const basePlans: BasePlan[] = [
   {
-    id: "cbl-3b-30g",
     name: "はじめてプラン",
-    price: 1500,
     totalBeans: 3,
     maxSelection: 2,
-    description: "30g × 3種類 / 約6〜9杯分",
     catchphrase: "お手頃値段で、サービスを体験したいあなたへ",
+    variants: {
+      30: { price: 1500, description: "30g × 3種類 / 約6〜9杯分" },
+      60: { price: 2900, description: "60g × 3種類 / 約12〜18杯分" },
+      90: { price: 4200, description: "90g × 3種類 / 約18〜27杯分" },
+    },
   },
   {
-    id: "cbl-4b-30g",
     name: "定番プラン",
-    price: 1950,
     totalBeans: 4,
     maxSelection: 3,
-    description: "30g × 4種類 / 約8〜12杯分",
     catchphrase: "毎月の珈琲時間をもっと豊かにしたいあなたへ",
     badge: "おすすめ",
+    variants: {
+      30: { price: 1950, description: "30g × 4種類 / 約8〜12杯分" },
+      60: { price: 3800, description: "60g × 4種類 / 約16〜24杯分" },
+      90: { price: 5550, description: "90g × 4種類 / 約24〜36杯分" },
+    },
   },
   {
-    id: "cbl-5b-30g",
     name: "たっぷりプラン",
-    price: 2350,
     totalBeans: 5,
     maxSelection: 4,
-    description: "30g × 5種類 / 約10〜15杯分",
     catchphrase: "たくさんの味に出会って、自分の好みを見つけたいあなたへ",
+    variants: {
+      30: { price: 2350, description: "30g × 5種類 / 約10〜15杯分" },
+      60: { price: 4600, description: "60g × 5種類 / 約20〜30杯分" },
+      90: { price: 6750, description: "90g × 5種類 / 約30〜45杯分" },
+    },
   },
 ];
+
+function generatePlans(): PlanDetail[] {
+  const result: PlanDetail[] = [];
+  for (const base of basePlans) {
+    for (const weight of WEIGHT_OPTIONS) {
+      const variant = base.variants[weight];
+      result.push({
+        id: `cbl-${base.totalBeans}b-${weight}g` as PlanId,
+        name: base.name,
+        price: variant.price,
+        totalBeans: base.totalBeans,
+        maxSelection: base.maxSelection,
+        description: variant.description,
+        weight,
+        catchphrase: base.catchphrase,
+        badge: base.badge,
+      });
+    }
+  }
+  return result;
+}
+
+export const plans: PlanDetail[] = generatePlans();
 
 export const VALID_PLAN_IDS: string[] = plans.map((p) => p.id);
 
 export function getPlanById(id: string): PlanDetail | undefined {
   return plans.find((p) => p.id === id);
+}
+
+const plansByWeight: Record<WeightGrams, PlanDetail[]> = {
+  30: plans.filter((p) => p.weight === 30),
+  60: plans.filter((p) => p.weight === 60),
+  90: plans.filter((p) => p.weight === 90),
+};
+
+export function getPlansForWeight(weight: WeightGrams): PlanDetail[] {
+  return plansByWeight[weight];
 }
 
 export function formatPrice(price: number): string {
