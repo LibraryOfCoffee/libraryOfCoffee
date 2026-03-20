@@ -1,14 +1,12 @@
 package com.mametosho.domain.model.administrator
 
+import com.mametosho.domain.model.shared.UuidFormat
+
 /** 管理者のID。 */
 @JvmInline
 value class AdministratorId(val value: String) {
     init {
         require(value.isNotBlank()) { "AdministratorId must not be blank" }
-        require(UUID_REGEX.matches(value)) { "AdministratorId must be a valid UUID format" }
-    }
-
-    companion object {
-        private val UUID_REGEX = Regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", RegexOption.IGNORE_CASE)
+        require(UuidFormat.isValid(value)) { "AdministratorId must be a valid UUID format" }
     }
 }
