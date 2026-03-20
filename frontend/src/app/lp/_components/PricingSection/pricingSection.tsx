@@ -1,7 +1,6 @@
-import { plans } from "../../_lib/planData";
 import sharedStyles from "../../shared.module.css";
-import PricingCarousel from "./pricingCarousel";
 import styles from "./pricingSection.module.css";
+import PricingWithToggle from "./pricingWithToggle";
 
 export default function PricingSection() {
   return (
@@ -14,12 +13,12 @@ export default function PricingSection() {
         className={sharedStyles.sectionTitle}
         style={{ color: "#FFFFFF", padding: "0 24px" }}
       >
-        シンプルな料金プラン
+        料金プラン
       </h2>
       <p className={styles.subtitle}>
-        3つのプランをご用意。焙煎したての新鮮な豆を送料無料でお届けします。いつでも解約OK。
+        様々なプランをご用意。焙煎したての新鮮な豆を送料無料でお届けします。いつでも解約OK。
       </p>
-      <PricingCarousel plans={plans} />
+      <PricingWithToggle />
     </section>
   );
 }
