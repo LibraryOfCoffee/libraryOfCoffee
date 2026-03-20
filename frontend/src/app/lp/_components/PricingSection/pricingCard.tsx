@@ -38,7 +38,7 @@ export default function PricingCard({ plan }: PricingCardProps) {
         </li>
       </ul>
       <LinkWithLoading
-        href={`/lp/beans?planId=${plan.id}`}
+        href={`/lp/beans?planId=${plan.discountPlanId}`}
         className={styles.btn}
       >
         このプランで豆を選ぶ

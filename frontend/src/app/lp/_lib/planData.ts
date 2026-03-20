@@ -9,10 +9,20 @@ export type PlanId =
   | "cbl-4b-90g"
   | "cbl-5b-30g"
   | "cbl-5b-60g"
-  | "cbl-5b-90g";
+  | "cbl-5b-90g"
+  | "cbl-3b-30g-exclusive"
+  | "cbl-3b-60g-exclusive"
+  | "cbl-3b-90g-exclusive"
+  | "cbl-4b-30g-exclusive"
+  | "cbl-4b-60g-exclusive"
+  | "cbl-4b-90g-exclusive"
+  | "cbl-5b-30g-exclusive"
+  | "cbl-5b-60g-exclusive"
+  | "cbl-5b-90g-exclusive";
 
 export interface PlanDetail {
   id: PlanId;
+  discountPlanId: PlanId;
   name: string;
   price: number;
   discountPrice: number;
@@ -118,6 +128,8 @@ function generatePlans(): PlanDetail[] {
       const variant = base.variants[weight];
       result.push({
         id: `cbl-${base.totalBeans}b-${weight}g` as PlanId,
+        discountPlanId:
+          `cbl-${base.totalBeans}b-${weight}g-exclusive` as PlanId,
         name: base.name,
         price: variant.price,
         discountPrice: variant.discountPrice,
@@ -135,10 +147,13 @@ function generatePlans(): PlanDetail[] {
 
 export const plans: PlanDetail[] = generatePlans();
 
-export const VALID_PLAN_IDS: string[] = plans.map((p) => p.id);
+export const VALID_PLAN_IDS: string[] = plans.flatMap((p) => [
+  p.id,
+  p.discountPlanId,
+]);
 
 export function getPlanById(id: string): PlanDetail | undefined {
-  return plans.find((p) => p.id === id);
+  return plans.find((p) => p.id === id || p.discountPlanId === id);
 }
 
 const plansByWeight: Record<WeightGrams, PlanDetail[]> = {

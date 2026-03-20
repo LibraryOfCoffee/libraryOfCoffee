@@ -35,9 +35,11 @@ function PlanPageContent() {
   };
 
   const handleNavigate = (planId: PlanId) => {
+    const plan = getPlanById(planId);
+    if (!plan) return;
     setLoading(true);
     const query = new URLSearchParams();
-    query.set("planId", planId);
+    query.set("planId", plan.discountPlanId);
     if (beanId) query.set("beanId", beanId);
     router.push(`/lp/beans?${query.toString()}`);
   };
