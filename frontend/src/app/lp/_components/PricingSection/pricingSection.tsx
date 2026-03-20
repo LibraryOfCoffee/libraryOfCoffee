@@ -13,7 +13,7 @@ export default function PricingSection() {
         className={sharedStyles.sectionTitle}
         style={{ color: "#FFFFFF", padding: "0 24px" }}
       >
-        シンプルな料金プラン
+        料金プラン
       </h2>
       <p className={styles.subtitle}>
         様々なプランをご用意。焙煎したての新鮮な豆を送料無料でお届けします。いつでも解約OK。
