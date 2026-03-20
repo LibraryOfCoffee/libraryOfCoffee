@@ -128,8 +128,8 @@ export const beans: BeanDetail[] = [
     isSpecialty: true,
   },
   {
-    id: "49929756672233",
-    imageSrc: "/beanImages/49929756672233.jpg",
+    id: "50668841435369",
+    imageSrc: "/beanImages/49929756672233.jpg", // 豆画像がないので、一旦前のまま
     tag: "中深煎り",
     tagColor: "#5C3317",
     name: "ホンジュラス",
