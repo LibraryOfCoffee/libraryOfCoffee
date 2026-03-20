@@ -1,26 +1,26 @@
 plugins {
-	kotlin("plugin.spring")
-	id("org.springframework.boot")
-	id("io.spring.dependency-management")
-	id("org.springdoc.openapi-gradle-plugin")
+	alias(libs.plugins.kotlin.spring)
+	alias(libs.plugins.spring.boot)
+	alias(libs.plugins.spring.dependency.management)
+	alias(libs.plugins.springdoc.openapi.gradle)
 }
 
 dependencies {
 	implementation(project(":common"))
 
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.springframework.boot:spring-boot-starter-actuator")
-	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
+	implementation(libs.spring.boot.starter.web)
+	implementation(libs.spring.boot.starter.actuator)
+	implementation(libs.kotlin.reflect)
+	developmentOnly(libs.spring.boot.docker.compose)
 
 	// OpenAPI / Swagger
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6")
-	runtimeOnly("com.h2database:h2")
+	implementation(libs.springdoc.openapi.starter.webmvc.ui)
+	runtimeOnly(libs.h2)
 
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-	testImplementation("com.tngtech.archunit:archunit-junit5:1.4.1")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	testImplementation(libs.spring.boot.starter.test)
+	testImplementation(libs.kotlin.test.junit5)
+	testImplementation(libs.archunit.junit5)
+	testRuntimeOnly(libs.junit.platform.launcher)
 }
 
 openApi {

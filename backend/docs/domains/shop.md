@@ -26,7 +26,9 @@ Shopifyのショップと1対1で紐づく。
 ### 不変条件
 
 - ShopifyShopIdはシステム内で一意でなければならない
-- nameは必須
+- nameは必須（255文字以内）
+- introductionは非null時、空白不可（10000文字以内）
+- particularは非null時、空白不可（10000文字以内）
 
 ## ShopImage（エンティティ）
 

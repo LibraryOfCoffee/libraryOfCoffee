@@ -2,6 +2,7 @@ name: CI Backend
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened]
     branches: [main]
     paths:
       - 'backend/**'

@@ -32,9 +32,10 @@ Shopifyの商品と1対1で紐づく。産地、焙煎度、精製方法、テ�
 ### 不変条件
 
 - ShopifyBeanIdはシステム内で一意でなければならない
-- nameは必須
-- descriptionは必須
-- originは必須
+- nameは必須（255文字以内）
+- descriptionは必須（10000文字以内）
+- originは必須（255文字以内）
+- farmは非null時、空白不可（255文字以内）
 - roastLevelは必須
 - processingMethodは必須
 - shopIdは存在するShopを参照しなければならない
@@ -62,7 +63,7 @@ Shopifyの商品と1対1で紐づく。産地、焙煎度、精製方法、テ�
 ### 不変条件
 
 - 同一珈琲豆に同じTasteの評価を複数持つことはできない
-- evaluationValueは0以上でなければならない
+- evaluationValueは0以上5以下でなければならない
 
 ## 関連する集約
 

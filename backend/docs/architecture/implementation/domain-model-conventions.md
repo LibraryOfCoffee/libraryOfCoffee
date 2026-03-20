@@ -37,13 +37,24 @@ import com.mametosho.domain.model.shop.ShopId
 
 IDには **UUIDv4** を採用する。`value: String` で保持する。
 
+すべてのID型は `init` ブロックでバリデーションを行う。
+
 ```kotlin
 @JvmInline
-value class CoffeeBeanId(val value: String)
+value class CoffeeBeanId(val value: String) {
+    init {
+        require(value.isNotBlank()) { "CoffeeBeanId must not be blank" }
+        require(UUID_REGEX.matches(value)) { "CoffeeBeanId must be a valid UUID format" }
+    }
+
+    companion object {
+        private val UUID_REGEX = Regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", RegexOption.IGNORE_CASE)
+    }
+}
 ```
 
-- ドメインモデルのID → `value: String`（UUIDv4）
-- 外部システムのID（Shopify等）→ `value: String`
+- ドメインモデルのID → `value: String`（UUIDv4）、UUID形式バリデーション付き
+- 外部システムのID（Shopify等）→ `value: String`、空白不可 + 255文字以内のバリデーション付き
 
 ## Enum
 
@@ -75,6 +86,73 @@ data class CoffeeBean(
 
 - Spring依存を持たせない
 - 不変条件は `init` ブロックで `require` を使って検証する
+
+## ファクトリメソッド（`create`）
+
+集約ルートの新規生成ロジック（ID自動生成、子エンティティの構築）は、集約ルートの `companion object` に `create()` メソッドとして定義する。Usecase側ではプリミティブ値を渡して `create()` を呼ぶだけにする。
+
+```kotlin
+data class Shop(
+    val id: ShopId,
+    val shopifyShopId: ShopifyShopId,
+    val name: String,
+    val introduction: String?,
+    val particular: String?,
+    val images: List<ShopImage>,
+) {
+    init { /* バリデーション */ }
+
+    companion object {
+        fun create(
+            shopifyShopId: String,
+            name: String,
+            introduction: String?,
+            particular: String?,
+            images: List<Pair<String, String>>,  // type to imageUrl
+        ): Shop = Shop(
+            id = ShopId(UUID.randomUUID().toString()),
+            shopifyShopId = ShopifyShopId(shopifyShopId),
+            name = name,
+            introduction = introduction,
+            particular = particular,
+            images = images.map { (type, imageUrl) ->
+                ShopImage(
+                    id = ShopImageId(UUID.randomUUID().toString()),
+                    type = ShopImageType.valueOf(type),
+                    imageUrl = ImageUrl(imageUrl),
+                )
+            },
+        )
+    }
+}
+```
+
+### Usecaseでの使い方
+
+```kotlin
+@Service
+class CreateShopUsecase(private val shopRepository: ShopRepository) {
+    @Transactional
+    fun execute(request: CreateShopRequest): Shop {
+        val shop = Shop.create(
+            shopifyShopId = request.shopifyShopId,
+            name = request.name,
+            introduction = request.introduction,
+            particular = request.particular,
+            images = request.images.map { it.type to it.imageUrl },
+        )
+        shopRepository.save(shop)
+        return shop
+    }
+}
+```
+
+### ルール
+
+- ID生成（`UUID.randomUUID()`）は `create()` 内で行う。Usecaseで行わない
+- 子エンティティの構築も `create()` 内で行う
+- `create()` の引数はプリミティブ型（`String`, `Int`, `Boolean`, `Pair` 等）で受け取り、値オブジェクトへの変換は `create()` 内で行う
+- DBからの復元にはコンストラクタを直接使う（`create()` は新規生成専用）
 
 ## エンティティ
 

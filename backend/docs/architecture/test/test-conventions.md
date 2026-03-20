@@ -5,6 +5,10 @@
 | 層 | ドキュメント |
 |---|-------------|
 | ドメインモデル | [`domain-model-test-conventions.md`](domain-model-test-conventions.md) |
+| Repository | [`repository-test-conventions.md`](repository-test-conventions.md) |
+| ユースケース | [`usecase-test-conventions.md`](usecase-test-conventions.md) |
+| レスポンスDTO | [`response-dto-test-conventions.md`](response-dto-test-conventions.md) |
+| コントローラ | [`controller-test-conventions.md`](controller-test-conventions.md) |
 
 ## テストフレームワーク
 
@@ -34,6 +38,47 @@ fun `正常にCoffeeBeanを生成できる`() { ... }
 @Test
 fun `nameが空白の場合は例外が発生する`() { ... }
 ```
+
+## テストのグルーピング
+
+テストはカテゴリごとに `@Nested inner class` でグルーピングする。これによりテスト実行結果が階層化され、可読性が向上する。
+
+```kotlin
+import org.junit.jupiter.api.Nested
+
+class ShopTest {
+
+    private fun createShop(...): Shop = ...
+
+    @Nested
+    inner class 生成テスト {
+        @Test
+        fun `正常にShopを生成できる`() { ... }
+    }
+
+    @Nested
+    inner class バリデーション {
+        @Test
+        fun `nameが空白の場合は例外が発生する`() { ... }
+    }
+}
+```
+
+### ネストクラスの命名パターン
+
+| 層 | 主なネストクラス名 |
+|---|---|
+| ドメインモデル | `生成テスト`, `バリデーション`, `{メソッド名}` (e.g. `addChild`, `cancel`) |
+| 値オブジェクト | `生成テスト`, `バリデーション` |
+| ユースケース | `正常系`, `UUID自動生成`, `nullable項目`, `空コレクション`, `リポジトリ保存`, `バリデーション` |
+| レスポンスDTO | `正常系変換`, `nullable項目`, `空コレクション` |
+| コントローラ | `正常系`, `レスポンスボディ` |
+| Repository | `正常系INSERT`, `子テーブルINSERT`, `nullable項目`, `空コレクション`, `複数行INSERT`, `enum変換` |
+
+### 注意事項
+
+- ファクトリメソッドやクラスフィールドは外側クラスに配置する（ネストクラスの外）
+- `@Nested` は `inner class` でなければならない（非inner classだと外側クラスのフィールドにアクセスできない）
 
 ## ファクトリメソッド
 

@@ -1,5 +1,6 @@
 package com.mametosho.domain.model.subscriptionplan
 
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -16,43 +17,51 @@ class SubscriptionPlanTest {
         beanQuantity = beanQuantity,
     )
 
-    @Test
-    fun `正常にSubscriptionPlanを生成できる`() {
-        val plan = createSubscriptionPlan()
-        assertEquals(3000, plan.price)
-        assertEquals(3, plan.beanQuantity)
-    }
+    @Nested
+    inner class 生成テスト {
 
-    @Test
-    fun `priceが0の場合は生成できる`() {
-        val plan = createSubscriptionPlan(price = 0)
-        assertEquals(0, plan.price)
-    }
-
-    @Test
-    fun `priceが負の値の場合は例外が発生する`() {
-        assertThrows<IllegalArgumentException> {
-            createSubscriptionPlan(price = -1)
+        @Test
+        fun `正常にSubscriptionPlanを生成できる`() {
+            val plan = createSubscriptionPlan()
+            assertEquals(3000, plan.price)
+            assertEquals(3, plan.beanQuantity)
         }
     }
 
-    @Test
-    fun `beanQuantityが1の場合は生成できる`() {
-        val plan = createSubscriptionPlan(beanQuantity = 1)
-        assertEquals(1, plan.beanQuantity)
-    }
+    @Nested
+    inner class バリデーション {
 
-    @Test
-    fun `beanQuantityが0の場合は例外が発生する`() {
-        assertThrows<IllegalArgumentException> {
-            createSubscriptionPlan(beanQuantity = 0)
+        @Test
+        fun `priceが0の場合は生成できる`() {
+            val plan = createSubscriptionPlan(price = 0)
+            assertEquals(0, plan.price)
         }
-    }
 
-    @Test
-    fun `beanQuantityが負の値の場合は例外が発生する`() {
-        assertThrows<IllegalArgumentException> {
-            createSubscriptionPlan(beanQuantity = -1)
+        @Test
+        fun `priceが負の値の場合は例外が発生する`() {
+            assertThrows<IllegalArgumentException> {
+                createSubscriptionPlan(price = -1)
+            }
+        }
+
+        @Test
+        fun `beanQuantityが1の場合は生成できる`() {
+            val plan = createSubscriptionPlan(beanQuantity = 1)
+            assertEquals(1, plan.beanQuantity)
+        }
+
+        @Test
+        fun `beanQuantityが0の場合は例外が発生する`() {
+            assertThrows<IllegalArgumentException> {
+                createSubscriptionPlan(beanQuantity = 0)
+            }
+        }
+
+        @Test
+        fun `beanQuantityが負の値の場合は例外が発生する`() {
+            assertThrows<IllegalArgumentException> {
+                createSubscriptionPlan(beanQuantity = -1)
+            }
         }
     }
 }

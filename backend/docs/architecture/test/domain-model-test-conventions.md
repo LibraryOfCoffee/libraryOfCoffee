@@ -25,22 +25,24 @@ common/src/test/kotlin/com/mametosho/domain/model/
 
 ## テストカテゴリと書くべきテスト
 
+テストはカテゴリごとに `@Nested inner class` でグルーピングする。
+
 ### 集約ルート・エンティティ
 
-| カテゴリ | 書くべきテスト |
-|---------|-------------|
-| 生成テスト | 正常系の生成 |
-| nullable項目 | nullable各項目がnullでも生成できること |
-| バリデーション | `init` ブロックの `require` / `check` ごとに正常系・異常系 |
-| コレクションの一意性 | 重複不可の制約がある場合、正常系・異常系 |
-| ドメインメソッド | 各メソッドの正常系・状態制約による異常系 |
+| カテゴリ | ネストクラス名 | 書くべきテスト |
+|---------|--------------|-------------|
+| 生成テスト | `生成テスト` | 正常系の生成 |
+| nullable項目 | `生成テスト` または専用クラス | nullable各項目がnullでも生成できること |
+| バリデーション | `バリデーション` | `init` ブロックの `require` / `check` ごとに正常系・異常系 |
+| コレクションの一意性 | `バリデーション` | 重複不可の制約がある場合、正常系・異常系 |
+| ドメインメソッド | `{メソッド名}` (e.g. `addChild`, `cancel`) | 各メソッドの正常系・状態制約による異常系 |
 
 ### 値オブジェクト
 
-| カテゴリ | 書くべきテスト |
-|---------|-------------|
-| 境界値テスト | バリデーションの境界値（0、最小値、負の値など） |
-| 日付範囲 | from/toの前後関係、同一日 |
+| カテゴリ | ネストクラス名 | 書くべきテスト |
+|---------|--------------|-------------|
+| 境界値テスト | `生成テスト`, `バリデーション` | バリデーションの境界値（0、最小値、負の値など） |
+| 日付範囲 | `バリデーション` | from/toの前後関係、同一日 |
 
 ## 標準実装リファレンス
 
@@ -49,6 +51,7 @@ common/src/test/kotlin/com/mametosho/domain/model/
 ```kotlin
 package com.mametosho.domain.model.subscriptionplan
 
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -65,36 +68,42 @@ class SubscriptionPlanTest {
         beanQuantity = beanQuantity,
     )
 
-    @Test
-    fun `正常にSubscriptionPlanを生成できる`() {
-        val plan = createSubscriptionPlan()
-        assertEquals(3000, plan.price)
-        assertEquals(3, plan.beanQuantity)
-    }
-
-    @Test
-    fun `priceが0の場合は生成できる`() {
-        val plan = createSubscriptionPlan(price = 0)
-        assertEquals(0, plan.price)
-    }
-
-    @Test
-    fun `priceが負の値の場合は例外が発生する`() {
-        assertThrows<IllegalArgumentException> {
-            createSubscriptionPlan(price = -1)
+    @Nested
+    inner class 生成テスト {
+        @Test
+        fun `正常にSubscriptionPlanを生成できる`() {
+            val plan = createSubscriptionPlan()
+            assertEquals(3000, plan.price)
+            assertEquals(3, plan.beanQuantity)
         }
     }
 
-    @Test
-    fun `beanQuantityが1の場合は生成できる`() {
-        val plan = createSubscriptionPlan(beanQuantity = 1)
-        assertEquals(1, plan.beanQuantity)
-    }
+    @Nested
+    inner class バリデーション {
+        @Test
+        fun `priceが0の場合は生成できる`() {
+            val plan = createSubscriptionPlan(price = 0)
+            assertEquals(0, plan.price)
+        }
 
-    @Test
-    fun `beanQuantityが0の場合は例外が発生する`() {
-        assertThrows<IllegalArgumentException> {
-            createSubscriptionPlan(beanQuantity = 0)
+        @Test
+        fun `priceが負の値の場合は例外が発生する`() {
+            assertThrows<IllegalArgumentException> {
+                createSubscriptionPlan(price = -1)
+            }
+        }
+
+        @Test
+        fun `beanQuantityが1の場合は生成できる`() {
+            val plan = createSubscriptionPlan(beanQuantity = 1)
+            assertEquals(1, plan.beanQuantity)
+        }
+
+        @Test
+        fun `beanQuantityが0の場合は例外が発生する`() {
+            assertThrows<IllegalArgumentException> {
+                createSubscriptionPlan(beanQuantity = 0)
+            }
         }
     }
 }
@@ -106,6 +115,7 @@ class SubscriptionPlanTest {
 
 - [ ] テストファイルが本体と同じパッケージに配置されているか
 - [ ] テストメソッド名が日本語で記述されているか
+- [ ] テストがカテゴリごとに @Nested inner class でグルーピングされているか
 - [ ] ファクトリメソッドを使ってテストデータを生成しているか
 - [ ] IDがUUIDv4形式で統一されているか
 - [ ] `init` ブロックのバリデーションごとに正常系・異常系のテストがあるか
