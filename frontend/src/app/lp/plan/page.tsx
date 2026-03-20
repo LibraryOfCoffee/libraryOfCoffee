@@ -71,7 +71,7 @@ function PlanPageContent() {
       <CtaFooter
         summaryLabel="お支払い（税込）"
         summaryValue={
-          currentPlan ? `¥${formatPrice(currentPlan.price)}` : "未選択"
+          currentPlan ? `¥${formatPrice(currentPlan.discountPrice)}` : "未選択"
         }
         ctaText="豆を選ぶ"
         onCtaClick={() => {

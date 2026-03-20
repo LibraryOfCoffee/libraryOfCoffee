@@ -16,9 +16,13 @@ export default function PricingCard({ plan }: PricingCardProps) {
         {plan.catchphrase && (
           <span className={styles.catchphrase}>{plan.catchphrase}</span>
         )}
+        <span className={styles.originalPrice}>¥{formatPrice(plan.price)}</span>
         <div className={styles.price}>
+          <span className={styles.discountBadge}>初月限定</span>
           <span className={styles.yen}>¥</span>
-          <span className={styles.amount}>{formatPrice(plan.price)}</span>
+          <span className={styles.amount}>
+            {formatPrice(plan.discountPrice)}
+          </span>
           <span className={styles.period}>/月</span>
         </div>
         <span className={styles.desc}>{plan.description}</span>
