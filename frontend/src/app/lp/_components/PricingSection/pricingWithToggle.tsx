@@ -15,7 +15,7 @@ export default function PricingWithToggle() {
       <div className={styles.toggleWrap}>
         <WeightToggle value={weight} onChange={setWeight} />
       </div>
-      <PricingCarousel key={weight} plans={filteredPlans} />
+      <PricingCarousel plans={filteredPlans} />
     </>
   );
 }
