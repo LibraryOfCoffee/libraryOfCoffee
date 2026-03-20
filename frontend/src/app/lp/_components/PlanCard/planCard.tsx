@@ -19,9 +19,16 @@ export default function PlanCard({ plan, selected, onSelect }: PlanCardProps) {
       <div className={styles.top}>
         <div className={styles.info}>
           <span className={styles.name}>{plan.name}</span>
-          <div className={styles.price}>
+          <div className={styles.priceRow}>
+            <span className={styles.originalPrice}>
+              ¥{formatPrice(plan.price)}
+            </span>
+            <span className={styles.arrow}>→</span>
+            <span className={styles.discountBadge}>初月限定</span>
             <span className={styles.yen}>¥</span>
-            <span className={styles.amount}>{formatPrice(plan.price)}</span>
+            <span className={styles.amount}>
+              {formatPrice(plan.discountPrice)}
+            </span>
             <span className={styles.period}>/月</span>
           </div>
           <span className={styles.desc}>{plan.description}</span>

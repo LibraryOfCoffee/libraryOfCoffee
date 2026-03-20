@@ -41,7 +41,6 @@
 .info {
   display: flex;
   flex-direction: column;
-  gap: 4px;
 }
 
 .name {
@@ -55,9 +54,34 @@
   color: var(--color-text-secondary);
 }
 
-.price {
+.priceRow {
   display: flex;
-  align-items: baseline;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.originalPrice {
+  font-size: 18px;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.arrow {
+  font-size: 14px;
+  color: #999;
+}
+
+.discountBadge {
+  display: inline-flex;
+  align-items: center;
+  background: #e53935;
+  color: var(--color-white);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 100px;
+  line-height: 1.4;
 }
 
 .yen {

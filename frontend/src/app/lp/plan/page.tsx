@@ -35,9 +35,11 @@ function PlanPageContent() {
   };
 
   const handleNavigate = (planId: PlanId) => {
+    const plan = getPlanById(planId);
+    if (!plan) return;
     setLoading(true);
     const query = new URLSearchParams();
-    query.set("planId", planId);
+    query.set("planId", plan.discountPlanId);
     if (beanId) query.set("beanId", beanId);
     router.push(`/lp/beans?${query.toString()}`);
   };
@@ -71,7 +73,7 @@ function PlanPageContent() {
       <CtaFooter
         summaryLabel="お支払い（税込）"
         summaryValue={
-          currentPlan ? `¥${formatPrice(currentPlan.price)}` : "未選択"
+          currentPlan ? `¥${formatPrice(currentPlan.discountPrice)}` : "未選択"
         }
         ctaText="豆を選ぶ"
         onCtaClick={() => {
