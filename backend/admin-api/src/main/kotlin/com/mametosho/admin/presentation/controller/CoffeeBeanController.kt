@@ -43,30 +43,7 @@ class CoffeeBeanController(
                                 summary = "登録成功例",
                                 value = """
                                     {
-                                      "id": "00000000-0000-4000-8000-000000000001",
-                                      "shopId": "00000000-0000-4000-8000-000000000002",
-                                      "shopifyBeanId": "test-bean-001",
-                                      "name": "テストコーヒー豆",
-                                      "description": "テスト説明文",
-                                      "origin": "エチオピア",
-                                      "farm": "テスト農園",
-                                      "roastLevel": "MEDIUM",
-                                      "processingMethod": "WASHED",
-                                      "isSpecialty": true,
-                                      "images": [
-                                        {
-                                          "id": "00000000-0000-4000-8000-000000000011",
-                                          "type": "MAIN",
-                                          "imageUrl": "https://example.com/bean.png"
-                                        }
-                                      ],
-                                      "tastes": [
-                                        {
-                                          "id": "00000000-0000-4000-8000-000000000021",
-                                          "tasteId": "00000000-0000-4000-8000-000000000031",
-                                          "evaluationValue": 3
-                                        }
-                                      ]
+                                      "id": "00000000-0000-4000-8000-000000000001"
                                     }
                                 """,
                             ),
