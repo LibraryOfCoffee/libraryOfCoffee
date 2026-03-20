@@ -15,6 +15,7 @@ import com.mametosho.domain.model.coffeebean.ShopifyBeanId
 import com.mametosho.domain.model.shared.ImageUrl
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.taste.TasteId
+import org.junit.jupiter.api.Nested
 import org.springframework.http.HttpStatus
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -81,43 +82,49 @@ class CoffeeBeanControllerTest {
         ),
     )
 
-    @Test
-    fun `正常にコーヒー豆を登録すると201が返る`() {
-        val controller = createController()
-        val response = controller.createCoffeeBean(createRequest())
+    @Nested
+    inner class 正常系 {
+        @Test
+        fun `正常にコーヒー豆を登録すると201が返る`() {
+            val controller = createController()
+            val response = controller.createCoffeeBean(createRequest())
 
-        assertEquals(HttpStatus.CREATED, response.statusCode)
-        assertEquals("00000000-0000-4000-8000-000000000001", response.body?.id)
-        assertEquals("00000000-0000-4000-8000-000000000002", response.body?.shopId)
-        assertEquals("test-bean-001", response.body?.shopifyBeanId)
-        assertEquals("テストコーヒー豆", response.body?.name)
-        assertEquals("テスト説明文", response.body?.description)
-        assertEquals("エチオピア", response.body?.origin)
-        assertEquals("テスト農園", response.body?.farm)
-        assertEquals("MEDIUM", response.body?.roastLevel)
-        assertEquals("WASHED", response.body?.processingMethod)
-        assertTrue(response.body?.isSpecialty == true)
+            assertEquals(HttpStatus.CREATED, response.statusCode)
+            assertEquals("00000000-0000-4000-8000-000000000001", response.body?.id)
+            assertEquals("00000000-0000-4000-8000-000000000002", response.body?.shopId)
+            assertEquals("test-bean-001", response.body?.shopifyBeanId)
+            assertEquals("テストコーヒー豆", response.body?.name)
+            assertEquals("テスト説明文", response.body?.description)
+            assertEquals("エチオピア", response.body?.origin)
+            assertEquals("テスト農園", response.body?.farm)
+            assertEquals("MEDIUM", response.body?.roastLevel)
+            assertEquals("WASHED", response.body?.processingMethod)
+            assertTrue(response.body?.isSpecialty == true)
+        }
     }
 
-    @Test
-    fun `レスポンスに画像情報が含まれる`() {
-        val controller = createController()
-        val response = controller.createCoffeeBean(createRequest())
+    @Nested
+    inner class レスポンスボディ {
+        @Test
+        fun `レスポンスに画像情報が含まれる`() {
+            val controller = createController()
+            val response = controller.createCoffeeBean(createRequest())
 
-        assertEquals(1, response.body?.images?.size)
-        assertEquals("00000000-0000-4000-8000-000000000011", response.body?.images?.get(0)?.id)
-        assertEquals("MAIN", response.body?.images?.get(0)?.type)
-        assertEquals("https://example.com/bean.png", response.body?.images?.get(0)?.imageUrl)
-    }
+            assertEquals(1, response.body?.images?.size)
+            assertEquals("00000000-0000-4000-8000-000000000011", response.body?.images?.get(0)?.id)
+            assertEquals("MAIN", response.body?.images?.get(0)?.type)
+            assertEquals("https://example.com/bean.png", response.body?.images?.get(0)?.imageUrl)
+        }
 
-    @Test
-    fun `レスポンスにテイスト情報が含まれる`() {
-        val controller = createController()
-        val response = controller.createCoffeeBean(createRequest())
+        @Test
+        fun `レスポンスにテイスト情報が含まれる`() {
+            val controller = createController()
+            val response = controller.createCoffeeBean(createRequest())
 
-        assertEquals(1, response.body?.tastes?.size)
-        assertEquals("00000000-0000-4000-8000-000000000021", response.body?.tastes?.get(0)?.id)
-        assertEquals("00000000-0000-4000-8000-000000000031", response.body?.tastes?.get(0)?.tasteId)
-        assertEquals(3, response.body?.tastes?.get(0)?.evaluationValue)
+            assertEquals(1, response.body?.tastes?.size)
+            assertEquals("00000000-0000-4000-8000-000000000021", response.body?.tastes?.get(0)?.id)
+            assertEquals("00000000-0000-4000-8000-000000000031", response.body?.tastes?.get(0)?.tasteId)
+            assertEquals(3, response.body?.tastes?.get(0)?.evaluationValue)
+        }
     }
 }

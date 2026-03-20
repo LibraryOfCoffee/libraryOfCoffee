@@ -16,12 +16,14 @@ import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.taste.TasteId
 import com.mametosho.domain.repository.CoffeeBeanRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.UUID
 
 @Service
 class CreateCoffeeBeanUsecase(
     private val coffeeBeanRepository: CoffeeBeanRepository,
 ) {
+    @Transactional
     fun execute(request: CreateCoffeeBeanRequest): CoffeeBean {
         val coffeeBean = CoffeeBean(
             id = CoffeeBeanId(UUID.randomUUID().toString()),

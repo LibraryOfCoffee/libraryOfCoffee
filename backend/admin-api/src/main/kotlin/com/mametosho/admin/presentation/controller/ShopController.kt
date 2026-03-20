@@ -43,18 +43,7 @@ class ShopController(
                                 summary = "登録成功例",
                                 value = """
                                     {
-                                      "id": "00000000-0000-4000-8000-000000000001",
-                                      "shopifyShopId": "test-shop-001",
-                                      "name": "テスト店舗",
-                                      "introduction": "テスト紹介文",
-                                      "particular": "テストこだわり",
-                                      "images": [
-                                        {
-                                          "id": "00000000-0000-4000-8000-000000000011",
-                                          "type": "MAIN",
-                                          "imageUrl": "https://example.com/image.png"
-                                        }
-                                      ]
+                                      "id": "00000000-0000-4000-8000-000000000001"
                                     }
                                 """,
                             ),

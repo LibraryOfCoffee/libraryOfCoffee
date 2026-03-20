@@ -13,6 +13,7 @@ import com.mametosho.domain.model.coffeebean.ShopifyBeanId
 import com.mametosho.domain.model.shared.ImageUrl
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.taste.TasteId
+import org.junit.jupiter.api.Nested
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -51,45 +52,54 @@ class CoffeeBeanResponseTest {
         tastes = tastes,
     )
 
-    @Test
-    fun `正常にCoffeeBeanからCoffeeBeanResponseに変換できる`() {
-        val response = CoffeeBeanResponse.from(createCoffeeBean())
+    @Nested
+    inner class 正常系変換 {
+        @Test
+        fun `正常にCoffeeBeanからCoffeeBeanResponseに変換できる`() {
+            val response = CoffeeBeanResponse.from(createCoffeeBean())
 
-        assertEquals("00000000-0000-4000-8000-000000000001", response.id)
-        assertEquals("00000000-0000-4000-8000-000000000002", response.shopId)
-        assertEquals("test-bean-001", response.shopifyBeanId)
-        assertEquals("テストコーヒー豆", response.name)
-        assertEquals("テスト説明文", response.description)
-        assertEquals("エチオピア", response.origin)
-        assertEquals("テスト農園", response.farm)
-        assertEquals("MEDIUM", response.roastLevel)
-        assertEquals("WASHED", response.processingMethod)
-        assertTrue(response.isSpecialty)
-        assertEquals(1, response.images.size)
-        assertEquals("00000000-0000-4000-8000-000000000011", response.images[0].id)
-        assertEquals("MAIN", response.images[0].type)
-        assertEquals("https://example.com/bean.png", response.images[0].imageUrl)
-        assertEquals(1, response.tastes.size)
-        assertEquals("00000000-0000-4000-8000-000000000021", response.tastes[0].id)
-        assertEquals("00000000-0000-4000-8000-000000000031", response.tastes[0].tasteId)
-        assertEquals(3, response.tastes[0].evaluationValue)
+            assertEquals("00000000-0000-4000-8000-000000000001", response.id)
+            assertEquals("00000000-0000-4000-8000-000000000002", response.shopId)
+            assertEquals("test-bean-001", response.shopifyBeanId)
+            assertEquals("テストコーヒー豆", response.name)
+            assertEquals("テスト説明文", response.description)
+            assertEquals("エチオピア", response.origin)
+            assertEquals("テスト農園", response.farm)
+            assertEquals("MEDIUM", response.roastLevel)
+            assertEquals("WASHED", response.processingMethod)
+            assertTrue(response.isSpecialty)
+            assertEquals(1, response.images.size)
+            assertEquals("00000000-0000-4000-8000-000000000011", response.images[0].id)
+            assertEquals("MAIN", response.images[0].type)
+            assertEquals("https://example.com/bean.png", response.images[0].imageUrl)
+            assertEquals(1, response.tastes.size)
+            assertEquals("00000000-0000-4000-8000-000000000021", response.tastes[0].id)
+            assertEquals("00000000-0000-4000-8000-000000000031", response.tastes[0].tasteId)
+            assertEquals(3, response.tastes[0].evaluationValue)
+        }
     }
 
-    @Test
-    fun `farmがnullの場合もレスポンスに変換できる`() {
-        val response = CoffeeBeanResponse.from(createCoffeeBean(farm = null))
-        assertNull(response.farm)
+    @Nested
+    inner class nullable項目 {
+        @Test
+        fun `farmがnullの場合もレスポンスに変換できる`() {
+            val response = CoffeeBeanResponse.from(createCoffeeBean(farm = null))
+            assertNull(response.farm)
+        }
     }
 
-    @Test
-    fun `画像が空の場合もレスポンスに変換できる`() {
-        val response = CoffeeBeanResponse.from(createCoffeeBean(images = emptyList()))
-        assertEquals(0, response.images.size)
-    }
+    @Nested
+    inner class 空コレクション {
+        @Test
+        fun `画像が空の場合もレスポンスに変換できる`() {
+            val response = CoffeeBeanResponse.from(createCoffeeBean(images = emptyList()))
+            assertEquals(0, response.images.size)
+        }
 
-    @Test
-    fun `テイストが空の場合もレスポンスに変換できる`() {
-        val response = CoffeeBeanResponse.from(createCoffeeBean(tastes = emptyList()))
-        assertEquals(0, response.tastes.size)
+        @Test
+        fun `テイストが空の場合もレスポンスに変換できる`() {
+            val response = CoffeeBeanResponse.from(createCoffeeBean(tastes = emptyList()))
+            assertEquals(0, response.tastes.size)
+        }
     }
 }

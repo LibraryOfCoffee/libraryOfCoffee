@@ -8,6 +8,7 @@ import com.mametosho.domain.model.shop.ShopImageId
 import com.mametosho.domain.model.shop.ShopImageType
 import com.mametosho.domain.model.shop.ShopifyShopId
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.jdbc.core.JdbcTemplate
@@ -81,89 +82,104 @@ class ShopRepositoryImplTest {
         images = images,
     )
 
-    @Test
-    fun `正常にShopを保存できる`() {
-        val shop = createShop()
+    @Nested
+    inner class 正常系INSERT {
+        @Test
+        fun `正常にShopを保存できる`() {
+            val shop = createShop()
 
-        shopRepositoryImpl.save(shop)
+            shopRepositoryImpl.save(shop)
 
-        val shops = jdbcTemplate.queryForList("SELECT * FROM shops")
-        assertEquals(1, shops.size)
-        assertEquals("00000000-0000-4000-8000-000000000001", shops[0]["id"])
-        assertEquals("test-shop-001", shops[0]["shopify_shop_id"])
-        assertEquals("テスト店舗", shops[0]["name"])
-        assertEquals("テスト紹介文", shops[0]["introduction"])
-        assertEquals("テストこだわり", shops[0]["particular"])
+            val shops = jdbcTemplate.queryForList("SELECT * FROM shops")
+            assertEquals(1, shops.size)
+            assertEquals("00000000-0000-4000-8000-000000000001", shops[0]["id"])
+            assertEquals("test-shop-001", shops[0]["shopify_shop_id"])
+            assertEquals("テスト店舗", shops[0]["name"])
+            assertEquals("テスト紹介文", shops[0]["introduction"])
+            assertEquals("テストこだわり", shops[0]["particular"])
+        }
     }
 
-    @Test
-    fun `画像が正しく保存される`() {
-        val shop = createShop()
+    @Nested
+    inner class 子テーブルINSERT {
+        @Test
+        fun `画像が正しく保存される`() {
+            val shop = createShop()
 
-        shopRepositoryImpl.save(shop)
+            shopRepositoryImpl.save(shop)
 
-        val images = jdbcTemplate.queryForList("SELECT * FROM shop_images")
-        assertEquals(1, images.size)
-        assertEquals("00000000-0000-4000-8000-000000000011", images[0]["id"])
-        assertEquals("00000000-0000-4000-8000-000000000001", images[0]["shop_id"])
-        assertEquals("main", images[0]["type"])
-        assertEquals("https://example.com/shop.png", images[0]["image_url"])
+            val images = jdbcTemplate.queryForList("SELECT * FROM shop_images")
+            assertEquals(1, images.size)
+            assertEquals("00000000-0000-4000-8000-000000000011", images[0]["id"])
+            assertEquals("00000000-0000-4000-8000-000000000001", images[0]["shop_id"])
+            assertEquals("main", images[0]["type"])
+            assertEquals("https://example.com/shop.png", images[0]["image_url"])
+        }
     }
 
-    @Test
-    fun `introductionがnullでも保存できる`() {
-        val shop = createShop(introduction = null)
+    @Nested
+    inner class nullable項目 {
+        @Test
+        fun `introductionがnullでも保存できる`() {
+            val shop = createShop(introduction = null)
 
-        shopRepositoryImpl.save(shop)
+            shopRepositoryImpl.save(shop)
 
-        val shops = jdbcTemplate.queryForList("SELECT * FROM shops")
-        assertEquals(1, shops.size)
-        assertEquals(null, shops[0]["introduction"])
+            val shops = jdbcTemplate.queryForList("SELECT * FROM shops")
+            assertEquals(1, shops.size)
+            assertEquals(null, shops[0]["introduction"])
+        }
+
+        @Test
+        fun `particularがnullでも保存できる`() {
+            val shop = createShop(particular = null)
+
+            shopRepositoryImpl.save(shop)
+
+            val shops = jdbcTemplate.queryForList("SELECT * FROM shops")
+            assertEquals(1, shops.size)
+            assertEquals(null, shops[0]["particular"])
+        }
     }
 
-    @Test
-    fun `particularがnullでも保存できる`() {
-        val shop = createShop(particular = null)
+    @Nested
+    inner class 空コレクション {
+        @Test
+        fun `画像なしでも保存できる`() {
+            val shop = createShop(images = emptyList())
 
-        shopRepositoryImpl.save(shop)
+            shopRepositoryImpl.save(shop)
 
-        val shops = jdbcTemplate.queryForList("SELECT * FROM shops")
-        assertEquals(1, shops.size)
-        assertEquals(null, shops[0]["particular"])
+            val shops = jdbcTemplate.queryForList("SELECT * FROM shops")
+            assertEquals(1, shops.size)
+            val images = jdbcTemplate.queryForList("SELECT * FROM shop_images")
+            assertEquals(0, images.size)
+        }
     }
 
-    @Test
-    fun `画像なしでも保存できる`() {
-        val shop = createShop(images = emptyList())
-
-        shopRepositoryImpl.save(shop)
-
-        val shops = jdbcTemplate.queryForList("SELECT * FROM shops")
-        assertEquals(1, shops.size)
-        val images = jdbcTemplate.queryForList("SELECT * FROM shop_images")
-        assertEquals(0, images.size)
-    }
-
-    @Test
-    fun `複数の画像を保存できる`() {
-        val shop = createShop(
-            images = listOf(
-                ShopImage(
-                    id = ShopImageId("00000000-0000-4000-8000-000000000011"),
-                    type = ShopImageType.MAIN,
-                    imageUrl = ImageUrl("https://example.com/shop1.png"),
+    @Nested
+    inner class 複数行INSERT {
+        @Test
+        fun `複数の画像を保存できる`() {
+            val shop = createShop(
+                images = listOf(
+                    ShopImage(
+                        id = ShopImageId("00000000-0000-4000-8000-000000000011"),
+                        type = ShopImageType.MAIN,
+                        imageUrl = ImageUrl("https://example.com/shop1.png"),
+                    ),
+                    ShopImage(
+                        id = ShopImageId("00000000-0000-4000-8000-000000000012"),
+                        type = ShopImageType.MAIN,
+                        imageUrl = ImageUrl("https://example.com/shop2.png"),
+                    ),
                 ),
-                ShopImage(
-                    id = ShopImageId("00000000-0000-4000-8000-000000000012"),
-                    type = ShopImageType.MAIN,
-                    imageUrl = ImageUrl("https://example.com/shop2.png"),
-                ),
-            ),
-        )
+            )
 
-        shopRepositoryImpl.save(shop)
+            shopRepositoryImpl.save(shop)
 
-        val images = jdbcTemplate.queryForList("SELECT * FROM shop_images ORDER BY id")
-        assertEquals(2, images.size)
+            val images = jdbcTemplate.queryForList("SELECT * FROM shop_images ORDER BY id")
+            assertEquals(2, images.size)
+        }
     }
 }

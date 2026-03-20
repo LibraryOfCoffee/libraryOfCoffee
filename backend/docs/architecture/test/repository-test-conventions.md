@@ -67,14 +67,16 @@ mybatis:
 
 ## テストカテゴリと書くべきテスト
 
-| カテゴリ | 書くべきテスト |
-|---------|-------------|
-| 正常系INSERT | 集約ルートが正しく保存されること（全カラム検証） |
-| 子テーブルINSERT | 関連テーブル（images, tastesなど）が正しく保存されること |
-| nullable項目 | nullable項目がnullでも保存できること |
-| 空コレクション | 子テーブルのリストが空でも保存できること |
-| 複数行INSERT | 子テーブルに複数行INSERTできること |
-| enum変換 | enum値が`.name.lowercase()`で正しくDB保存されること（全enum値） |
+テストはカテゴリごとに `@Nested inner class` でグルーピングする。
+
+| カテゴリ | ネストクラス名 | 書くべきテスト |
+|---------|--------------|-------------|
+| 正常系INSERT | `正常系INSERT` | 集約ルートが正しく保存されること（全カラム検証） |
+| 子テーブルINSERT | `子テーブルINSERT` | 関連テーブル（images, tastesなど）が正しく保存されること |
+| nullable項目 | `nullable項目` | nullable項目がnullでも保存できること |
+| 空コレクション | `空コレクション` | 子テーブルのリストが空でも保存できること |
+| 複数行INSERT | `複数行INSERT` | 子テーブルに複数行INSERTできること |
+| enum変換 | `enum変換` | enum値が`.name.lowercase()`で正しくDB保存されること（全enum値） |
 
 ## 標準実装リファレンス
 
@@ -97,6 +99,7 @@ import com.mametosho.domain.model.shared.ImageUrl
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.taste.TasteId
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.jdbc.core.JdbcTemplate
@@ -196,71 +199,83 @@ class CoffeeBeanRepositoryImplTest {
         tastes = tastes,
     )
 
-    @Test
-    fun `正常にCoffeeBeanを保存できる`() {
-        val coffeeBean = createCoffeeBean()
+    @Nested
+    inner class 正常系INSERT {
+        @Test
+        fun `正常にCoffeeBeanを保存できる`() {
+            val coffeeBean = createCoffeeBean()
 
-        coffeeBeanRepositoryImpl.save(coffeeBean)
-
-        val beans = jdbcTemplate.queryForList("SELECT * FROM coffee_beans")
-        assertEquals(1, beans.size)
-        assertEquals("00000000-0000-4000-8000-000000000010", beans[0]["id"])
-        assertEquals("00000000-0000-4000-8000-000000000001", beans[0]["shop_id"])
-        assertEquals("test-bean-001", beans[0]["shopify_bean_id"])
-        assertEquals("テストコーヒー豆", beans[0]["name"])
-        assertEquals("テスト説明文", beans[0]["description"])
-        assertEquals("エチオピア", beans[0]["origin"])
-        assertEquals("テスト農園", beans[0]["farm"])
-        assertEquals("medium", beans[0]["roast_level"])
-        assertEquals("washed", beans[0]["processing_method"])
-        assertEquals(true, beans[0]["is_specialty"])
-    }
-
-    @Test
-    fun `画像が正しく保存される`() {
-        coffeeBeanRepositoryImpl.save(createCoffeeBean())
-
-        val images = jdbcTemplate.queryForList("SELECT * FROM coffee_bean_images")
-        assertEquals(1, images.size)
-        assertEquals("00000000-0000-4000-8000-000000000011", images[0]["id"])
-        assertEquals("00000000-0000-4000-8000-000000000010", images[0]["coffee_bean_id"])
-        assertEquals("main", images[0]["type"])
-        assertEquals("https://example.com/bean.png", images[0]["image_url"])
-    }
-
-    @Test
-    fun `farmがnullでも保存できる`() {
-        coffeeBeanRepositoryImpl.save(createCoffeeBean(farm = null))
-
-        val beans = jdbcTemplate.queryForList("SELECT * FROM coffee_beans")
-        assertEquals(1, beans.size)
-        assertEquals(null, beans[0]["farm"])
-    }
-
-    @Test
-    fun `全焙煎度をlowercaseで保存できる`() {
-        RoastLevel.entries.forEachIndexed { index, roastLevel ->
-            val coffeeBean = CoffeeBean(
-                id = CoffeeBeanId("00000000-0000-4000-8000-00000000100$index"),
-                shopId = ShopId("00000000-0000-4000-8000-000000000001"),
-                shopifyBeanId = ShopifyBeanId("test-bean-roast-$index"),
-                name = "テスト豆",
-                description = "テスト説明",
-                origin = "エチオピア",
-                farm = null,
-                roastLevel = roastLevel,
-                processingMethod = ProcessingMethod.WASHED,
-                isSpecialty = false,
-                images = emptyList(),
-                tastes = emptyList(),
-            )
             coffeeBeanRepositoryImpl.save(coffeeBean)
-        }
 
-        val beans = jdbcTemplate.queryForList("SELECT roast_level FROM coffee_beans ORDER BY id")
-        assertEquals(RoastLevel.entries.size, beans.size)
-        beans.forEachIndexed { index, row ->
-            assertEquals(RoastLevel.entries[index].name.lowercase(), row["roast_level"])
+            val beans = jdbcTemplate.queryForList("SELECT * FROM coffee_beans")
+            assertEquals(1, beans.size)
+            assertEquals("00000000-0000-4000-8000-000000000010", beans[0]["id"])
+            assertEquals("00000000-0000-4000-8000-000000000001", beans[0]["shop_id"])
+            assertEquals("test-bean-001", beans[0]["shopify_bean_id"])
+            assertEquals("テストコーヒー豆", beans[0]["name"])
+            assertEquals("テスト説明文", beans[0]["description"])
+            assertEquals("エチオピア", beans[0]["origin"])
+            assertEquals("テスト農園", beans[0]["farm"])
+            assertEquals("medium", beans[0]["roast_level"])
+            assertEquals("washed", beans[0]["processing_method"])
+            assertEquals(true, beans[0]["is_specialty"])
+        }
+    }
+
+    @Nested
+    inner class 子テーブルINSERT {
+        @Test
+        fun `画像が正しく保存される`() {
+            coffeeBeanRepositoryImpl.save(createCoffeeBean())
+
+            val images = jdbcTemplate.queryForList("SELECT * FROM coffee_bean_images")
+            assertEquals(1, images.size)
+            assertEquals("00000000-0000-4000-8000-000000000011", images[0]["id"])
+            assertEquals("00000000-0000-4000-8000-000000000010", images[0]["coffee_bean_id"])
+            assertEquals("main", images[0]["type"])
+            assertEquals("https://example.com/bean.png", images[0]["image_url"])
+        }
+    }
+
+    @Nested
+    inner class nullable項目 {
+        @Test
+        fun `farmがnullでも保存できる`() {
+            coffeeBeanRepositoryImpl.save(createCoffeeBean(farm = null))
+
+            val beans = jdbcTemplate.queryForList("SELECT * FROM coffee_beans")
+            assertEquals(1, beans.size)
+            assertEquals(null, beans[0]["farm"])
+        }
+    }
+
+    @Nested
+    inner class enum変換 {
+        @Test
+        fun `全焙煎度をlowercaseで保存できる`() {
+            RoastLevel.entries.forEachIndexed { index, roastLevel ->
+                val coffeeBean = CoffeeBean(
+                    id = CoffeeBeanId("00000000-0000-4000-8000-00000000100$index"),
+                    shopId = ShopId("00000000-0000-4000-8000-000000000001"),
+                    shopifyBeanId = ShopifyBeanId("test-bean-roast-$index"),
+                    name = "テスト豆",
+                    description = "テスト説明",
+                    origin = "エチオピア",
+                    farm = null,
+                    roastLevel = roastLevel,
+                    processingMethod = ProcessingMethod.WASHED,
+                    isSpecialty = false,
+                    images = emptyList(),
+                    tastes = emptyList(),
+                )
+                coffeeBeanRepositoryImpl.save(coffeeBean)
+            }
+
+            val beans = jdbcTemplate.queryForList("SELECT roast_level FROM coffee_beans ORDER BY id")
+            assertEquals(RoastLevel.entries.size, beans.size)
+            beans.forEachIndexed { index, row ->
+                assertEquals(RoastLevel.entries[index].name.lowercase(), row["roast_level"])
+            }
         }
     }
 }
@@ -270,6 +285,7 @@ class CoffeeBeanRepositoryImplTest {
 
 新しいRepositoryのテストを実装するときに確認すること:
 
+- [ ] テストがカテゴリごとに @Nested inner class でグルーピングされているか
 - [ ] `@SpringBootTest(classes = [TestApplication::class])` を指定しているか
 - [ ] `@Testcontainers` と `@ActiveProfiles("test")` を付与しているか
 - [ ] `companion object` 内でMySQLContainerとDynamicPropertySourceを定義しているか
