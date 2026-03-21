@@ -9,9 +9,10 @@ INSERT IGNORE INTO sample (id, name) VALUES (2, 'Sample Item 2');
 -- ------------------------------------------------------------
 -- administrators（管理者）
 -- ------------------------------------------------------------
+-- password: password123
 INSERT IGNORE INTO administrators (id, email, hashed_password, role) VALUES
-('00000000-0000-4000-8000-000000000001', 'admin@mametosho.com', '$2a$10$dummyhashedpasswordADMIN00000000000000001', 'admin'),
-('00000000-0000-4000-8000-000000000002', 'staff@mametosho.com', '$2a$10$dummyhashedpasswordSTAFF00000000000000002', 'staff');
+('00000000-0000-4000-8000-000000000001', 'admin@mametosho.com', '$2a$10$WawIGRS7IISRotK8MwJc4uGQlcGmb1gzkbF1fmpsKcz9qss3Zm0yG', 'admin'),
+('00000000-0000-4000-8000-000000000002', 'staff@mametosho.com', '$2a$10$WawIGRS7IISRotK8MwJc4uGQlcGmb1gzkbF1fmpsKcz9qss3Zm0yG', 'staff');
 
 -- ------------------------------------------------------------
 -- customers（顧客）

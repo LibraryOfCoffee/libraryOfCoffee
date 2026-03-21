@@ -15,6 +15,10 @@ mybatis:
 server:
   port: ${SERVER_PORT:8080}
 
+jwt:
+  secret-key: ${JWT_SECRET_KEY}
+  expiration-seconds: ${JWT_EXPIRATION_SECONDS:3600}
+
 springdoc:
   api-docs:
     path: /v3/api-docs

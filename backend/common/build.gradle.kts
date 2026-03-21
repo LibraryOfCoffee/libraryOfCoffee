@@ -12,7 +12,8 @@ dependencyManagement {
 
 dependencies {
 	implementation(libs.spring.boot.starter.web)
-	implementation(libs.spring.boot.starter.security)
+	api(libs.spring.boot.starter.security)
+	api(libs.spring.boot.starter.oauth2.resource.server)
 	implementation(libs.kotlin.reflect)
 	api(libs.mybatis.spring.boot.starter)
 	runtimeOnly(libs.mysql.connector.j)
