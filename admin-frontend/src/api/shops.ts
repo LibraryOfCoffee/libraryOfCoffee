@@ -1,6 +1,10 @@
 import "server-only";
 
+import { notFound } from "next/navigation";
 import { createAuthenticatedApiClient } from "@/api/client";
+import type { PagedResponse } from "@/api/types";
+
+export type { PagedResponse } from "@/api/types";
 
 export type ShopListItem = {
   id: string;
@@ -10,11 +14,14 @@ export type ShopListItem = {
   particular: string | null;
 };
 
-export type PagedResponse<T> = {
-  items: T[];
-  totalCount: number;
-  page: number;
-  size: number;
+export type ImageDetail = {
+  id: string;
+  type: "MAIN";
+  imageUrl: string;
+};
+
+export type ShopDetail = ShopListItem & {
+  images: ImageDetail[];
 };
 
 export async function fetchShops(
@@ -31,4 +38,21 @@ export async function fetchShops(
   }
 
   return data as PagedResponse<ShopListItem>;
+}
+
+export async function fetchShop(id: string): Promise<ShopDetail> {
+  const client = await createAuthenticatedApiClient();
+  const { data, response } = await client.GET("/api/admin/shops/{id}", {
+    params: { path: { id } },
+  });
+
+  if (response.status === 404) {
+    notFound();
+  }
+
+  if (!data) {
+    throw new Error("店舗の取得に失敗しました");
+  }
+
+  return data as ShopDetail;
 }

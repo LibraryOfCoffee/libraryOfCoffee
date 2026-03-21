@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { PagedResponse, ShopListItem } from "@/api/shops";
-import styles from "../page.module.css";
+import styles from "@/components/list-page.module.css";
+import { Pagination } from "@/components/Pagination";
 import { CreateShopButton } from "./CreateShopButton";
 
 export function ShopListTable({
@@ -66,51 +67,11 @@ export function ShopListTable({
         </table>
       </div>
 
-      {totalPages > 1 && (
-        <div className={styles.pagination}>
-          {currentPage > 0 && (
-            <Link
-              href={`/shops?page=${currentPage - 1}`}
-              className={styles.pageLink}
-            >
-              &lt; 前へ
-            </Link>
-          )}
-          {(() => {
-            const maxVisible = 7;
-            const half = Math.floor(maxVisible / 2);
-            const start = Math.max(
-              0,
-              Math.min(currentPage - half, totalPages - maxVisible),
-            );
-            const end = Math.min(totalPages, start + maxVisible);
-            return Array.from({ length: end - start }, (_, i) => {
-              const page = start + i;
-              return (
-                <Link
-                  key={`page-${page}`}
-                  href={`/shops?page=${page}`}
-                  className={
-                    page === currentPage
-                      ? `${styles.pageLink} ${styles.pageLinkActive}`
-                      : styles.pageLink
-                  }
-                >
-                  {page + 1}
-                </Link>
-              );
-            });
-          })()}
-          {currentPage < totalPages - 1 && (
-            <Link
-              href={`/shops?page=${currentPage + 1}`}
-              className={styles.pageLink}
-            >
-              次へ &gt;
-            </Link>
-          )}
-        </div>
-      )}
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        basePath="/shops"
+      />
     </div>
   );
 }

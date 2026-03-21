@@ -1,19 +1,25 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { z } from "zod/v4";
 import { createAuthenticatedApiClient } from "@/api/client";
 import {
   type ShopFormState,
   shopFieldsSchema,
 } from "@/app/(admin)/shops/_lib/shopFormSchema";
 
-export type CreateShopState = ShopFormState;
+const editShopSchema = shopFieldsSchema.extend({
+  id: z.string(),
+});
 
-export async function createShopAction(
-  _prevState: CreateShopState,
+export type EditShopState = ShopFormState;
+
+export async function editShopAction(
+  _prevState: EditShopState,
   formData: FormData,
-): Promise<CreateShopState> {
-  const result = shopFieldsSchema.safeParse({
+): Promise<EditShopState> {
+  const result = editShopSchema.safeParse({
+    id: formData.get("id"),
     shopifyShopId: formData.get("shopifyShopId"),
     name: formData.get("name"),
     introduction: formData.get("introduction"),
@@ -24,10 +30,11 @@ export async function createShopAction(
     return { fieldErrors: result.error.flatten().fieldErrors };
   }
 
-  const { shopifyShopId, name, introduction, particular } = result.data;
+  const { id, shopifyShopId, name, introduction, particular } = result.data;
 
   const client = await createAuthenticatedApiClient();
-  const { error, response } = await client.POST("/api/admin/shops", {
+  const { error, response } = await client.PUT("/api/admin/shops/{id}", {
+    params: { path: { id } },
     body: {
       shopifyShopId,
       name,
@@ -41,9 +48,10 @@ export async function createShopAction(
     if (response.status === 409) {
       return { error: "このShopify Shop IDは既に登録されています。" };
     }
-    return { error: "店舗の登録に失敗しました。" };
+    return { error: "店舗の更新に失敗しました。" };
   }
 
+  revalidatePath(`/shops/${id}`);
   revalidatePath("/shops");
   return { success: true };
 }
