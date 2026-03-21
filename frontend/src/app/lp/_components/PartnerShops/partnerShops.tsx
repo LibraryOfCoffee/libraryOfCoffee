@@ -43,6 +43,11 @@ const shops = [
     logoUrl: "/shopLogos/blackSlothCoffee.png",
     websiteUrl: "https://bscnet.base.shop/",
   },
+  {
+    name: "FIVE COFFEE",
+    logoUrl: "/shopLogos/fiveCoffee.png",
+    websiteUrl: "https://www.fivecoffee.jp/",
+  },
 ];
 
 export default function PartnerShops() {
