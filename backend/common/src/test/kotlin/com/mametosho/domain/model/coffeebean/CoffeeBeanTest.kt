@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class CoffeeBeanTest {
 
@@ -99,6 +100,80 @@ class CoffeeBeanTest {
             assertThrows<IllegalArgumentException> {
                 createCoffeeBean(tastes = tastes)
             }
+        }
+    }
+
+    @Nested
+    inner class update {
+
+        @Test
+        fun `idとshopIdが保持される`() {
+            val bean = createCoffeeBean()
+            val updated = bean.update(
+                shopifyBeanId = "updated-bean-001",
+                name = "更新後の豆",
+                description = "更新後の説明",
+                origin = "ブラジル",
+                farm = "更新後農園",
+                roastLevel = "FRENCH",
+                processingMethod = "NATURAL",
+                isSpecialty = true,
+                images = emptyList(),
+                tastes = emptyList(),
+            )
+            assertEquals(bean.id, updated.id)
+            assertEquals(bean.shopId, updated.shopId)
+        }
+
+        @Test
+        fun `各フィールドが更新される`() {
+            val bean = createCoffeeBean()
+            val updated = bean.update(
+                shopifyBeanId = "updated-bean-001",
+                name = "更新後の豆",
+                description = "更新後の説明",
+                origin = "ブラジル",
+                farm = "更新後農園",
+                roastLevel = "FRENCH",
+                processingMethod = "NATURAL",
+                isSpecialty = true,
+                images = listOf("MAIN" to "https://example.com/updated.png"),
+                tastes = listOf("00000000-0000-4000-8000-000000000004" to 5),
+            )
+            assertEquals("updated-bean-001", updated.shopifyBeanId.value)
+            assertEquals("更新後の豆", updated.name)
+            assertEquals("更新後の説明", updated.description)
+            assertEquals("ブラジル", updated.origin)
+            assertEquals("更新後農園", updated.farm)
+            assertEquals(RoastLevel.FRENCH, updated.roastLevel)
+            assertEquals(ProcessingMethod.NATURAL, updated.processingMethod)
+            assertTrue(updated.isSpecialty)
+            assertEquals(1, updated.images.size)
+            assertEquals(CoffeeBeanImageType.MAIN, updated.images[0].type)
+            assertEquals("https://example.com/updated.png", updated.images[0].imageUrl.value)
+            assertEquals(1, updated.tastes.size)
+            assertEquals("00000000-0000-4000-8000-000000000004", updated.tastes[0].tasteId.value)
+            assertEquals(5, updated.tastes[0].evaluationValue)
+        }
+
+        @Test
+        fun `子エンティティのIDが新規生成される`() {
+            val bean = createCoffeeBean()
+            val uuidRegex = Regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            val updated = bean.update(
+                shopifyBeanId = "shopify-bean-1",
+                name = "エチオピア イルガチェフェ",
+                description = "フルーティーな香りが特徴",
+                origin = "エチオピア",
+                farm = null,
+                roastLevel = "LIGHT",
+                processingMethod = "WASHED",
+                isSpecialty = false,
+                images = listOf("MAIN" to "https://example.com/bean.jpg"),
+                tastes = listOf("00000000-0000-4000-8000-000000000004" to 3),
+            )
+            assertTrue(uuidRegex.matches(updated.images[0].id.value))
+            assertTrue(uuidRegex.matches(updated.tastes[0].id.value))
         }
     }
 

@@ -37,6 +37,39 @@ data class Shop(
         }
     }
 
+    /**
+     * 店舗情報を更新する。
+     *
+     * ShopIdは変更せず、それ以外の項目を置換する。ShopImageIdはUUIDv4を自動再生成する。
+     *
+     * @param shopifyShopId ShopifyのショップID
+     * @param name 店舗名
+     * @param introduction 店舗紹介
+     * @param particular こだわり
+     * @param images 画像情報（種別とURL）のリスト
+     * @return 更新された[Shop]
+     */
+    fun update(
+        shopifyShopId: String,
+        name: String,
+        introduction: String?,
+        particular: String?,
+        images: List<Pair<String, String>>,
+    ): Shop = Shop(
+        id = this.id,
+        shopifyShopId = ShopifyShopId(shopifyShopId),
+        name = name,
+        introduction = introduction,
+        particular = particular,
+        images = images.map { (type, imageUrl) ->
+            ShopImage(
+                id = ShopImageId(UUID.randomUUID().toString()),
+                type = ShopImageType.valueOf(type),
+                imageUrl = ImageUrl(imageUrl),
+            )
+        },
+    )
+
     companion object {
         /**
          * 新しい店舗を生成する。

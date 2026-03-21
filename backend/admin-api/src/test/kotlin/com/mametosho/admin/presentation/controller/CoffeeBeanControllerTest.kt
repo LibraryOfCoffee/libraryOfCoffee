@@ -1,7 +1,10 @@
 package com.mametosho.admin.presentation.controller
 
 import com.mametosho.admin.application.usecase.CreateCoffeeBeanUsecase
+import com.mametosho.admin.application.usecase.DeleteCoffeeBeanUsecase
+import com.mametosho.admin.application.usecase.UpdateCoffeeBeanUsecase
 import com.mametosho.admin.presentation.dto.request.CreateCoffeeBeanRequest
+import com.mametosho.admin.presentation.dto.request.UpdateCoffeeBeanRequest
 import com.mametosho.domain.model.coffeebean.CoffeeBean
 import com.mametosho.domain.model.coffeebean.CoffeeBeanId
 import com.mametosho.domain.model.coffeebean.ProcessingMethod
@@ -30,15 +33,27 @@ class CoffeeBeanControllerTest {
         tastes = emptyList(),
     )
 
-    private fun createController(coffeeBean: CoffeeBean = sampleCoffeeBean): CoffeeBeanController {
-        val fakeUsecase = object : CreateCoffeeBeanUsecase(
-            object : com.mametosho.domain.repository.CoffeeBeanRepository {
-                override fun save(coffeeBean: CoffeeBean) = Unit
-            },
-        ) {
+    private val fakeRepository = object : com.mametosho.domain.repository.CoffeeBeanRepository {
+        override fun save(coffeeBean: CoffeeBean) = Unit
+        override fun findById(id: com.mametosho.domain.model.coffeebean.CoffeeBeanId): CoffeeBean? = null
+        override fun deleteById(id: com.mametosho.domain.model.coffeebean.CoffeeBeanId) = Unit
+    }
+
+    private fun createController(
+        coffeeBean: CoffeeBean = sampleCoffeeBean,
+        updateResult: CoffeeBean? = sampleCoffeeBean,
+        deleteResult: Boolean = true,
+    ): CoffeeBeanController {
+        val fakeCreateUsecase = object : CreateCoffeeBeanUsecase(fakeRepository) {
             override fun execute(request: CreateCoffeeBeanRequest): CoffeeBean = coffeeBean
         }
-        return CoffeeBeanController(fakeUsecase)
+        val fakeUpdateUsecase = object : UpdateCoffeeBeanUsecase(fakeRepository) {
+            override fun execute(id: String, request: UpdateCoffeeBeanRequest): CoffeeBean? = updateResult
+        }
+        val fakeDeleteUsecase = object : DeleteCoffeeBeanUsecase(fakeRepository) {
+            override fun execute(id: String): Boolean = deleteResult
+        }
+        return CoffeeBeanController(fakeCreateUsecase, fakeUpdateUsecase, fakeDeleteUsecase)
     }
 
     private fun createRequest(): CreateCoffeeBeanRequest = CreateCoffeeBeanRequest(
@@ -55,6 +70,19 @@ class CoffeeBeanControllerTest {
         tastes = emptyList(),
     )
 
+    private fun createUpdateRequest(): UpdateCoffeeBeanRequest = UpdateCoffeeBeanRequest(
+        shopifyBeanId = "test-bean-001",
+        name = "更新コーヒー豆",
+        description = "更新説明文",
+        origin = "ブラジル",
+        farm = "更新農園",
+        roastLevel = "FRENCH",
+        processingMethod = "NATURAL",
+        isSpecialty = true,
+        images = emptyList(),
+        tastes = emptyList(),
+    )
+
     @Nested
     inner class 正常系 {
         @Test
@@ -64,6 +92,39 @@ class CoffeeBeanControllerTest {
 
             assertEquals(HttpStatus.CREATED, response.statusCode)
             assertEquals("00000000-0000-4000-8000-000000000001", response.body?.id)
+        }
+
+        @Test
+        fun `正常にコーヒー豆を更新すると200が返る`() {
+            val controller = createController()
+            val response = controller.updateCoffeeBean("00000000-0000-4000-8000-000000000001", createUpdateRequest())
+
+            assertEquals(HttpStatus.OK, response.statusCode)
+            assertEquals("00000000-0000-4000-8000-000000000001", response.body?.id)
+        }
+
+        @Test
+        fun `存在しないコーヒー豆を更新すると404が返る`() {
+            val controller = createController(updateResult = null)
+            val response = controller.updateCoffeeBean("00000000-0000-4000-8000-999999999999", createUpdateRequest())
+
+            assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
+        }
+
+        @Test
+        fun `正常にコーヒー豆を削除すると204が返る`() {
+            val controller = createController()
+            val response = controller.deleteCoffeeBean("00000000-0000-4000-8000-000000000001")
+
+            assertEquals(HttpStatus.NO_CONTENT, response.statusCode)
+        }
+
+        @Test
+        fun `存在しないコーヒー豆を削除すると404が返る`() {
+            val controller = createController(deleteResult = false)
+            val response = controller.deleteCoffeeBean("00000000-0000-4000-8000-999999999999")
+
+            assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
         }
     }
 }

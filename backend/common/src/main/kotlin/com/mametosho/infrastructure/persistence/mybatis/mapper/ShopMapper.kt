@@ -5,6 +5,7 @@ import com.mametosho.infrastructure.persistence.mybatis.entity.ShopImageEntity
 import org.apache.ibatis.annotations.Delete
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Mapper
+import org.apache.ibatis.annotations.Select
 
 @Mapper
 interface ShopMapper {
@@ -31,4 +32,13 @@ interface ShopMapper {
         """,
     )
     fun insertShopImage(entity: ShopImageEntity)
+
+    @Select("SELECT id, shopify_shop_id, name, introduction, particular FROM shops WHERE id = #{id}")
+    fun findShopById(id: String): ShopEntity?
+
+    @Select("SELECT id, shop_id, type, image_url FROM shop_images WHERE shop_id = #{shopId}")
+    fun findShopImagesByShopId(shopId: String): List<ShopImageEntity>
+
+    @Delete("DELETE FROM shops WHERE id = #{id}")
+    fun deleteShopById(id: String)
 }

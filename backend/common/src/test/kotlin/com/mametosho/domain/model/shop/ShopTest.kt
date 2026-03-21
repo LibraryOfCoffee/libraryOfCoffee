@@ -6,6 +6,7 @@ import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class ShopTest {
 
@@ -54,6 +55,60 @@ class ShopTest {
             val shop = createShop(images = images)
             assertEquals(1, shop.images.size)
             assertEquals(ShopImageType.MAIN, shop.images[0].type)
+        }
+    }
+
+    @Nested
+    inner class update {
+
+        @Test
+        fun `正常に店舗情報を更新できる`() {
+            val shop = createShop()
+            val updated = shop.update(
+                shopifyShopId = "updated-shop-id",
+                name = "更新店舗",
+                introduction = "更新紹介文",
+                particular = "更新こだわり",
+                images = listOf("MAIN" to "https://example.com/new.png"),
+            )
+
+            assertEquals(shop.id, updated.id)
+            assertEquals("updated-shop-id", updated.shopifyShopId.value)
+            assertEquals("更新店舗", updated.name)
+            assertEquals("更新紹介文", updated.introduction)
+            assertEquals("更新こだわり", updated.particular)
+            assertEquals(1, updated.images.size)
+            assertEquals(ShopImageType.MAIN, updated.images[0].type)
+            assertEquals("https://example.com/new.png", updated.images[0].imageUrl.value)
+        }
+
+        @Test
+        fun `更新後もShopIdが変わらない`() {
+            val shop = createShop()
+            val updated = shop.update(
+                shopifyShopId = "new-shop-id",
+                name = "新店舗",
+                introduction = null,
+                particular = null,
+                images = emptyList(),
+            )
+
+            assertEquals(shop.id, updated.id)
+        }
+
+        @Test
+        fun `更新時にShopImageIdがUUID形式で自動再生成される`() {
+            val shop = createShop()
+            val updated = shop.update(
+                shopifyShopId = "shopify-shop-1",
+                name = "珈琲工房まめ図書",
+                introduction = null,
+                particular = null,
+                images = listOf("MAIN" to "https://example.com/image.png"),
+            )
+
+            val uuidRegex = Regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            assertTrue(uuidRegex.matches(updated.images[0].id.value))
         }
     }
 

@@ -154,6 +154,79 @@ class CreateShopUsecase(private val shopRepository: ShopRepository) {
 - `create()` の引数はプリミティブ型（`String`, `Int`, `Boolean`, `Pair` 等）で受け取り、値オブジェクトへの変換は `create()` 内で行う
 - DBからの復元にはコンストラクタを直接使う（`create()` は新規生成専用）
 
+## 更新メソッド（`update`）
+
+集約ルートの更新ロジック（値オブジェクトへの変換、子エンティティのID再生成）は、集約ルートのインスタンスメソッド `update()` として定義する。Usecase側ではプリミティブ値を渡して `update()` を呼ぶだけにする。
+
+`create()` が `companion object` のスタティックメソッドであるのに対し、`update()` は既存インスタンスのメソッドとして定義する。これにより、集約ルートのIDが自動的に引き継がれる。
+
+```kotlin
+data class Shop(
+    val id: ShopId,
+    val shopifyShopId: ShopifyShopId,
+    val name: String,
+    val introduction: String?,
+    val particular: String?,
+    val images: List<ShopImage>,
+) {
+    init { /* バリデーション */ }
+
+    fun update(
+        shopifyShopId: String,
+        name: String,
+        introduction: String?,
+        particular: String?,
+        images: List<Pair<String, String>>,  // type to imageUrl
+    ): Shop = Shop(
+        id = this.id,
+        shopifyShopId = ShopifyShopId(shopifyShopId),
+        name = name,
+        introduction = introduction,
+        particular = particular,
+        images = images.map { (type, imageUrl) ->
+            ShopImage(
+                id = ShopImageId(UUID.randomUUID().toString()),
+                type = ShopImageType.valueOf(type),
+                imageUrl = ImageUrl(imageUrl),
+            )
+        },
+    )
+
+    companion object {
+        fun create(...): Shop = ...
+    }
+}
+```
+
+### Usecaseでの使い方
+
+```kotlin
+@Service
+class UpdateShopUsecase(private val shopRepository: ShopRepository) {
+    @Transactional
+    fun execute(id: String, request: UpdateShopRequest): Shop? {
+        val shopId = ShopId(id)
+        val existingShop = shopRepository.findById(shopId) ?: return null
+        val updatedShop = existingShop.update(
+            shopifyShopId = request.shopifyShopId,
+            name = request.name,
+            introduction = request.introduction,
+            particular = request.particular,
+            images = request.images.map { it.type to it.imageUrl },
+        )
+        shopRepository.save(updatedShop)
+        return updatedShop
+    }
+}
+```
+
+### ルール
+
+- `update()` はインスタンスメソッドとして定義し、`this.id` を引き継ぐ。Usecaseでコンストラクタを直接呼んで更新しない
+- 子エンティティのID再生成（`UUID.randomUUID()`）は `update()` 内で行う
+- `update()` の引数は `create()` と同様にプリミティブ型で受け取り、値オブジェクトへの変換は `update()` 内で行う
+- `update()` は新しいインスタンスを返す（data classは不変）
+
 ## エンティティ
 
 集約ルートと同じパッケージに配置する。
