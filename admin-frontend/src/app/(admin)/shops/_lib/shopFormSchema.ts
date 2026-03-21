@@ -21,14 +21,9 @@ export const shopFieldsSchema = z.object({
     .optional(),
   shopUrl: z
     .string()
-    .transform((v) => v || undefined)
-    .pipe(
-      z
-        .string()
-        .max(2048, "2,048文字以内で入力してください。")
-        .url("有効なURLを入力してください。")
-        .optional(),
-    ),
+    .min(1, "店舗URLを入力してください。")
+    .max(2048, "2,048文字以内で入力してください。")
+    .url("有効なURLを入力してください。"),
 });
 
 export type ShopFormValues = {

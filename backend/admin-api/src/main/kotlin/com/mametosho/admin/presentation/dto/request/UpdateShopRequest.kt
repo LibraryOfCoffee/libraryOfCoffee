@@ -16,6 +16,6 @@ data class UpdateShopRequest(
     @Schema(description = "こだわり", example = "テストこだわり", nullable = true)
     val particular: String?,
 
-    @Schema(description = "店舗URL", example = "https://example.com", nullable = true)
-    val shopUrl: String?,
+    @Schema(description = "店舗URL", example = "https://example.com")
+    val shopUrl: String,
 )

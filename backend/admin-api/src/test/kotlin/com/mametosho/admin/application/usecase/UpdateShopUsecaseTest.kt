@@ -59,7 +59,7 @@ class UpdateShopUsecaseTest {
         name: String = "更新店舗",
         introduction: String? = "更新紹介文",
         particular: String? = "更新こだわり",
-        shopUrl: String? = "https://updated.example.com",
+        shopUrl: String = "https://updated.example.com",
     ): UpdateShopRequest = UpdateShopRequest(
         shopifyShopId = shopifyShopId,
         name = name,

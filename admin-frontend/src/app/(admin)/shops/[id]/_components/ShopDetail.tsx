@@ -43,17 +43,9 @@ export function ShopDetail({ shop }: { shop: ShopDetailType }) {
           <div className={styles.field}>
             <dt className={styles.fieldLabel}>店舗URL</dt>
             <dd className={styles.fieldValue}>
-              {shop.shopUrl ? (
-                <a
-                  href={shop.shopUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {shop.shopUrl}
-                </a>
-              ) : (
-                <span className={styles.empty}>未設定</span>
-              )}
+              <a href={shop.shopUrl} target="_blank" rel="noopener noreferrer">
+                {shop.shopUrl}
+              </a>
             </dd>
           </div>
         </dl>

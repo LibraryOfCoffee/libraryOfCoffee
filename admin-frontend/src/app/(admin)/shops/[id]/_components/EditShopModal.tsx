@@ -168,6 +168,7 @@ export function EditShopModal({
         <div className={modalStyles.field}>
           <label htmlFor={shopUrlId} className={modalStyles.label}>
             店舗URL
+            <span className={modalStyles.required}>*</span>
           </label>
           <input
             id={shopUrlId}
@@ -175,7 +176,7 @@ export function EditShopModal({
             type="url"
             maxLength={2048}
             placeholder="https://example.com"
-            defaultValue={state.values?.shopUrl ?? shop.shopUrl ?? ""}
+            defaultValue={state.values?.shopUrl ?? shop.shopUrl}
             className={modalStyles.input}
           />
           {state.fieldErrors?.shopUrl?.map((msg) => (

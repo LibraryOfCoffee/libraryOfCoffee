@@ -75,8 +75,8 @@ class CreateShopUsecaseIntegrationTest {
     fun `重複するshopify_shop_idの場合はupsertで既存レコードが更新される`() {
         jdbcTemplate.execute(
             """
-            INSERT INTO shops (id, shopify_shop_id, name)
-            VALUES ('00000000-0000-4000-8000-000000000098', 'dummy-shop', 'ダミー店舗')
+            INSERT INTO shops (id, shopify_shop_id, name, shop_url)
+            VALUES ('00000000-0000-4000-8000-000000000098', 'dummy-shop', 'ダミー店舗', 'https://dummy.example.com')
             """,
         )
 
@@ -87,7 +87,7 @@ class CreateShopUsecaseIntegrationTest {
             name = "重複店舗",
             introduction = null,
             particular = null,
-            shopUrl = null,
+            shopUrl = "https://dummy-shop.example.com",
         )
 
         createShopUsecase.execute(request, emptyList(), emptyList())

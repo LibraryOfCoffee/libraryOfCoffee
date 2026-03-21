@@ -12,7 +12,7 @@ class ShopTest {
 
     private fun createShop(
         images: List<ShopImage> = emptyList(),
-        shopUrl: String? = "https://example.com",
+        shopUrl: String = "https://example.com",
     ): Shop = Shop(
         id = ShopId("00000000-0000-4000-8000-000000000003"),
         shopifyShopId = ShopifyShopId("shopify-shop-1"),
@@ -43,12 +43,6 @@ class ShopTest {
         fun `particularがnullでも生成できる`() {
             val shop = createShop().copy(particular = null)
             assertNull(shop.particular)
-        }
-
-        @Test
-        fun `shopUrlがnullでも生成できる`() {
-            val shop = createShop(shopUrl = null)
-            assertNull(shop.shopUrl)
         }
 
         @Test
@@ -100,7 +94,7 @@ class ShopTest {
                 name = "新店舗",
                 introduction = null,
                 particular = null,
-                shopUrl = null,
+                shopUrl = "https://example.com",
                 images = emptyList(),
             )
 
@@ -115,7 +109,7 @@ class ShopTest {
                 name = "珈琲工房まめ図書",
                 introduction = null,
                 particular = null,
-                shopUrl = null,
+                shopUrl = "https://example.com",
                 images = listOf("MAIN" to "https://example.com/image.png"),
             )
 

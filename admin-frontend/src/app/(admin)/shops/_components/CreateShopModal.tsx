@@ -163,6 +163,7 @@ export function CreateShopModal({
         <div className={styles.field}>
           <label htmlFor={shopUrlId} className={styles.label}>
             店舗URL
+            <span className={styles.required}>*</span>
           </label>
           <input
             id={shopUrlId}

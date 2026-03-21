@@ -23,7 +23,7 @@ data class Shop(
     val name: String,
     val introduction: String?,
     val particular: String?,
-    val shopUrl: String?,
+    val shopUrl: String,
     val images: List<ShopImage>,
 ) {
     init {
@@ -37,10 +37,8 @@ data class Shop(
             require(it.isNotBlank()) { "particular must not be blank" }
             require(it.length <= 10000) { "particular must be at most 10000 characters, but was ${it.length}" }
         }
-        shopUrl?.let {
-            require(it.isNotBlank()) { "shopUrl must not be blank" }
-            require(it.length <= 2048) { "shopUrl must be at most 2048 characters, but was ${it.length}" }
-        }
+        require(shopUrl.isNotBlank()) { "shopUrl must not be blank" }
+        require(shopUrl.length <= 2048) { "shopUrl must be at most 2048 characters, but was ${shopUrl.length}" }
         val logoImageCount = images.count { it.type == ShopImageType.LOGO }
         require(logoImageCount <= 1) {
             "LOGO image must be at most 1, but was $logoImageCount"
@@ -65,7 +63,7 @@ data class Shop(
         name: String,
         introduction: String?,
         particular: String?,
-        shopUrl: String?,
+        shopUrl: String,
         images: List<Pair<String, String>>,
     ): Shop = Shop(
         id = this.id,
@@ -102,7 +100,7 @@ data class Shop(
             name: String,
             introduction: String?,
             particular: String?,
-            shopUrl: String?,
+            shopUrl: String,
             images: List<Pair<String, String>>,
             id: String = UUID.randomUUID().toString(),
         ): Shop = Shop(

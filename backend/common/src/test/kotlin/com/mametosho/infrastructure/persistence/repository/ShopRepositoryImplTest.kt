@@ -66,7 +66,7 @@ class ShopRepositoryImplTest {
         shopifyShopId: String = "test-shop-001",
         introduction: String? = "テスト紹介文",
         particular: String? = "テストこだわり",
-        shopUrl: String? = "https://example.com",
+        shopUrl: String = "https://example.com",
         images: List<ShopImage> = listOf(
             ShopImage(
                 id = ShopImageId("00000000-0000-4000-8000-000000000011"),

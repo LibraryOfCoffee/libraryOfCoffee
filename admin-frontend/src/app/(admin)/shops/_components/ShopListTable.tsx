@@ -67,7 +67,7 @@ export function ShopListTable({
                     href={`/shops/${shop.id}`}
                     className={`${styles.rowLink} ${styles.truncatedCell}`}
                   >
-                    {shop.shopUrl ?? ""}
+                    {shop.shopUrl}
                   </Link>
                 </td>
               </tr>
