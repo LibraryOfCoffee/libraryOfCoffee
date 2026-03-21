@@ -1,4 +1,4 @@
-package com.mametosho.admin.infrastructure.persistence.repository
+package com.mametosho.admin.infrastructure.persistence.query
 
 import com.mametosho.admin.application.query.CoffeeBeanQueryService
 import com.mametosho.admin.application.query.result.CoffeeBeanListResult

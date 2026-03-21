@@ -85,7 +85,7 @@ data class CoffeeListGroupDetailRow(
 
 ## QueryServiceImpl — Kotlinでグルーピング
 
-`infrastructure/persistence/repository/` に配置する。
+`infrastructure/persistence/query/` に配置する。
 Mapperから返されたフラットな行を、Kotlinの `groupBy` / `distinctBy` で階層構造に組み立てる。
 
 ```kotlin
