@@ -3,11 +3,14 @@ package com.mametosho.admin.presentation.controller
 import com.mametosho.admin.application.usecase.CreateShopUsecase
 import com.mametosho.admin.application.usecase.DeleteShopUsecase
 import com.mametosho.admin.application.usecase.GetShopUsecase
+import com.mametosho.admin.application.usecase.ListShopsUsecase
 import com.mametosho.admin.application.usecase.UpdateShopUsecase
 import com.mametosho.admin.presentation.dto.request.CreateShopRequest
 import com.mametosho.admin.presentation.dto.request.UpdateShopRequest
 import com.mametosho.admin.presentation.dto.response.ErrorResponse
+import com.mametosho.admin.presentation.dto.response.PagedResponse
 import com.mametosho.admin.presentation.dto.response.ShopDetailResponse
+import com.mametosho.admin.presentation.dto.response.ShopListResponse
 import com.mametosho.admin.presentation.dto.response.ShopResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -33,10 +37,60 @@ import org.springframework.web.bind.annotation.RestController
 @Tag(name = "Shop", description = "店舗API")
 class ShopController(
     private val getShopUsecase: GetShopUsecase,
+    private val listShopsUsecase: ListShopsUsecase,
     private val createShopUsecase: CreateShopUsecase,
     private val updateShopUsecase: UpdateShopUsecase,
     private val deleteShopUsecase: DeleteShopUsecase,
 ) {
+    @GetMapping
+    @Operation(
+        summary = "店舗一覧取得",
+        description = "店舗の一覧をページネーション付きで取得します。画像は含まれません。",
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "取得成功",
+                content = [
+                    Content(
+                        examples = [
+                            ExampleObject(
+                                name = "success",
+                                summary = "取得成功例",
+                                value = """
+                                    {
+                                      "items": [
+                                        {
+                                          "id": "00000000-0000-4000-8000-000000000001",
+                                          "shopifyShopId": "test-shop-001",
+                                          "name": "テスト珈琲店",
+                                          "introduction": "こだわりの珈琲をお届けします。",
+                                          "particular": "厳選された豆のみを使用しています。"
+                                        }
+                                      ],
+                                      "totalCount": 1,
+                                      "page": 0,
+                                      "size": 20
+                                    }
+                                """,
+                            ),
+                        ],
+                    ),
+                ],
+            ),
+        ],
+    )
+    fun listShops(
+        @Parameter(description = "ページ番号（0始まり）", example = "0")
+        @RequestParam(defaultValue = "0") page: Int,
+        @Parameter(description = "1ページあたりの件数", example = "20")
+        @RequestParam(defaultValue = "20") size: Int,
+    ): ResponseEntity<PagedResponse<ShopListResponse>> {
+        val result = listShopsUsecase.execute(page, size)
+        return ResponseEntity.ok(PagedResponse.from(result) { ShopListResponse.from(it) })
+    }
+
     @GetMapping("/{id}")
     @Operation(
         summary = "店舗詳細取得",

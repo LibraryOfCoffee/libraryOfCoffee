@@ -41,4 +41,17 @@ interface ShopMapper {
 
     @Delete("DELETE FROM shops WHERE id = #{id}")
     fun deleteShopById(id: String)
+
+    @Select(
+        """
+        SELECT id, shopify_shop_id, name, introduction, particular
+        FROM shops
+        ORDER BY created_at DESC
+        LIMIT #{size} OFFSET #{offset}
+        """,
+    )
+    fun findListRows(size: Int, offset: Int): List<ShopEntity>
+
+    @Select("SELECT COUNT(*) FROM shops")
+    fun countAll(): Long
 }
