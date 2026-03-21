@@ -1,6 +1,12 @@
 "use client";
 
-import { useActionState, useEffect, useId, useRef } from "react";
+import {
+  startTransition,
+  useActionState,
+  useEffect,
+  useId,
+  useRef,
+} from "react";
 import type { ShopListItem } from "@/api/shops";
 import type {
   ProcessingMethod,
@@ -10,6 +16,7 @@ import {
   PROCESSING_METHOD_LABELS,
   ROAST_LEVEL_LABELS,
 } from "@/app/(admin)/coffee-beans/_lib/coffeeBeanLabels";
+import { ImageUploadField } from "@/components/ImageUploadField";
 import modalStyles from "@/components/modal.module.css";
 import {
   type CreateCoffeeBeanState,
@@ -65,6 +72,11 @@ export function CreateCoffeeBeanModal({
     }
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    startTransition(() => formAction(new FormData(e.currentTarget)));
+  };
+
   return (
     <dialog
       ref={dialogRef}
@@ -87,7 +99,7 @@ export function CreateCoffeeBeanModal({
         </button>
       </div>
 
-      <form action={formAction} className={modalStyles.form}>
+      <form onSubmit={handleSubmit} className={modalStyles.form}>
         {state.error && <div className={modalStyles.error}>{state.error}</div>}
 
         <div className={modalStyles.field}>
@@ -99,7 +111,9 @@ export function CreateCoffeeBeanModal({
             id={shopIdId}
             name="shopId"
             className={modalStyles.select}
-            defaultValue=""
+            defaultValue={
+              (state.values as Record<string, string> | undefined)?.shopId ?? ""
+            }
           >
             <option value="" disabled>
               店舗を選択してください
@@ -127,6 +141,7 @@ export function CreateCoffeeBeanModal({
             name="shopifyBeanId"
             type="text"
             maxLength={255}
+            defaultValue={state.values?.shopifyBeanId ?? ""}
             className={modalStyles.input}
           />
           {state.fieldErrors?.shopifyBeanId?.map((msg) => (
@@ -146,6 +161,7 @@ export function CreateCoffeeBeanModal({
             name="name"
             type="text"
             maxLength={255}
+            defaultValue={state.values?.name ?? ""}
             className={modalStyles.input}
           />
           {state.fieldErrors?.name?.map((msg) => (
@@ -164,6 +180,7 @@ export function CreateCoffeeBeanModal({
             id={descriptionId}
             name="description"
             maxLength={10000}
+            defaultValue={state.values?.description ?? ""}
             className={modalStyles.textarea}
           />
           {state.fieldErrors?.description?.map((msg) => (
@@ -183,6 +200,7 @@ export function CreateCoffeeBeanModal({
             name="origin"
             type="text"
             maxLength={255}
+            defaultValue={state.values?.origin ?? ""}
             className={modalStyles.input}
           />
           {state.fieldErrors?.origin?.map((msg) => (
@@ -201,6 +219,7 @@ export function CreateCoffeeBeanModal({
             name="farm"
             type="text"
             maxLength={255}
+            defaultValue={state.values?.farm ?? ""}
             className={modalStyles.input}
           />
           {state.fieldErrors?.farm?.map((msg) => (
@@ -219,7 +238,7 @@ export function CreateCoffeeBeanModal({
             id={roastLevelId}
             name="roastLevel"
             className={modalStyles.select}
-            defaultValue=""
+            defaultValue={state.values?.roastLevel ?? ""}
           >
             <option value="" disabled>
               焙煎度を選択してください
@@ -248,7 +267,7 @@ export function CreateCoffeeBeanModal({
             id={processingMethodId}
             name="processingMethod"
             className={modalStyles.select}
-            defaultValue=""
+            defaultValue={state.values?.processingMethod ?? ""}
           >
             <option value="" disabled>
               精製方法を選択してください
@@ -279,7 +298,7 @@ export function CreateCoffeeBeanModal({
           <select
             id={isSpecialtyId}
             name="isSpecialty"
-            defaultValue="false"
+            defaultValue={state.values?.isSpecialty ?? "false"}
             className={modalStyles.select}
           >
             <option value="true">あり</option>
@@ -291,6 +310,8 @@ export function CreateCoffeeBeanModal({
             </span>
           ))}
         </div>
+
+        <ImageUploadField imageTypes={[{ value: "MAIN", label: "メイン" }]} />
 
         <div className={modalStyles.actions}>
           <button

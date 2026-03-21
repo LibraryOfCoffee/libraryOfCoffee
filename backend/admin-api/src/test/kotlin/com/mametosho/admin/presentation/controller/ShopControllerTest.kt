@@ -18,8 +18,10 @@ import com.mametosho.domain.model.shop.ShopImageId
 import com.mametosho.domain.model.shop.ShopImageType
 import com.mametosho.domain.model.shop.ShopifyShopId
 import com.mametosho.domain.repository.ShopRepository
+import com.mametosho.admin.test.FakeImageStorageService
 import org.junit.jupiter.api.Nested
 import org.springframework.http.HttpStatus
+import org.springframework.web.multipart.MultipartFile
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -73,6 +75,8 @@ class ShopControllerTest {
         override fun deleteById(id: ShopId) = Unit
     }
 
+    private val fakeImageStorageService = FakeImageStorageService
+
     private fun createController(
         createShop: Shop = sampleShop,
         getResult: Shop? = sampleShop,
@@ -86,13 +90,13 @@ class ShopControllerTest {
         val fakeListUsecase = object : ListShopsUsecase(fakeQueryService) {
             override fun execute(page: Int, size: Int): PagedResult<ShopListResult> = listResult
         }
-        val fakeCreateUsecase = object : CreateShopUsecase(fakeShopRepository) {
-            override fun execute(request: CreateShopRequest): Shop = createShop
+        val fakeCreateUsecase = object : CreateShopUsecase(fakeShopRepository, fakeImageStorageService) {
+            override fun execute(request: CreateShopRequest, imageFiles: List<MultipartFile>, imageTypes: List<String>): Shop = createShop
         }
-        val fakeUpdateUsecase = object : UpdateShopUsecase(fakeShopRepository) {
-            override fun execute(id: String, request: UpdateShopRequest): Shop? = updateShop
+        val fakeUpdateUsecase = object : UpdateShopUsecase(fakeShopRepository, fakeImageStorageService) {
+            override fun execute(id: String, request: UpdateShopRequest, imageFiles: List<MultipartFile>, imageTypes: List<String>): Shop? = updateShop
         }
-        val fakeDeleteUsecase = object : DeleteShopUsecase(fakeShopRepository) {
+        val fakeDeleteUsecase = object : DeleteShopUsecase(fakeShopRepository, fakeImageStorageService) {
             override fun execute(id: String): Boolean = deleteShopResult
         }
         return ShopController(fakeGetUsecase, fakeListUsecase, fakeCreateUsecase, fakeUpdateUsecase, fakeDeleteUsecase)
@@ -133,12 +137,9 @@ class ShopControllerTest {
                 name = "テスト店舗",
                 introduction = "テスト紹介文",
                 particular = "テストこだわり",
-                images = listOf(
-                    CreateShopRequest.ImageRequest(type = "MAIN", imageUrl = "https://example.com/image.png"),
-                ),
             )
 
-            val response = controller.createShop(request)
+            val response = controller.createShop(request, emptyList(), emptyList())
 
             assertEquals(HttpStatus.CREATED, response.statusCode)
             assertEquals("00000000-0000-4000-8000-000000000001", response.body?.id)
@@ -155,12 +156,9 @@ class ShopControllerTest {
                 name = "テスト店舗",
                 introduction = "テスト紹介文",
                 particular = "テストこだわり",
-                images = listOf(
-                    UpdateShopRequest.ImageRequest(type = "MAIN", imageUrl = "https://example.com/image.png"),
-                ),
             )
 
-            val response = controller.updateShop("00000000-0000-4000-8000-000000000001", request)
+            val response = controller.updateShop("00000000-0000-4000-8000-000000000001", request, emptyList(), emptyList())
 
             assertEquals(HttpStatus.OK, response.statusCode)
             assertEquals("00000000-0000-4000-8000-000000000001", response.body?.id)
@@ -174,10 +172,9 @@ class ShopControllerTest {
                 name = "テスト店舗",
                 introduction = null,
                 particular = null,
-                images = emptyList(),
             )
 
-            val response = controller.updateShop("00000000-0000-4000-8000-999999999999", request)
+            val response = controller.updateShop("00000000-0000-4000-8000-999999999999", request, emptyList(), emptyList())
 
             assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
             assertNull(response.body)

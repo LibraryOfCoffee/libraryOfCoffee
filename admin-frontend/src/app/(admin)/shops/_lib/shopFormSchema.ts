@@ -21,6 +21,13 @@ export const shopFieldsSchema = z.object({
     .optional(),
 });
 
+export type ShopFormValues = {
+  shopifyShopId?: string;
+  name?: string;
+  introduction?: string;
+  particular?: string;
+};
+
 export type ShopFormState = {
   success?: boolean;
   error?: string;
@@ -30,4 +37,5 @@ export type ShopFormState = {
     introduction?: string[];
     particular?: string[];
   };
+  values?: ShopFormValues;
 };

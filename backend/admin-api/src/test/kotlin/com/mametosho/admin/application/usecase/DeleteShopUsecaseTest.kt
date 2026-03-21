@@ -8,6 +8,7 @@ import com.mametosho.domain.model.shop.ShopImageId
 import com.mametosho.domain.model.shop.ShopImageType
 import com.mametosho.domain.model.shop.ShopifyShopId
 import com.mametosho.domain.repository.ShopRepository
+import com.mametosho.admin.test.FakeImageStorageService
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
@@ -48,7 +49,7 @@ class DeleteShopUsecaseTest {
         }
     }
 
-    private val usecase = DeleteShopUsecase(fakeRepository)
+    private val usecase = DeleteShopUsecase(fakeRepository, FakeImageStorageService)
 
     @Nested
     inner class 正常系 {

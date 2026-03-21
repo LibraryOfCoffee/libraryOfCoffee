@@ -15,16 +15,4 @@ data class CreateShopRequest(
 
     @Schema(description = "こだわり", example = "テストこだわり", nullable = true)
     val particular: String?,
-
-    @Schema(description = "店舗画像一覧")
-    val images: List<ImageRequest>,
-) {
-    @Schema(description = "店舗画像リクエスト")
-    data class ImageRequest(
-        @Schema(description = "画像種別", example = "MAIN")
-        val type: String,
-
-        @Schema(description = "画像URL", example = "https://example.com/image.png")
-        val imageUrl: String,
-    )
-}
+)

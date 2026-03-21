@@ -1,11 +1,18 @@
 "use client";
 
-import { useActionState, useEffect, useId, useRef } from "react";
+import {
+  startTransition,
+  useActionState,
+  useEffect,
+  useId,
+  useRef,
+} from "react";
 import type { CoffeeBeanDetail } from "@/api/coffee-beans";
 import {
   PROCESSING_METHOD_LABELS,
   ROAST_LEVEL_LABELS,
 } from "@/app/(admin)/coffee-beans/_lib/coffeeBeanLabels";
+import { ImageUploadField } from "@/components/ImageUploadField";
 import modalStyles from "@/components/modal.module.css";
 import {
   type EditCoffeeBeanState,
@@ -60,6 +67,11 @@ export function EditCoffeeBeanModal({
     }
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    startTransition(() => formAction(new FormData(e.currentTarget)));
+  };
+
   return (
     <dialog
       ref={dialogRef}
@@ -82,8 +94,13 @@ export function EditCoffeeBeanModal({
         </button>
       </div>
 
-      <form action={formAction} className={modalStyles.form}>
+      <form onSubmit={handleSubmit} className={modalStyles.form}>
         <input type="hidden" name="id" value={coffeeBean.id} />
+        <input
+          type="hidden"
+          name="currentTastes"
+          value={JSON.stringify(coffeeBean.tastes ?? [])}
+        />
 
         {state.error && <div className={modalStyles.error}>{state.error}</div>}
 
@@ -97,7 +114,9 @@ export function EditCoffeeBeanModal({
             name="shopifyBeanId"
             type="text"
             maxLength={255}
-            defaultValue={coffeeBean.shopifyBeanId}
+            defaultValue={
+              state.values?.shopifyBeanId ?? coffeeBean.shopifyBeanId
+            }
             className={modalStyles.input}
           />
           {state.fieldErrors?.shopifyBeanId?.map((msg) => (
@@ -117,7 +136,7 @@ export function EditCoffeeBeanModal({
             name="name"
             type="text"
             maxLength={255}
-            defaultValue={coffeeBean.name}
+            defaultValue={state.values?.name ?? coffeeBean.name}
             className={modalStyles.input}
           />
           {state.fieldErrors?.name?.map((msg) => (
@@ -136,7 +155,7 @@ export function EditCoffeeBeanModal({
             id={descriptionId}
             name="description"
             maxLength={10000}
-            defaultValue={coffeeBean.description}
+            defaultValue={state.values?.description ?? coffeeBean.description}
             className={modalStyles.textarea}
           />
           {state.fieldErrors?.description?.map((msg) => (
@@ -156,7 +175,7 @@ export function EditCoffeeBeanModal({
             name="origin"
             type="text"
             maxLength={255}
-            defaultValue={coffeeBean.origin}
+            defaultValue={state.values?.origin ?? coffeeBean.origin}
             className={modalStyles.input}
           />
           {state.fieldErrors?.origin?.map((msg) => (
@@ -175,7 +194,7 @@ export function EditCoffeeBeanModal({
             name="farm"
             type="text"
             maxLength={255}
-            defaultValue={coffeeBean.farm ?? ""}
+            defaultValue={state.values?.farm ?? coffeeBean.farm ?? ""}
             className={modalStyles.input}
           />
           {state.fieldErrors?.farm?.map((msg) => (
@@ -193,7 +212,7 @@ export function EditCoffeeBeanModal({
           <select
             id={roastLevelId}
             name="roastLevel"
-            defaultValue={coffeeBean.roastLevel}
+            defaultValue={state.values?.roastLevel ?? coffeeBean.roastLevel}
             className={modalStyles.select}
           >
             {Object.entries(ROAST_LEVEL_LABELS).map(([value, label]) => (
@@ -217,7 +236,9 @@ export function EditCoffeeBeanModal({
           <select
             id={processingMethodId}
             name="processingMethod"
-            defaultValue={coffeeBean.processingMethod}
+            defaultValue={
+              state.values?.processingMethod ?? coffeeBean.processingMethod
+            }
             className={modalStyles.select}
           >
             {Object.entries(PROCESSING_METHOD_LABELS).map(([value, label]) => (
@@ -241,7 +262,10 @@ export function EditCoffeeBeanModal({
           <select
             id={isSpecialtyId}
             name="isSpecialty"
-            defaultValue={coffeeBean.isSpecialty ? "true" : "false"}
+            defaultValue={
+              state.values?.isSpecialty ??
+              (coffeeBean.isSpecialty ? "true" : "false")
+            }
             className={modalStyles.select}
           >
             <option value="true">あり</option>
@@ -253,6 +277,11 @@ export function EditCoffeeBeanModal({
             </span>
           ))}
         </div>
+
+        <ImageUploadField
+          imageTypes={[{ value: "MAIN", label: "メイン" }]}
+          existingImages={coffeeBean.images}
+        />
 
         <div className={modalStyles.actions}>
           <button

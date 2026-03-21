@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { z } from "zod/v4";
-import { createAuthenticatedApiClient } from "@/api/client";
+import { multipartRequest } from "@/api/client";
 import {
   type ShopFormState,
   shopFieldsSchema,
@@ -18,37 +18,39 @@ export async function editShopAction(
   _prevState: EditShopState,
   formData: FormData,
 ): Promise<EditShopState> {
+  const values = {
+    shopifyShopId: (formData.get("shopifyShopId") as string) ?? "",
+    name: (formData.get("name") as string) ?? "",
+    introduction: (formData.get("introduction") as string) ?? "",
+    particular: (formData.get("particular") as string) ?? "",
+  };
+
   const result = editShopSchema.safeParse({
     id: formData.get("id"),
-    shopifyShopId: formData.get("shopifyShopId"),
-    name: formData.get("name"),
-    introduction: formData.get("introduction"),
-    particular: formData.get("particular"),
+    ...values,
   });
 
   if (!result.success) {
-    return { fieldErrors: result.error.flatten().fieldErrors };
+    return { fieldErrors: result.error.flatten().fieldErrors, values };
   }
 
   const { id, shopifyShopId, name, introduction, particular } = result.data;
 
-  const client = await createAuthenticatedApiClient();
-  const { error, response } = await client.PUT("/api/admin/shops/{id}", {
-    params: { path: { id } },
-    body: {
-      shopifyShopId,
-      name,
-      introduction,
-      particular,
-      images: [],
-    },
-  });
+  const response = await multipartRequest(
+    `/api/admin/shops/${id}`,
+    "PUT",
+    { shopifyShopId, name, introduction, particular },
+    formData,
+  );
 
-  if (error) {
+  if (!response.ok) {
     if (response.status === 409) {
-      return { error: "このShopify Shop IDは既に登録されています。" };
+      return {
+        error: "このShopify Shop IDは既に登録されています。",
+        values,
+      };
     }
-    return { error: "店舗の更新に失敗しました。" };
+    return { error: "店舗の更新に失敗しました。", values };
   }
 
   revalidatePath(`/shops/${id}`);

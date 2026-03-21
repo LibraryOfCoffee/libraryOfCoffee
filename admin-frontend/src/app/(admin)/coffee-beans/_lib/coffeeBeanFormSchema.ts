@@ -36,6 +36,17 @@ export const coffeeBeanFieldsSchema = z.object({
     .transform((v) => v === "true"),
 });
 
+export type CoffeeBeanFormValues = {
+  shopifyBeanId?: string;
+  name?: string;
+  description?: string;
+  origin?: string;
+  farm?: string;
+  roastLevel?: string;
+  processingMethod?: string;
+  isSpecialty?: string;
+};
+
 export type CoffeeBeanFormState = {
   success?: boolean;
   error?: string;
@@ -49,4 +60,5 @@ export type CoffeeBeanFormState = {
     processingMethod?: string[];
     isSpecialty?: string[];
   };
+  values?: CoffeeBeanFormValues;
 };

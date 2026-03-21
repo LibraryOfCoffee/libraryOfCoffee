@@ -16,8 +16,10 @@ import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import com.mametosho.domain.model.coffeebean.RoastLevel
 import com.mametosho.domain.model.coffeebean.ShopifyBeanId
 import com.mametosho.domain.model.shop.ShopId
+import com.mametosho.admin.test.FakeImageStorageService
 import org.junit.jupiter.api.Nested
 import org.springframework.http.HttpStatus
+import org.springframework.web.multipart.MultipartFile
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -43,6 +45,8 @@ class CoffeeBeanControllerTest {
         override fun findById(id: com.mametosho.domain.model.coffeebean.CoffeeBeanId): CoffeeBean? = null
         override fun deleteById(id: com.mametosho.domain.model.coffeebean.CoffeeBeanId) = Unit
     }
+
+    private val fakeImageStorageService = FakeImageStorageService
 
     private val sampleListResult = PagedResult(
         items = listOf(
@@ -88,13 +92,13 @@ class CoffeeBeanControllerTest {
         val fakeListUsecase = object : ListCoffeeBeansUsecase(fakeQueryService) {
             override fun execute(page: Int, size: Int): PagedResult<CoffeeBeanListResult> = listResult
         }
-        val fakeCreateUsecase = object : CreateCoffeeBeanUsecase(fakeRepository) {
-            override fun execute(request: CreateCoffeeBeanRequest): CoffeeBean = coffeeBean
+        val fakeCreateUsecase = object : CreateCoffeeBeanUsecase(fakeRepository, fakeImageStorageService) {
+            override fun execute(request: CreateCoffeeBeanRequest, imageFiles: List<MultipartFile>, imageTypes: List<String>): CoffeeBean = coffeeBean
         }
-        val fakeUpdateUsecase = object : UpdateCoffeeBeanUsecase(fakeRepository) {
-            override fun execute(id: String, request: UpdateCoffeeBeanRequest): CoffeeBean? = updateResult
+        val fakeUpdateUsecase = object : UpdateCoffeeBeanUsecase(fakeRepository, fakeImageStorageService) {
+            override fun execute(id: String, request: UpdateCoffeeBeanRequest, imageFiles: List<MultipartFile>, imageTypes: List<String>): CoffeeBean? = updateResult
         }
-        val fakeDeleteUsecase = object : DeleteCoffeeBeanUsecase(fakeRepository) {
+        val fakeDeleteUsecase = object : DeleteCoffeeBeanUsecase(fakeRepository, fakeImageStorageService) {
             override fun execute(id: String): Boolean = deleteResult
         }
         return CoffeeBeanController(fakeGetUsecase, fakeListUsecase, fakeCreateUsecase, fakeUpdateUsecase, fakeDeleteUsecase)
@@ -110,7 +114,6 @@ class CoffeeBeanControllerTest {
         roastLevel = "MEDIUM",
         processingMethod = "WASHED",
         isSpecialty = true,
-        images = emptyList(),
         tastes = emptyList(),
     )
 
@@ -123,7 +126,6 @@ class CoffeeBeanControllerTest {
         roastLevel = "FRENCH",
         processingMethod = "NATURAL",
         isSpecialty = true,
-        images = emptyList(),
         tastes = emptyList(),
     )
 
@@ -177,7 +179,7 @@ class CoffeeBeanControllerTest {
         @Test
         fun `正常にコーヒー豆を登録すると201が返る`() {
             val controller = createController()
-            val response = controller.createCoffeeBean(createRequest())
+            val response = controller.createCoffeeBean(createRequest(), emptyList(), emptyList())
 
             assertEquals(HttpStatus.CREATED, response.statusCode)
             assertEquals("00000000-0000-4000-8000-000000000001", response.body?.id)
@@ -189,7 +191,7 @@ class CoffeeBeanControllerTest {
         @Test
         fun `正常にコーヒー豆を更新すると200が返る`() {
             val controller = createController()
-            val response = controller.updateCoffeeBean("00000000-0000-4000-8000-000000000001", createUpdateRequest())
+            val response = controller.updateCoffeeBean("00000000-0000-4000-8000-000000000001", createUpdateRequest(), emptyList(), emptyList())
 
             assertEquals(HttpStatus.OK, response.statusCode)
             assertEquals("00000000-0000-4000-8000-000000000001", response.body?.id)
@@ -198,7 +200,7 @@ class CoffeeBeanControllerTest {
         @Test
         fun `存在しないコーヒー豆を更新すると404が返る`() {
             val controller = createController(updateResult = null)
-            val response = controller.updateCoffeeBean("00000000-0000-4000-8000-999999999999", createUpdateRequest())
+            val response = controller.updateCoffeeBean("00000000-0000-4000-8000-999999999999", createUpdateRequest(), emptyList(), emptyList())
 
             assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
         }

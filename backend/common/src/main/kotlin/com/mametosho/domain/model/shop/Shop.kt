@@ -89,8 +89,9 @@ data class Shop(
             introduction: String?,
             particular: String?,
             images: List<Pair<String, String>>,
+            id: String = UUID.randomUUID().toString(),
         ): Shop = Shop(
-            id = ShopId(UUID.randomUUID().toString()),
+            id = ShopId(id),
             shopifyShopId = ShopifyShopId(shopifyShopId),
             name = name,
             introduction = introduction,

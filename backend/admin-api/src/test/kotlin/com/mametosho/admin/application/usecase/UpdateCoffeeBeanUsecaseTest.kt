@@ -3,12 +3,10 @@ package com.mametosho.admin.application.usecase
 import com.mametosho.admin.presentation.dto.request.UpdateCoffeeBeanRequest
 import com.mametosho.domain.model.coffeebean.CoffeeBean
 import com.mametosho.domain.model.coffeebean.CoffeeBeanId
-import com.mametosho.domain.model.coffeebean.CoffeeBeanImageType
 import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import com.mametosho.domain.model.coffeebean.RoastLevel
-import com.mametosho.domain.model.coffeebean.ShopifyBeanId
-import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.repository.CoffeeBeanRepository
+import com.mametosho.admin.test.FakeImageStorageService
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
@@ -30,7 +28,7 @@ class UpdateCoffeeBeanUsecaseTest {
         roastLevel = "LIGHT",
         processingMethod = "WASHED",
         isSpecialty = false,
-        images = listOf("MAIN" to "https://example.com/original.png"),
+        images = emptyList(),
         tastes = listOf("00000000-0000-4000-8000-000000000003" to 3),
     )
 
@@ -46,7 +44,7 @@ class UpdateCoffeeBeanUsecaseTest {
         override fun deleteById(id: CoffeeBeanId) = Unit
     }
 
-    private val usecase = UpdateCoffeeBeanUsecase(fakeRepository)
+    private val usecase = UpdateCoffeeBeanUsecase(fakeRepository, FakeImageStorageService)
 
     private fun createRequest(
         shopifyBeanId: String = "updated-bean-001",
@@ -57,9 +55,6 @@ class UpdateCoffeeBeanUsecaseTest {
         roastLevel: String = "FRENCH",
         processingMethod: String = "NATURAL",
         isSpecialty: Boolean = true,
-        images: List<UpdateCoffeeBeanRequest.ImageRequest> = listOf(
-            UpdateCoffeeBeanRequest.ImageRequest(type = "MAIN", imageUrl = "https://example.com/updated.png"),
-        ),
         tastes: List<UpdateCoffeeBeanRequest.TasteRequest> = listOf(
             UpdateCoffeeBeanRequest.TasteRequest(
                 tasteId = "00000000-0000-4000-8000-000000000004",
@@ -75,7 +70,6 @@ class UpdateCoffeeBeanUsecaseTest {
         roastLevel = roastLevel,
         processingMethod = processingMethod,
         isSpecialty = isSpecialty,
-        images = images,
         tastes = tastes,
     )
 
@@ -84,7 +78,7 @@ class UpdateCoffeeBeanUsecaseTest {
         @Test
         fun `正常にCoffeeBeanを更新できる`() {
             val request = createRequest()
-            val bean = usecase.execute(existingBean.id.value, request)!!
+            val bean = usecase.execute(existingBean.id.value, request, emptyList(), emptyList())!!
 
             assertEquals("updated-bean-001", bean.shopifyBeanId.value)
             assertEquals("更新後コーヒー豆", bean.name)
@@ -94,9 +88,6 @@ class UpdateCoffeeBeanUsecaseTest {
             assertEquals(RoastLevel.FRENCH, bean.roastLevel)
             assertEquals(ProcessingMethod.NATURAL, bean.processingMethod)
             assertTrue(bean.isSpecialty)
-            assertEquals(1, bean.images.size)
-            assertEquals(CoffeeBeanImageType.MAIN, bean.images[0].type)
-            assertEquals("https://example.com/updated.png", bean.images[0].imageUrl.value)
             assertEquals(1, bean.tastes.size)
             assertEquals("00000000-0000-4000-8000-000000000004", bean.tastes[0].tasteId.value)
             assertEquals(5, bean.tastes[0].evaluationValue)
@@ -107,13 +98,13 @@ class UpdateCoffeeBeanUsecaseTest {
     inner class shopId保持 {
         @Test
         fun `更新後もshopIdが保持される`() {
-            val bean = usecase.execute(existingBean.id.value, createRequest())!!
+            val bean = usecase.execute(existingBean.id.value, createRequest(), emptyList(), emptyList())!!
             assertEquals(existingBean.shopId, bean.shopId)
         }
 
         @Test
         fun `更新後もidが保持される`() {
-            val bean = usecase.execute(existingBean.id.value, createRequest())!!
+            val bean = usecase.execute(existingBean.id.value, createRequest(), emptyList(), emptyList())!!
             assertEquals(existingBean.id, bean.id)
         }
     }
@@ -122,7 +113,7 @@ class UpdateCoffeeBeanUsecaseTest {
     inner class 存在しない場合 {
         @Test
         fun `存在しないIDの場合はnullが返る`() {
-            val result = usecase.execute("00000000-0000-4000-8000-999999999999", createRequest())
+            val result = usecase.execute("00000000-0000-4000-8000-999999999999", createRequest(), emptyList(), emptyList())
             assertNull(result)
         }
     }
@@ -131,7 +122,7 @@ class UpdateCoffeeBeanUsecaseTest {
     inner class nullable項目 {
         @Test
         fun `farmがnullでもCoffeeBeanを更新できる`() {
-            val bean = usecase.execute(existingBean.id.value, createRequest(farm = null))!!
+            val bean = usecase.execute(existingBean.id.value, createRequest(farm = null), emptyList(), emptyList())!!
             assertNull(bean.farm)
         }
     }
@@ -140,13 +131,13 @@ class UpdateCoffeeBeanUsecaseTest {
     inner class 空コレクション {
         @Test
         fun `画像なしでもCoffeeBeanを更新できる`() {
-            val bean = usecase.execute(existingBean.id.value, createRequest(images = emptyList()))!!
+            val bean = usecase.execute(existingBean.id.value, createRequest(), emptyList(), emptyList())!!
             assertEquals(0, bean.images.size)
         }
 
         @Test
         fun `テイストなしでもCoffeeBeanを更新できる`() {
-            val bean = usecase.execute(existingBean.id.value, createRequest(tastes = emptyList()))!!
+            val bean = usecase.execute(existingBean.id.value, createRequest(tastes = emptyList()), emptyList(), emptyList())!!
             assertEquals(0, bean.tastes.size)
         }
     }
@@ -156,7 +147,7 @@ class UpdateCoffeeBeanUsecaseTest {
         @Test
         fun `更新したCoffeeBeanがリポジトリに保存される`() {
             savedBeans.clear()
-            usecase.execute(existingBean.id.value, createRequest())
+            usecase.execute(existingBean.id.value, createRequest(), emptyList(), emptyList())
             assertEquals(1, savedBeans.size)
             assertEquals("更新後コーヒー豆", savedBeans[0].name)
         }
@@ -164,7 +155,7 @@ class UpdateCoffeeBeanUsecaseTest {
         @Test
         fun `存在しないIDの場合はリポジトリに保存されない`() {
             savedBeans.clear()
-            usecase.execute("00000000-0000-4000-8000-999999999999", createRequest())
+            usecase.execute("00000000-0000-4000-8000-999999999999", createRequest(), emptyList(), emptyList())
             assertEquals(0, savedBeans.size)
         }
     }
@@ -174,38 +165,21 @@ class UpdateCoffeeBeanUsecaseTest {
         @Test
         fun `nameが空白の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                usecase.execute(existingBean.id.value, createRequest(name = ""))
+                usecase.execute(existingBean.id.value, createRequest(name = ""), emptyList(), emptyList())
             }
         }
 
         @Test
         fun `不正な焙煎度の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                usecase.execute(existingBean.id.value, createRequest(roastLevel = "INVALID"))
+                usecase.execute(existingBean.id.value, createRequest(roastLevel = "INVALID"), emptyList(), emptyList())
             }
         }
 
         @Test
         fun `不正な精製方法の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                usecase.execute(existingBean.id.value, createRequest(processingMethod = "INVALID"))
-            }
-        }
-
-        @Test
-        fun `不正な画像種別の場合は例外が発生する`() {
-            assertThrows<IllegalArgumentException> {
-                usecase.execute(
-                    existingBean.id.value,
-                    createRequest(
-                        images = listOf(
-                            UpdateCoffeeBeanRequest.ImageRequest(
-                                type = "INVALID",
-                                imageUrl = "https://example.com/bean.png",
-                            ),
-                        ),
-                    ),
-                )
+                usecase.execute(existingBean.id.value, createRequest(processingMethod = "INVALID"), emptyList(), emptyList())
             }
         }
     }

@@ -53,6 +53,7 @@ export function ShopDetail({ shop }: { shop: ShopDetailType }) {
                     width={400}
                     height={300}
                     className={styles.image}
+                    unoptimized
                   />
                   <span className={styles.imageType}>{image.type}</span>
                 </div>

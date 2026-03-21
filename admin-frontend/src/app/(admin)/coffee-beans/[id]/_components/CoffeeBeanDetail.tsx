@@ -105,6 +105,7 @@ export function CoffeeBeanDetail({
                     width={400}
                     height={300}
                     className={styles.image}
+                    unoptimized
                   />
                   <span className={styles.imageType}>{image.type}</span>
                 </div>

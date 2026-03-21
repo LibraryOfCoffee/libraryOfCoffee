@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { z } from "zod/v4";
-import { createAuthenticatedApiClient } from "@/api/client";
+import { multipartRequest } from "@/api/client";
 import {
   type CoffeeBeanFormState,
   coffeeBeanFieldsSchema,
@@ -18,55 +18,57 @@ export async function editCoffeeBeanAction(
   _prevState: EditCoffeeBeanState,
   formData: FormData,
 ): Promise<EditCoffeeBeanState> {
+  const values = {
+    shopifyBeanId: (formData.get("shopifyBeanId") as string) ?? "",
+    name: (formData.get("name") as string) ?? "",
+    description: (formData.get("description") as string) ?? "",
+    origin: (formData.get("origin") as string) ?? "",
+    farm: (formData.get("farm") as string) ?? "",
+    roastLevel: (formData.get("roastLevel") as string) ?? "",
+    processingMethod: (formData.get("processingMethod") as string) ?? "",
+    isSpecialty: (formData.get("isSpecialty") as string) ?? "false",
+  };
+
   const result = editCoffeeBeanSchema.safeParse({
     id: formData.get("id"),
-    shopifyBeanId: formData.get("shopifyBeanId"),
-    name: formData.get("name"),
-    description: formData.get("description"),
-    origin: formData.get("origin"),
-    farm: formData.get("farm"),
-    roastLevel: formData.get("roastLevel"),
-    processingMethod: formData.get("processingMethod"),
-    isSpecialty: formData.get("isSpecialty"),
+    ...values,
   });
 
   if (!result.success) {
-    return { fieldErrors: result.error.flatten().fieldErrors };
+    return { fieldErrors: result.error.flatten().fieldErrors, values };
   }
 
   const { id, ...fields } = result.data;
 
-  const client = await createAuthenticatedApiClient();
-
-  const { data: current } = await client.GET("/api/admin/coffee-beans/{id}", {
-    params: { path: { id } },
-  });
-
-  if (!current) {
-    return { error: "コーヒー豆が見つかりません。" };
+  const currentTastesRaw = formData.get("currentTastes") as string;
+  let tastes: { tasteId: string; evaluationValue: number }[] = [];
+  try {
+    tastes = JSON.parse(currentTastesRaw || "[]");
+  } catch {
+    tastes = [];
   }
 
-  const { error, response } = await client.PUT("/api/admin/coffee-beans/{id}", {
-    params: { path: { id } },
-    body: {
+  const response = await multipartRequest(
+    `/api/admin/coffee-beans/${id}`,
+    "PUT",
+    {
       ...fields,
-      specialty: fields.isSpecialty,
-      images: (current.images ?? []).map((img) => ({
-        type: img.type,
-        imageUrl: img.imageUrl,
-      })),
-      tastes: (current.tastes ?? []).map((t) => ({
+      tastes: tastes.map((t) => ({
         tasteId: t.tasteId,
         evaluationValue: t.evaluationValue,
       })),
     },
-  });
+    formData,
+  );
 
-  if (error) {
+  if (!response.ok) {
     if (response.status === 409) {
-      return { error: "このShopify Bean IDは既に登録されています。" };
+      return {
+        error: "このShopify Bean IDは既に登録されています。",
+        values,
+      };
     }
-    return { error: "コーヒー豆の更新に失敗しました。" };
+    return { error: "コーヒー豆の更新に失敗しました。", values };
   }
 
   revalidatePath(`/coffee-beans/${id}`);

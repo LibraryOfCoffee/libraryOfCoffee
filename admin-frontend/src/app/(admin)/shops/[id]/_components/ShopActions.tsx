@@ -41,13 +41,13 @@ export function ShopActions({ shop }: { shop: ShopDetail }) {
         </button>
       </div>
       <EditShopModal
-        key={editKey}
+        key={`edit-${editKey}`}
         shop={shop}
         open={editOpen}
         onClose={() => setEditOpen(false)}
       />
       <DeleteShopModal
-        key={deleteKey}
+        key={`delete-${deleteKey}`}
         shopId={shop.id}
         shopName={shop.name}
         open={deleteOpen}

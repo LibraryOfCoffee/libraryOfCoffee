@@ -1,10 +1,7 @@
 package com.mametosho.admin.application.usecase
 
 import com.mametosho.admin.presentation.dto.request.CreateShopRequest
-import com.mametosho.infrastructure.persistence.mybatis.entity.ShopImageEntity
-import com.mametosho.infrastructure.persistence.mybatis.mapper.ShopMapper
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.jdbc.core.JdbcTemplate
@@ -45,9 +42,6 @@ class CreateShopUsecaseIntegrationTest {
     private lateinit var createShopUsecase: CreateShopUsecase
 
     @Autowired
-    private lateinit var shopMapper: ShopMapper
-
-    @Autowired
     private lateinit var jdbcTemplate: JdbcTemplate
 
     @BeforeEach
@@ -67,64 +61,36 @@ class CreateShopUsecaseIntegrationTest {
             name = "テスト店舗",
             introduction = "テスト紹介文",
             particular = "テストこだわり",
-            images = listOf(
-                CreateShopRequest.ImageRequest(type = "MAIN", imageUrl = "https://example.com/image.png"),
-            ),
         )
 
-        val shop = createShopUsecase.execute(request)
+        val shop = createShopUsecase.execute(request, emptyList(), emptyList())
 
         val shops = jdbcTemplate.queryForList("SELECT * FROM shops")
         assertEquals(1, shops.size)
         assertEquals(shop.id.value, shops[0]["id"])
-
-        val images = jdbcTemplate.queryForList("SELECT * FROM shop_images")
-        assertEquals(1, images.size)
     }
 
     @Test
-    fun `shop_imagesのINSERT失敗時にshopsもロールバックされる`() {
-        // 先にダミーのshopとshop_imageを作り、重複する画像IDを用意する
+    fun `重複するshopify_shop_idの場合はupsertで既存レコードが更新される`() {
         jdbcTemplate.execute(
             """
             INSERT INTO shops (id, shopify_shop_id, name)
             VALUES ('00000000-0000-4000-8000-000000000098', 'dummy-shop', 'ダミー店舗')
             """,
         )
-        val duplicateImageId = "00000000-0000-4000-8000-000000000099"
-        shopMapper.insertShopImage(
-            ShopImageEntity(
-                id = duplicateImageId,
-                shopId = "00000000-0000-4000-8000-000000000098",
-                type = "main",
-                imageUrl = "https://example.com/existing.png",
-            ),
-        )
 
         val shopCountBefore = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM shops", Int::class.java)
 
-        // UsecaseはUUIDを自動生成するため、画像ID重複を直接起こせない
-        // → ShopMapperに直接重複IDの画像を事前INSERTし、
-        //   同じIDをUsecaseが生成するようにはできないため、
-        //   Repository.save()を直接呼ぶテスト用のUsecaseを用意する代わりに
-        //   shopify_shop_idのUNIQUE制約違反でテストする
-
-        // shopify_shop_id "dummy-shop" は既に存在するため、UNIQUE制約違反が発生する
         val request = CreateShopRequest(
             shopifyShopId = "dummy-shop",
             name = "重複店舗",
             introduction = null,
             particular = null,
-            images = listOf(
-                CreateShopRequest.ImageRequest(type = "MAIN", imageUrl = "https://example.com/new.png"),
-            ),
         )
 
-        assertThrows<Exception> {
-            createShopUsecase.execute(request)
-        }
+        createShopUsecase.execute(request, emptyList(), emptyList())
 
         val shopCountAfter = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM shops", Int::class.java)
-        assertEquals(shopCountBefore, shopCountAfter, "shopify_shop_idのUNIQUE制約違反時にshopsへのINSERTがロールバックされること")
+        assertEquals(shopCountBefore, shopCountAfter, "重複するshopify_shop_idの場合は新規INSERTではなくUPDATEされること")
     }
 }
