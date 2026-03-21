@@ -76,8 +76,8 @@ CREATE TABLE IF NOT EXISTS coffee_beans (
     description       TEXT          NOT NULL                                     COMMENT '説明',
     origin            VARCHAR(255)  NOT NULL                                   COMMENT '産地',
     farm              VARCHAR(255)                                             COMMENT '農園',
-    roast_level       ENUM('light', 'medium', 'city', 'french') NOT NULL       COMMENT '焙煎度',
-    processing_method ENUM('fully_washed', 'washed', 'thermal_shock_natural', 'natural', 'wet_hulling', 'honey') NOT NULL COMMENT '精製方法',
+    roast_level       ENUM('LIGHT', 'MEDIUM', 'CITY', 'FRENCH') NOT NULL       COMMENT '焙煎度',
+    processing_method ENUM('FULLY_WASHED', 'WASHED', 'THERMAL_SHOCK_NATURAL', 'NATURAL', 'WET_HULLING', 'HONEY') NOT NULL COMMENT '精製方法',
     is_specialty      BOOLEAN       NOT NULL DEFAULT FALSE                     COMMENT 'スペシャルティコーヒーかどうか',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                             COMMENT '作成日時',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時',
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS monthly_subscription_details (
 CREATE TABLE IF NOT EXISTS coffee_bean_images (
     id            CHAR(36)      NOT NULL PRIMARY KEY                           COMMENT '画像ID',
     coffee_bean_id CHAR(36)     NOT NULL                                       COMMENT '珈琲豆ID',
-    type          ENUM('main') NOT NULL                                        COMMENT '画像種別',
+    type          ENUM('MAIN') NOT NULL                                        COMMENT '画像種別',
     image_url     VARCHAR(2048) NOT NULL                                       COMMENT '画像URL',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                             COMMENT '作成日時',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時',
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS coffee_bean_tastes (
 CREATE TABLE IF NOT EXISTS shop_images (
     id        CHAR(36)      NOT NULL PRIMARY KEY                               COMMENT '画像ID',
     shop_id   CHAR(36)      NOT NULL                                           COMMENT '店舗ID',
-    type      ENUM('main') NOT NULL                                            COMMENT '画像種別',
+    type      ENUM('MAIN') NOT NULL                                            COMMENT '画像種別',
     image_url VARCHAR(2048) NOT NULL                                           COMMENT '画像URL',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                             COMMENT '作成日時',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時',

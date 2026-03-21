@@ -5,6 +5,7 @@ import com.mametosho.infrastructure.persistence.mybatis.entity.ShopImageEntity
 import org.apache.ibatis.annotations.Delete
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Mapper
+import org.apache.ibatis.annotations.Param
 import org.apache.ibatis.annotations.Select
 
 @Mapper
@@ -50,7 +51,7 @@ interface ShopMapper {
         LIMIT #{size} OFFSET #{offset}
         """,
     )
-    fun findListRows(size: Int, offset: Int): List<ShopEntity>
+    fun findListRows(@Param("size") size: Int, @Param("offset") offset: Int): List<ShopEntity>
 
     @Select("SELECT COUNT(*) FROM shops")
     fun countAll(): Long

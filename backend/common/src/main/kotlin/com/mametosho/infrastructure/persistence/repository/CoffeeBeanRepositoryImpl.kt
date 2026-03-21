@@ -36,13 +36,13 @@ class CoffeeBeanRepositoryImpl(
             description = entity.description,
             origin = entity.origin,
             farm = entity.farm,
-            roastLevel = RoastLevel.valueOf(entity.roastLevel.uppercase()),
-            processingMethod = ProcessingMethod.valueOf(entity.processingMethod.uppercase()),
+            roastLevel = RoastLevel.valueOf(entity.roastLevel),
+            processingMethod = ProcessingMethod.valueOf(entity.processingMethod),
             isSpecialty = entity.isSpecialty,
             images = imageEntities.map { img ->
                 CoffeeBeanImage(
                     id = CoffeeBeanImageId(img.id),
-                    type = CoffeeBeanImageType.valueOf(img.type.uppercase()),
+                    type = CoffeeBeanImageType.valueOf(img.type),
                     imageUrl = ImageUrl(img.imageUrl),
                 )
             },
@@ -66,8 +66,8 @@ class CoffeeBeanRepositoryImpl(
                 description = coffeeBean.description,
                 origin = coffeeBean.origin,
                 farm = coffeeBean.farm,
-                roastLevel = coffeeBean.roastLevel.name.lowercase(),
-                processingMethod = coffeeBean.processingMethod.name.lowercase(),
+                roastLevel = coffeeBean.roastLevel.name,
+                processingMethod = coffeeBean.processingMethod.name,
                 isSpecialty = coffeeBean.isSpecialty,
             ),
         )
@@ -77,7 +77,7 @@ class CoffeeBeanRepositoryImpl(
                 CoffeeBeanImageEntity(
                     id = image.id.value,
                     coffeeBeanId = coffeeBean.id.value,
-                    type = image.type.name.lowercase(),
+                    type = image.type.name,
                     imageUrl = image.imageUrl.value,
                 ),
             )

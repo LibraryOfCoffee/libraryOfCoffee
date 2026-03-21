@@ -45,7 +45,7 @@ data class UpdateCoffeeBeanRequest(
 
     @Schema(description = "テイスト評価リクエスト")
     data class TasteRequest(
-        @Schema(description = "テイストID", example = "00000000-0000-4000-8000-000000000001")
+        @Schema(description = "テイストID", example = "00000000-0000-4000-8000-000000000041")
         val tasteId: String,
 
         @Schema(description = "評価値", example = "3")

@@ -4,10 +4,10 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "コーヒー豆登録リクエスト")
 data class CreateCoffeeBeanRequest(
-    @Schema(description = "店舗ID", example = "00000000-0000-4000-8000-000000000001")
+    @Schema(description = "店舗ID", example = "00000000-0000-4000-8000-000000000031")
     val shopId: String,
 
-    @Schema(description = "Shopifyの商品ID", example = "test-bean-001")
+    @Schema(description = "Shopifyの商品ID", example = "gid://shopify/Product/999999")
     val shopifyBeanId: String,
 
     @Schema(description = "豆の名前", example = "テストコーヒー豆")
@@ -48,7 +48,7 @@ data class CreateCoffeeBeanRequest(
 
     @Schema(description = "テイスト評価リクエスト")
     data class TasteRequest(
-        @Schema(description = "テイストID", example = "00000000-0000-4000-8000-000000000001")
+        @Schema(description = "テイストID", example = "00000000-0000-4000-8000-000000000041")
         val tasteId: String,
 
         @Schema(description = "評価値", example = "3")

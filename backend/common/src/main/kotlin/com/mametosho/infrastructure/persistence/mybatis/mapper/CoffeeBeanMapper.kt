@@ -6,6 +6,7 @@ import com.mametosho.infrastructure.persistence.mybatis.entity.CoffeeBeanTasteEn
 import org.apache.ibatis.annotations.Delete
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Mapper
+import org.apache.ibatis.annotations.Param
 import org.apache.ibatis.annotations.Select
 
 @Mapper
@@ -32,7 +33,7 @@ interface CoffeeBeanMapper {
         LIMIT #{size} OFFSET #{offset}
         """,
     )
-    fun findListRows(size: Int, offset: Int): List<CoffeeBeanEntity>
+    fun findListRows(@Param("size") size: Int, @Param("offset") offset: Int): List<CoffeeBeanEntity>
 
     @Select("SELECT COUNT(*) FROM coffee_beans")
     fun countAll(): Long

@@ -33,7 +33,7 @@ class ShopRepositoryImpl(
                 ShopImageEntity(
                     id = image.id.value,
                     shopId = shop.id.value,
-                    type = image.type.name.lowercase(),
+                    type = image.type.name,
                     imageUrl = image.imageUrl.value,
                 ),
             )
@@ -57,7 +57,7 @@ class ShopRepositoryImpl(
             images = imageEntities.map { img ->
                 ShopImage(
                     id = ShopImageId(img.id),
-                    type = ShopImageType.valueOf(img.type.uppercase()),
+                    type = ShopImageType.valueOf(img.type),
                     imageUrl = ImageUrl(img.imageUrl),
                 )
             },
