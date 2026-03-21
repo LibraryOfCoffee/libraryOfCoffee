@@ -13,6 +13,7 @@ import java.util.UUID
  * @property name 店舗名
  * @property introduction 店舗紹介
  * @property particular こだわり
+ * @property shopUrl 店舗URL
  * @property images 店舗画像一覧
  */
 @Suppress("MagicNumber")
@@ -22,6 +23,7 @@ data class Shop(
     val name: String,
     val introduction: String?,
     val particular: String?,
+    val shopUrl: String?,
     val images: List<ShopImage>,
 ) {
     init {
@@ -35,6 +37,14 @@ data class Shop(
             require(it.isNotBlank()) { "particular must not be blank" }
             require(it.length <= 10000) { "particular must be at most 10000 characters, but was ${it.length}" }
         }
+        shopUrl?.let {
+            require(it.isNotBlank()) { "shopUrl must not be blank" }
+            require(it.length <= 2048) { "shopUrl must be at most 2048 characters, but was ${it.length}" }
+        }
+        val logoImageCount = images.count { it.type == ShopImageType.LOGO }
+        require(logoImageCount <= 1) {
+            "LOGO image must be at most 1, but was $logoImageCount"
+        }
     }
 
     /**
@@ -46,6 +56,7 @@ data class Shop(
      * @param name 店舗名
      * @param introduction 店舗紹介
      * @param particular こだわり
+     * @param shopUrl 店舗URL
      * @param images 画像情報（種別とURL）のリスト
      * @return 更新された[Shop]
      */
@@ -54,6 +65,7 @@ data class Shop(
         name: String,
         introduction: String?,
         particular: String?,
+        shopUrl: String?,
         images: List<Pair<String, String>>,
     ): Shop = Shop(
         id = this.id,
@@ -61,6 +73,7 @@ data class Shop(
         name = name,
         introduction = introduction,
         particular = particular,
+        shopUrl = shopUrl,
         images = images.map { (type, imageUrl) ->
             ShopImage(
                 id = ShopImageId(UUID.randomUUID().toString()),
@@ -80,6 +93,7 @@ data class Shop(
          * @param name 店舗名
          * @param introduction 店舗紹介
          * @param particular こだわり
+         * @param shopUrl 店舗URL
          * @param images 画像情報（種別とURL）のリスト
          * @return 生成された[Shop]
          */
@@ -88,13 +102,16 @@ data class Shop(
             name: String,
             introduction: String?,
             particular: String?,
+            shopUrl: String?,
             images: List<Pair<String, String>>,
+            id: String = UUID.randomUUID().toString(),
         ): Shop = Shop(
-            id = ShopId(UUID.randomUUID().toString()),
+            id = ShopId(id),
             shopifyShopId = ShopifyShopId(shopifyShopId),
             name = name,
             introduction = introduction,
             particular = particular,
+            shopUrl = shopUrl,
             images = images.map { (type, imageUrl) ->
                 ShopImage(
                     id = ShopImageId(UUID.randomUUID().toString()),

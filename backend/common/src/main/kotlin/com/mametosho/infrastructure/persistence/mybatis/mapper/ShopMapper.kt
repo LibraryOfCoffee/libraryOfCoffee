@@ -12,13 +12,14 @@ import org.apache.ibatis.annotations.Select
 interface ShopMapper {
     @Insert(
         """
-        INSERT INTO shops (id, shopify_shop_id, name, introduction, particular)
-        VALUES (#{id}, #{shopifyShopId}, #{name}, #{introduction}, #{particular})
+        INSERT INTO shops (id, shopify_shop_id, name, introduction, particular, shop_url)
+        VALUES (#{id}, #{shopifyShopId}, #{name}, #{introduction}, #{particular}, #{shopUrl})
         ON DUPLICATE KEY UPDATE
             shopify_shop_id = VALUES(shopify_shop_id),
             name = VALUES(name),
             introduction = VALUES(introduction),
-            particular = VALUES(particular)
+            particular = VALUES(particular),
+            shop_url = VALUES(shop_url)
         """,
     )
     fun upsertShop(entity: ShopEntity)
@@ -34,7 +35,7 @@ interface ShopMapper {
     )
     fun insertShopImage(entity: ShopImageEntity)
 
-    @Select("SELECT id, shopify_shop_id, name, introduction, particular FROM shops WHERE id = #{id}")
+    @Select("SELECT id, shopify_shop_id, name, introduction, particular, shop_url FROM shops WHERE id = #{id}")
     fun findShopById(id: String): ShopEntity?
 
     @Select("SELECT id, shop_id, type, image_url FROM shop_images WHERE shop_id = #{shopId}")
@@ -45,7 +46,7 @@ interface ShopMapper {
 
     @Select(
         """
-        SELECT id, shopify_shop_id, name, introduction, particular
+        SELECT id, shopify_shop_id, name, introduction, particular, shop_url
         FROM shops
         ORDER BY created_at DESC
         LIMIT #{size} OFFSET #{offset}

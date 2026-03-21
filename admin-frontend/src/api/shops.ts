@@ -12,11 +12,12 @@ export type ShopListItem = {
   name: string;
   introduction: string | null;
   particular: string | null;
+  shopUrl: string | null;
 };
 
 export type ImageDetail = {
   id: string;
-  type: "MAIN";
+  type: "MAIN" | "LOGO";
   imageUrl: string;
 };
 

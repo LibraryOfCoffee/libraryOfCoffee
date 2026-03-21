@@ -109,7 +109,7 @@
 .content {
   flex: 1;
   padding: 2rem;
-  overflow: hidden;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
 }

@@ -3,6 +3,7 @@ package com.mametosho.admin.application.usecase
 import com.mametosho.domain.model.coffeebean.CoffeeBean
 import com.mametosho.domain.model.coffeebean.CoffeeBeanId
 import com.mametosho.domain.repository.CoffeeBeanRepository
+import com.mametosho.admin.test.FakeImageStorageService
 import org.junit.jupiter.api.Nested
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -39,7 +40,7 @@ class DeleteCoffeeBeanUsecaseTest {
         }
     }
 
-    private val usecase = DeleteCoffeeBeanUsecase(fakeRepository)
+    private val usecase = DeleteCoffeeBeanUsecase(fakeRepository, FakeImageStorageService)
 
     @Nested
     inner class 正常系 {

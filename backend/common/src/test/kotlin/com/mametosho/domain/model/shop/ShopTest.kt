@@ -12,12 +12,14 @@ class ShopTest {
 
     private fun createShop(
         images: List<ShopImage> = emptyList(),
+        shopUrl: String? = "https://example.com",
     ): Shop = Shop(
         id = ShopId("00000000-0000-4000-8000-000000000003"),
         shopifyShopId = ShopifyShopId("shopify-shop-1"),
         name = "珈琲工房まめ図書",
         introduction = "こだわりの珈琲豆をお届けします",
         particular = "産地直送の豆を使用",
+        shopUrl = shopUrl,
         images = images,
     )
 
@@ -41,6 +43,12 @@ class ShopTest {
         fun `particularがnullでも生成できる`() {
             val shop = createShop().copy(particular = null)
             assertNull(shop.particular)
+        }
+
+        @Test
+        fun `shopUrlがnullでも生成できる`() {
+            val shop = createShop(shopUrl = null)
+            assertNull(shop.shopUrl)
         }
 
         @Test
@@ -69,6 +77,7 @@ class ShopTest {
                 name = "更新店舗",
                 introduction = "更新紹介文",
                 particular = "更新こだわり",
+                shopUrl = "https://updated.example.com",
                 images = listOf("MAIN" to "https://example.com/new.png"),
             )
 
@@ -77,6 +86,7 @@ class ShopTest {
             assertEquals("更新店舗", updated.name)
             assertEquals("更新紹介文", updated.introduction)
             assertEquals("更新こだわり", updated.particular)
+            assertEquals("https://updated.example.com", updated.shopUrl)
             assertEquals(1, updated.images.size)
             assertEquals(ShopImageType.MAIN, updated.images[0].type)
             assertEquals("https://example.com/new.png", updated.images[0].imageUrl.value)
@@ -90,6 +100,7 @@ class ShopTest {
                 name = "新店舗",
                 introduction = null,
                 particular = null,
+                shopUrl = null,
                 images = emptyList(),
             )
 
@@ -104,6 +115,7 @@ class ShopTest {
                 name = "珈琲工房まめ図書",
                 introduction = null,
                 particular = null,
+                shopUrl = null,
                 images = listOf("MAIN" to "https://example.com/image.png"),
             )
 
@@ -161,6 +173,40 @@ class ShopTest {
         fun `particularが10001文字以上の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
                 createShop().copy(particular = "a".repeat(10001))
+            }
+        }
+
+        @Test
+        fun `shopUrlが空白の場合は例外が発生する`() {
+            assertThrows<IllegalArgumentException> {
+                createShop(shopUrl = "")
+            }
+        }
+
+        @Test
+        fun `shopUrlが2049文字以上の場合は例外が発生する`() {
+            assertThrows<IllegalArgumentException> {
+                createShop(shopUrl = "https://example.com/" + "a".repeat(2029))
+            }
+        }
+
+        @Test
+        fun `LOGO画像が2枚以上の場合は例外が発生する`() {
+            assertThrows<IllegalArgumentException> {
+                createShop(
+                    images = listOf(
+                        ShopImage(
+                            id = ShopImageId("00000000-0000-4000-8000-000000000009"),
+                            type = ShopImageType.LOGO,
+                            imageUrl = ImageUrl("https://example.com/logo1.png"),
+                        ),
+                        ShopImage(
+                            id = ShopImageId("00000000-0000-4000-8000-000000000010"),
+                            type = ShopImageType.LOGO,
+                            imageUrl = ImageUrl("https://example.com/logo2.png"),
+                        ),
+                    ),
+                )
             }
         }
     }

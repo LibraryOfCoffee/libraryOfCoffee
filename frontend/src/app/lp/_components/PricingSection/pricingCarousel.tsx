@@ -22,6 +22,7 @@ export default function PricingCarousel({ plans }: PricingCarouselProps) {
         modules={[Navigation]}
         slidesPerView={1}
         initialSlide={1}
+        loop
         navigation={{
           prevEl: `.${styles.navPrev}`,
           nextEl: `.${styles.navNext}`,

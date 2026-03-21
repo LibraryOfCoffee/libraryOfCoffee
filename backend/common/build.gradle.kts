@@ -17,6 +17,7 @@ dependencies {
 	implementation(libs.kotlin.reflect)
 	api(libs.mybatis.spring.boot.starter)
 	runtimeOnly(libs.mysql.connector.j)
+	api(libs.aws.s3)
 
 	testImplementation(libs.spring.boot.starter.test)
 	testImplementation(libs.kotlin.test.junit5)

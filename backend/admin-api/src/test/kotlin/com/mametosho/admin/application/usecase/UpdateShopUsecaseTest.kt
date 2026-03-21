@@ -9,6 +9,7 @@ import com.mametosho.domain.model.shop.ShopImageId
 import com.mametosho.domain.model.shop.ShopImageType
 import com.mametosho.domain.model.shop.ShopifyShopId
 import com.mametosho.domain.repository.ShopRepository
+import com.mametosho.admin.test.FakeImageStorageService
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
@@ -27,6 +28,7 @@ class UpdateShopUsecaseTest {
         name = "既存店舗",
         introduction = "既存紹介文",
         particular = "既存こだわり",
+        shopUrl = "https://existing.example.com",
         images = listOf(
             ShopImage(
                 id = ShopImageId("00000000-0000-4000-8000-000000000011"),
@@ -50,29 +52,27 @@ class UpdateShopUsecaseTest {
         override fun deleteById(id: ShopId) = Unit
     }
 
-    private val usecase = UpdateShopUsecase(fakeRepository)
+    private val usecase = UpdateShopUsecase(fakeRepository, FakeImageStorageService)
 
     private fun createRequest(
         shopifyShopId: String = "updated-shop-001",
         name: String = "更新店舗",
         introduction: String? = "更新紹介文",
         particular: String? = "更新こだわり",
-        images: List<UpdateShopRequest.ImageRequest> = listOf(
-            UpdateShopRequest.ImageRequest(type = "MAIN", imageUrl = "https://example.com/new-image.png"),
-        ),
+        shopUrl: String? = "https://updated.example.com",
     ): UpdateShopRequest = UpdateShopRequest(
         shopifyShopId = shopifyShopId,
         name = name,
         introduction = introduction,
         particular = particular,
-        images = images,
+        shopUrl = shopUrl,
     )
 
     @Nested
     inner class 正常系 {
         @Test
         fun `正常にShopを編集できる`() {
-            val shop = usecase.execute(existingShopId, createRequest())
+            val shop = usecase.execute(existingShopId, createRequest(), emptyList(), emptyList())
 
             assertNotNull(shop)
             assertEquals(existingShopId, shop.id.value)
@@ -80,14 +80,11 @@ class UpdateShopUsecaseTest {
             assertEquals("更新店舗", shop.name)
             assertEquals("更新紹介文", shop.introduction)
             assertEquals("更新こだわり", shop.particular)
-            assertEquals(1, shop.images.size)
-            assertEquals(ShopImageType.MAIN, shop.images[0].type)
-            assertEquals("https://example.com/new-image.png", shop.images[0].imageUrl.value)
         }
 
         @Test
         fun `編集後もShopIdが変わらない`() {
-            val shop = usecase.execute(existingShopId, createRequest())
+            val shop = usecase.execute(existingShopId, createRequest(), emptyList(), emptyList())
 
             assertNotNull(shop)
             assertEquals(existingShopId, shop.id.value)
@@ -98,21 +95,9 @@ class UpdateShopUsecaseTest {
     inner class 存在しないID {
         @Test
         fun `存在しないIDの場合はnullが返る`() {
-            val shop = usecase.execute("00000000-0000-4000-8000-999999999999", createRequest())
+            val shop = usecase.execute("00000000-0000-4000-8000-999999999999", createRequest(), emptyList(), emptyList())
 
             assertNull(shop)
-        }
-    }
-
-    @Nested
-    inner class UUID自動生成 {
-        @Test
-        fun `ShopImageIdがUUID形式で自動再生成される`() {
-            val shop = usecase.execute(existingShopId, createRequest())
-
-            assertNotNull(shop)
-            val uuidRegex = Regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
-            assertTrue(uuidRegex.matches(shop.images[0].id.value))
         }
     }
 
@@ -120,7 +105,7 @@ class UpdateShopUsecaseTest {
     inner class nullable項目 {
         @Test
         fun `introductionがnullでもShopを編集できる`() {
-            val shop = usecase.execute(existingShopId, createRequest(introduction = null))
+            val shop = usecase.execute(existingShopId, createRequest(introduction = null), emptyList(), emptyList())
 
             assertNotNull(shop)
             assertNull(shop.introduction)
@@ -128,7 +113,7 @@ class UpdateShopUsecaseTest {
 
         @Test
         fun `particularがnullでもShopを編集できる`() {
-            val shop = usecase.execute(existingShopId, createRequest(particular = null))
+            val shop = usecase.execute(existingShopId, createRequest(particular = null), emptyList(), emptyList())
 
             assertNotNull(shop)
             assertNull(shop.particular)
@@ -139,10 +124,10 @@ class UpdateShopUsecaseTest {
     inner class 空コレクション {
         @Test
         fun `画像なしでもShopを編集できる`() {
-            val shop = usecase.execute(existingShopId, createRequest(images = emptyList()))
+            val shop = usecase.execute(existingShopId, createRequest(), emptyList(), emptyList())
 
             assertNotNull(shop)
-            assertEquals(0, shop.images.size)
+            assertEquals(1, shop.images.size, "画像未送信時は既存画像が維持される")
         }
     }
 
@@ -151,7 +136,7 @@ class UpdateShopUsecaseTest {
         @Test
         fun `編集したShopがリポジトリに保存される`() {
             savedShops.clear()
-            usecase.execute(existingShopId, createRequest())
+            usecase.execute(existingShopId, createRequest(), emptyList(), emptyList())
 
             assertEquals(1, savedShops.size)
             assertEquals("更新店舗", savedShops[0].name)
@@ -160,7 +145,7 @@ class UpdateShopUsecaseTest {
         @Test
         fun `存在しないIDの場合はリポジトリに保存されない`() {
             savedShops.clear()
-            usecase.execute("00000000-0000-4000-8000-999999999999", createRequest())
+            usecase.execute("00000000-0000-4000-8000-999999999999", createRequest(), emptyList(), emptyList())
 
             assertEquals(0, savedShops.size)
         }
@@ -171,23 +156,14 @@ class UpdateShopUsecaseTest {
         @Test
         fun `nameが空白の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                usecase.execute(existingShopId, createRequest(name = ""))
-            }
-        }
-
-        @Test
-        fun `不正な画像種別の場合は例外が発生する`() {
-            assertThrows<IllegalArgumentException> {
-                usecase.execute(existingShopId, createRequest(images = listOf(
-                    UpdateShopRequest.ImageRequest(type = "INVALID", imageUrl = "https://example.com/image.png"),
-                )))
+                usecase.execute(existingShopId, createRequest(name = ""), emptyList(), emptyList())
             }
         }
 
         @Test
         fun `不正なUUID形式のIDの場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                usecase.execute("invalid-id", createRequest())
+                usecase.execute("invalid-id", createRequest(), emptyList(), emptyList())
             }
         }
     }

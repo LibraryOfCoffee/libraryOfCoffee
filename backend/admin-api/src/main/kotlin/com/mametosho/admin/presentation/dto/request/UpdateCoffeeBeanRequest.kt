@@ -28,21 +28,9 @@ data class UpdateCoffeeBeanRequest(
     @Schema(description = "スペシャルティコーヒーかどうか", example = "true")
     val isSpecialty: Boolean,
 
-    @Schema(description = "画像一覧")
-    val images: List<ImageRequest>,
-
     @Schema(description = "テイスト評価一覧")
     val tastes: List<TasteRequest>,
 ) {
-    @Schema(description = "コーヒー豆画像リクエスト")
-    data class ImageRequest(
-        @Schema(description = "画像種別", example = "MAIN")
-        val type: String,
-
-        @Schema(description = "画像URL", example = "https://example.com/bean.png")
-        val imageUrl: String,
-    )
-
     @Schema(description = "テイスト評価リクエスト")
     data class TasteRequest(
         @Schema(description = "テイストID", example = "00000000-0000-4000-8000-000000000041")

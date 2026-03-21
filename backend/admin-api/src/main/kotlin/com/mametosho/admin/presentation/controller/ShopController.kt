@@ -21,16 +21,18 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/api/admin/shops")
@@ -66,7 +68,8 @@ class ShopController(
                                           "shopifyShopId": "test-shop-001",
                                           "name": "テスト珈琲店",
                                           "introduction": "こだわりの珈琲をお届けします。",
-                                          "particular": "厳選された豆のみを使用しています。"
+                                          "particular": "厳選された豆のみを使用しています。",
+                                          "shopUrl": "https://example.com"
                                         }
                                       ],
                                       "totalCount": 1,
@@ -115,11 +118,17 @@ class ShopController(
                                       "name": "テスト珈琲店",
                                       "introduction": "こだわりの珈琲をお届けします。",
                                       "particular": "厳選された豆のみを使用しています。",
+                                      "shopUrl": "https://example.com",
                                       "images": [
                                         {
                                           "id": "00000000-0000-4000-8000-000000000010",
                                           "type": "MAIN",
                                           "imageUrl": "https://example.com/shop-image.jpg"
+                                        },
+                                        {
+                                          "id": "00000000-0000-4000-8000-000000000011",
+                                          "type": "LOGO",
+                                          "imageUrl": "https://example.com/shop-logo.png"
                                         }
                                       ]
                                     }
@@ -162,10 +171,10 @@ class ShopController(
         return ResponseEntity.ok(ShopDetailResponse.from(shop))
     }
 
-    @PostMapping
+    @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @Operation(
         summary = "店舗登録",
-        description = "新しい店舗を登録します。ShopIdおよびShopImageIdはサーバー側でUUIDv4を自動生成します。",
+        description = "新しい店舗を登録します。multipart/form-data形式で送信してください。ShopIdおよびShopImageIdはサーバー側でUUIDv4を自動生成します。",
     )
     @ApiResponses(
         value = [
@@ -237,18 +246,19 @@ class ShopController(
             ),
         ],
     )
-    // TODO: 画像はURLではなくファイルアップロード形式に変更する（マルチパート対応 + ストレージ保存）
     fun createShop(
-        @RequestBody request: CreateShopRequest,
+        @RequestPart("data") request: CreateShopRequest,
+        @RequestPart("images", required = false) images: List<MultipartFile>?,
+        @RequestParam("imageTypes", required = false) imageTypes: List<String>?,
     ): ResponseEntity<ShopResponse> {
-        val shop = createShopUsecase.execute(request)
+        val shop = createShopUsecase.execute(request, images ?: emptyList(), imageTypes ?: emptyList())
         return ResponseEntity.status(HttpStatus.CREATED).body(ShopResponse.from(shop))
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @Operation(
         summary = "店舗編集",
-        description = "指定されたIDの店舗を編集します。全項目を置換します。ShopImageIdはサーバー側でUUIDv4を自動再生成します。",
+        description = "指定されたIDの店舗を編集します。multipart/form-data形式で送信してください。全項目を置換します。ShopImageIdはサーバー側でUUIDv4を自動再生成します。",
     )
     @ApiResponses(
         value = [
@@ -345,9 +355,11 @@ class ShopController(
     fun updateShop(
         @Parameter(description = "店舗ID", required = true, example = "00000000-0000-4000-8000-000000000001")
         @PathVariable id: String,
-        @RequestBody request: UpdateShopRequest,
+        @RequestPart("data") request: UpdateShopRequest,
+        @RequestPart("images", required = false) images: List<MultipartFile>?,
+        @RequestParam("imageTypes", required = false) imageTypes: List<String>?,
     ): ResponseEntity<ShopResponse> {
-        val shop = updateShopUsecase.execute(id, request)
+        val shop = updateShopUsecase.execute(id, request, images ?: emptyList(), imageTypes ?: emptyList())
             ?: return ResponseEntity.notFound().build()
         return ResponseEntity.ok(ShopResponse.from(shop))
     }

@@ -8,6 +8,7 @@ import com.mametosho.domain.model.shop.ShopImageId
 import com.mametosho.domain.model.shop.ShopImageType
 import com.mametosho.domain.model.shop.ShopifyShopId
 import com.mametosho.domain.repository.ShopRepository
+import com.mametosho.admin.test.FakeImageStorageService
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
@@ -25,6 +26,7 @@ class DeleteShopUsecaseTest {
         name = "テスト店舗",
         introduction = "テスト紹介文",
         particular = "テストこだわり",
+        shopUrl = "https://example.com",
         images = listOf(
             ShopImage(
                 id = ShopImageId("00000000-0000-4000-8000-000000000011"),
@@ -48,7 +50,7 @@ class DeleteShopUsecaseTest {
         }
     }
 
-    private val usecase = DeleteShopUsecase(fakeRepository)
+    private val usecase = DeleteShopUsecase(fakeRepository, FakeImageStorageService)
 
     @Nested
     inner class 正常系 {

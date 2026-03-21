@@ -25,6 +25,7 @@ class ShopRepositoryImpl(
                 name = shop.name,
                 introduction = shop.introduction,
                 particular = shop.particular,
+                shopUrl = shop.shopUrl,
             ),
         )
         shopMapper.deleteShopImagesByShopId(shop.id.value)
@@ -54,6 +55,7 @@ class ShopRepositoryImpl(
             name = shopEntity.name,
             introduction = shopEntity.introduction,
             particular = shopEntity.particular,
+            shopUrl = shopEntity.shopUrl,
             images = imageEntities.map { img ->
                 ShopImage(
                     id = ShopImageId(img.id),

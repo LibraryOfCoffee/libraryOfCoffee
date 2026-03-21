@@ -45,13 +45,13 @@ export function CoffeeBeanActions({
         </button>
       </div>
       <EditCoffeeBeanModal
-        key={editKey}
+        key={`edit-${editKey}`}
         coffeeBean={coffeeBean}
         open={editOpen}
         onClose={() => setEditOpen(false)}
       />
       <DeleteCoffeeBeanModal
-        key={deleteKey}
+        key={`delete-${deleteKey}`}
         coffeeBeanId={coffeeBean.id}
         coffeeBeanName={coffeeBean.name}
         open={deleteOpen}

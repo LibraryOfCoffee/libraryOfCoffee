@@ -20,6 +20,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import io.swagger.v3.oas.annotations.Parameter
 import org.springframework.web.bind.annotation.PathVariable
@@ -27,10 +28,11 @@ import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/api/admin/coffee-beans")
@@ -179,10 +181,11 @@ class CoffeeBeanController(
         return ResponseEntity.ok(CoffeeBeanDetailResponse.from(coffeeBean))
     }
 
-    @PostMapping
+    @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @Operation(
         summary = "コーヒー豆登録",
-        description = "新しいコーヒー豆を登録します。CoffeeBeanId、CoffeeBeanImageId、CoffeeBeanTasteIdはサーバー側でUUIDv4を自動生成します。",
+        description = "新しいコーヒー豆を登録します。multipart/form-data形式で送信してください。" +
+            "CoffeeBeanId、CoffeeBeanImageId、CoffeeBeanTasteIdはサーバー側でUUIDv4を自動生成します。",
     )
     @ApiResponses(
         value = [
@@ -255,16 +258,18 @@ class CoffeeBeanController(
         ],
     )
     fun createCoffeeBean(
-        @RequestBody request: CreateCoffeeBeanRequest,
+        @RequestPart("data") request: CreateCoffeeBeanRequest,
+        @RequestPart("images", required = false) images: List<MultipartFile>?,
+        @RequestParam("imageTypes", required = false) imageTypes: List<String>?,
     ): ResponseEntity<CoffeeBeanResponse> {
-        val coffeeBean = createCoffeeBeanUsecase.execute(request)
+        val coffeeBean = createCoffeeBeanUsecase.execute(request, images ?: emptyList(), imageTypes ?: emptyList())
         return ResponseEntity.status(HttpStatus.CREATED).body(CoffeeBeanResponse.from(coffeeBean))
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @Operation(
         summary = "コーヒー豆更新",
-        description = "指定されたIDのコーヒー豆を更新します。画像・テイスト評価は全件置換されます。",
+        description = "指定されたIDのコーヒー豆を更新します。multipart/form-data形式で送信してください。画像・テイスト評価は全件置換されます。",
     )
     @ApiResponses(
         value = [
@@ -361,9 +366,11 @@ class CoffeeBeanController(
     fun updateCoffeeBean(
         @Parameter(description = "コーヒー豆ID", required = true, example = "00000000-0000-4000-8000-000000000001")
         @PathVariable id: String,
-        @RequestBody request: UpdateCoffeeBeanRequest,
+        @RequestPart("data") request: UpdateCoffeeBeanRequest,
+        @RequestPart("images", required = false) images: List<MultipartFile>?,
+        @RequestParam("imageTypes", required = false) imageTypes: List<String>?,
     ): ResponseEntity<CoffeeBeanResponse> {
-        val coffeeBean = updateCoffeeBeanUsecase.execute(id, request)
+        val coffeeBean = updateCoffeeBeanUsecase.execute(id, request, images ?: emptyList(), imageTypes ?: emptyList())
             ?: return ResponseEntity.notFound().build()
         return ResponseEntity.ok(CoffeeBeanResponse.from(coffeeBean))
     }

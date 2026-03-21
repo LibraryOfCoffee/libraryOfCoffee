@@ -19,7 +19,25 @@ export const shopFieldsSchema = z.object({
     .max(10000, "10,000文字以内で入力してください。")
     .transform((v) => v || undefined)
     .optional(),
+  shopUrl: z
+    .string()
+    .transform((v) => v || undefined)
+    .pipe(
+      z
+        .string()
+        .max(2048, "2,048文字以内で入力してください。")
+        .url("有効なURLを入力してください。")
+        .optional(),
+    ),
 });
+
+export type ShopFormValues = {
+  shopifyShopId?: string;
+  name?: string;
+  introduction?: string;
+  particular?: string;
+  shopUrl?: string;
+};
 
 export type ShopFormState = {
   success?: boolean;
@@ -29,5 +47,7 @@ export type ShopFormState = {
     name?: string[];
     introduction?: string[];
     particular?: string[];
+    shopUrl?: string[];
   };
+  values?: ShopFormValues;
 };

@@ -1,6 +1,13 @@
 "use client";
 
-import { useActionState, useEffect, useId, useRef } from "react";
+import {
+  startTransition,
+  useActionState,
+  useEffect,
+  useId,
+  useRef,
+} from "react";
+import { ImageUploadField } from "@/components/ImageUploadField";
 import styles from "@/components/modal.module.css";
 import { type CreateShopState, createShopAction } from "./createShopAction";
 
@@ -23,6 +30,7 @@ export function CreateShopModal({
   const nameId = useId();
   const introductionId = useId();
   const particularId = useId();
+  const shopUrlId = useId();
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -44,6 +52,11 @@ export function CreateShopModal({
     if (e.target === dialogRef.current) {
       onClose();
     }
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    startTransition(() => formAction(new FormData(e.currentTarget)));
   };
 
   return (
@@ -68,7 +81,7 @@ export function CreateShopModal({
         </button>
       </div>
 
-      <form action={formAction} className={styles.form}>
+      <form onSubmit={handleSubmit} className={styles.form}>
         {state.error && <div className={styles.error}>{state.error}</div>}
 
         <div className={styles.field}>
@@ -81,6 +94,7 @@ export function CreateShopModal({
             name="shopifyShopId"
             type="text"
             maxLength={255}
+            defaultValue={state.values?.shopifyShopId ?? ""}
             className={styles.input}
           />
           {state.fieldErrors?.shopifyShopId?.map((msg) => (
@@ -100,6 +114,7 @@ export function CreateShopModal({
             name="name"
             type="text"
             maxLength={255}
+            defaultValue={state.values?.name ?? ""}
             className={styles.input}
           />
           {state.fieldErrors?.name?.map((msg) => (
@@ -117,6 +132,7 @@ export function CreateShopModal({
             id={introductionId}
             name="introduction"
             maxLength={10000}
+            defaultValue={state.values?.introduction ?? ""}
             className={styles.textarea}
           />
           {state.fieldErrors?.introduction?.map((msg) => (
@@ -134,6 +150,7 @@ export function CreateShopModal({
             id={particularId}
             name="particular"
             maxLength={10000}
+            defaultValue={state.values?.particular ?? ""}
             className={styles.textarea}
           />
           {state.fieldErrors?.particular?.map((msg) => (
@@ -142,6 +159,29 @@ export function CreateShopModal({
             </span>
           ))}
         </div>
+
+        <div className={styles.field}>
+          <label htmlFor={shopUrlId} className={styles.label}>
+            店舗URL
+          </label>
+          <input
+            id={shopUrlId}
+            name="shopUrl"
+            type="url"
+            maxLength={2048}
+            placeholder="https://example.com"
+            defaultValue={state.values?.shopUrl ?? ""}
+            className={styles.input}
+          />
+          {state.fieldErrors?.shopUrl?.map((msg) => (
+            <span key={msg} className={styles.fieldError}>
+              {msg}
+            </span>
+          ))}
+        </div>
+
+        <ImageUploadField imageTypes={[{ value: "MAIN", label: "メイン" }]} />
+        <ImageUploadField imageTypes={[{ value: "LOGO", label: "ロゴ" }]} />
 
         <div className={styles.actions}>
           <button

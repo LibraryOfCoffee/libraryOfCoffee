@@ -30,6 +30,7 @@ export function ShopListTable({
               <th>Shopify Shop ID</th>
               <th>紹介文</th>
               <th>こだわり</th>
+              <th>店舗URL</th>
             </tr>
           </thead>
           <tbody>
@@ -59,6 +60,14 @@ export function ShopListTable({
                     className={`${styles.rowLink} ${styles.truncatedCell}`}
                   >
                     {shop.particular ?? ""}
+                  </Link>
+                </td>
+                <td>
+                  <Link
+                    href={`/shops/${shop.id}`}
+                    className={`${styles.rowLink} ${styles.truncatedCell}`}
+                  >
+                    {shop.shopUrl ?? ""}
                   </Link>
                 </td>
               </tr>

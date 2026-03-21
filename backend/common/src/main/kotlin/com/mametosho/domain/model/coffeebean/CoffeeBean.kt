@@ -142,8 +142,9 @@ data class CoffeeBean(
             isSpecialty: Boolean,
             images: List<Pair<String, String>>,
             tastes: List<Pair<String, Int>>,
+            id: String = UUID.randomUUID().toString(),
         ): CoffeeBean = CoffeeBean(
-            id = CoffeeBeanId(UUID.randomUUID().toString()),
+            id = CoffeeBeanId(id),
             shopId = ShopId(shopId),
             shopifyBeanId = ShopifyBeanId(shopifyBeanId),
             name = name,

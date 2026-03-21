@@ -1,7 +1,14 @@
 "use client";
 
-import { useActionState, useEffect, useId, useRef } from "react";
+import {
+  startTransition,
+  useActionState,
+  useEffect,
+  useId,
+  useRef,
+} from "react";
 import type { ShopDetail } from "@/api/shops";
+import { ImageUploadField } from "@/components/ImageUploadField";
 import modalStyles from "@/components/modal.module.css";
 import { type EditShopState, editShopAction } from "./editShopAction";
 
@@ -26,6 +33,7 @@ export function EditShopModal({
   const nameId = useId();
   const introductionId = useId();
   const particularId = useId();
+  const shopUrlId = useId();
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -47,6 +55,11 @@ export function EditShopModal({
     if (e.target === dialogRef.current) {
       onClose();
     }
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    startTransition(() => formAction(new FormData(e.currentTarget)));
   };
 
   return (
@@ -71,7 +84,7 @@ export function EditShopModal({
         </button>
       </div>
 
-      <form action={formAction} className={modalStyles.form}>
+      <form onSubmit={handleSubmit} className={modalStyles.form}>
         <input type="hidden" name="id" value={shop.id} />
 
         {state.error && <div className={modalStyles.error}>{state.error}</div>}
@@ -86,7 +99,7 @@ export function EditShopModal({
             name="shopifyShopId"
             type="text"
             maxLength={255}
-            defaultValue={shop.shopifyShopId}
+            defaultValue={state.values?.shopifyShopId ?? shop.shopifyShopId}
             className={modalStyles.input}
           />
           {state.fieldErrors?.shopifyShopId?.map((msg) => (
@@ -106,7 +119,7 @@ export function EditShopModal({
             name="name"
             type="text"
             maxLength={255}
-            defaultValue={shop.name}
+            defaultValue={state.values?.name ?? shop.name}
             className={modalStyles.input}
           />
           {state.fieldErrors?.name?.map((msg) => (
@@ -124,7 +137,7 @@ export function EditShopModal({
             id={introductionId}
             name="introduction"
             maxLength={10000}
-            defaultValue={shop.introduction ?? ""}
+            defaultValue={state.values?.introduction ?? shop.introduction ?? ""}
             className={modalStyles.textarea}
           />
           {state.fieldErrors?.introduction?.map((msg) => (
@@ -142,7 +155,7 @@ export function EditShopModal({
             id={particularId}
             name="particular"
             maxLength={10000}
-            defaultValue={shop.particular ?? ""}
+            defaultValue={state.values?.particular ?? shop.particular ?? ""}
             className={modalStyles.textarea}
           />
           {state.fieldErrors?.particular?.map((msg) => (
@@ -151,6 +164,35 @@ export function EditShopModal({
             </span>
           ))}
         </div>
+
+        <div className={modalStyles.field}>
+          <label htmlFor={shopUrlId} className={modalStyles.label}>
+            店舗URL
+          </label>
+          <input
+            id={shopUrlId}
+            name="shopUrl"
+            type="url"
+            maxLength={2048}
+            placeholder="https://example.com"
+            defaultValue={state.values?.shopUrl ?? shop.shopUrl ?? ""}
+            className={modalStyles.input}
+          />
+          {state.fieldErrors?.shopUrl?.map((msg) => (
+            <span key={msg} className={modalStyles.fieldError}>
+              {msg}
+            </span>
+          ))}
+        </div>
+
+        <ImageUploadField
+          imageTypes={[{ value: "MAIN", label: "メイン" }]}
+          existingImages={shop.images.filter((img) => img.type === "MAIN")}
+        />
+        <ImageUploadField
+          imageTypes={[{ value: "LOGO", label: "ロゴ" }]}
+          existingImages={shop.images.filter((img) => img.type === "LOGO")}
+        />
 
         <div className={modalStyles.actions}>
           <button

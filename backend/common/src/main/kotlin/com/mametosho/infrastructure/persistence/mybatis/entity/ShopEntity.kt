@@ -6,4 +6,5 @@ data class ShopEntity(
     val name: String,
     val introduction: String?,
     val particular: String?,
+    val shopUrl: String?,
 )

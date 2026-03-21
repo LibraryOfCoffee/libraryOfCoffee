@@ -39,6 +39,23 @@ export function ShopDetail({ shop }: { shop: ShopDetailType }) {
               {shop.particular ?? <span className={styles.empty}>未設定</span>}
             </dd>
           </div>
+
+          <div className={styles.field}>
+            <dt className={styles.fieldLabel}>店舗URL</dt>
+            <dd className={styles.fieldValue}>
+              {shop.shopUrl ? (
+                <a
+                  href={shop.shopUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {shop.shopUrl}
+                </a>
+              ) : (
+                <span className={styles.empty}>未設定</span>
+              )}
+            </dd>
+          </div>
         </dl>
 
         {shop.images.length > 0 && (
@@ -53,6 +70,7 @@ export function ShopDetail({ shop }: { shop: ShopDetailType }) {
                     width={400}
                     height={300}
                     className={styles.image}
+                    unoptimized
                   />
                   <span className={styles.imageType}>{image.type}</span>
                 </div>

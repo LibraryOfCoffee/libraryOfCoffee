@@ -15,6 +15,8 @@ data class ShopListResponse(
     val introduction: String?,
     @Schema(description = "こだわり", nullable = true, example = "厳選された豆のみを使用しています。")
     val particular: String?,
+    @Schema(description = "店舗URL", nullable = true, example = "https://example.com")
+    val shopUrl: String?,
 ) {
     companion object {
         fun from(result: ShopListResult): ShopListResponse = ShopListResponse(
@@ -23,6 +25,7 @@ data class ShopListResponse(
             name = result.name,
             introduction = result.introduction,
             particular = result.particular,
+            shopUrl = result.shopUrl,
         )
     }
 }
