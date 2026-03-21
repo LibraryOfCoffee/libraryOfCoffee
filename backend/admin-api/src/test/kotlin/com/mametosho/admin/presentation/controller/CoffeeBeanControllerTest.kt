@@ -1,8 +1,12 @@
 package com.mametosho.admin.presentation.controller
 
+import com.mametosho.admin.application.query.CoffeeBeanQueryService
+import com.mametosho.admin.application.query.result.CoffeeBeanListResult
+import com.mametosho.admin.application.query.result.PagedResult
 import com.mametosho.admin.application.usecase.CreateCoffeeBeanUsecase
 import com.mametosho.admin.application.usecase.DeleteCoffeeBeanUsecase
 import com.mametosho.admin.application.usecase.GetCoffeeBeanUsecase
+import com.mametosho.admin.application.usecase.ListCoffeeBeansUsecase
 import com.mametosho.admin.application.usecase.UpdateCoffeeBeanUsecase
 import com.mametosho.admin.presentation.dto.request.CreateCoffeeBeanRequest
 import com.mametosho.admin.presentation.dto.request.UpdateCoffeeBeanRequest
@@ -40,14 +44,49 @@ class CoffeeBeanControllerTest {
         override fun deleteById(id: com.mametosho.domain.model.coffeebean.CoffeeBeanId) = Unit
     }
 
+    private val sampleListResult = PagedResult(
+        items = listOf(
+            CoffeeBeanListResult(
+                id = "00000000-0000-4000-8000-000000000001",
+                shopId = "00000000-0000-4000-8000-000000000002",
+                shopifyBeanId = "test-bean-001",
+                name = "テストコーヒー豆",
+                description = "テスト説明文",
+                origin = "エチオピア",
+                farm = "テスト農園",
+                roastLevel = "MEDIUM",
+                processingMethod = "WASHED",
+                isSpecialty = true,
+            ),
+        ),
+        totalCount = 1L,
+        page = 0,
+        size = 20,
+    )
+
+    private val emptyListResult = PagedResult<CoffeeBeanListResult>(
+        items = emptyList(),
+        totalCount = 0L,
+        page = 0,
+        size = 20,
+    )
+
+    private val fakeQueryService = object : CoffeeBeanQueryService {
+        override fun findList(page: Int, size: Int): PagedResult<CoffeeBeanListResult> = sampleListResult
+    }
+
     private fun createController(
         coffeeBean: CoffeeBean = sampleCoffeeBean,
         getResult: CoffeeBean? = sampleCoffeeBean,
+        listResult: PagedResult<CoffeeBeanListResult> = sampleListResult,
         updateResult: CoffeeBean? = sampleCoffeeBean,
         deleteResult: Boolean = true,
     ): CoffeeBeanController {
         val fakeGetUsecase = object : GetCoffeeBeanUsecase(fakeRepository) {
             override fun execute(id: String): CoffeeBean? = getResult
+        }
+        val fakeListUsecase = object : ListCoffeeBeansUsecase(fakeQueryService) {
+            override fun execute(page: Int, size: Int): PagedResult<CoffeeBeanListResult> = listResult
         }
         val fakeCreateUsecase = object : CreateCoffeeBeanUsecase(fakeRepository) {
             override fun execute(request: CreateCoffeeBeanRequest): CoffeeBean = coffeeBean
@@ -58,7 +97,7 @@ class CoffeeBeanControllerTest {
         val fakeDeleteUsecase = object : DeleteCoffeeBeanUsecase(fakeRepository) {
             override fun execute(id: String): Boolean = deleteResult
         }
-        return CoffeeBeanController(fakeGetUsecase, fakeCreateUsecase, fakeUpdateUsecase, fakeDeleteUsecase)
+        return CoffeeBeanController(fakeGetUsecase, fakeListUsecase, fakeCreateUsecase, fakeUpdateUsecase, fakeDeleteUsecase)
     }
 
     private fun createRequest(): CreateCoffeeBeanRequest = CreateCoffeeBeanRequest(
@@ -87,6 +126,31 @@ class CoffeeBeanControllerTest {
         images = emptyList(),
         tastes = emptyList(),
     )
+
+    @Nested
+    inner class コーヒー豆一覧取得 {
+        @Test
+        fun `正常にコーヒー豆一覧を取得すると200が返る`() {
+            val controller = createController()
+            val response = controller.listCoffeeBeans(0, 20)
+
+            assertEquals(HttpStatus.OK, response.statusCode)
+            assertEquals(1, response.body?.items?.size)
+            assertEquals(1L, response.body?.totalCount)
+            assertEquals(0, response.body?.page)
+            assertEquals(20, response.body?.size)
+        }
+
+        @Test
+        fun `結果が0件の場合も200が返る`() {
+            val controller = createController(listResult = emptyListResult)
+            val response = controller.listCoffeeBeans(0, 20)
+
+            assertEquals(HttpStatus.OK, response.statusCode)
+            assertEquals(0, response.body?.items?.size)
+            assertEquals(0L, response.body?.totalCount)
+        }
+    }
 
     @Nested
     inner class コーヒー豆詳細取得 {

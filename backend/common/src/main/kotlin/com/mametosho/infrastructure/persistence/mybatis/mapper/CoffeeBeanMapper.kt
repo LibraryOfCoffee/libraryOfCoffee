@@ -24,6 +24,19 @@ interface CoffeeBeanMapper {
     @Select("SELECT id, coffee_bean_id, tastes_id, evaluation_value FROM coffee_bean_tastes WHERE coffee_bean_id = #{coffeeBeanId}")
     fun findTastesByCoffeeBeanId(coffeeBeanId: String): List<CoffeeBeanTasteEntity>
 
+    @Select(
+        """
+        SELECT id, shop_id, shopify_bean_id, name, description, origin, farm, roast_level, processing_method, is_specialty
+        FROM coffee_beans
+        ORDER BY created_at DESC
+        LIMIT #{size} OFFSET #{offset}
+        """,
+    )
+    fun findListRows(size: Int, offset: Int): List<CoffeeBeanEntity>
+
+    @Select("SELECT COUNT(*) FROM coffee_beans")
+    fun countAll(): Long
+
     @Insert(
         """
         INSERT INTO coffee_beans (id, shop_id, shopify_bean_id, name, description, origin, farm, roast_level, processing_method, is_specialty)

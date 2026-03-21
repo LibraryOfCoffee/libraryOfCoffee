@@ -3,12 +3,15 @@ package com.mametosho.admin.presentation.controller
 import com.mametosho.admin.application.usecase.CreateCoffeeBeanUsecase
 import com.mametosho.admin.application.usecase.DeleteCoffeeBeanUsecase
 import com.mametosho.admin.application.usecase.GetCoffeeBeanUsecase
+import com.mametosho.admin.application.usecase.ListCoffeeBeansUsecase
 import com.mametosho.admin.application.usecase.UpdateCoffeeBeanUsecase
 import com.mametosho.admin.presentation.dto.request.CreateCoffeeBeanRequest
 import com.mametosho.admin.presentation.dto.request.UpdateCoffeeBeanRequest
 import com.mametosho.admin.presentation.dto.response.CoffeeBeanDetailResponse
+import com.mametosho.admin.presentation.dto.response.CoffeeBeanListResponse
 import com.mametosho.admin.presentation.dto.response.CoffeeBeanResponse
 import com.mametosho.admin.presentation.dto.response.ErrorResponse
+import com.mametosho.admin.presentation.dto.response.PagedResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.ExampleObject
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -33,10 +37,65 @@ import org.springframework.web.bind.annotation.RestController
 @Tag(name = "CoffeeBean", description = "コーヒー豆API")
 class CoffeeBeanController(
     private val getCoffeeBeanUsecase: GetCoffeeBeanUsecase,
+    private val listCoffeeBeansUsecase: ListCoffeeBeansUsecase,
     private val createCoffeeBeanUsecase: CreateCoffeeBeanUsecase,
     private val updateCoffeeBeanUsecase: UpdateCoffeeBeanUsecase,
     private val deleteCoffeeBeanUsecase: DeleteCoffeeBeanUsecase,
 ) {
+    @GetMapping
+    @Operation(
+        summary = "コーヒー豆一覧取得",
+        description = "コーヒー豆の一覧をページネーション付きで取得します。画像・テイスト評価は含まれません。",
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "取得成功",
+                content = [
+                    Content(
+                        examples = [
+                            ExampleObject(
+                                name = "success",
+                                summary = "取得成功例",
+                                value = """
+                                    {
+                                      "items": [
+                                        {
+                                          "id": "00000000-0000-4000-8000-000000000001",
+                                          "shopId": "00000000-0000-4000-8000-000000000002",
+                                          "shopifyBeanId": "test-bean-001",
+                                          "name": "エチオピア イルガチェフェ",
+                                          "description": "フルーティーな香りが特徴的なコーヒー豆です。",
+                                          "origin": "エチオピア",
+                                          "farm": "イルガチェフェ農園",
+                                          "roastLevel": "MEDIUM",
+                                          "processingMethod": "WASHED",
+                                          "isSpecialty": true
+                                        }
+                                      ],
+                                      "totalCount": 1,
+                                      "page": 0,
+                                      "size": 20
+                                    }
+                                """,
+                            ),
+                        ],
+                    ),
+                ],
+            ),
+        ],
+    )
+    fun listCoffeeBeans(
+        @Parameter(description = "ページ番号（0始まり）", example = "0")
+        @RequestParam(defaultValue = "0") page: Int,
+        @Parameter(description = "1ページあたりの件数", example = "20")
+        @RequestParam(defaultValue = "20") size: Int,
+    ): ResponseEntity<PagedResponse<CoffeeBeanListResponse>> {
+        val result = listCoffeeBeansUsecase.execute(page, size)
+        return ResponseEntity.ok(PagedResponse.from(result) { CoffeeBeanListResponse.from(it) })
+    }
+
     @GetMapping("/{id}")
     @Operation(
         summary = "コーヒー豆詳細取得",

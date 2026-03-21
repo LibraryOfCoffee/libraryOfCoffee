@@ -2,6 +2,7 @@ package com.mametosho.admin.presentation.controller
 
 import com.mametosho.admin.application.usecase.CreateShopUsecase
 import com.mametosho.admin.application.usecase.DeleteShopUsecase
+import com.mametosho.admin.application.usecase.GetShopUsecase
 import com.mametosho.admin.application.usecase.UpdateShopUsecase
 import com.mametosho.admin.presentation.dto.request.CreateShopRequest
 import com.mametosho.admin.presentation.dto.request.UpdateShopRequest
@@ -44,9 +45,13 @@ class ShopControllerTest {
 
     private fun createController(
         createShop: Shop = sampleShop,
+        getResult: Shop? = sampleShop,
         updateShop: Shop? = sampleShop,
         deleteShopResult: Boolean = true,
     ): ShopController {
+        val fakeGetUsecase = object : GetShopUsecase(fakeShopRepository) {
+            override fun execute(id: String): Shop? = getResult
+        }
         val fakeCreateUsecase = object : CreateShopUsecase(fakeShopRepository) {
             override fun execute(request: CreateShopRequest): Shop = createShop
         }
@@ -56,7 +61,7 @@ class ShopControllerTest {
         val fakeDeleteUsecase = object : DeleteShopUsecase(fakeShopRepository) {
             override fun execute(id: String): Boolean = deleteShopResult
         }
-        return ShopController(fakeCreateUsecase, fakeUpdateUsecase, fakeDeleteUsecase)
+        return ShopController(fakeGetUsecase, fakeCreateUsecase, fakeUpdateUsecase, fakeDeleteUsecase)
     }
 
     @Nested
