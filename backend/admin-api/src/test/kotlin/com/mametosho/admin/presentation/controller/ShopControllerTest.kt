@@ -60,7 +60,7 @@ class ShopControllerTest {
     }
 
     @Nested
-    inner class 正常系 {
+    inner class 店舗登録 {
         @Test
         fun `正常に店舗を登録すると201が返る`() {
             val controller = createController()
@@ -79,7 +79,10 @@ class ShopControllerTest {
             assertEquals(HttpStatus.CREATED, response.statusCode)
             assertEquals("00000000-0000-4000-8000-000000000001", response.body?.id)
         }
+    }
 
+    @Nested
+    inner class 店舗編集 {
         @Test
         fun `正常に店舗を編集すると200が返る`() {
             val controller = createController()
@@ -115,7 +118,10 @@ class ShopControllerTest {
             assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
             assertNull(response.body)
         }
+    }
 
+    @Nested
+    inner class 店舗削除 {
         @Test
         fun `正常に店舗を削除すると204が返る`() {
             val controller = createController(deleteShopResult = true)

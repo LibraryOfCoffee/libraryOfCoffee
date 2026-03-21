@@ -2,6 +2,7 @@ package com.mametosho.admin.presentation.controller
 
 import com.mametosho.admin.application.usecase.CreateCoffeeBeanUsecase
 import com.mametosho.admin.application.usecase.DeleteCoffeeBeanUsecase
+import com.mametosho.admin.application.usecase.GetCoffeeBeanUsecase
 import com.mametosho.admin.application.usecase.UpdateCoffeeBeanUsecase
 import com.mametosho.admin.presentation.dto.request.CreateCoffeeBeanRequest
 import com.mametosho.admin.presentation.dto.request.UpdateCoffeeBeanRequest
@@ -41,9 +42,13 @@ class CoffeeBeanControllerTest {
 
     private fun createController(
         coffeeBean: CoffeeBean = sampleCoffeeBean,
+        getResult: CoffeeBean? = sampleCoffeeBean,
         updateResult: CoffeeBean? = sampleCoffeeBean,
         deleteResult: Boolean = true,
     ): CoffeeBeanController {
+        val fakeGetUsecase = object : GetCoffeeBeanUsecase(fakeRepository) {
+            override fun execute(id: String): CoffeeBean? = getResult
+        }
         val fakeCreateUsecase = object : CreateCoffeeBeanUsecase(fakeRepository) {
             override fun execute(request: CreateCoffeeBeanRequest): CoffeeBean = coffeeBean
         }
@@ -53,7 +58,7 @@ class CoffeeBeanControllerTest {
         val fakeDeleteUsecase = object : DeleteCoffeeBeanUsecase(fakeRepository) {
             override fun execute(id: String): Boolean = deleteResult
         }
-        return CoffeeBeanController(fakeCreateUsecase, fakeUpdateUsecase, fakeDeleteUsecase)
+        return CoffeeBeanController(fakeGetUsecase, fakeCreateUsecase, fakeUpdateUsecase, fakeDeleteUsecase)
     }
 
     private fun createRequest(): CreateCoffeeBeanRequest = CreateCoffeeBeanRequest(
@@ -84,7 +89,27 @@ class CoffeeBeanControllerTest {
     )
 
     @Nested
-    inner class 正常系 {
+    inner class コーヒー豆詳細取得 {
+        @Test
+        fun `正常にコーヒー豆詳細を取得すると200が返る`() {
+            val controller = createController()
+            val response = controller.getCoffeeBean("00000000-0000-4000-8000-000000000001")
+
+            assertEquals(HttpStatus.OK, response.statusCode)
+            assertEquals("00000000-0000-4000-8000-000000000001", response.body?.id)
+        }
+
+        @Test
+        fun `存在しないコーヒー豆を取得すると404が返る`() {
+            val controller = createController(getResult = null)
+            val response = controller.getCoffeeBean("00000000-0000-4000-8000-999999999999")
+
+            assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
+        }
+    }
+
+    @Nested
+    inner class コーヒー豆登録 {
         @Test
         fun `正常にコーヒー豆を登録すると201が返る`() {
             val controller = createController()
@@ -93,7 +118,10 @@ class CoffeeBeanControllerTest {
             assertEquals(HttpStatus.CREATED, response.statusCode)
             assertEquals("00000000-0000-4000-8000-000000000001", response.body?.id)
         }
+    }
 
+    @Nested
+    inner class コーヒー豆更新 {
         @Test
         fun `正常にコーヒー豆を更新すると200が返る`() {
             val controller = createController()
@@ -110,7 +138,10 @@ class CoffeeBeanControllerTest {
 
             assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
         }
+    }
 
+    @Nested
+    inner class コーヒー豆削除 {
         @Test
         fun `正常にコーヒー豆を削除すると204が返る`() {
             val controller = createController()
