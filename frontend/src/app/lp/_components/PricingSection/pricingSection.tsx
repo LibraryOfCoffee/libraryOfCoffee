@@ -21,7 +21,7 @@ export default function PricingSection() {
       <div className={styles.campaignBox}>
         <p className={styles.campaignTitle}>初月割引キャンペーン実施中</p>
         <p className={styles.campaignText}>
-          珈琲探求の第一歩を応援したい——そんな想いから、豆図書では期間限定で初月割引をご用意しました。ぜひこの機会に、さまざまな珈琲との出会いをお楽しみください。
+          珈琲探求を気軽に試してほしい——そんな想いから、豆図書では期間限定で初月割引をご用意しました。ぜひこの機会に、さまざまな珈琲との出会いをお楽しみください。
         </p>
       </div>
       <PricingWithToggle />

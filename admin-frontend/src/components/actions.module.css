@@ -1,0 +1,36 @@
+.actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.editButton {
+  padding: 0.625rem 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.editButton:hover {
+  background: var(--color-bg-page);
+}
+
+.deleteButton {
+  padding: 0.625rem 1.25rem;
+  border: 1px solid var(--color-error-border, #fca5a5);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--color-error, #dc2626);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.deleteButton:hover {
+  background: var(--color-error-bg, #fef2f2);
+}
