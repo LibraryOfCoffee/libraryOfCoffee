@@ -6,5 +6,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 data class S3Properties(
     val bucketName: String,
     val region: String,
-    val endpoint: String?,
+    val baseUrl: String,
 )

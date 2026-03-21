@@ -22,7 +22,7 @@ storage:
   s3:
     bucket-name: library-of-coffee-images
     region: ap-northeast-1
-    endpoint: http://localhost:4566
+    base-url: http://localhost:4566/library-of-coffee-images
 
 logging:
   level:

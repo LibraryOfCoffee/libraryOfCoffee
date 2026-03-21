@@ -3,6 +3,7 @@ package com.mametosho.infrastructure.storage
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider
@@ -16,27 +17,28 @@ import java.net.URI
 class S3Config {
 
     @Bean
-    fun s3Client(properties: S3Properties): S3Client {
-        val builder = S3Client.builder()
+    @Profile("local", "test")
+    fun localS3Client(properties: S3Properties): S3Client =
+        S3Client.builder()
             .region(Region.of(properties.region))
+            .endpointOverride(URI.create("http://localhost:4566"))
+            .serviceConfiguration(
+                S3Configuration.builder()
+                    .pathStyleAccessEnabled(true)
+                    .build(),
+            )
+            .credentialsProvider(
+                StaticCredentialsProvider.create(
+                    AwsBasicCredentials.create("test", "test"),
+                ),
+            )
+            .build()
 
-        if (!properties.endpoint.isNullOrBlank()) {
-            builder
-                .endpointOverride(URI.create(properties.endpoint))
-                .serviceConfiguration(
-                    S3Configuration.builder()
-                        .pathStyleAccessEnabled(true)
-                        .build(),
-                )
-                .credentialsProvider(
-                    StaticCredentialsProvider.create(
-                        AwsBasicCredentials.create("test", "test"),
-                    ),
-                )
-        } else {
-            builder.credentialsProvider(DefaultCredentialsProvider.create())
-        }
-
-        return builder.build()
-    }
+    @Bean
+    @Profile("!local & !test")
+    fun s3Client(properties: S3Properties): S3Client =
+        S3Client.builder()
+            .region(Region.of(properties.region))
+            .credentialsProvider(DefaultCredentialsProvider.create())
+            .build()
 }

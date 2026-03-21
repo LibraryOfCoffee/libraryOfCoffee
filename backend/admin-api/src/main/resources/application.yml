@@ -27,8 +27,8 @@ jwt:
 storage:
   s3:
     bucket-name: ${S3_BUCKET_NAME}
-    region: ${S3_REGION:ap-northeast-1}
-    endpoint: ${S3_ENDPOINT:}
+    region: ${S3_REGION}
+    base-url: ${S3_BASE_URL}
 
 springdoc:
   api-docs:

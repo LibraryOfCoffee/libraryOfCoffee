@@ -23,7 +23,7 @@ class S3ImageStorageService(
 
         s3Client.putObject(putRequest, RequestBody.fromInputStream(inputStream, contentLength))
 
-        return buildUrl(key)
+        return "${s3Properties.baseUrl}/$key"
     }
 
     override fun delete(key: String) {
@@ -36,24 +36,7 @@ class S3ImageStorageService(
     }
 
     override fun extractKey(imageUrl: String): String? {
-        if (!imageUrl.contains(s3Properties.bucketName)) return null
-
-        return if (!s3Properties.endpoint.isNullOrBlank()) {
-            // LocalStack format: {endpoint}/{bucket}/{key}
-            val prefix = "${s3Properties.endpoint}/${s3Properties.bucketName}/"
-            if (imageUrl.startsWith(prefix)) imageUrl.removePrefix(prefix) else null
-        } else {
-            // AWS format: https://{bucket}.s3.{region}.amazonaws.com/{key}
-            val prefix = "https://${s3Properties.bucketName}.s3.${s3Properties.region}.amazonaws.com/"
-            if (imageUrl.startsWith(prefix)) imageUrl.removePrefix(prefix) else null
-        }
-    }
-
-    private fun buildUrl(key: String): String {
-        return if (!s3Properties.endpoint.isNullOrBlank()) {
-            "${s3Properties.endpoint}/${s3Properties.bucketName}/$key"
-        } else {
-            "https://${s3Properties.bucketName}.s3.${s3Properties.region}.amazonaws.com/$key"
-        }
+        val prefix = "${s3Properties.baseUrl}/"
+        return if (imageUrl.startsWith(prefix)) imageUrl.removePrefix(prefix) else null
     }
 }
