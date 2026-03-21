@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS shops (
     name            VARCHAR(255)  NOT NULL                                     COMMENT '店舗名',
     introduction    TEXT                                                       COMMENT '店舗紹介',
     particular      TEXT                                                       COMMENT 'こだわり',
+    shop_url        VARCHAR(2048)                                              COMMENT '店舗URL',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                             COMMENT '作成日時',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='店舗マスタテーブル';
@@ -121,7 +122,7 @@ CREATE TABLE IF NOT EXISTS coffee_bean_tastes (
 CREATE TABLE IF NOT EXISTS shop_images (
     id        CHAR(36)      NOT NULL PRIMARY KEY                               COMMENT '画像ID',
     shop_id   CHAR(36)      NOT NULL                                           COMMENT '店舗ID',
-    type      ENUM('MAIN') NOT NULL                                            COMMENT '画像種別',
+    type      ENUM('MAIN', 'LOGO') NOT NULL                                    COMMENT '画像種別',
     image_url VARCHAR(2048) NOT NULL                                           COMMENT '画像URL',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                             COMMENT '作成日時',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時',

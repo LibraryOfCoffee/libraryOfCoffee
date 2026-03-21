@@ -28,6 +28,7 @@ class UpdateShopUsecaseTest {
         name = "既存店舗",
         introduction = "既存紹介文",
         particular = "既存こだわり",
+        shopUrl = "https://existing.example.com",
         images = listOf(
             ShopImage(
                 id = ShopImageId("00000000-0000-4000-8000-000000000011"),
@@ -58,11 +59,13 @@ class UpdateShopUsecaseTest {
         name: String = "更新店舗",
         introduction: String? = "更新紹介文",
         particular: String? = "更新こだわり",
+        shopUrl: String? = "https://updated.example.com",
     ): UpdateShopRequest = UpdateShopRequest(
         shopifyShopId = shopifyShopId,
         name = name,
         introduction = introduction,
         particular = particular,
+        shopUrl = shopUrl,
     )
 
     @Nested

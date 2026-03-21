@@ -43,6 +43,7 @@ class UpdateShopUsecase(
             name = request.name,
             introduction = request.introduction,
             particular = request.particular,
+            shopUrl = request.shopUrl,
             images = images,
         )
         shopRepository.save(updatedShop)

@@ -61,6 +61,7 @@ class CreateShopUsecaseIntegrationTest {
             name = "テスト店舗",
             introduction = "テスト紹介文",
             particular = "テストこだわり",
+            shopUrl = "https://example.com",
         )
 
         val shop = createShopUsecase.execute(request, emptyList(), emptyList())
@@ -86,6 +87,7 @@ class CreateShopUsecaseIntegrationTest {
             name = "重複店舗",
             introduction = null,
             particular = null,
+            shopUrl = null,
         )
 
         createShopUsecase.execute(request, emptyList(), emptyList())

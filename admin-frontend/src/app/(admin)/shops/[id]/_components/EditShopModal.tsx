@@ -33,6 +33,7 @@ export function EditShopModal({
   const nameId = useId();
   const introductionId = useId();
   const particularId = useId();
+  const shopUrlId = useId();
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -164,9 +165,33 @@ export function EditShopModal({
           ))}
         </div>
 
+        <div className={modalStyles.field}>
+          <label htmlFor={shopUrlId} className={modalStyles.label}>
+            店舗URL
+          </label>
+          <input
+            id={shopUrlId}
+            name="shopUrl"
+            type="url"
+            maxLength={2048}
+            placeholder="https://example.com"
+            defaultValue={state.values?.shopUrl ?? shop.shopUrl ?? ""}
+            className={modalStyles.input}
+          />
+          {state.fieldErrors?.shopUrl?.map((msg) => (
+            <span key={msg} className={modalStyles.fieldError}>
+              {msg}
+            </span>
+          ))}
+        </div>
+
         <ImageUploadField
           imageTypes={[{ value: "MAIN", label: "メイン" }]}
-          existingImages={shop.images}
+          existingImages={shop.images.filter((img) => img.type === "MAIN")}
+        />
+        <ImageUploadField
+          imageTypes={[{ value: "LOGO", label: "ロゴ" }]}
+          existingImages={shop.images.filter((img) => img.type === "LOGO")}
         />
 
         <div className={modalStyles.actions}>

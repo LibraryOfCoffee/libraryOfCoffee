@@ -68,7 +68,8 @@ class ShopController(
                                           "shopifyShopId": "test-shop-001",
                                           "name": "テスト珈琲店",
                                           "introduction": "こだわりの珈琲をお届けします。",
-                                          "particular": "厳選された豆のみを使用しています。"
+                                          "particular": "厳選された豆のみを使用しています。",
+                                          "shopUrl": "https://example.com"
                                         }
                                       ],
                                       "totalCount": 1,
@@ -117,11 +118,17 @@ class ShopController(
                                       "name": "テスト珈琲店",
                                       "introduction": "こだわりの珈琲をお届けします。",
                                       "particular": "厳選された豆のみを使用しています。",
+                                      "shopUrl": "https://example.com",
                                       "images": [
                                         {
                                           "id": "00000000-0000-4000-8000-000000000010",
                                           "type": "MAIN",
                                           "imageUrl": "https://example.com/shop-image.jpg"
+                                        },
+                                        {
+                                          "id": "00000000-0000-4000-8000-000000000011",
+                                          "type": "LOGO",
+                                          "imageUrl": "https://example.com/shop-logo.png"
                                         }
                                       ]
                                     }

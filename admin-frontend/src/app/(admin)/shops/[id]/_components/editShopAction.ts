@@ -23,6 +23,7 @@ export async function editShopAction(
     name: (formData.get("name") as string) ?? "",
     introduction: (formData.get("introduction") as string) ?? "",
     particular: (formData.get("particular") as string) ?? "",
+    shopUrl: (formData.get("shopUrl") as string) ?? "",
   };
 
   const result = editShopSchema.safeParse({
@@ -34,12 +35,13 @@ export async function editShopAction(
     return { fieldErrors: result.error.flatten().fieldErrors, values };
   }
 
-  const { id, shopifyShopId, name, introduction, particular } = result.data;
+  const { id, shopifyShopId, name, introduction, particular, shopUrl } =
+    result.data;
 
   const response = await multipartRequest(
     `/api/admin/shops/${id}`,
     "PUT",
-    { shopifyShopId, name, introduction, particular },
+    { shopifyShopId, name, introduction, particular, shopUrl },
     formData,
   );
 

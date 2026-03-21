@@ -18,6 +18,7 @@ export async function createShopAction(
     name: (formData.get("name") as string) ?? "",
     introduction: (formData.get("introduction") as string) ?? "",
     particular: (formData.get("particular") as string) ?? "",
+    shopUrl: (formData.get("shopUrl") as string) ?? "",
   };
 
   const result = shopFieldsSchema.safeParse(values);
@@ -26,12 +27,13 @@ export async function createShopAction(
     return { fieldErrors: result.error.flatten().fieldErrors, values };
   }
 
-  const { shopifyShopId, name, introduction, particular } = result.data;
+  const { shopifyShopId, name, introduction, particular, shopUrl } =
+    result.data;
 
   const response = await multipartRequest(
     "/api/admin/shops",
     "POST",
-    { shopifyShopId, name, introduction, particular },
+    { shopifyShopId, name, introduction, particular, shopUrl },
     formData,
   );
 

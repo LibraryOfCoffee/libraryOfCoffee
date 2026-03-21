@@ -124,6 +124,7 @@ classDiagram
       name: String
       introduction: String?
       particular: String?
+      shopUrl: String?
       images: List~ShopImage~
     }
 
@@ -137,6 +138,7 @@ classDiagram
     class ShopImageType {
       <<Enum>>
       main
+      logo
     }
   }
 

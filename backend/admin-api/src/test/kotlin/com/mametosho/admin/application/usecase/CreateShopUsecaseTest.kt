@@ -32,11 +32,13 @@ class CreateShopUsecaseTest {
         name: String = "テスト店舗",
         introduction: String? = "テスト紹介文",
         particular: String? = "テストこだわり",
+        shopUrl: String? = "https://example.com",
     ): CreateShopRequest = CreateShopRequest(
         shopifyShopId = shopifyShopId,
         name = name,
         introduction = introduction,
         particular = particular,
+        shopUrl = shopUrl,
     )
 
     @Nested

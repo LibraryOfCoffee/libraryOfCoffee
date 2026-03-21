@@ -26,6 +26,7 @@ class DeleteShopUsecaseTest {
         name = "テスト店舗",
         introduction = "テスト紹介文",
         particular = "テストこだわり",
+        shopUrl = "https://example.com",
         images = listOf(
             ShopImage(
                 id = ShopImageId("00000000-0000-4000-8000-000000000011"),
