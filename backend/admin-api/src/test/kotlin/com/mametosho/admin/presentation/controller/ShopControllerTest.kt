@@ -34,6 +34,7 @@ class ShopControllerTest {
         name = "テスト店舗",
         introduction = "テスト紹介文",
         particular = "テストこだわり",
+        shopUrl = "https://example.com",
         images = listOf(
             ShopImage(
                 id = ShopImageId("00000000-0000-4000-8000-000000000011"),
@@ -51,6 +52,7 @@ class ShopControllerTest {
                 name = "テスト店舗",
                 introduction = "テスト紹介文",
                 particular = "テストこだわり",
+                shopUrl = "https://example.com",
             ),
         ),
         totalCount = 1L,
@@ -94,7 +96,12 @@ class ShopControllerTest {
             override fun execute(request: CreateShopRequest, imageFiles: List<MultipartFile>, imageTypes: List<String>): Shop = createShop
         }
         val fakeUpdateUsecase = object : UpdateShopUsecase(fakeShopRepository, fakeImageStorageService) {
-            override fun execute(id: String, request: UpdateShopRequest, imageFiles: List<MultipartFile>, imageTypes: List<String>): Shop? = updateShop
+            override fun execute(
+                id: String,
+                request: UpdateShopRequest,
+                imageFiles: List<MultipartFile>,
+                imageTypes: List<String>,
+            ): Shop? = updateShop
         }
         val fakeDeleteUsecase = object : DeleteShopUsecase(fakeShopRepository, fakeImageStorageService) {
             override fun execute(id: String): Boolean = deleteShopResult
@@ -137,6 +144,7 @@ class ShopControllerTest {
                 name = "テスト店舗",
                 introduction = "テスト紹介文",
                 particular = "テストこだわり",
+                shopUrl = "https://example.com",
             )
 
             val response = controller.createShop(request, emptyList(), emptyList())
@@ -156,6 +164,7 @@ class ShopControllerTest {
                 name = "テスト店舗",
                 introduction = "テスト紹介文",
                 particular = "テストこだわり",
+                shopUrl = "https://example.com",
             )
 
             val response = controller.updateShop("00000000-0000-4000-8000-000000000001", request, emptyList(), emptyList())
@@ -172,6 +181,7 @@ class ShopControllerTest {
                 name = "テスト店舗",
                 introduction = null,
                 particular = null,
+                shopUrl = null,
             )
 
             val response = controller.updateShop("00000000-0000-4000-8000-999999999999", request, emptyList(), emptyList())

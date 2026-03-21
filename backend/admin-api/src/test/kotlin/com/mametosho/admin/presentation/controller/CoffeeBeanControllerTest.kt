@@ -93,10 +93,19 @@ class CoffeeBeanControllerTest {
             override fun execute(page: Int, size: Int): PagedResult<CoffeeBeanListResult> = listResult
         }
         val fakeCreateUsecase = object : CreateCoffeeBeanUsecase(fakeRepository, fakeImageStorageService) {
-            override fun execute(request: CreateCoffeeBeanRequest, imageFiles: List<MultipartFile>, imageTypes: List<String>): CoffeeBean = coffeeBean
+            override fun execute(
+                request: CreateCoffeeBeanRequest,
+                imageFiles: List<MultipartFile>,
+                imageTypes: List<String>,
+            ): CoffeeBean = coffeeBean
         }
         val fakeUpdateUsecase = object : UpdateCoffeeBeanUsecase(fakeRepository, fakeImageStorageService) {
-            override fun execute(id: String, request: UpdateCoffeeBeanRequest, imageFiles: List<MultipartFile>, imageTypes: List<String>): CoffeeBean? = updateResult
+            override fun execute(
+                id: String,
+                request: UpdateCoffeeBeanRequest,
+                imageFiles: List<MultipartFile>,
+                imageTypes: List<String>,
+            ): CoffeeBean? = updateResult
         }
         val fakeDeleteUsecase = object : DeleteCoffeeBeanUsecase(fakeRepository, fakeImageStorageService) {
             override fun execute(id: String): Boolean = deleteResult
@@ -191,7 +200,9 @@ class CoffeeBeanControllerTest {
         @Test
         fun `正常にコーヒー豆を更新すると200が返る`() {
             val controller = createController()
-            val response = controller.updateCoffeeBean("00000000-0000-4000-8000-000000000001", createUpdateRequest(), emptyList(), emptyList())
+            val response = controller.updateCoffeeBean(
+                "00000000-0000-4000-8000-000000000001", createUpdateRequest(), emptyList(), emptyList(),
+            )
 
             assertEquals(HttpStatus.OK, response.statusCode)
             assertEquals("00000000-0000-4000-8000-000000000001", response.body?.id)
@@ -200,7 +211,9 @@ class CoffeeBeanControllerTest {
         @Test
         fun `存在しないコーヒー豆を更新すると404が返る`() {
             val controller = createController(updateResult = null)
-            val response = controller.updateCoffeeBean("00000000-0000-4000-8000-999999999999", createUpdateRequest(), emptyList(), emptyList())
+            val response = controller.updateCoffeeBean(
+                "00000000-0000-4000-8000-999999999999", createUpdateRequest(), emptyList(), emptyList(),
+            )
 
             assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
         }

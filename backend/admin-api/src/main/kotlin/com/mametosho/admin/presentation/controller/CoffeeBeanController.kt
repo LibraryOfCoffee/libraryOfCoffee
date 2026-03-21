@@ -184,7 +184,8 @@ class CoffeeBeanController(
     @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @Operation(
         summary = "コーヒー豆登録",
-        description = "新しいコーヒー豆を登録します。multipart/form-data形式で送信してください。CoffeeBeanId、CoffeeBeanImageId、CoffeeBeanTasteIdはサーバー側でUUIDv4を自動生成します。",
+        description = "新しいコーヒー豆を登録します。multipart/form-data形式で送信してください。" +
+            "CoffeeBeanId、CoffeeBeanImageId、CoffeeBeanTasteIdはサーバー側でUUIDv4を自動生成します。",
     )
     @ApiResponses(
         value = [
