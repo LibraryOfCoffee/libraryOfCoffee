@@ -1,9 +1,9 @@
 ---
 allowed-tools: Bash(pnpm:*), Bash(cd:*)
-description: "OpenAPIスペックからTypeScript APIクライアントの型定義を再生成する"
+description: "OpenAPIスペックからAdmin APIのTypeScript APIクライアント型定義を再生成する"
 ---
 
-# generate-api-client
+# generate-admin-api-client
 
 OpenAPIスペック（docs/swagger/admin-api.yml）からTypeScript型定義を再生成するコマンド。
 
@@ -15,6 +15,6 @@ OpenAPIスペック（docs/swagger/admin-api.yml）からTypeScript型定義を�
 
 ## 使用タイミング
 
-- バックエンドAPIのエンドポイントやスキーマが変更された後
+- バックエンドAdmin APIのエンドポイントやスキーマが変更された後
 - `docs/swagger/admin-api.yml` が更新された後
 - `./gradlew generateAllOpenApiDocs` を実行した後

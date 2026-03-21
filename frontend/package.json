@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome check",
-    "format": "biome format --write"
+    "format": "biome format --write",
+    "api:generate": "openapi-typescript ../docs/swagger/cs-api.yml -o src/api/generated/cs-api.ts && pnpm format"
   },
   "dependencies": {
     "@microsoft/clarity": "^1.0.2",
@@ -25,6 +26,7 @@
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
     "gh-pages": "^6.3.0",
+    "openapi-typescript": "^7.13.0",
     "typescript": "^5"
   }
 }
