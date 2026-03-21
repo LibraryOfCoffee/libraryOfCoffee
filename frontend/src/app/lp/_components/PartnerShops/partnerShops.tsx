@@ -44,8 +44,8 @@ const shops = [
     websiteUrl: "https://bscnet.base.shop/",
   },
   {
-    name: "FIVE COFFEE",
-    logoUrl: "/shopLogos/fiveCoffee.png",
+    name: "FIVE COFFEE STAND&ROASTERY",
+    logoUrl: "/shopLogos/fiveCoffeeStandAndRoastery.png",
     websiteUrl: "https://www.fivecoffee.jp/",
   },
 ];
