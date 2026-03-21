@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useId, useRef } from "react";
-import styles from "./CreateShopModal.module.css";
+import styles from "@/components/modal.module.css";
 import { type CreateShopState, createShopAction } from "./createShopAction";
 
 const initialState: CreateShopState = {};

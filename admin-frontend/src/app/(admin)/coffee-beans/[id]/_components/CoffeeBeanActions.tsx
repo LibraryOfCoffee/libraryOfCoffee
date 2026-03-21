@@ -1,12 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import type { ShopDetail } from "@/api/shops";
+import type { CoffeeBeanDetail } from "@/api/coffee-beans";
 import styles from "@/components/actions.module.css";
-import { DeleteShopModal } from "./DeleteShopModal";
-import { EditShopModal } from "./EditShopModal";
+import { DeleteCoffeeBeanModal } from "./DeleteCoffeeBeanModal";
+import { EditCoffeeBeanModal } from "./EditCoffeeBeanModal";
 
-export function ShopActions({ shop }: { shop: ShopDetail }) {
+export function CoffeeBeanActions({
+  coffeeBean,
+}: {
+  coffeeBean: CoffeeBeanDetail;
+}) {
   const [editOpen, setEditOpen] = useState(false);
   const [editKey, setEditKey] = useState(0);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -40,16 +44,16 @@ export function ShopActions({ shop }: { shop: ShopDetail }) {
           削除
         </button>
       </div>
-      <EditShopModal
+      <EditCoffeeBeanModal
         key={editKey}
-        shop={shop}
+        coffeeBean={coffeeBean}
         open={editOpen}
         onClose={() => setEditOpen(false)}
       />
-      <DeleteShopModal
+      <DeleteCoffeeBeanModal
         key={deleteKey}
-        shopId={shop.id}
-        shopName={shop.name}
+        coffeeBeanId={coffeeBean.id}
+        coffeeBeanName={coffeeBean.name}
         open={deleteOpen}
         onClose={() => setDeleteOpen(false)}
       />

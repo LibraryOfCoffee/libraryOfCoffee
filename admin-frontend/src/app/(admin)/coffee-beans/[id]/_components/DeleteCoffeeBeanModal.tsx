@@ -3,24 +3,27 @@
 import { useActionState, useEffect, useRef } from "react";
 import styles from "@/components/deleteModal.module.css";
 import modalStyles from "@/components/modal.module.css";
-import { type DeleteShopState, deleteShopAction } from "./deleteShopAction";
+import {
+  type DeleteCoffeeBeanState,
+  deleteCoffeeBeanAction,
+} from "./deleteCoffeeBeanAction";
 
-const initialState: DeleteShopState = {};
+const initialState: DeleteCoffeeBeanState = {};
 
-export function DeleteShopModal({
-  shopId,
-  shopName,
+export function DeleteCoffeeBeanModal({
+  coffeeBeanId,
+  coffeeBeanName,
   open,
   onClose,
 }: {
-  shopId: string;
-  shopName: string;
+  coffeeBeanId: string;
+  coffeeBeanName: string;
   open: boolean;
   onClose: () => void;
 }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [state, formAction, isPending] = useActionState(
-    deleteShopAction,
+    deleteCoffeeBeanAction,
     initialState,
   );
 
@@ -51,7 +54,7 @@ export function DeleteShopModal({
       }}
     >
       <div className={modalStyles.dialogHeader}>
-        <h2 className={modalStyles.dialogTitle}>店舗削除</h2>
+        <h2 className={modalStyles.dialogTitle}>コーヒー豆削除</h2>
         <button
           type="button"
           className={modalStyles.closeButton}
@@ -64,14 +67,14 @@ export function DeleteShopModal({
 
       <div className={styles.body}>
         <p className={styles.message}>
-          <strong>{shopName}</strong> を削除しますか？
+          <strong>{coffeeBeanName}</strong> を削除しますか？
         </p>
         <p className={styles.warning}>この操作は取り消せません。</p>
 
         {state.error && <div className={modalStyles.error}>{state.error}</div>}
 
         <form action={formAction}>
-          <input type="hidden" name="id" value={shopId} />
+          <input type="hidden" name="id" value={coffeeBeanId} />
           <div className={modalStyles.actions}>
             <button
               type="button"

@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect, useId, useRef } from "react";
 import type { ShopDetail } from "@/api/shops";
-import modalStyles from "@/app/(admin)/shops/_components/CreateShopModal.module.css";
+import modalStyles from "@/components/modal.module.css";
 import { type EditShopState, editShopAction } from "./editShopAction";
 
 const initialState: EditShopState = {};

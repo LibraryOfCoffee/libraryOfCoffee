@@ -3,22 +3,11 @@ import type { CoffeeBeanListItem } from "@/api/coffee-beans";
 import type { PagedResponse } from "@/api/types";
 import styles from "@/components/list-page.module.css";
 import { Pagination } from "@/components/Pagination";
-
-const ROAST_LEVEL_LABELS: Record<string, string> = {
-  LIGHT: "ライト",
-  MEDIUM: "ミディアム",
-  CITY: "シティ",
-  FRENCH: "フレンチ",
-};
-
-const PROCESSING_METHOD_LABELS: Record<string, string> = {
-  FULLY_WASHED: "フリーウォッシュド",
-  WASHED: "ウォッシュド",
-  THERMAL_SHOCK_NATURAL: "サーマルショック・ナチュラル",
-  NATURAL: "ナチュラル",
-  WET_HULLING: "ウェットハリング",
-  HONEY: "ハニー",
-};
+import {
+  getProcessingMethodLabel,
+  getRoastLevelLabel,
+} from "../_lib/coffeeBeanLabels";
+import { CreateCoffeeBeanButton } from "./CreateCoffeeBeanButton";
 
 export function CoffeeBeanListTable({
   coffeeBeans,
@@ -35,9 +24,7 @@ export function CoffeeBeanListTable({
           <h1 className={styles.title}>コーヒー豆一覧</h1>
           <p className={styles.count}>{coffeeBeans.totalCount}件のコーヒー豆</p>
         </div>
-        <Link href="/coffee-beans/new" className={styles.createButton}>
-          + 新規作成
-        </Link>
+        <CreateCoffeeBeanButton />
       </div>
 
       <div className={styles.tableWrapper}>
@@ -84,7 +71,7 @@ export function CoffeeBeanListTable({
                     href={`/coffee-beans/${bean.id}`}
                     className={styles.rowLink}
                   >
-                    {ROAST_LEVEL_LABELS[bean.roastLevel] ?? bean.roastLevel}
+                    {getRoastLevelLabel(bean.roastLevel)}
                   </Link>
                 </td>
                 <td>
@@ -92,8 +79,7 @@ export function CoffeeBeanListTable({
                     href={`/coffee-beans/${bean.id}`}
                     className={styles.rowLink}
                   >
-                    {PROCESSING_METHOD_LABELS[bean.processingMethod] ??
-                      bean.processingMethod}
+                    {getProcessingMethodLabel(bean.processingMethod)}
                   </Link>
                 </td>
                 <td>
