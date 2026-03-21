@@ -12,6 +12,10 @@ spring:
   security:
     enabled: false
 
+jwt:
+  secret-key: openapi-dummy-key-not-used-in-production-32bytes
+  expiration-seconds: 3600
+
 server:
   port: 8081
 

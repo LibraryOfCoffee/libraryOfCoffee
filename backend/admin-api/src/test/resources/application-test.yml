@@ -7,3 +7,7 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+
+jwt:
+  secret-key: test-secret-key-must-be-at-least-32-bytes-long-for-hmac
+  expiration-seconds: 3600

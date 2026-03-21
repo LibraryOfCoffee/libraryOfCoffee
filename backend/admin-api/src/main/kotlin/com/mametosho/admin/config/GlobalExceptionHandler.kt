@@ -1,5 +1,6 @@
 package com.mametosho.admin.config
 
+import com.mametosho.admin.application.usecase.AuthenticationException
 import com.mametosho.admin.presentation.dto.response.ErrorResponse
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.dao.DataIntegrityViolationException
@@ -13,6 +14,22 @@ import java.time.OffsetDateTime
 
 @RestControllerAdvice
 class GlobalExceptionHandler {
+
+    @ExceptionHandler(AuthenticationException::class)
+    fun handleAuthentication(
+        @Suppress("unused") ex: AuthenticationException,
+        request: HttpServletRequest,
+    ): ResponseEntity<ErrorResponse> {
+        val status = HttpStatus.UNAUTHORIZED
+        return ResponseEntity.status(status).body(
+            ErrorResponse(
+                timestamp = OffsetDateTime.now(),
+                status = status.value(),
+                error = status.reasonPhrase,
+                path = request.requestURI,
+            ),
+        )
+    }
 
     @ExceptionHandler(IllegalArgumentException::class)
     fun handleIllegalArgument(
