@@ -2,6 +2,7 @@ package com.mametosho.admin.application.usecase
 
 import com.mametosho.admin.presentation.dto.request.CreateShopRequest
 import com.mametosho.domain.model.shop.Shop
+import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.shop.ShopImageType
 import com.mametosho.domain.repository.ShopRepository
 import org.junit.jupiter.api.Nested
@@ -19,6 +20,9 @@ class CreateShopUsecaseTest {
         override fun save(shop: Shop) {
             savedShops.add(shop)
         }
+
+        override fun findById(id: ShopId): Shop? = null
+        override fun deleteById(id: ShopId) = Unit
     }
 
     private val usecase = CreateShopUsecase(fakeRepository)

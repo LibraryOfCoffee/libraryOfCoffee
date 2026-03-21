@@ -1,4 +1,4 @@
-package com.mametosho.cs.infrastructure.persistence.repository
+package com.mametosho.cs.infrastructure.persistence.query
 
 import com.mametosho.cs.application.query.CoffeeListGroupQueryService
 import com.mametosho.cs.application.query.result.CoffeeBeanDetailResult

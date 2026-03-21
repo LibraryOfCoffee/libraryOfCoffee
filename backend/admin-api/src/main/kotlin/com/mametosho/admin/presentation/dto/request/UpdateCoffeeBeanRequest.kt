@@ -2,12 +2,9 @@ package com.mametosho.admin.presentation.dto.request
 
 import io.swagger.v3.oas.annotations.media.Schema
 
-@Schema(description = "コーヒー豆登録リクエスト")
-data class CreateCoffeeBeanRequest(
-    @Schema(description = "店舗ID", example = "00000000-0000-4000-8000-000000000031")
-    val shopId: String,
-
-    @Schema(description = "Shopifyの商品ID", example = "gid://shopify/Product/999999")
+@Schema(description = "コーヒー豆更新リクエスト")
+data class UpdateCoffeeBeanRequest(
+    @Schema(description = "Shopifyの商品ID", example = "test-bean-001")
     val shopifyBeanId: String,
 
     @Schema(description = "豆の名前", example = "テストコーヒー豆")

@@ -21,6 +21,9 @@ class CreateCoffeeBeanUsecaseTest {
         override fun save(coffeeBean: CoffeeBean) {
             savedBeans.add(coffeeBean)
         }
+
+        override fun findById(id: com.mametosho.domain.model.coffeebean.CoffeeBeanId): CoffeeBean? = null
+        override fun deleteById(id: com.mametosho.domain.model.coffeebean.CoffeeBeanId) = Unit
     }
 
     private val usecase = CreateCoffeeBeanUsecase(fakeRepository)

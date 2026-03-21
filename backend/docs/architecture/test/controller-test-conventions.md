@@ -15,13 +15,15 @@ admin-api/src/test/kotlin/com/mametosho/admin/presentation/controller/
 
 ## テストカテゴリと書くべきテスト
 
-テストはカテゴリごとに `@Nested inner class` でグルーピングする。
+テストはエンドポイントごとに `@Nested inner class` でグルーピングする。ネストクラス名はエンドポイントの操作名（例: `店舗登録`, `店舗編集`, `店舗削除`）とする。
 
-| カテゴリ | ネストクラス名 | 書くべきテスト |
-|---------|--------------|-------------|
-| ステータスコード | `正常系` | 正常系で期待するHTTPステータス（201など）が返ること |
-| レスポンスボディ | `レスポンスボディ` | レスポンスボディの全フィールドが正しいこと |
-| 子エンティティ | `レスポンスボディ` | ネストした子エンティティ（images, tastesなど）がレスポンスに含まれること |
+各エンドポイントのネストクラス内に、正常系・異常系（404など）のテストをまとめて記述する。
+
+| 書くべきテスト | 例 |
+|-------------|---|
+| 正常系で期待するHTTPステータスが返ること | `正常に店舗を登録すると201が返る` |
+| 異常系で期待するHTTPステータスが返ること | `存在しない店舗を編集すると404が返る` |
+| レスポンスボディの主要フィールドが正しいこと | ステータスコード検証と同じテスト内で検証 |
 
 ## フェイクUsecaseの作り方
 
@@ -90,7 +92,7 @@ class ShopControllerTest {
     }
 
     @Nested
-    inner class 正常系 {
+    inner class 店舗登録 {
         @Test
         fun `正常に店舗を登録すると201が返る`() {
             val controller = createController()
@@ -116,26 +118,6 @@ class ShopControllerTest {
             assertEquals("MAIN", response.body?.images?.get(0)?.type)
         }
     }
-
-    @Nested
-    inner class レスポンスボディ {
-        @Test
-        fun `レスポンスに画像情報が含まれる`() {
-            val controller = createController()
-            val request = CreateShopRequest(
-                shopifyShopId = "test-shop-001",
-                name = "テスト店舗",
-                introduction = null,
-                particular = null,
-                images = emptyList(),
-            )
-
-            val response = controller.createShop(request)
-
-            assertEquals("00000000-0000-4000-8000-000000000011", response.body?.images?.get(0)?.id)
-            assertEquals("https://example.com/image.png", response.body?.images?.get(0)?.imageUrl)
-        }
-    }
 }
 ```
 
@@ -143,7 +125,7 @@ class ShopControllerTest {
 
 新しいコントローラテストを実装するときに確認すること:
 
-- [ ] テストがカテゴリごとに @Nested inner class でグルーピングされているか
+- [ ] テストがエンドポイントごとに @Nested inner class でグルーピングされているか
 - [ ] 固定のドメインモデル（`sampleXxx`）をテストクラスのプロパティとして定義しているか
 - [ ] フェイクUsecaseを匿名クラスで作成し `execute` をオーバーライドしているか
 - [ ] コントローラ生成用のファクトリメソッド `createController(...)` を用意しているか

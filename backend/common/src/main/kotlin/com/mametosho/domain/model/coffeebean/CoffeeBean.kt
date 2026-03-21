@@ -55,6 +55,62 @@ data class CoffeeBean(
         }
     }
 
+    /**
+     * コーヒー豆の情報を更新する。
+     *
+     * IDと所属ショップは変更せず、それ以外の情報を更新した新しい[CoffeeBean]を返す。
+     * 画像・テイスト評価は全件置換され、子エンティティのIDは新たに自動生成される。
+     *
+     * @param shopifyBeanId Shopifyの商品ID
+     * @param name 豆の名前
+     * @param description 説明
+     * @param origin 産地
+     * @param farm 農園名
+     * @param roastLevel 焙煎度
+     * @param processingMethod 精製方法
+     * @param isSpecialty スペシャルティコーヒーかどうか
+     * @param images 画像情報（種別とURL）のリスト
+     * @param tastes テイスト評価情報（テイストIDと評価値）のリスト
+     * @return 更新された[CoffeeBean]
+     */
+    fun update(
+        shopifyBeanId: String,
+        name: String,
+        description: String,
+        origin: String,
+        farm: String?,
+        roastLevel: String,
+        processingMethod: String,
+        isSpecialty: Boolean,
+        images: List<Pair<String, String>>,
+        tastes: List<Pair<String, Int>>,
+    ): CoffeeBean = CoffeeBean(
+        id = this.id,
+        shopId = this.shopId,
+        shopifyBeanId = ShopifyBeanId(shopifyBeanId),
+        name = name,
+        description = description,
+        origin = origin,
+        farm = farm,
+        roastLevel = RoastLevel.valueOf(roastLevel),
+        processingMethod = ProcessingMethod.valueOf(processingMethod),
+        isSpecialty = isSpecialty,
+        images = images.map { (type, imageUrl) ->
+            CoffeeBeanImage(
+                id = CoffeeBeanImageId(UUID.randomUUID().toString()),
+                type = CoffeeBeanImageType.valueOf(type),
+                imageUrl = ImageUrl(imageUrl),
+            )
+        },
+        tastes = tastes.map { (tasteId, evaluationValue) ->
+            CoffeeBeanTaste(
+                id = CoffeeBeanTasteId(UUID.randomUUID().toString()),
+                tasteId = TasteId(tasteId),
+                evaluationValue = evaluationValue,
+            )
+        },
+    )
+
     companion object {
         /**
          * 新しいコーヒー豆を生成する。
