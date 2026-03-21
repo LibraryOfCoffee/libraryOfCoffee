@@ -1,5 +1,6 @@
 import "server-only";
 
+import { cookies } from "next/headers";
 import createClient from "openapi-fetch";
 import type { paths } from "@/api/generated/admin-api";
 
@@ -12,4 +13,10 @@ export function createAdminApiClient(accessToken?: string) {
       ? { Authorization: `Bearer ${accessToken}` }
       : undefined,
   });
+}
+
+export async function createAuthenticatedApiClient() {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get("accessToken")?.value ?? "";
+  return createAdminApiClient(accessToken);
 }

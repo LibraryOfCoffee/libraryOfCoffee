@@ -13,6 +13,9 @@
   --color-error: #b91c1c;
   --color-error-bg: #fef2f2;
   --color-error-border: #fecaca;
+  --color-sidebar-bg: #3d2b1f;
+  --color-sidebar-text: #e8ddd0;
+  --color-sidebar-active: rgba(255, 255, 255, 0.15);
 }
 
 * {
