@@ -137,8 +137,8 @@ class CoffeeBeanRepositoryImplTest {
             assertEquals("テスト説明文", beans[0]["description"])
             assertEquals("エチオピア", beans[0]["origin"])
             assertEquals("テスト農園", beans[0]["farm"])
-            assertEquals("medium", beans[0]["roast_level"])
-            assertEquals("washed", beans[0]["processing_method"])
+            assertEquals("MEDIUM", beans[0]["roast_level"])
+            assertEquals("WASHED", beans[0]["processing_method"])
             assertEquals(true, beans[0]["is_specialty"])
         }
     }
@@ -155,7 +155,7 @@ class CoffeeBeanRepositoryImplTest {
             assertEquals(1, images.size)
             assertEquals("00000000-0000-4000-8000-000000000011", images[0]["id"])
             assertEquals("00000000-0000-4000-8000-000000000010", images[0]["coffee_bean_id"])
-            assertEquals("main", images[0]["type"])
+            assertEquals("MAIN", images[0]["type"])
             assertEquals("https://example.com/bean.png", images[0]["image_url"])
         }
 
@@ -267,7 +267,7 @@ class CoffeeBeanRepositoryImplTest {
     @Nested
     inner class enum変換 {
         @Test
-        fun `全焙煎度をlowercaseで保存できる`() {
+        fun `全焙煎度を大文字で保存できる`() {
             RoastLevel.entries.forEachIndexed { index, roastLevel ->
                 val coffeeBean = CoffeeBean(
                     id = CoffeeBeanId("00000000-0000-4000-8000-00000000100$index"),
@@ -289,12 +289,12 @@ class CoffeeBeanRepositoryImplTest {
             val beans = jdbcTemplate.queryForList("SELECT roast_level FROM coffee_beans ORDER BY id")
             assertEquals(RoastLevel.entries.size, beans.size)
             beans.forEachIndexed { index, row ->
-                assertEquals(RoastLevel.entries[index].name.lowercase(), row["roast_level"])
+                assertEquals(RoastLevel.entries[index].name, row["roast_level"])
             }
         }
 
         @Test
-        fun `全精製方法をlowercaseで保存できる`() {
+        fun `全精製方法を大文字で保存できる`() {
             ProcessingMethod.entries.forEachIndexed { index, method ->
                 val coffeeBean = CoffeeBean(
                     id = CoffeeBeanId("00000000-0000-4000-8000-00000000200$index"),
@@ -316,7 +316,7 @@ class CoffeeBeanRepositoryImplTest {
             val beans = jdbcTemplate.queryForList("SELECT processing_method FROM coffee_beans ORDER BY id")
             assertEquals(ProcessingMethod.entries.size, beans.size)
             beans.forEachIndexed { index, row ->
-                assertTrue(row["processing_method"].toString() == ProcessingMethod.entries[index].name.lowercase())
+                assertEquals(ProcessingMethod.entries[index].name, row["processing_method"].toString())
             }
         }
     }

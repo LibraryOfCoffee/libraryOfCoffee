@@ -112,7 +112,7 @@ class ShopRepositoryImplTest {
             assertEquals(1, images.size)
             assertEquals("00000000-0000-4000-8000-000000000011", images[0]["id"])
             assertEquals("00000000-0000-4000-8000-000000000001", images[0]["shop_id"])
-            assertEquals("main", images[0]["type"])
+            assertEquals("MAIN", images[0]["type"])
             assertEquals("https://example.com/shop.png", images[0]["image_url"])
         }
     }
