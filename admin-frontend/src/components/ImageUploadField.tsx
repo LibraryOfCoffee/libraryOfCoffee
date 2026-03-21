@@ -22,9 +22,11 @@ type ImageEntry = {
 export function ImageUploadField({
   imageTypes,
   existingImages,
+  required,
 }: {
   imageTypes: ImageTypeOption[];
   existingImages?: ExistingImage[];
+  required?: boolean;
 }) {
   const [entries, setEntries] = useState<ImageEntry[]>([]);
   const nextKey = useRef(0);
@@ -40,7 +42,10 @@ export function ImageUploadField({
 
   return (
     <div className={styles.imageField}>
-      <span className={styles.label}>画像</span>
+      <span className={styles.label}>
+        画像
+        {required && <span className={styles.required}>*</span>}
+      </span>
 
       {existingImages && existingImages.length > 0 && (
         <div className={styles.imagePreview}>

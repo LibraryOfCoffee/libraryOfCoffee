@@ -17,7 +17,7 @@ import java.net.URI
 class S3Config {
 
     @Bean
-    @Profile("local", "test")
+    @Profile("local", "test", "openapi")
     fun localS3Client(properties: S3Properties): S3Client =
         S3Client.builder()
             .region(Region.of(properties.region))
@@ -35,7 +35,7 @@ class S3Config {
             .build()
 
     @Bean
-    @Profile("!local & !test")
+    @Profile("!local & !test & !openapi")
     fun s3Client(properties: S3Properties): S3Client =
         S3Client.builder()
             .region(Region.of(properties.region))

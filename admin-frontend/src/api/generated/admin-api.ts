@@ -18,7 +18,7 @@ export interface paths {
     get: operations["getShop"];
     /**
      * 店舗編集
-     * @description 指定されたIDの店舗を編集します。全項目を置換します。ShopImageIdはサーバー側でUUIDv4を自動再生成します。
+     * @description 指定されたIDの店舗を編集します。multipart/form-data形式で送信してください。全項目を置換します。ShopImageIdはサーバー側でUUIDv4を自動再生成します。
      */
     put: operations["updateShop"];
     post?: never;
@@ -46,7 +46,7 @@ export interface paths {
     get: operations["getCoffeeBean"];
     /**
      * コーヒー豆更新
-     * @description 指定されたIDのコーヒー豆を更新します。画像・テイスト評価は全件置換されます。
+     * @description 指定されたIDのコーヒー豆を更新します。multipart/form-data形式で送信してください。画像・テイスト評価は全件置換されます。
      */
     put: operations["updateCoffeeBean"];
     post?: never;
@@ -75,7 +75,7 @@ export interface paths {
     put?: never;
     /**
      * 店舗登録
-     * @description 新しい店舗を登録します。ShopIdおよびShopImageIdはサーバー側でUUIDv4を自動生成します。
+     * @description 新しい店舗を登録します。multipart/form-data形式で送信してください。ShopIdおよびShopImageIdはサーバー側でUUIDv4を自動生成します。
      */
     post: operations["createShop"];
     delete?: never;
@@ -99,7 +99,7 @@ export interface paths {
     put?: never;
     /**
      * コーヒー豆登録
-     * @description 新しいコーヒー豆を登録します。CoffeeBeanId、CoffeeBeanImageId、CoffeeBeanTasteIdはサーバー側でUUIDv4を自動生成します。
+     * @description 新しいコーヒー豆を登録します。multipart/form-data形式で送信してください。CoffeeBeanId、CoffeeBeanImageId、CoffeeBeanTasteIdはサーバー側でUUIDv4を自動生成します。
      */
     post: operations["createCoffeeBean"];
     delete?: never;
@@ -132,19 +132,6 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
-    /** @description 店舗画像リクエスト */
-    ImageRequest: {
-      /**
-       * @description 画像種別
-       * @example MAIN
-       */
-      type?: string;
-      /**
-       * @description 画像URL
-       * @example https://example.com/image.png
-       */
-      imageUrl?: string;
-    };
     /** @description 店舗編集リクエスト */
     UpdateShopRequest: {
       /**
@@ -167,8 +154,11 @@ export interface components {
        * @example テストこだわり
        */
       particular?: string;
-      /** @description 店舗画像一覧 */
-      images?: components["schemas"]["ImageRequest"][];
+      /**
+       * @description 店舗URL
+       * @example https://example.com
+       */
+      shopUrl?: string;
     };
     /** @description 店舗登録レスポンス */
     ShopResponse: {
@@ -254,8 +244,6 @@ export interface components {
        * @example WASHED
        */
       processingMethod?: string;
-      /** @description 画像一覧 */
-      images?: components["schemas"]["ImageRequest"][];
       /** @description テイスト評価一覧 */
       tastes?: components["schemas"]["TasteRequest"][];
       specialty?: boolean;
@@ -290,8 +278,11 @@ export interface components {
        * @example テストこだわり
        */
       particular?: string;
-      /** @description 店舗画像一覧 */
-      images?: components["schemas"]["ImageRequest"][];
+      /**
+       * @description 店舗URL
+       * @example https://example.com
+       */
+      shopUrl?: string;
     };
     /** @description コーヒー豆登録リクエスト */
     CreateCoffeeBeanRequest: {
@@ -335,8 +326,6 @@ export interface components {
        * @example WASHED
        */
       processingMethod?: string;
-      /** @description 画像一覧 */
-      images?: components["schemas"]["ImageRequest"][];
       /** @description テイスト評価一覧 */
       tastes?: components["schemas"]["TasteRequest"][];
       specialty?: boolean;
@@ -418,6 +407,11 @@ export interface components {
        * @example 厳選された豆のみを使用しています。
        */
       particular?: string;
+      /**
+       * @description 店舗URL
+       * @example https://example.com
+       */
+      shopUrl?: string;
       /** @description 画像一覧 */
       images?: components["schemas"]["ImageDetail"][];
     };
@@ -539,7 +533,9 @@ export interface operations {
   };
   updateShop: {
     parameters: {
-      query?: never;
+      query?: {
+        imageTypes?: string[];
+      };
       header?: never;
       path: {
         /**
@@ -550,9 +546,12 @@ export interface operations {
       };
       cookie?: never;
     };
-    requestBody: {
+    requestBody?: {
       content: {
-        "application/json": components["schemas"]["UpdateShopRequest"];
+        "multipart/form-data": {
+          data: components["schemas"]["UpdateShopRequest"];
+          images?: string[];
+        };
       };
     };
     responses: {
@@ -673,7 +672,9 @@ export interface operations {
   };
   updateCoffeeBean: {
     parameters: {
-      query?: never;
+      query?: {
+        imageTypes?: string[];
+      };
       header?: never;
       path: {
         /**
@@ -684,9 +685,12 @@ export interface operations {
       };
       cookie?: never;
     };
-    requestBody: {
+    requestBody?: {
       content: {
-        "application/json": components["schemas"]["UpdateCoffeeBeanRequest"];
+        "multipart/form-data": {
+          data: components["schemas"]["UpdateCoffeeBeanRequest"];
+          images?: string[];
+        };
       };
     };
     responses: {
@@ -794,14 +798,19 @@ export interface operations {
   };
   createShop: {
     parameters: {
-      query?: never;
+      query?: {
+        imageTypes?: string[];
+      };
       header?: never;
       path?: never;
       cookie?: never;
     };
-    requestBody: {
+    requestBody?: {
       content: {
-        "application/json": components["schemas"]["CreateShopRequest"];
+        "multipart/form-data": {
+          data: components["schemas"]["CreateShopRequest"];
+          images?: string[];
+        };
       };
     };
     responses: {
@@ -867,14 +876,19 @@ export interface operations {
   };
   createCoffeeBean: {
     parameters: {
-      query?: never;
+      query?: {
+        imageTypes?: string[];
+      };
       header?: never;
       path?: never;
       cookie?: never;
     };
-    requestBody: {
+    requestBody?: {
       content: {
-        "application/json": components["schemas"]["CreateCoffeeBeanRequest"];
+        "multipart/form-data": {
+          data: components["schemas"]["CreateCoffeeBeanRequest"];
+          images?: string[];
+        };
       };
     };
     responses: {

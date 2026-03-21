@@ -124,7 +124,7 @@ classDiagram
       name: String
       introduction: String?
       particular: String?
-      shopUrl: String?
+      shopUrl: String
       images: List~ShopImage~
     }
 

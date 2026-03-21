@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS shops (
     name            VARCHAR(255)  NOT NULL                                     COMMENT '店舗名',
     introduction    TEXT                                                       COMMENT '店舗紹介',
     particular      TEXT                                                       COMMENT 'こだわり',
-    shop_url        VARCHAR(2048)                                              COMMENT '店舗URL',
+    shop_url        VARCHAR(2048)  NOT NULL                                     COMMENT '店舗URL',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                             COMMENT '作成日時',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='店舗マスタテーブル';

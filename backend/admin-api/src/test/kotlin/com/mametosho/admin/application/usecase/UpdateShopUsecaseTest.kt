@@ -35,6 +35,11 @@ class UpdateShopUsecaseTest {
                 type = ShopImageType.MAIN,
                 imageUrl = ImageUrl("https://example.com/old-image.png"),
             ),
+            ShopImage(
+                id = ShopImageId("00000000-0000-4000-8000-000000000012"),
+                type = ShopImageType.LOGO,
+                imageUrl = ImageUrl("https://example.com/logo.png"),
+            ),
         ),
     )
 
@@ -59,7 +64,7 @@ class UpdateShopUsecaseTest {
         name: String = "更新店舗",
         introduction: String? = "更新紹介文",
         particular: String? = "更新こだわり",
-        shopUrl: String? = "https://updated.example.com",
+        shopUrl: String = "https://updated.example.com",
     ): UpdateShopRequest = UpdateShopRequest(
         shopifyShopId = shopifyShopId,
         name = name,
@@ -127,7 +132,7 @@ class UpdateShopUsecaseTest {
             val shop = usecase.execute(existingShopId, createRequest(), emptyList(), emptyList())
 
             assertNotNull(shop)
-            assertEquals(1, shop.images.size, "画像未送信時は既存画像が維持される")
+            assertEquals(2, shop.images.size, "画像未送信時は既存画像が維持される")
         }
     }
 

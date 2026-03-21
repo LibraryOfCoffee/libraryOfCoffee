@@ -69,8 +69,8 @@ class CoffeeBeanRepositoryImplTest {
 
         jdbcTemplate.execute(
             """
-            INSERT INTO shops (id, shopify_shop_id, name, introduction, particular)
-            VALUES ('00000000-0000-4000-8000-000000000001', 'test-shop-001', 'テスト店舗', 'テスト紹介', 'テストこだわり')
+            INSERT INTO shops (id, shopify_shop_id, name, introduction, particular, shop_url)
+            VALUES ('00000000-0000-4000-8000-000000000001', 'test-shop-001', 'テスト店舗', 'テスト紹介', 'テストこだわり', 'https://example.com')
             """,
         )
         jdbcTemplate.execute(

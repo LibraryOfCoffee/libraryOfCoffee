@@ -41,6 +41,11 @@ class ShopControllerTest {
                 type = ShopImageType.MAIN,
                 imageUrl = ImageUrl("https://example.com/image.png"),
             ),
+            ShopImage(
+                id = ShopImageId("00000000-0000-4000-8000-000000000012"),
+                type = ShopImageType.LOGO,
+                imageUrl = ImageUrl("https://example.com/logo.png"),
+            ),
         ),
     )
 
@@ -181,7 +186,7 @@ class ShopControllerTest {
                 name = "テスト店舗",
                 introduction = null,
                 particular = null,
-                shopUrl = null,
+                shopUrl = "https://example.com",
             )
 
             val response = controller.updateShop("00000000-0000-4000-8000-999999999999", request, emptyList(), emptyList())

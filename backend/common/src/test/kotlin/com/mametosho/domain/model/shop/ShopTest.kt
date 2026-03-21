@@ -10,9 +10,15 @@ import kotlin.test.assertTrue
 
 class ShopTest {
 
+    private val defaultLogoImage = ShopImage(
+        id = ShopImageId("00000000-0000-4000-8000-000000000008"),
+        type = ShopImageType.LOGO,
+        imageUrl = ImageUrl("https://example.com/logo.png"),
+    )
+
     private fun createShop(
-        images: List<ShopImage> = emptyList(),
-        shopUrl: String? = "https://example.com",
+        images: List<ShopImage> = listOf(defaultLogoImage),
+        shopUrl: String = "https://example.com",
     ): Shop = Shop(
         id = ShopId("00000000-0000-4000-8000-000000000003"),
         shopifyShopId = ShopifyShopId("shopify-shop-1"),
@@ -46,14 +52,9 @@ class ShopTest {
         }
 
         @Test
-        fun `shopUrlがnullでも生成できる`() {
-            val shop = createShop(shopUrl = null)
-            assertNull(shop.shopUrl)
-        }
-
-        @Test
         fun `画像を持つShopを生成できる`() {
             val images = listOf(
+                defaultLogoImage,
                 ShopImage(
                     id = ShopImageId("00000000-0000-4000-8000-000000000009"),
                     type = ShopImageType.MAIN,
@@ -61,8 +62,7 @@ class ShopTest {
                 ),
             )
             val shop = createShop(images = images)
-            assertEquals(1, shop.images.size)
-            assertEquals(ShopImageType.MAIN, shop.images[0].type)
+            assertEquals(2, shop.images.size)
         }
     }
 
@@ -78,7 +78,7 @@ class ShopTest {
                 introduction = "更新紹介文",
                 particular = "更新こだわり",
                 shopUrl = "https://updated.example.com",
-                images = listOf("MAIN" to "https://example.com/new.png"),
+                images = listOf("LOGO" to "https://example.com/logo.png", "MAIN" to "https://example.com/new.png"),
             )
 
             assertEquals(shop.id, updated.id)
@@ -87,9 +87,7 @@ class ShopTest {
             assertEquals("更新紹介文", updated.introduction)
             assertEquals("更新こだわり", updated.particular)
             assertEquals("https://updated.example.com", updated.shopUrl)
-            assertEquals(1, updated.images.size)
-            assertEquals(ShopImageType.MAIN, updated.images[0].type)
-            assertEquals("https://example.com/new.png", updated.images[0].imageUrl.value)
+            assertEquals(2, updated.images.size)
         }
 
         @Test
@@ -100,8 +98,8 @@ class ShopTest {
                 name = "新店舗",
                 introduction = null,
                 particular = null,
-                shopUrl = null,
-                images = emptyList(),
+                shopUrl = "https://example.com",
+                images = listOf("LOGO" to "https://example.com/logo.png"),
             )
 
             assertEquals(shop.id, updated.id)
@@ -115,8 +113,8 @@ class ShopTest {
                 name = "珈琲工房まめ図書",
                 introduction = null,
                 particular = null,
-                shopUrl = null,
-                images = listOf("MAIN" to "https://example.com/image.png"),
+                shopUrl = "https://example.com",
+                images = listOf("LOGO" to "https://example.com/logo.png", "MAIN" to "https://example.com/image.png"),
             )
 
             val uuidRegex = Regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -187,6 +185,13 @@ class ShopTest {
         fun `shopUrlが2049文字以上の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
                 createShop(shopUrl = "https://example.com/" + "a".repeat(2029))
+            }
+        }
+
+        @Test
+        fun `LOGO画像が0枚の場合は例外が発生する`() {
+            assertThrows<IllegalArgumentException> {
+                createShop(images = emptyList())
             }
         }
 

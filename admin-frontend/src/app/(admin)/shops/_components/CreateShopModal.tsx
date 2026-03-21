@@ -163,6 +163,7 @@ export function CreateShopModal({
         <div className={styles.field}>
           <label htmlFor={shopUrlId} className={styles.label}>
             店舗URL
+            <span className={styles.required}>*</span>
           </label>
           <input
             id={shopUrlId}
@@ -181,7 +182,10 @@ export function CreateShopModal({
         </div>
 
         <ImageUploadField imageTypes={[{ value: "MAIN", label: "メイン" }]} />
-        <ImageUploadField imageTypes={[{ value: "LOGO", label: "ロゴ" }]} />
+        <ImageUploadField
+          imageTypes={[{ value: "LOGO", label: "ロゴ" }]}
+          required
+        />
 
         <div className={styles.actions}>
           <button

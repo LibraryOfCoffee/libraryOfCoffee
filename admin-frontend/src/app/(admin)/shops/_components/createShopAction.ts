@@ -27,6 +27,15 @@ export async function createShopAction(
     return { fieldErrors: result.error.flatten().fieldErrors, values };
   }
 
+  const imageTypes = formData.getAll("imageTypes") as string[];
+  const imageFiles = formData.getAll("images") as File[];
+  const hasLogoImage = imageTypes.some(
+    (type, i) => type === "LOGO" && imageFiles[i]?.size > 0,
+  );
+  if (!hasLogoImage) {
+    return { error: "ロゴ画像は必須です。", values };
+  }
+
   const { shopifyShopId, name, introduction, particular, shopUrl } =
     result.data;
 

@@ -50,10 +50,14 @@ paths:
                     name: テスト珈琲店
                     introduction: こだわりの珈琲をお届けします。
                     particular: 厳選された豆のみを使用しています。
+                    shopUrl: https://example.com
                     images:
                     - id: 00000000-0000-4000-8000-000000000010
                       type: MAIN
                       imageUrl: https://example.com/shop-image.jpg
+                    - id: 00000000-0000-4000-8000-000000000011
+                      type: LOGO
+                      imageUrl: https://example.com/shop-logo.png
         "404":
           description: 店舗が見つかりません
           content:
@@ -71,7 +75,7 @@ paths:
       tags:
       - Shop
       summary: 店舗編集
-      description: 指定されたIDの店舗を編集します。全項目を置換します。ShopImageIdはサーバー側でUUIDv4を自動再生成します。
+      description: 指定されたIDの店舗を編集します。multipart/form-data形式で送信してください。全項目を置換します。ShopImageIdはサーバー側でUUIDv4を自動再生成します。
       operationId: updateShop
       parameters:
       - name: id
@@ -81,12 +85,28 @@ paths:
         schema:
           type: string
         example: 00000000-0000-4000-8000-000000000001
+      - name: imageTypes
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
       requestBody:
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: "#/components/schemas/UpdateShopRequest"
-        required: true
+              type: object
+              properties:
+                data:
+                  $ref: "#/components/schemas/UpdateShopRequest"
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+              required:
+              - data
       responses:
         "200":
           description: 編集成功
@@ -250,7 +270,7 @@ paths:
       tags:
       - CoffeeBean
       summary: コーヒー豆更新
-      description: 指定されたIDのコーヒー豆を更新します。画像・テイスト評価は全件置換されます。
+      description: 指定されたIDのコーヒー豆を更新します。multipart/form-data形式で送信してください。画像・テイスト評価は全件置換されます。
       operationId: updateCoffeeBean
       parameters:
       - name: id
@@ -260,12 +280,28 @@ paths:
         schema:
           type: string
         example: 00000000-0000-4000-8000-000000000001
+      - name: imageTypes
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
       requestBody:
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: "#/components/schemas/UpdateCoffeeBeanRequest"
-        required: true
+              type: object
+              properties:
+                data:
+                  $ref: "#/components/schemas/UpdateCoffeeBeanRequest"
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+              required:
+              - data
       responses:
         "200":
           description: 更新成功
@@ -394,6 +430,7 @@ paths:
                       name: テスト珈琲店
                       introduction: こだわりの珈琲をお届けします。
                       particular: 厳選された豆のみを使用しています。
+                      shopUrl: https://example.com
                     totalCount: 1
                     page: 0
                     size: 20
@@ -401,14 +438,31 @@ paths:
       tags:
       - Shop
       summary: 店舗登録
-      description: 新しい店舗を登録します。ShopIdおよびShopImageIdはサーバー側でUUIDv4を自動生成します。
+      description: 新しい店舗を登録します。multipart/form-data形式で送信してください。ShopIdおよびShopImageIdはサーバー側でUUIDv4を自動生成します。
       operationId: createShop
+      parameters:
+      - name: imageTypes
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
       requestBody:
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: "#/components/schemas/CreateShopRequest"
-        required: true
+              type: object
+              properties:
+                data:
+                  $ref: "#/components/schemas/CreateShopRequest"
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+              required:
+              - data
       responses:
         "201":
           description: 登録成功
@@ -506,14 +560,31 @@ paths:
       tags:
       - CoffeeBean
       summary: コーヒー豆登録
-      description: 新しいコーヒー豆を登録します。CoffeeBeanId、CoffeeBeanImageId、CoffeeBeanTasteIdはサーバー側でUUIDv4を自動生成します。
+      description: 新しいコーヒー豆を登録します。multipart/form-data形式で送信してください。CoffeeBeanId、CoffeeBeanImageId、CoffeeBeanTasteIdはサーバー側でUUIDv4を自動生成します。
       operationId: createCoffeeBean
+      parameters:
+      - name: imageTypes
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
       requestBody:
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: "#/components/schemas/CreateCoffeeBeanRequest"
-        required: true
+              type: object
+              properties:
+                data:
+                  $ref: "#/components/schemas/CreateCoffeeBeanRequest"
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+              required:
+              - data
       responses:
         "201":
           description: 登録成功
@@ -600,18 +671,6 @@ paths:
                     path: /api/admin/auth/login
 components:
   schemas:
-    ImageRequest:
-      type: object
-      description: 店舗画像リクエスト
-      properties:
-        type:
-          type: string
-          description: 画像種別
-          example: MAIN
-        imageUrl:
-          type: string
-          description: 画像URL
-          example: https://example.com/image.png
     UpdateShopRequest:
       type: object
       description: 店舗編集リクエスト
@@ -632,11 +691,10 @@ components:
           type: string
           description: こだわり
           example: テストこだわり
-        images:
-          type: array
-          description: 店舗画像一覧
-          items:
-            $ref: "#/components/schemas/ImageRequest"
+        shopUrl:
+          type: string
+          description: 店舗URL
+          example: https://example.com
     ShopResponse:
       type: object
       description: 店舗登録レスポンス
@@ -712,11 +770,6 @@ components:
           type: string
           description: 精製方法
           example: WASHED
-        images:
-          type: array
-          description: 画像一覧
-          items:
-            $ref: "#/components/schemas/ImageRequest"
         tastes:
           type: array
           description: テイスト評価一覧
@@ -752,11 +805,10 @@ components:
           type: string
           description: こだわり
           example: テストこだわり
-        images:
-          type: array
-          description: 店舗画像一覧
-          items:
-            $ref: "#/components/schemas/ImageRequest"
+        shopUrl:
+          type: string
+          description: 店舗URL
+          example: https://example.com
     CreateCoffeeBeanRequest:
       type: object
       description: コーヒー豆登録リクエスト
@@ -793,11 +845,6 @@ components:
           type: string
           description: 精製方法
           example: WASHED
-        images:
-          type: array
-          description: 画像一覧
-          items:
-            $ref: "#/components/schemas/ImageRequest"
         tastes:
           type: array
           description: テイスト評価一覧
@@ -874,6 +921,10 @@ components:
           type: string
           description: こだわり
           example: 厳選された豆のみを使用しています。
+        shopUrl:
+          type: string
+          description: 店舗URL
+          example: https://example.com
         images:
           type: array
           description: 画像一覧

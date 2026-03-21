@@ -12,7 +12,7 @@ export type ShopListItem = {
   name: string;
   introduction: string | null;
   particular: string | null;
-  shopUrl: string | null;
+  shopUrl: string;
 };
 
 export type ImageDetail = {

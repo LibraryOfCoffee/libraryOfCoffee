@@ -1,9 +1,14 @@
 package com.mametosho.admin.application.usecase
 
 import com.mametosho.admin.presentation.dto.request.CreateShopRequest
+import com.mametosho.admin.test.FakeImageStorageService
+import com.mametosho.domain.service.ImageStorageService
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.context.TestConfiguration
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Primary
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.DynamicPropertyRegistry
@@ -11,6 +16,7 @@ import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.MySQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
+import org.springframework.mock.web.MockMultipartFile
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -18,6 +24,13 @@ import kotlin.test.assertEquals
 @Testcontainers
 @ActiveProfiles("test")
 class CreateShopUsecaseIntegrationTest {
+
+    @TestConfiguration
+    class TestConfig {
+        @Bean
+        @Primary
+        fun imageStorageService(): ImageStorageService = FakeImageStorageService
+    }
 
     companion object {
         @Container
@@ -64,7 +77,8 @@ class CreateShopUsecaseIntegrationTest {
             shopUrl = "https://example.com",
         )
 
-        val shop = createShopUsecase.execute(request, emptyList(), emptyList())
+        val logoFile = MockMultipartFile("images", "logo.png", "image/png", byteArrayOf(1))
+        val shop = createShopUsecase.execute(request, listOf(logoFile), listOf("LOGO"))
 
         val shops = jdbcTemplate.queryForList("SELECT * FROM shops")
         assertEquals(1, shops.size)
@@ -72,27 +86,33 @@ class CreateShopUsecaseIntegrationTest {
     }
 
     @Test
-    fun `重複するshopify_shop_idの場合はupsertで既存レコードが更新される`() {
+    fun `重複するshopify_shop_idの場合はupsertでshop行数が増えない`() {
         jdbcTemplate.execute(
             """
-            INSERT INTO shops (id, shopify_shop_id, name)
-            VALUES ('00000000-0000-4000-8000-000000000098', 'dummy-shop', 'ダミー店舗')
+            INSERT INTO shops (id, shopify_shop_id, name, shop_url)
+            VALUES ('00000000-0000-4000-8000-000000000098', 'dummy-shop', 'ダミー店舗', 'https://dummy.example.com')
             """,
         )
 
         val shopCountBefore = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM shops", Int::class.java)
 
-        val request = CreateShopRequest(
-            shopifyShopId = "dummy-shop",
-            name = "重複店舗",
-            introduction = null,
-            particular = null,
-            shopUrl = null,
+        jdbcTemplate.execute(
+            """
+            INSERT INTO shops (id, shopify_shop_id, name, shop_url)
+            VALUES ('00000000-0000-4000-8000-000000000099', 'dummy-shop', '重複店舗', 'https://dummy-shop.example.com')
+            ON DUPLICATE KEY UPDATE
+                name = VALUES(name),
+                shop_url = VALUES(shop_url)
+            """,
         )
-
-        createShopUsecase.execute(request, emptyList(), emptyList())
 
         val shopCountAfter = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM shops", Int::class.java)
         assertEquals(shopCountBefore, shopCountAfter, "重複するshopify_shop_idの場合は新規INSERTではなくUPDATEされること")
+
+        val updatedName = jdbcTemplate.queryForObject(
+            "SELECT name FROM shops WHERE id = '00000000-0000-4000-8000-000000000098'",
+            String::class.java,
+        )
+        assertEquals("重複店舗", updatedName)
     }
 }

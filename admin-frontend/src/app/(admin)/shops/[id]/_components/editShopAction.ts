@@ -35,6 +35,18 @@ export async function editShopAction(
     return { fieldErrors: result.error.flatten().fieldErrors, values };
   }
 
+  const imageTypes = formData.getAll("imageTypes") as string[];
+  const imageFiles = formData.getAll("images") as File[];
+  const hasNewImages = imageFiles.some((file) => file.size > 0);
+  if (hasNewImages) {
+    const hasLogoImage = imageTypes.some(
+      (type, i) => type === "LOGO" && imageFiles[i]?.size > 0,
+    );
+    if (!hasLogoImage) {
+      return { error: "画像を変更する場合、ロゴ画像は必須です。", values };
+    }
+  }
+
   const { id, shopifyShopId, name, introduction, particular, shopUrl } =
     result.data;
 
