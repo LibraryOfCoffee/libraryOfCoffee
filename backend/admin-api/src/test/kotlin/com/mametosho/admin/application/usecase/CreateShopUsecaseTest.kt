@@ -7,6 +7,7 @@ import com.mametosho.domain.repository.ShopRepository
 import com.mametosho.admin.test.FakeImageStorageService
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
+import org.springframework.mock.web.MockMultipartFile
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -27,6 +28,8 @@ class CreateShopUsecaseTest {
 
     private val usecase = CreateShopUsecase(fakeRepository, FakeImageStorageService)
 
+    private val logoFile = MockMultipartFile("images", "logo.png", "image/png", byteArrayOf(1))
+
     private fun createRequest(
         shopifyShopId: String = "test-shop-001",
         name: String = "テスト店舗",
@@ -46,7 +49,7 @@ class CreateShopUsecaseTest {
         @Test
         fun `正常にShopを作成できる`() {
             val request = createRequest()
-            val shop = usecase.execute(request, emptyList(), emptyList())
+            val shop = usecase.execute(request, listOf(logoFile), listOf("LOGO"))
 
             assertEquals("test-shop-001", shop.shopifyShopId.value)
             assertEquals("テスト店舗", shop.name)
@@ -59,7 +62,7 @@ class CreateShopUsecaseTest {
     inner class UUID自動生成 {
         @Test
         fun `ShopIdがUUID形式で自動生成される`() {
-            val shop = usecase.execute(createRequest(), emptyList(), emptyList())
+            val shop = usecase.execute(createRequest(), listOf(logoFile), listOf("LOGO"))
             val uuidRegex = Regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             assertTrue(uuidRegex.matches(shop.id.value))
         }
@@ -69,23 +72,14 @@ class CreateShopUsecaseTest {
     inner class nullable項目 {
         @Test
         fun `introductionがnullでもShopを作成できる`() {
-            val shop = usecase.execute(createRequest(introduction = null), emptyList(), emptyList())
+            val shop = usecase.execute(createRequest(introduction = null), listOf(logoFile), listOf("LOGO"))
             assertNull(shop.introduction)
         }
 
         @Test
         fun `particularがnullでもShopを作成できる`() {
-            val shop = usecase.execute(createRequest(particular = null), emptyList(), emptyList())
+            val shop = usecase.execute(createRequest(particular = null), listOf(logoFile), listOf("LOGO"))
             assertNull(shop.particular)
-        }
-    }
-
-    @Nested
-    inner class 空コレクション {
-        @Test
-        fun `画像なしでもShopを作成できる`() {
-            val shop = usecase.execute(createRequest(), emptyList(), emptyList())
-            assertEquals(0, shop.images.size)
         }
     }
 
@@ -94,7 +88,7 @@ class CreateShopUsecaseTest {
         @Test
         fun `作成したShopがリポジトリに保存される`() {
             savedShops.clear()
-            usecase.execute(createRequest(), emptyList(), emptyList())
+            usecase.execute(createRequest(), listOf(logoFile), listOf("LOGO"))
             assertEquals(1, savedShops.size)
             assertEquals("テスト店舗", savedShops[0].name)
         }
@@ -105,7 +99,14 @@ class CreateShopUsecaseTest {
         @Test
         fun `nameが空白の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                usecase.execute(createRequest(name = ""), emptyList(), emptyList())
+                usecase.execute(createRequest(name = ""), listOf(logoFile), listOf("LOGO"))
+            }
+        }
+
+        @Test
+        fun `LOGO画像なしの場合は例外が発生する`() {
+            assertThrows<IllegalArgumentException> {
+                usecase.execute(createRequest(), emptyList(), emptyList())
             }
         }
     }

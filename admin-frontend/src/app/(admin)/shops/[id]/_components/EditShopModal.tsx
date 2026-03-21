@@ -193,6 +193,7 @@ export function EditShopModal({
         <ImageUploadField
           imageTypes={[{ value: "LOGO", label: "ロゴ" }]}
           existingImages={shop.images.filter((img) => img.type === "LOGO")}
+          required
         />
 
         <div className={modalStyles.actions}>

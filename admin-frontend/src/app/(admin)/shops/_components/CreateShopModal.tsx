@@ -182,7 +182,10 @@ export function CreateShopModal({
         </div>
 
         <ImageUploadField imageTypes={[{ value: "MAIN", label: "メイン" }]} />
-        <ImageUploadField imageTypes={[{ value: "LOGO", label: "ロゴ" }]} />
+        <ImageUploadField
+          imageTypes={[{ value: "LOGO", label: "ロゴ" }]}
+          required
+        />
 
         <div className={styles.actions}>
           <button

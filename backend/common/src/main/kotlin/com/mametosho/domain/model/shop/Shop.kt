@@ -40,8 +40,8 @@ data class Shop(
         require(shopUrl.isNotBlank()) { "shopUrl must not be blank" }
         require(shopUrl.length <= 2048) { "shopUrl must be at most 2048 characters, but was ${shopUrl.length}" }
         val logoImageCount = images.count { it.type == ShopImageType.LOGO }
-        require(logoImageCount <= 1) {
-            "LOGO image must be at most 1, but was $logoImageCount"
+        require(logoImageCount == 1) {
+            "LOGO image must be exactly 1, but was $logoImageCount"
         }
     }
 

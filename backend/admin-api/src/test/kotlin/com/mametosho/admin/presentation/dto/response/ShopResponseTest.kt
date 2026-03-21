@@ -26,6 +26,11 @@ class ShopResponseTest {
                 type = ShopImageType.MAIN,
                 imageUrl = ImageUrl("https://example.com/image.png"),
             ),
+            ShopImage(
+                id = ShopImageId("00000000-0000-4000-8000-000000000012"),
+                type = ShopImageType.LOGO,
+                imageUrl = ImageUrl("https://example.com/logo.png"),
+            ),
         ),
     )
 
