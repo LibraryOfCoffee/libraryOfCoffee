@@ -2,10 +2,12 @@ package com.mametosho.admin.presentation.controller
 
 import com.mametosho.admin.application.usecase.CreateShopUsecase
 import com.mametosho.admin.application.usecase.DeleteShopUsecase
+import com.mametosho.admin.application.usecase.GetShopUsecase
 import com.mametosho.admin.application.usecase.UpdateShopUsecase
 import com.mametosho.admin.presentation.dto.request.CreateShopRequest
 import com.mametosho.admin.presentation.dto.request.UpdateShopRequest
 import com.mametosho.admin.presentation.dto.response.ErrorResponse
+import com.mametosho.admin.presentation.dto.response.ShopDetailResponse
 import com.mametosho.admin.presentation.dto.response.ShopResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -19,6 +21,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -29,10 +32,82 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/admin/shops")
 @Tag(name = "Shop", description = "店舗API")
 class ShopController(
+    private val getShopUsecase: GetShopUsecase,
     private val createShopUsecase: CreateShopUsecase,
     private val updateShopUsecase: UpdateShopUsecase,
     private val deleteShopUsecase: DeleteShopUsecase,
 ) {
+    @GetMapping("/{id}")
+    @Operation(
+        summary = "店舗詳細取得",
+        description = "指定されたIDの店舗の詳細情報を取得します。",
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "取得成功",
+                content = [
+                    Content(
+                        schema = Schema(implementation = ShopDetailResponse::class),
+                        examples = [
+                            ExampleObject(
+                                name = "success",
+                                summary = "取得成功例",
+                                value = """
+                                    {
+                                      "id": "00000000-0000-4000-8000-000000000001",
+                                      "shopifyShopId": "test-shop-001",
+                                      "name": "テスト珈琲店",
+                                      "introduction": "こだわりの珈琲をお届けします。",
+                                      "particular": "厳選された豆のみを使用しています。",
+                                      "images": [
+                                        {
+                                          "id": "00000000-0000-4000-8000-000000000010",
+                                          "type": "MAIN",
+                                          "imageUrl": "https://example.com/shop-image.jpg"
+                                        }
+                                      ]
+                                    }
+                                """,
+                            ),
+                        ],
+                    ),
+                ],
+            ),
+            ApiResponse(
+                responseCode = "404",
+                description = "店舗が見つかりません",
+                content = [
+                    Content(
+                        examples = [
+                            ExampleObject(
+                                name = "not_found",
+                                summary = "店舗が見つからない場合",
+                                value = """
+                                    {
+                                      "timestamp": "2026-02-23T12:00:00.000+00:00",
+                                      "status": 404,
+                                      "error": "Not Found",
+                                      "path": "/api/admin/shops/00000000-0000-4000-8000-000000000999"
+                                    }
+                                """,
+                            ),
+                        ],
+                    ),
+                ],
+            ),
+        ],
+    )
+    fun getShop(
+        @Parameter(description = "店舗ID", required = true, example = "00000000-0000-4000-8000-000000000001")
+        @PathVariable id: String,
+    ): ResponseEntity<ShopDetailResponse> {
+        val shop = getShopUsecase.execute(id)
+            ?: return ResponseEntity.notFound().build()
+        return ResponseEntity.ok(ShopDetailResponse.from(shop))
+    }
+
     @PostMapping
     @Operation(
         summary = "店舗登録",
