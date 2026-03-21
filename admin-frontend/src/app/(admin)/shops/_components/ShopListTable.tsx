@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { PagedResponse, ShopListItem } from "@/api/shops";
 import styles from "../page.module.css";
+import { CreateShopButton } from "./CreateShopButton";
 
 export function ShopListTable({
   shops,
@@ -17,9 +18,7 @@ export function ShopListTable({
           <h1 className={styles.title}>店舗一覧</h1>
           <p className={styles.count}>{shops.totalCount}件の店舗</p>
         </div>
-        <Link href="/shops/new" className={styles.createButton}>
-          + 新規作成
-        </Link>
+        <CreateShopButton />
       </div>
 
       <div className={styles.tableWrapper}>
