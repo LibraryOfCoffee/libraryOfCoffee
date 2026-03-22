@@ -73,7 +73,7 @@ class ShopControllerTest {
     )
 
     private val fakeQueryService = object : ShopQueryService {
-        override fun findList(page: Int, size: Int): PagedResult<ShopListResult> = sampleListResult
+        override fun findList(page: Int, size: Int, name: String?): PagedResult<ShopListResult> = sampleListResult
     }
 
     private val fakeShopRepository = object : ShopRepository {
@@ -95,7 +95,7 @@ class ShopControllerTest {
             override fun execute(id: String): Shop? = getResult
         }
         val fakeListUsecase = object : ListShopsUsecase(fakeQueryService) {
-            override fun execute(page: Int, size: Int): PagedResult<ShopListResult> = listResult
+            override fun execute(page: Int, size: Int, name: String?): PagedResult<ShopListResult> = listResult
         }
         val fakeCreateUsecase = object : CreateShopUsecase(fakeShopRepository, fakeImageStorageService) {
             override fun execute(request: CreateShopRequest, imageFiles: List<MultipartFile>, imageTypes: List<String>): Shop = createShop
@@ -119,7 +119,7 @@ class ShopControllerTest {
         @Test
         fun `正常に店舗一覧を取得すると200が返る`() {
             val controller = createController()
-            val response = controller.listShops(0, 20)
+            val response = controller.listShops(0, 20, null)
 
             assertEquals(HttpStatus.OK, response.statusCode)
             assertEquals(1, response.body?.items?.size)
@@ -131,7 +131,26 @@ class ShopControllerTest {
         @Test
         fun `結果が0件の場合も200が返る`() {
             val controller = createController(listResult = emptyListResult)
-            val response = controller.listShops(0, 20)
+            val response = controller.listShops(0, 20, null)
+
+            assertEquals(HttpStatus.OK, response.statusCode)
+            assertEquals(0, response.body?.items?.size)
+            assertEquals(0L, response.body?.totalCount)
+        }
+
+        @Test
+        fun `店名で検索して200が返る`() {
+            val controller = createController()
+            val response = controller.listShops(0, 20, "テスト")
+
+            assertEquals(HttpStatus.OK, response.statusCode)
+            assertEquals(1, response.body?.items?.size)
+        }
+
+        @Test
+        fun `店名検索で結果が0件の場合も200が返る`() {
+            val controller = createController(listResult = emptyListResult)
+            val response = controller.listShops(0, 20, "存在しない店舗")
 
             assertEquals(HttpStatus.OK, response.statusCode)
             assertEquals(0, response.body?.items?.size)

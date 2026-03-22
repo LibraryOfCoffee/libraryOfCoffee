@@ -11,7 +11,7 @@ class ListShopsUsecase(
     private val shopQueryService: ShopQueryService,
 ) {
     @Transactional(readOnly = true)
-    open fun execute(page: Int, size: Int): PagedResult<ShopListResult> {
-        return shopQueryService.findList(page, size)
+    open fun execute(page: Int, size: Int, name: String? = null): PagedResult<ShopListResult> {
+        return shopQueryService.findList(page, size, name)
     }
 }

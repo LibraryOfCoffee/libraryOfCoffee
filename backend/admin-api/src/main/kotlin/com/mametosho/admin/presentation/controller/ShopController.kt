@@ -47,7 +47,7 @@ class ShopController(
     @GetMapping
     @Operation(
         summary = "店舗一覧取得",
-        description = "店舗の一覧をページネーション付きで取得します。画像は含まれません。",
+        description = "店舗の一覧をページネーション付きで取得します。店名による部分一致検索が可能です。画像は含まれません。",
     )
     @ApiResponses(
         value = [
@@ -89,8 +89,10 @@ class ShopController(
         @RequestParam(defaultValue = "0") page: Int,
         @Parameter(description = "1ページあたりの件数", example = "20")
         @RequestParam(defaultValue = "20") size: Int,
+        @Parameter(description = "店名（部分一致検索）", example = "珈琲", required = false)
+        @RequestParam(required = false) name: String?,
     ): ResponseEntity<PagedResponse<ShopListResponse>> {
-        val result = listShopsUsecase.execute(page, size)
+        val result = listShopsUsecase.execute(page, size, name)
         return ResponseEntity.ok(PagedResponse.from(result) { ShopListResponse.from(it) })
     }
 
