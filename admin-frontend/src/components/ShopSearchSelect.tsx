@@ -1,7 +1,6 @@
 "use client";
 
 import { useId, useRef, useState, useTransition } from "react";
-import { searchShopsAction } from "@/app/(admin)/coffee-beans/_components/searchShopsAction";
 import modalStyles from "@/components/modal.module.css";
 import styles from "./shop-search-select.module.css";
 
@@ -11,10 +10,12 @@ export function ShopSearchSelect({
   initialShops,
   defaultValue,
   fieldErrors,
+  onSearch,
 }: {
   initialShops: ShopOption[];
   defaultValue?: string;
   fieldErrors?: string[];
+  onSearch: (query?: string) => Promise<ShopOption[]>;
 }) {
   const inputId = useId();
   const defaultShop = defaultValue
@@ -37,7 +38,7 @@ export function ShopSearchSelect({
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
       startTransition(async () => {
-        const results = await searchShopsAction(value || undefined);
+        const results = await onSearch(value || undefined);
         setShops(results);
       });
     }, 300);

@@ -8,6 +8,7 @@ import {
   useRef,
 } from "react";
 import type { CoffeeBeanDetail } from "@/api/coffee-beans";
+import { searchShopsAction } from "@/app/(admin)/coffee-beans/_components/searchShopsAction";
 import {
   PROCESSING_METHOD_LABELS,
   ROAST_LEVEL_LABELS,
@@ -111,6 +112,7 @@ export function EditCoffeeBeanModal({
           initialShops={initialShops}
           defaultValue={state.values?.shopId ?? coffeeBean.shopId}
           fieldErrors={state.fieldErrors?.shopId}
+          onSearch={searchShopsAction}
         />
 
         <div className={modalStyles.field}>

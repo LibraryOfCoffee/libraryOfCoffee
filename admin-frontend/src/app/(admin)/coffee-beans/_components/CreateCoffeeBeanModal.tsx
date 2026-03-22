@@ -23,6 +23,7 @@ import {
   type CreateCoffeeBeanState,
   createCoffeeBeanAction,
 } from "./createCoffeeBeanAction";
+import { searchShopsAction } from "./searchShopsAction";
 
 const initialState: CreateCoffeeBeanState = {};
 
@@ -106,6 +107,7 @@ export function CreateCoffeeBeanModal({
           initialShops={shops.map((s) => ({ id: s.id, name: s.name }))}
           defaultValue={state.values?.shopId}
           fieldErrors={state.fieldErrors?.shopId}
+          onSearch={searchShopsAction}
         />
 
         <div className={modalStyles.field}>
