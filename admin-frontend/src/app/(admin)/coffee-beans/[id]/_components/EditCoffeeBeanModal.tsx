@@ -14,6 +14,7 @@ import {
 } from "@/app/(admin)/coffee-beans/_lib/coffeeBeanLabels";
 import { ImageUploadField } from "@/components/ImageUploadField";
 import modalStyles from "@/components/modal.module.css";
+import { ShopSearchSelect } from "@/components/ShopSearchSelect";
 import {
   type EditCoffeeBeanState,
   editCoffeeBeanAction,
@@ -23,10 +24,12 @@ const initialState: EditCoffeeBeanState = {};
 
 export function EditCoffeeBeanModal({
   coffeeBean,
+  initialShops,
   open,
   onClose,
 }: {
   coffeeBean: CoffeeBeanDetail;
+  initialShops: { id: string; name: string }[];
   open: boolean;
   onClose: () => void;
 }) {
@@ -103,6 +106,12 @@ export function EditCoffeeBeanModal({
         />
 
         {state.error && <div className={modalStyles.error}>{state.error}</div>}
+
+        <ShopSearchSelect
+          initialShops={initialShops}
+          defaultValue={state.values?.shopId ?? coffeeBean.shopId}
+          fieldErrors={state.fieldErrors?.shopId}
+        />
 
         <div className={modalStyles.field}>
           <label htmlFor={shopifyBeanIdId} className={modalStyles.label}>

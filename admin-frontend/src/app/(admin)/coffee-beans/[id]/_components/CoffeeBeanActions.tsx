@@ -8,8 +8,10 @@ import { EditCoffeeBeanModal } from "./EditCoffeeBeanModal";
 
 export function CoffeeBeanActions({
   coffeeBean,
+  initialShops,
 }: {
   coffeeBean: CoffeeBeanDetail;
+  initialShops: { id: string; name: string }[];
 }) {
   const [editOpen, setEditOpen] = useState(false);
   const [editKey, setEditKey] = useState(0);
@@ -47,6 +49,7 @@ export function CoffeeBeanActions({
       <EditCoffeeBeanModal
         key={`edit-${editKey}`}
         coffeeBean={coffeeBean}
+        initialShops={initialShops}
         open={editOpen}
         onClose={() => setEditOpen(false)}
       />

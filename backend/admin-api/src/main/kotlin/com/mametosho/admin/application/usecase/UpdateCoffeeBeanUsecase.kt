@@ -38,6 +38,7 @@ class UpdateCoffeeBeanUsecase(
         }
 
         val updatedBean = existingBean.update(
+            shopId = request.shopId,
             shopifyBeanId = request.shopifyBeanId,
             name = request.name,
             description = request.description,

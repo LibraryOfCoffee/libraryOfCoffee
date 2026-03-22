@@ -21,8 +21,10 @@ export function ShopSearchSelect({
     ? initialShops.find((s) => s.id === defaultValue)
     : undefined;
 
-  const [query, setQuery] = useState(defaultShop?.name ?? "");
-  const [selectedId, setSelectedId] = useState(defaultValue ?? "");
+  const [query, setQuery] = useState("");
+  const [selectedShop, setSelectedShop] = useState<ShopOption | undefined>(
+    defaultShop,
+  );
   const [shops, setShops] = useState<ShopOption[]>(initialShops);
   const [isOpen, setIsOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -30,7 +32,6 @@ export function ShopSearchSelect({
 
   const handleInputChange = (value: string) => {
     setQuery(value);
-    setSelectedId("");
     setIsOpen(true);
 
     if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -43,9 +44,15 @@ export function ShopSearchSelect({
   };
 
   const handleSelect = (shop: ShopOption) => {
-    setSelectedId(shop.id);
-    setQuery(shop.name);
+    setSelectedShop(shop);
+    setQuery("");
     setIsOpen(false);
+  };
+
+  const handleClear = () => {
+    setSelectedShop(undefined);
+    setQuery("");
+    setShops(initialShops);
   };
 
   return (
@@ -54,43 +61,57 @@ export function ShopSearchSelect({
         店舗
         <span className={modalStyles.required}>*</span>
       </label>
-      <div className={styles.wrapper}>
-        <input type="hidden" name="shopId" value={selectedId} />
-        <input
-          id={inputId}
-          type="text"
-          className={modalStyles.input}
-          placeholder="店舗名で検索..."
-          value={query}
-          onChange={(e) => handleInputChange(e.target.value)}
-          onFocus={() => setIsOpen(true)}
-          onBlur={() => setIsOpen(false)}
-        />
-        {isOpen && (
-          <ul className={styles.dropdown}>
-            {shops.length === 0 ? (
-              <li className={styles.empty}>
-                {isPending ? "検索中..." : "該当する店舗がありません"}
-              </li>
-            ) : (
-              shops.map((shop) => (
-                <li key={shop.id} className={styles.dropdownItem}>
-                  <button
-                    type="button"
-                    className={styles.dropdownItemButton}
-                    onMouseDown={(e) => {
-                      e.preventDefault();
-                      handleSelect(shop);
-                    }}
-                  >
-                    {shop.name}
-                  </button>
+      <input type="hidden" name="shopId" value={selectedShop?.id ?? ""} />
+      {selectedShop ? (
+        <div className={styles.selected}>
+          <span className={styles.selectedName}>{selectedShop.name}</span>
+          <button
+            type="button"
+            className={styles.clearButton}
+            onClick={handleClear}
+            aria-label="選択解除"
+          >
+            &times;
+          </button>
+        </div>
+      ) : (
+        <div className={styles.wrapper}>
+          <input
+            id={inputId}
+            type="text"
+            className={modalStyles.input}
+            placeholder="店舗名で検索..."
+            value={query}
+            onChange={(e) => handleInputChange(e.target.value)}
+            onFocus={() => setIsOpen(true)}
+            onBlur={() => setIsOpen(false)}
+          />
+          {isOpen && (
+            <ul className={styles.dropdown}>
+              {shops.length === 0 ? (
+                <li className={styles.empty}>
+                  {isPending ? "検索中..." : "該当する店舗がありません"}
                 </li>
-              ))
-            )}
-          </ul>
-        )}
-      </div>
+              ) : (
+                shops.map((shop) => (
+                  <li key={shop.id} className={styles.dropdownItem}>
+                    <button
+                      type="button"
+                      className={styles.dropdownItemButton}
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        handleSelect(shop);
+                      }}
+                    >
+                      {shop.name}
+                    </button>
+                  </li>
+                ))
+              )}
+            </ul>
+          )}
+        </div>
+      )}
       {fieldErrors?.map((msg) => (
         <span key={msg} className={modalStyles.fieldError}>
           {msg}

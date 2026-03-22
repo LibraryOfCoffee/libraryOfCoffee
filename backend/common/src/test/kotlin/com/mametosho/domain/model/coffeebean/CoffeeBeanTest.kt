@@ -110,6 +110,7 @@ class CoffeeBeanTest {
         fun `idとshopIdが保持される`() {
             val bean = createCoffeeBean()
             val updated = bean.update(
+                shopId = "00000000-0000-4000-8000-000000000003",
                 shopifyBeanId = "updated-bean-001",
                 name = "更新後の豆",
                 description = "更新後の説明",
@@ -129,6 +130,7 @@ class CoffeeBeanTest {
         fun `各フィールドが更新される`() {
             val bean = createCoffeeBean()
             val updated = bean.update(
+                shopId = "00000000-0000-4000-8000-000000000003",
                 shopifyBeanId = "updated-bean-001",
                 name = "更新後の豆",
                 description = "更新後の説明",
@@ -161,6 +163,7 @@ class CoffeeBeanTest {
             val bean = createCoffeeBean()
             val uuidRegex = Regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             val updated = bean.update(
+                shopId = "00000000-0000-4000-8000-000000000003",
                 shopifyBeanId = "shopify-bean-1",
                 name = "エチオピア イルガチェフェ",
                 description = "フルーティーな香りが特徴",

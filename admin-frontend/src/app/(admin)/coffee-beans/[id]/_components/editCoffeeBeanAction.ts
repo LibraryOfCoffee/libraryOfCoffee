@@ -19,6 +19,7 @@ export async function editCoffeeBeanAction(
   formData: FormData,
 ): Promise<EditCoffeeBeanState> {
   const values = {
+    shopId: (formData.get("shopId") as string) ?? "",
     shopifyBeanId: (formData.get("shopifyBeanId") as string) ?? "",
     name: (formData.get("name") as string) ?? "",
     description: (formData.get("description") as string) ?? "",

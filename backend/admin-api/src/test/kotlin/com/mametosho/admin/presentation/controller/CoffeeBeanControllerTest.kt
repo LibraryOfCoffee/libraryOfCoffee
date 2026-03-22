@@ -127,6 +127,7 @@ class CoffeeBeanControllerTest {
     )
 
     private fun createUpdateRequest(): UpdateCoffeeBeanRequest = UpdateCoffeeBeanRequest(
+        shopId = "00000000-0000-4000-8000-000000000002",
         shopifyBeanId = "test-bean-001",
         name = "更新コーヒー豆",
         description = "更新説明文",

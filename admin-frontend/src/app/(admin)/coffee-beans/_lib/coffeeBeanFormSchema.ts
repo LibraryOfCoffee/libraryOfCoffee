@@ -2,6 +2,7 @@ import { z } from "zod/v4";
 import { PROCESSING_METHODS, ROAST_LEVELS } from "./coffeeBeanLabels";
 
 export const coffeeBeanFieldsSchema = z.object({
+  shopId: z.string().min(1, "店舗を選択してください。"),
   shopifyBeanId: z
     .string()
     .min(1, "Shopify Bean IDを入力してください。")
@@ -37,6 +38,7 @@ export const coffeeBeanFieldsSchema = z.object({
 });
 
 export type CoffeeBeanFormValues = {
+  shopId?: string;
   shopifyBeanId?: string;
   name?: string;
   description?: string;
@@ -51,6 +53,7 @@ export type CoffeeBeanFormState = {
   success?: boolean;
   error?: string;
   fieldErrors?: {
+    shopId?: string[];
     shopifyBeanId?: string[];
     name?: string[];
     description?: string[];

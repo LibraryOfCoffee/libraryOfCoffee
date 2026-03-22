@@ -4,6 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "コーヒー豆更新リクエスト")
 data class UpdateCoffeeBeanRequest(
+    @Schema(description = "店舗ID", example = "00000000-0000-4000-8000-000000000001")
+    val shopId: String,
+
     @Schema(description = "Shopifyの商品ID", example = "test-bean-001")
     val shopifyBeanId: String,
 

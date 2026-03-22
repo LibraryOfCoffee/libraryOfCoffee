@@ -10,8 +10,10 @@ import styles from "./CoffeeBeanDetail.module.css";
 
 export function CoffeeBeanDetail({
   coffeeBean,
+  initialShops,
 }: {
   coffeeBean: CoffeeBeanDetailType;
+  initialShops: { id: string; name: string }[];
 }) {
   return (
     <div className={styles.container}>
@@ -22,7 +24,10 @@ export function CoffeeBeanDetail({
             一覧に戻る
           </Link>
         </div>
-        <CoffeeBeanActions coffeeBean={coffeeBean} />
+        <CoffeeBeanActions
+          coffeeBean={coffeeBean}
+          initialShops={initialShops}
+        />
       </div>
 
       <div className={styles.content}>

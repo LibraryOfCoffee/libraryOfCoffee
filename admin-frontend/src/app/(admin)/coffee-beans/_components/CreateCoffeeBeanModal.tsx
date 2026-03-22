@@ -104,9 +104,7 @@ export function CreateCoffeeBeanModal({
 
         <ShopSearchSelect
           initialShops={shops.map((s) => ({ id: s.id, name: s.name }))}
-          defaultValue={
-            (state.values as Record<string, string> | undefined)?.shopId
-          }
+          defaultValue={state.values?.shopId}
           fieldErrors={state.fieldErrors?.shopId}
         />
 

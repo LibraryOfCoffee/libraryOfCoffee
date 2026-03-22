@@ -47,6 +47,7 @@ class UpdateCoffeeBeanUsecaseTest {
     private val usecase = UpdateCoffeeBeanUsecase(fakeRepository, FakeImageStorageService)
 
     private fun createRequest(
+        shopId: String = "00000000-0000-4000-8000-000000000002",
         shopifyBeanId: String = "updated-bean-001",
         name: String = "更新後コーヒー豆",
         description: String = "更新後説明文",
@@ -62,6 +63,7 @@ class UpdateCoffeeBeanUsecaseTest {
             ),
         ),
     ): UpdateCoffeeBeanRequest = UpdateCoffeeBeanRequest(
+        shopId = shopId,
         shopifyBeanId = shopifyBeanId,
         name = name,
         description = description,
@@ -95,11 +97,16 @@ class UpdateCoffeeBeanUsecaseTest {
     }
 
     @Nested
-    inner class shopId保持 {
+    inner class shopId更新 {
         @Test
-        fun `更新後もshopIdが保持される`() {
-            val bean = usecase.execute(existingBean.id.value, createRequest(), emptyList(), emptyList())!!
-            assertEquals(existingBean.shopId, bean.shopId)
+        fun `shopIdが更新される`() {
+            val bean = usecase.execute(
+                existingBean.id.value,
+                createRequest(shopId = "00000000-0000-4000-8000-000000000099"),
+                emptyList(),
+                emptyList(),
+            )!!
+            assertEquals("00000000-0000-4000-8000-000000000099", bean.shopId.value)
         }
 
         @Test
