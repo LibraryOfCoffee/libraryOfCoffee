@@ -80,7 +80,7 @@ export function ShopSearchSelect({
           <input
             id={inputId}
             type="text"
-            className={modalStyles.input}
+            className={`${modalStyles.input} ${styles.searchInput}`}
             placeholder="店舗名で検索..."
             value={query}
             onChange={(e) => handleInputChange(e.target.value)}
