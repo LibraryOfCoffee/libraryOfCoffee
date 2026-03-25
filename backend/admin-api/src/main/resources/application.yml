@@ -2,6 +2,11 @@ spring:
   application:
     name: mametosho-backend
 
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 50MB
+
   datasource:
     url: ${DB_URL}
     username: ${DB_USERNAME}
@@ -14,6 +19,16 @@ mybatis:
 
 server:
   port: ${SERVER_PORT:8080}
+
+jwt:
+  secret-key: ${JWT_SECRET_KEY}
+  expiration-seconds: ${JWT_EXPIRATION_SECONDS:3600}
+
+storage:
+  s3:
+    bucket-name: ${S3_BUCKET_NAME}
+    region: ${S3_REGION}
+    base-url: ${S3_BASE_URL}
 
 springdoc:
   api-docs:

@@ -1,19 +1,18 @@
 plugins {
-	kotlin("jvm") version "2.3.0" apply false
-	kotlin("plugin.spring") version "2.3.0" apply false
-	id("org.springframework.boot") version "4.0.0" apply false
-	id("io.spring.dependency-management") version "1.1.7" apply false
-	id("org.springdoc.openapi-gradle-plugin") version "1.9.0" apply false
+	alias(libs.plugins.kotlin.jvm) apply false
+	alias(libs.plugins.kotlin.spring) apply false
+	alias(libs.plugins.spring.boot) apply false
+	alias(libs.plugins.spring.dependency.management) apply false
+	alias(libs.plugins.springdoc.openapi.gradle) apply false
 }
 
-val detektVersion = "1.23.8"
 val detektCli: Configuration by configurations.creating {
 	isCanBeResolved = true
 	isCanBeConsumed = false
 }
 
 dependencies {
-	detektCli("io.gitlab.arturbosch.detekt:detekt-cli:$detektVersion")
+	detektCli(libs.detekt.cli)
 }
 
 allprojects {

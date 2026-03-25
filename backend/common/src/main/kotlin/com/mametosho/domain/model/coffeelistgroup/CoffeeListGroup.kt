@@ -12,12 +12,17 @@ import com.mametosho.domain.model.coffeebean.CoffeeBeanId
  * @property description グループの説明
  * @property children 珈琲リスト明細の一覧。同一coffeeBeanIdの重複は不可
  */
+@Suppress("MagicNumber")
 data class CoffeeListGroup(
     val id: CoffeeListGroupId,
     val description: String?,
     val children: List<CoffeeListChild>,
 ) {
     init {
+        description?.let {
+            require(it.isNotBlank()) { "description must not be blank" }
+            require(it.length <= 10000) { "description must be at most 10000 characters, but was ${it.length}" }
+        }
         val duplicateBeanIds = children.groupBy { it.coffeeBeanId }.filter { it.value.size > 1 }.keys
         require(duplicateBeanIds.isEmpty()) {
             "Duplicate coffeeBeanId is not allowed: $duplicateBeanIds"

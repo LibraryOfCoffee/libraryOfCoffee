@@ -1,6 +1,7 @@
 package com.mametosho.domain.model.customer
 
 import com.mametosho.domain.model.subscriptionplan.SubscriptionPlanId
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
 import java.time.LocalDate
 import kotlin.test.Test
@@ -19,71 +20,83 @@ class CustomerSubscriptionTest {
         contractPeriod = contractPeriod,
     )
 
-    @Test
-    fun `ACTIVE契約をキャンセルできる`() {
-        val subscription = createSubscription()
-        val canceled = subscription.cancel(LocalDate.of(2025, 6, 30))
-        assertEquals(SubscriptionStatus.CANCELED, canceled.status)
-        assertEquals(LocalDate.of(2025, 6, 30), canceled.contractPeriod.to)
-    }
+    @Nested
+    inner class cancel {
 
-    @Test
-    fun `BAN契約をキャンセルできる`() {
-        val subscription = createSubscription(status = SubscriptionStatus.BAN)
-        val canceled = subscription.cancel(LocalDate.of(2025, 6, 30))
-        assertEquals(SubscriptionStatus.CANCELED, canceled.status)
-    }
+        @Test
+        fun `ACTIVE契約をキャンセルできる`() {
+            val subscription = createSubscription()
+            val canceled = subscription.cancel(LocalDate.of(2025, 6, 30))
+            assertEquals(SubscriptionStatus.CANCELED, canceled.status)
+            assertEquals(LocalDate.of(2025, 6, 30), canceled.contractPeriod.to)
+        }
 
-    @Test
-    fun `CANCELED契約をキャンセルすると例外が発生する`() {
-        val subscription = createSubscription(status = SubscriptionStatus.CANCELED)
-        assertThrows<IllegalStateException> {
-            subscription.cancel(LocalDate.of(2025, 6, 30))
+        @Test
+        fun `BAN契約をキャンセルできる`() {
+            val subscription = createSubscription(status = SubscriptionStatus.BAN)
+            val canceled = subscription.cancel(LocalDate.of(2025, 6, 30))
+            assertEquals(SubscriptionStatus.CANCELED, canceled.status)
+        }
+
+        @Test
+        fun `CANCELED契約をキャンセルすると例外が発生する`() {
+            val subscription = createSubscription(status = SubscriptionStatus.CANCELED)
+            assertThrows<IllegalStateException> {
+                subscription.cancel(LocalDate.of(2025, 6, 30))
+            }
+        }
+
+        @Test
+        fun `キャンセル後のcontractPeriodのfromは変わらない`() {
+            val subscription = createSubscription()
+            val canceled = subscription.cancel(LocalDate.of(2025, 6, 30))
+            assertEquals(LocalDate.of(2025, 1, 1), canceled.contractPeriod.from)
         }
     }
 
-    @Test
-    fun `ACTIVE契約をBANできる`() {
-        val subscription = createSubscription()
-        val banned = subscription.ban()
-        assertEquals(SubscriptionStatus.BAN, banned.status)
-    }
+    @Nested
+    inner class ban {
 
-    @Test
-    fun `CANCELED契約をBANすると例外が発生する`() {
-        val subscription = createSubscription(status = SubscriptionStatus.CANCELED)
-        assertThrows<IllegalStateException> {
-            subscription.ban()
+        @Test
+        fun `ACTIVE契約をBANできる`() {
+            val subscription = createSubscription()
+            val banned = subscription.ban()
+            assertEquals(SubscriptionStatus.BAN, banned.status)
+        }
+
+        @Test
+        fun `CANCELED契約をBANすると例外が発生する`() {
+            val subscription = createSubscription(status = SubscriptionStatus.CANCELED)
+            assertThrows<IllegalStateException> {
+                subscription.ban()
+            }
         }
     }
 
-    @Test
-    fun `BAN契約をunbanでACTIVEに戻せる`() {
-        val subscription = createSubscription(status = SubscriptionStatus.BAN)
-        val unbanned = subscription.unban()
-        assertEquals(SubscriptionStatus.ACTIVE, unbanned.status)
-    }
+    @Nested
+    inner class unban {
 
-    @Test
-    fun `ACTIVE契約をunbanすると例外が発生する`() {
-        val subscription = createSubscription()
-        assertThrows<IllegalStateException> {
-            subscription.unban()
+        @Test
+        fun `BAN契約をunbanでACTIVEに戻せる`() {
+            val subscription = createSubscription(status = SubscriptionStatus.BAN)
+            val unbanned = subscription.unban()
+            assertEquals(SubscriptionStatus.ACTIVE, unbanned.status)
         }
-    }
 
-    @Test
-    fun `CANCELED契約をunbanすると例外が発生する`() {
-        val subscription = createSubscription(status = SubscriptionStatus.CANCELED)
-        assertThrows<IllegalStateException> {
-            subscription.unban()
+        @Test
+        fun `ACTIVE契約をunbanすると例外が発生する`() {
+            val subscription = createSubscription()
+            assertThrows<IllegalStateException> {
+                subscription.unban()
+            }
         }
-    }
 
-    @Test
-    fun `キャンセル後のcontractPeriodのfromは変わらない`() {
-        val subscription = createSubscription()
-        val canceled = subscription.cancel(LocalDate.of(2025, 6, 30))
-        assertEquals(LocalDate.of(2025, 1, 1), canceled.contractPeriod.from)
+        @Test
+        fun `CANCELED契約をunbanすると例外が発生する`() {
+            val subscription = createSubscription(status = SubscriptionStatus.CANCELED)
+            assertThrows<IllegalStateException> {
+                subscription.unban()
+            }
+        }
     }
 }

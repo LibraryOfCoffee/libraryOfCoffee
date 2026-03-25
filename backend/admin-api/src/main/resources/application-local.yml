@@ -1,3 +1,6 @@
+server:
+  port: 8081
+
 spring:
   sql:
     init:
@@ -10,6 +13,16 @@ spring:
       enabled: true
       file: ../compose.yml
       lifecycle-management: start-and-stop
+
+jwt:
+  secret-key: local-dev-secret-key-must-be-at-least-32-bytes-long-for-hs256
+  expiration-seconds: 3600
+
+storage:
+  s3:
+    bucket-name: library-of-coffee-images
+    region: ap-northeast-1
+    base-url: http://localhost:4566/library-of-coffee-images
 
 logging:
   level:

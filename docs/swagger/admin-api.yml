@@ -8,53 +8,1007 @@ info:
 servers:
 - url: /
   description: Current Server
+security:
+- Bearer: []
 tags:
-- name: Sample
-  description: 管理者用サンプルAPI
+- name: Shop
+  description: 店舗API
+- name: Auth
+  description: 認証API
+- name: CoffeeBean
+  description: コーヒー豆API
 paths:
-  /api/admin/samples/{id}:
+  /api/admin/shops/{id}:
     get:
       tags:
-      - Sample
-      summary: サンプル取得
-      description: 指定されたIDのサンプルを取得します（管理者用）
-      operationId: getSampleById
+      - Shop
+      summary: 店舗詳細取得
+      description: 指定されたIDの店舗の詳細情報を取得します。
+      operationId: getShop
       parameters:
       - name: id
         in: path
-        description: サンプルID
+        description: 店舗ID
         required: true
         schema:
-          type: integer
-          format: int64
+          type: string
+        example: 00000000-0000-4000-8000-000000000001
       responses:
         "200":
           description: 取得成功
           content:
             '*/*':
               schema:
-                $ref: "#/components/schemas/SampleResponse"
+                $ref: "#/components/schemas/ShopDetailResponse"
               examples:
                 success:
                   summary: 取得成功例
                   description: success
                   value:
-                    id: 1
-                    name: コーヒー豆A
+                    id: 00000000-0000-4000-8000-000000000001
+                    shopifyShopId: test-shop-001
+                    name: テスト珈琲店
+                    introduction: こだわりの珈琲をお届けします。
+                    particular: 厳選された豆のみを使用しています。
+                    shopUrl: https://example.com
+                    images:
+                    - id: 00000000-0000-4000-8000-000000000010
+                      type: MAIN
+                      imageUrl: https://example.com/shop-image.jpg
+                    - id: 00000000-0000-4000-8000-000000000011
+                      type: LOGO
+                      imageUrl: https://example.com/shop-logo.png
         "404":
-          description: サンプルが見つかりません
+          description: 店舗が見つかりません
+          content:
+            '*/*':
+              examples:
+                not_found:
+                  summary: 店舗が見つからない場合
+                  description: not_found
+                  value:
+                    timestamp: 2026-02-23T12:00:00.000+00:00
+                    status: 404
+                    error: Not Found
+                    path: /api/admin/shops/00000000-0000-4000-8000-000000000999
+    put:
+      tags:
+      - Shop
+      summary: 店舗編集
+      description: 指定されたIDの店舗を編集します。multipart/form-data形式で送信してください。全項目を置換します。ShopImageIdはサーバー側でUUIDv4を自動再生成します。
+      operationId: updateShop
+      parameters:
+      - name: id
+        in: path
+        description: 店舗ID
+        required: true
+        schema:
+          type: string
+        example: 00000000-0000-4000-8000-000000000001
+      - name: imageTypes
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: "#/components/schemas/UpdateShopRequest"
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+              required:
+              - data
+      responses:
+        "200":
+          description: 編集成功
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ShopResponse"
+              examples:
+                success:
+                  summary: 編集成功例
+                  description: success
+                  value:
+                    id: 00000000-0000-4000-8000-000000000001
+        "400":
+          description: バリデーションエラー
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                bad_request:
+                  summary: バリデーションエラーの場合
+                  description: bad_request
+                  value:
+                    timestamp: 2026-02-23T12:00:00.000+00:00
+                    status: 400
+                    error: Bad Request
+                    path: /api/admin/shops/00000000-0000-4000-8000-000000000001
+        "404":
+          description: 店舗が見つかりません
+          content:
+            '*/*':
+              examples:
+                not_found:
+                  summary: 店舗が見つからない場合
+                  description: not_found
+                  value:
+                    timestamp: 2026-02-23T12:00:00.000+00:00
+                    status: 404
+                    error: Not Found
+                    path: /api/admin/shops/00000000-0000-4000-8000-999999999999
+        "409":
+          description: ShopifyショップIDが重複しています
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                conflict:
+                  summary: ShopifyショップIDが重複している場合
+                  description: conflict
+                  value:
+                    timestamp: 2026-02-23T12:00:00.000+00:00
+                    status: 409
+                    error: Conflict
+                    path: /api/admin/shops/00000000-0000-4000-8000-000000000001
+    delete:
+      tags:
+      - Shop
+      summary: 店舗削除
+      description: 指定されたIDの店舗を削除します。店舗画像も同時に削除されます。
+      operationId: deleteShop
+      parameters:
+      - name: id
+        in: path
+        description: 店舗ID
+        required: true
+        schema:
+          type: string
+        example: 00000000-0000-4000-8000-000000000001
+      responses:
+        "204":
+          description: 削除成功
+        "404":
+          description: 店舗が見つかりません
+          content:
+            '*/*':
+              examples:
+                not_found:
+                  summary: 店舗が見つからない場合
+                  description: not_found
+                  value:
+                    timestamp: 2026-02-23T12:00:00.000+00:00
+                    status: 404
+                    error: Not Found
+                    path: /api/admin/shops/00000000-0000-4000-8000-999999999999
+        "409":
+          description: 関連するコーヒー豆が存在するため削除できません
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                conflict:
+                  summary: 関連するコーヒー豆が存在する場合
+                  description: conflict
+                  value:
+                    timestamp: 2026-02-23T12:00:00.000+00:00
+                    status: 409
+                    error: Conflict
+                    path: /api/admin/shops/00000000-0000-4000-8000-000000000001
+  /api/admin/coffee-beans/{id}:
+    get:
+      tags:
+      - CoffeeBean
+      summary: コーヒー豆詳細取得
+      description: 指定されたIDのコーヒー豆の詳細情報を取得します。
+      operationId: getCoffeeBean
+      parameters:
+      - name: id
+        in: path
+        description: コーヒー豆ID
+        required: true
+        schema:
+          type: string
+        example: 00000000-0000-4000-8000-000000000001
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/CoffeeBeanDetailResponse"
+              examples:
+                success:
+                  summary: 取得成功例
+                  description: success
+                  value:
+                    id: 00000000-0000-4000-8000-000000000001
+                    shopId: 00000000-0000-4000-8000-000000000002
+                    shopifyBeanId: test-bean-001
+                    name: エチオピア イルガチェフェ
+                    description: フルーティーな香りが特徴的なコーヒー豆です。
+                    origin: エチオピア
+                    farm: イルガチェフェ農園
+                    roastLevel: MEDIUM
+                    processingMethod: WASHED
+                    isSpecialty: true
+                    images:
+                    - id: 00000000-0000-4000-8000-000000000010
+                      type: MAIN
+                      imageUrl: https://example.com/image.jpg
+                    tastes:
+                    - id: 00000000-0000-4000-8000-000000000020
+                      tasteId: 00000000-0000-4000-8000-000000000030
+                      evaluationValue: 4
+        "404":
+          description: コーヒー豆が見つかりません
+          content:
+            '*/*':
+              examples:
+                not_found:
+                  summary: コーヒー豆が見つからない場合
+                  description: not_found
+                  value:
+                    timestamp: 2026-02-23T12:00:00.000+00:00
+                    status: 404
+                    error: Not Found
+                    path: /api/admin/coffee-beans/00000000-0000-4000-8000-000000000999
+    put:
+      tags:
+      - CoffeeBean
+      summary: コーヒー豆更新
+      description: 指定されたIDのコーヒー豆を更新します。multipart/form-data形式で送信してください。画像・テイスト評価は全件置換されます。
+      operationId: updateCoffeeBean
+      parameters:
+      - name: id
+        in: path
+        description: コーヒー豆ID
+        required: true
+        schema:
+          type: string
+        example: 00000000-0000-4000-8000-000000000001
+      - name: imageTypes
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: "#/components/schemas/UpdateCoffeeBeanRequest"
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+              required:
+              - data
+      responses:
+        "200":
+          description: 更新成功
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/CoffeeBeanResponse"
+              examples:
+                success:
+                  summary: 更新成功例
+                  description: success
+                  value:
+                    id: 00000000-0000-4000-8000-000000000001
+        "400":
+          description: バリデーションエラー
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                bad_request:
+                  summary: バリデーションエラーの場合
+                  description: bad_request
+                  value:
+                    timestamp: 2026-02-23T12:00:00.000+00:00
+                    status: 400
+                    error: Bad Request
+                    path: /api/admin/coffee-beans/00000000-0000-4000-8000-000000000001
+        "404":
+          description: コーヒー豆が見つかりません
+          content:
+            '*/*':
+              examples:
+                not_found:
+                  summary: コーヒー豆が見つからない場合
+                  description: not_found
+                  value:
+                    timestamp: 2026-02-23T12:00:00.000+00:00
+                    status: 404
+                    error: Not Found
+                    path: /api/admin/coffee-beans/00000000-0000-4000-8000-000000000999
+        "409":
+          description: Shopify商品IDが重複しています
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                conflict:
+                  summary: Shopify商品IDが重複している場合
+                  description: conflict
+                  value:
+                    timestamp: 2026-02-23T12:00:00.000+00:00
+                    status: 409
+                    error: Conflict
+                    path: /api/admin/coffee-beans/00000000-0000-4000-8000-000000000001
+    delete:
+      tags:
+      - CoffeeBean
+      summary: コーヒー豆削除
+      description: 指定されたIDのコーヒー豆を削除します。関連する画像・テイスト評価も同時に削除されます。
+      operationId: deleteCoffeeBean
+      parameters:
+      - name: id
+        in: path
+        description: コーヒー豆ID
+        required: true
+        schema:
+          type: string
+        example: 00000000-0000-4000-8000-000000000001
+      responses:
+        "204":
+          description: 削除成功
+        "404":
+          description: コーヒー豆が見つかりません
+          content:
+            '*/*':
+              examples:
+                not_found:
+                  summary: コーヒー豆が見つからない場合
+                  description: not_found
+                  value:
+                    timestamp: 2026-02-23T12:00:00.000+00:00
+                    status: 404
+                    error: Not Found
+                    path: /api/admin/coffee-beans/00000000-0000-4000-8000-000000000999
+  /api/admin/shops:
+    get:
+      tags:
+      - Shop
+      summary: 店舗一覧取得
+      description: 店舗の一覧をページネーション付きで取得します。店名による部分一致検索が可能です。画像は含まれません。
+      operationId: listShops
+      parameters:
+      - name: page
+        in: query
+        description: ページ番号（0始まり）
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+        example: 0
+      - name: size
+        in: query
+        description: 1ページあたりの件数
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 20
+        example: 20
+      - name: name
+        in: query
+        description: 店名（部分一致検索）
+        required: false
+        schema:
+          type: string
+        example: 珈琲
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            '*/*':
+              examples:
+                success:
+                  summary: 取得成功例
+                  description: success
+                  value:
+                    items:
+                    - id: 00000000-0000-4000-8000-000000000001
+                      shopifyShopId: test-shop-001
+                      name: テスト珈琲店
+                      introduction: こだわりの珈琲をお届けします。
+                      particular: 厳選された豆のみを使用しています。
+                      shopUrl: https://example.com
+                    totalCount: 1
+                    page: 0
+                    size: 20
+    post:
+      tags:
+      - Shop
+      summary: 店舗登録
+      description: 新しい店舗を登録します。multipart/form-data形式で送信してください。ShopIdおよびShopImageIdはサーバー側でUUIDv4を自動生成します。
+      operationId: createShop
+      parameters:
+      - name: imageTypes
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: "#/components/schemas/CreateShopRequest"
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+              required:
+              - data
+      responses:
+        "201":
+          description: 登録成功
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ShopResponse"
+              examples:
+                success:
+                  summary: 登録成功例
+                  description: success
+                  value:
+                    id: 00000000-0000-4000-8000-000000000001
+        "400":
+          description: バリデーションエラー
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                bad_request:
+                  summary: バリデーションエラーの場合
+                  description: bad_request
+                  value:
+                    timestamp: 2026-02-23T12:00:00.000+00:00
+                    status: 400
+                    error: Bad Request
+                    path: /api/admin/shops
+        "409":
+          description: ShopifyショップIDが重複しています
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                conflict:
+                  summary: ShopifyショップIDが重複している場合
+                  description: conflict
+                  value:
+                    timestamp: 2026-02-23T12:00:00.000+00:00
+                    status: 409
+                    error: Conflict
+                    path: /api/admin/shops
+  /api/admin/coffee-beans:
+    get:
+      tags:
+      - CoffeeBean
+      summary: コーヒー豆一覧取得
+      description: コーヒー豆の一覧をページネーション付きで取得します。画像・テイスト評価は含まれません。
+      operationId: listCoffeeBeans
+      parameters:
+      - name: page
+        in: query
+        description: ページ番号（0始まり）
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+        example: 0
+      - name: size
+        in: query
+        description: 1ページあたりの件数
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 20
+        example: 20
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            '*/*':
+              examples:
+                success:
+                  summary: 取得成功例
+                  description: success
+                  value:
+                    items:
+                    - id: 00000000-0000-4000-8000-000000000001
+                      shopId: 00000000-0000-4000-8000-000000000002
+                      shopifyBeanId: test-bean-001
+                      name: エチオピア イルガチェフェ
+                      description: フルーティーな香りが特徴的なコーヒー豆です。
+                      origin: エチオピア
+                      farm: イルガチェフェ農園
+                      roastLevel: MEDIUM
+                      processingMethod: WASHED
+                      isSpecialty: true
+                    totalCount: 1
+                    page: 0
+                    size: 20
+    post:
+      tags:
+      - CoffeeBean
+      summary: コーヒー豆登録
+      description: 新しいコーヒー豆を登録します。multipart/form-data形式で送信してください。CoffeeBeanId、CoffeeBeanImageId、CoffeeBeanTasteIdはサーバー側でUUIDv4を自動生成します。
+      operationId: createCoffeeBean
+      parameters:
+      - name: imageTypes
+        in: query
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: "#/components/schemas/CreateCoffeeBeanRequest"
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+              required:
+              - data
+      responses:
+        "201":
+          description: 登録成功
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/CoffeeBeanResponse"
+              examples:
+                success:
+                  summary: 登録成功例
+                  description: success
+                  value:
+                    id: 00000000-0000-4000-8000-000000000001
+        "400":
+          description: バリデーションエラー
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                bad_request:
+                  summary: バリデーションエラーの場合
+                  description: bad_request
+                  value:
+                    timestamp: 2026-02-23T12:00:00.000+00:00
+                    status: 400
+                    error: Bad Request
+                    path: /api/admin/coffee-beans
+        "409":
+          description: Shopify商品IDが重複しています
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                conflict:
+                  summary: Shopify商品IDが重複している場合
+                  description: conflict
+                  value:
+                    timestamp: 2026-02-23T12:00:00.000+00:00
+                    status: 409
+                    error: Conflict
+                    path: /api/admin/coffee-beans
+  /api/admin/auth/login:
+    post:
+      tags:
+      - Auth
+      summary: ログイン
+      description: メールアドレスとパスワードで認証し、JWTアクセストークンを返します。
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+        required: true
+      responses:
+        "200":
+          description: 認証成功
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+              examples:
+                success:
+                  summary: 認証成功例
+                  description: success
+                  value:
+                    accessToken: eyJhbGciOiJIUzI1NiJ9...
+                    tokenType: Bearer
+                    expiresIn: 3600
+        "401":
+          description: 認証失敗
+          content:
+            '*/*':
+              examples:
+                unauthorized:
+                  summary: メールアドレスまたはパスワードが不正な場合
+                  description: unauthorized
+                  value:
+                    timestamp: 2026-02-23T12:00:00.000+00:00
+                    status: 401
+                    error: Unauthorized
+                    path: /api/admin/auth/login
 components:
   schemas:
-    SampleResponse:
+    UpdateShopRequest:
       type: object
-      description: サンプルレスポンス
+      description: 店舗編集リクエスト
       properties:
-        id:
-          type: integer
-          format: int64
-          description: サンプルID
-          example: 1
+        shopifyShopId:
+          type: string
+          description: ShopifyのショップID
+          example: test-shop-001
         name:
           type: string
-          description: サンプル名
-          example: コーヒー豆A
+          description: 店舗名
+          example: テスト店舗
+        introduction:
+          type: string
+          description: 店舗紹介
+          example: テスト紹介文
+        particular:
+          type: string
+          description: こだわり
+          example: テストこだわり
+        shopUrl:
+          type: string
+          description: 店舗URL
+          example: https://example.com
+    ShopResponse:
+      type: object
+      description: 店舗登録レスポンス
+      properties:
+        id:
+          type: string
+          description: 店舗ID
+          example: 00000000-0000-4000-8000-000000000001
+    ErrorResponse:
+      type: object
+      description: エラーレスポンス
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: エラー発生日時
+          example: 2026-02-23T12:00:00.000+00:00
+        status:
+          type: integer
+          format: int32
+          description: HTTPステータスコード
+          example: 404
+        error:
+          type: string
+          description: エラー概要
+          example: Not Found
+        path:
+          type: string
+          description: リクエストパス
+          example: /api/admin/resources/00000000-0000-4000-8000-000000000099
+    TasteRequest:
+      type: object
+      description: テイスト評価リクエスト
+      properties:
+        tasteId:
+          type: string
+          description: テイストID
+          example: 00000000-0000-4000-8000-000000000041
+        evaluationValue:
+          type: integer
+          format: int32
+          description: 評価値
+          example: 3
+    UpdateCoffeeBeanRequest:
+      type: object
+      description: コーヒー豆更新リクエスト
+      properties:
+        shopifyBeanId:
+          type: string
+          description: Shopifyの商品ID
+          example: test-bean-001
+        name:
+          type: string
+          description: 豆の名前
+          example: テストコーヒー豆
+        description:
+          type: string
+          description: 説明
+          example: テスト説明文
+        origin:
+          type: string
+          description: 産地
+          example: エチオピア
+        farm:
+          type: string
+          description: 農園名
+          example: テスト農園
+        roastLevel:
+          type: string
+          description: 焙煎度
+          example: MEDIUM
+        processingMethod:
+          type: string
+          description: 精製方法
+          example: WASHED
+        tastes:
+          type: array
+          description: テイスト評価一覧
+          items:
+            $ref: "#/components/schemas/TasteRequest"
+        specialty:
+          type: boolean
+    CoffeeBeanResponse:
+      type: object
+      description: コーヒー豆登録レスポンス
+      properties:
+        id:
+          type: string
+          description: コーヒー豆ID
+          example: 00000000-0000-4000-8000-000000000001
+    CreateShopRequest:
+      type: object
+      description: 店舗登録リクエスト
+      properties:
+        shopifyShopId:
+          type: string
+          description: ShopifyのショップID
+          example: test-shop-001
+        name:
+          type: string
+          description: 店舗名
+          example: テスト店舗
+        introduction:
+          type: string
+          description: 店舗紹介
+          example: テスト紹介文
+        particular:
+          type: string
+          description: こだわり
+          example: テストこだわり
+        shopUrl:
+          type: string
+          description: 店舗URL
+          example: https://example.com
+    CreateCoffeeBeanRequest:
+      type: object
+      description: コーヒー豆登録リクエスト
+      properties:
+        shopId:
+          type: string
+          description: 店舗ID
+          example: 00000000-0000-4000-8000-000000000031
+        shopifyBeanId:
+          type: string
+          description: Shopifyの商品ID
+          example: gid://shopify/Product/999999
+        name:
+          type: string
+          description: 豆の名前
+          example: テストコーヒー豆
+        description:
+          type: string
+          description: 説明
+          example: テスト説明文
+        origin:
+          type: string
+          description: 産地
+          example: エチオピア
+        farm:
+          type: string
+          description: 農園名
+          example: テスト農園
+        roastLevel:
+          type: string
+          description: 焙煎度
+          example: MEDIUM
+        processingMethod:
+          type: string
+          description: 精製方法
+          example: WASHED
+        tastes:
+          type: array
+          description: テイスト評価一覧
+          items:
+            $ref: "#/components/schemas/TasteRequest"
+        specialty:
+          type: boolean
+    LoginRequest:
+      type: object
+      description: ログインリクエスト
+      properties:
+        email:
+          type: string
+          description: メールアドレス
+          example: admin@mametosho.com
+        password:
+          type: string
+          description: パスワード
+          example: password123
+    LoginResponse:
+      type: object
+      description: ログインレスポンス
+      properties:
+        accessToken:
+          type: string
+          description: アクセストークン
+          example: eyJhbGciOiJIUzI1NiJ9...
+        tokenType:
+          type: string
+          description: トークンタイプ
+          example: Bearer
+        expiresIn:
+          type: integer
+          format: int64
+          description: 有効期限（秒）
+          example: 3600
+    ImageDetail:
+      type: object
+      description: 画像詳細
+      properties:
+        id:
+          type: string
+          description: 画像ID
+          example: 00000000-0000-4000-8000-000000000010
+        type:
+          type: string
+          description: 画像種別
+          example: MAIN
+        imageUrl:
+          type: string
+          description: 画像URL
+          example: https://example.com/image.jpg
+    ShopDetailResponse:
+      type: object
+      description: 店舗詳細レスポンス
+      properties:
+        id:
+          type: string
+          description: 店舗ID
+          example: 00000000-0000-4000-8000-000000000001
+        shopifyShopId:
+          type: string
+          description: ShopifyショップID
+          example: test-shop-001
+        name:
+          type: string
+          description: 店舗名
+          example: テスト珈琲店
+        introduction:
+          type: string
+          description: 店舗紹介
+          example: こだわりの珈琲をお届けします。
+        particular:
+          type: string
+          description: こだわり
+          example: 厳選された豆のみを使用しています。
+        shopUrl:
+          type: string
+          description: 店舗URL
+          example: https://example.com
+        images:
+          type: array
+          description: 画像一覧
+          items:
+            $ref: "#/components/schemas/ImageDetail"
+    CoffeeBeanDetailResponse:
+      type: object
+      description: コーヒー豆詳細レスポンス
+      properties:
+        id:
+          type: string
+          description: コーヒー豆ID
+          example: 00000000-0000-4000-8000-000000000001
+        shopId:
+          type: string
+          description: ショップID
+          example: 00000000-0000-4000-8000-000000000002
+        shopifyBeanId:
+          type: string
+          description: Shopify商品ID
+          example: test-bean-001
+        name:
+          type: string
+          description: 豆の名前
+          example: エチオピア イルガチェフェ
+        description:
+          type: string
+          description: 説明
+          example: フルーティーな香りが特徴的なコーヒー豆です。
+        origin:
+          type: string
+          description: 産地
+          example: エチオピア
+        farm:
+          type: string
+          description: 農園名
+          example: イルガチェフェ農園
+        roastLevel:
+          type: string
+          description: 焙煎度
+          example: MEDIUM
+        processingMethod:
+          type: string
+          description: 精製方法
+          example: WASHED
+        images:
+          type: array
+          description: 画像一覧
+          items:
+            $ref: "#/components/schemas/ImageDetail"
+        tastes:
+          type: array
+          description: テイスト評価一覧
+          items:
+            $ref: "#/components/schemas/TasteDetail"
+        specialty:
+          type: boolean
+    TasteDetail:
+      type: object
+      description: テイスト評価詳細
+      properties:
+        id:
+          type: string
+          description: テイスト評価ID
+          example: 00000000-0000-4000-8000-000000000020
+        tasteId:
+          type: string
+          description: テイストID
+          example: 00000000-0000-4000-8000-000000000030
+        evaluationValue:
+          type: integer
+          format: int32
+          description: 評価値（0-5）
+          example: 4
+  securitySchemes:
+    Bearer:
+      type: http
+      description: JWTアクセストークン
+      scheme: bearer
+      bearerFormat: JWT

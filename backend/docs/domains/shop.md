@@ -21,12 +21,17 @@ Shopifyのショップと1対1で紐づく。
 | name | String | 店舗名 |
 | introduction | String? | 店舗紹介 |
 | particular | String? | こだわり |
+| shopUrl | String | 店舗URL |
 | images | List\<ShopImage\> | 店舗画像一覧 |
 
 ### 不変条件
 
 - ShopifyShopIdはシステム内で一意でなければならない
-- nameは必須
+- nameは必須（255文字以内）
+- introductionは非null時、空白不可（10000文字以内）
+- particularは非null時、空白不可（10000文字以内）
+- shopUrlは必須、空白不可（2048文字以内）
+- LOGO画像はちょうど1枚（必須）
 
 ## ShopImage（エンティティ）
 
@@ -35,7 +40,7 @@ Shopifyのショップと1対1で紐づく。
 | プロパティ | 型 | 説明 |
 |-----------|---|------|
 | id | ShopImageId | 画像ID |
-| type | ShopImageType | 画像の種別（main など） |
+| type | ShopImageType | 画像の種別（main, logo） |
 | imageUrl | ImageUrl | 画像URL |
 
 ## 関連する集約

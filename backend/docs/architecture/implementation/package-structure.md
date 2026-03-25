@@ -47,7 +47,8 @@ common/src/main/kotlin/com/mametosho/
 │       │   │   └── {Feature}DetailRow.kt
 │       │   └── mapper/                # MyBatisマッパー
 │       │       └── {Feature}QueryMapper.kt
-│       └── repository/                # リポジトリ実装（QueryServiceImpl含む）
+│       ├── repository/                # リポジトリ実装（コマンド側）
+│       └── query/                    # クエリサービス実装（CQRS読み取り側）
 │           └── {Feature}QueryServiceImpl.kt
 ├── presentation/
 │   ├── controller/                    # RESTコントローラ
@@ -70,7 +71,7 @@ ArchUnitテスト（`LayerDependencyTest`）で自動検証される。
 - Result classesは `application/query/result/` 配下に配置する
 - Mapper は `infrastructure/persistence/mybatis/mapper/` に配置
 - Row data class（entity）は `infrastructure/persistence/mybatis/entity/` に配置
-- QueryServiceImpl は `infrastructure/persistence/repository/` に配置
+- QueryServiceImpl は `infrastructure/persistence/query/` に配置
 
 ### コーディングルール
 

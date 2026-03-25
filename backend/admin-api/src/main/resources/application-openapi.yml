@@ -12,8 +12,18 @@ spring:
   security:
     enabled: false
 
+jwt:
+  secret-key: openapi-dummy-key-not-used-in-production-32bytes
+  expiration-seconds: 3600
+
 server:
   port: 8081
+
+storage:
+  s3:
+    bucket-name: dummy
+    region: ap-northeast-1
+    base-url: http://localhost:4566/dummy
 
 logging:
   level:
