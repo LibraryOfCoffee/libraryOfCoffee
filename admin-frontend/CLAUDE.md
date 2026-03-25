@@ -43,6 +43,16 @@ pnpm format    # フォーマット
 - **UIをツリーに分解する**ことから設計を始める（トップダウン設計）。データフェッチコロケーションとCompositionパターンを早期適用するため、(1)UIをツリーに分解 → (2)コンポーネントツリーを仮実装 → (3)各コンポーネントの詳細実装の順で進める。
 - **Container/Presentationalパターン**でテスト容易性を向上させる。Container Components（Server Components、データフェッチ担当）とPresentational Components（Shared/Client Components、表示担当）に分離する。Presentational ComponentsはRTLやStorybookで従来通りテスト可能。
 
+### useEffectの方針
+
+[参考: useEffectはできるだけ使わないほうがいい](https://zenn.dev/begineer/articles/8a0696fda04c09)
+
+- **useEffectは外部システムとの同期が必要な場合のみ使用する。** レンダー用のデータ変換やユーザーイベント処理には使わない。
+- **レンダー用データ変換**: stateに計算結果を保存してuseEffectで同期するのではなく、レンダリング中に直接計算する（例: `const filtered = items.filter(...)`）。
+- **ユーザーイベント処理**: useEffectでフラグを監視するのではなく、イベントハンドラで直接処理する（例: `onClick`、`onChange`、`onBlur`、`onFocus`）。
+- **click outside検出**: `document.addEventListener`+useEffectではなく、`onBlur`イベントで代替する。ドロップダウン等で選択肢クリック時にblurを防ぎたい場合は、選択肢側で`onMouseDown`+`e.preventDefault()`を使う。
+- useEffectが正当なケース: サードパーティライブラリとの統合、`AbortController`を使ったAPI通信、`IntersectionObserver`等のブラウザAPI監視。
+
 ### 第3部: キャッシュ
 
 - **Static Renderingをデフォルト**とし、Dynamic Renderingは必要な場合のみオプトインする。Dynamic APIs（`cookies()`/`headers()`等）の使用、`cache: "no-store"`なfetch、Route Segment Config（`dynamic = "force-dynamic"`）等でDynamic Renderingに切り替わる。

@@ -18,10 +18,12 @@ import {
 } from "@/app/(admin)/coffee-beans/_lib/coffeeBeanLabels";
 import { ImageUploadField } from "@/components/ImageUploadField";
 import modalStyles from "@/components/modal.module.css";
+import { ShopSearchSelect } from "@/components/ShopSearchSelect";
 import {
   type CreateCoffeeBeanState,
   createCoffeeBeanAction,
 } from "./createCoffeeBeanAction";
+import { searchShopsAction } from "./searchShopsAction";
 
 const initialState: CreateCoffeeBeanState = {};
 
@@ -40,7 +42,6 @@ export function CreateCoffeeBeanModal({
     initialState,
   );
 
-  const shopIdId = useId();
   const shopifyBeanIdId = useId();
   const nameId = useId();
   const descriptionId = useId();
@@ -102,34 +103,12 @@ export function CreateCoffeeBeanModal({
       <form onSubmit={handleSubmit} className={modalStyles.form}>
         {state.error && <div className={modalStyles.error}>{state.error}</div>}
 
-        <div className={modalStyles.field}>
-          <label htmlFor={shopIdId} className={modalStyles.label}>
-            店舗
-            <span className={modalStyles.required}>*</span>
-          </label>
-          <select
-            id={shopIdId}
-            name="shopId"
-            className={modalStyles.select}
-            defaultValue={
-              (state.values as Record<string, string> | undefined)?.shopId ?? ""
-            }
-          >
-            <option value="" disabled>
-              店舗を選択してください
-            </option>
-            {shops.map((shop) => (
-              <option key={shop.id} value={shop.id}>
-                {shop.name}
-              </option>
-            ))}
-          </select>
-          {state.fieldErrors?.shopId?.map((msg) => (
-            <span key={msg} className={modalStyles.fieldError}>
-              {msg}
-            </span>
-          ))}
-        </div>
+        <ShopSearchSelect
+          initialShops={shops.map((s) => ({ id: s.id, name: s.name }))}
+          defaultValue={state.values?.shopId}
+          fieldErrors={state.fieldErrors?.shopId}
+          onSearch={searchShopsAction}
+        />
 
         <div className={modalStyles.field}>
           <label htmlFor={shopifyBeanIdId} className={modalStyles.label}>

@@ -46,14 +46,36 @@ interface ShopMapper {
 
     @Select(
         """
+        <script>
         SELECT id, shopify_shop_id, name, introduction, particular, shop_url
         FROM shops
+        <where>
+            <if test="name != null">
+                name LIKE CONCAT('%', #{name}, '%')
+            </if>
+        </where>
         ORDER BY created_at DESC
         LIMIT #{size} OFFSET #{offset}
+        </script>
         """,
     )
-    fun findListRows(@Param("size") size: Int, @Param("offset") offset: Int): List<ShopEntity>
+    fun findListRows(
+        @Param("size") size: Int,
+        @Param("offset") offset: Int,
+        @Param("name") name: String?,
+    ): List<ShopEntity>
 
-    @Select("SELECT COUNT(*) FROM shops")
-    fun countAll(): Long
+    @Select(
+        """
+        <script>
+        SELECT COUNT(*) FROM shops
+        <where>
+            <if test="name != null">
+                name LIKE CONCAT('%', #{name}, '%')
+            </if>
+        </where>
+        </script>
+        """,
+    )
+    fun countByCondition(@Param("name") name: String?): Long
 }

@@ -58,9 +58,10 @@ data class CoffeeBean(
     /**
      * コーヒー豆の情報を更新する。
      *
-     * IDと所属ショップは変更せず、それ以外の情報を更新した新しい[CoffeeBean]を返す。
+     * コーヒー豆ID([id])は変更せず、所属ショップを含むそれ以外の情報を更新した新しい[CoffeeBean]を返す。
      * 画像・テイスト評価は全件置換され、子エンティティのIDは新たに自動生成される。
      *
+     * @param shopId 所属するショップのID
      * @param shopifyBeanId Shopifyの商品ID
      * @param name 豆の名前
      * @param description 説明
@@ -74,6 +75,7 @@ data class CoffeeBean(
      * @return 更新された[CoffeeBean]
      */
     fun update(
+        shopId: String,
         shopifyBeanId: String,
         name: String,
         description: String,
@@ -86,7 +88,7 @@ data class CoffeeBean(
         tastes: List<Pair<String, Int>>,
     ): CoffeeBean = CoffeeBean(
         id = this.id,
-        shopId = this.shopId,
+        shopId = ShopId(shopId),
         shopifyBeanId = ShopifyBeanId(shopifyBeanId),
         name = name,
         description = description,

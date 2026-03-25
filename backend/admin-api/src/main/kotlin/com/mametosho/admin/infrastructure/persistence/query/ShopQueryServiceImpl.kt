@@ -11,10 +11,10 @@ class ShopQueryServiceImpl(
     private val shopMapper: ShopMapper,
 ) : ShopQueryService {
 
-    override fun findList(page: Int, size: Int): PagedResult<ShopListResult> {
+    override fun findList(page: Int, size: Int, name: String?): PagedResult<ShopListResult> {
         val offset = page * size
-        val rows = shopMapper.findListRows(size, offset)
-        val totalCount = shopMapper.countAll()
+        val rows = shopMapper.findListRows(size, offset, name)
+        val totalCount = shopMapper.countByCondition(name)
 
         val items = rows.map { row ->
             ShopListResult(

@@ -393,7 +393,7 @@ paths:
       tags:
       - Shop
       summary: 店舗一覧取得
-      description: 店舗の一覧をページネーション付きで取得します。画像は含まれません。
+      description: 店舗の一覧をページネーション付きで取得します。店名による部分一致検索が可能です。画像は含まれません。
       operationId: listShops
       parameters:
       - name: page
@@ -414,6 +414,13 @@ paths:
           format: int32
           default: 20
         example: 20
+      - name: name
+        in: query
+        description: 店名（部分一致検索）
+        required: false
+        schema:
+          type: string
+        example: 珈琲
       responses:
         "200":
           description: 取得成功

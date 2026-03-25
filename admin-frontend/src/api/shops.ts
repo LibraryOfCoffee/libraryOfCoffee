@@ -28,10 +28,11 @@ export type ShopDetail = ShopListItem & {
 export async function fetchShops(
   page = 0,
   size = 20,
+  name?: string,
 ): Promise<PagedResponse<ShopListItem>> {
   const client = await createAuthenticatedApiClient();
   const { data, error } = await client.GET("/api/admin/shops", {
-    params: { query: { page, size } },
+    params: { query: { page, size, name } },
   });
 
   if (error) {

@@ -69,7 +69,7 @@ export interface paths {
     };
     /**
      * 店舗一覧取得
-     * @description 店舗の一覧をページネーション付きで取得します。画像は含まれません。
+     * @description 店舗の一覧をページネーション付きで取得します。店名による部分一致検索が可能です。画像は含まれません。
      */
     get: operations["listShops"];
     put?: never;
@@ -778,6 +778,11 @@ export interface operations {
          * @example 20
          */
         size?: number;
+        /**
+         * @description 店名（部分一致検索）
+         * @example 珈琲
+         */
+        name?: string;
       };
       header?: never;
       path?: never;
