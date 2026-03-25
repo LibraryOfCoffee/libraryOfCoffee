@@ -21,7 +21,7 @@ export default function PricingCarousel({ plans }: PricingCarouselProps) {
       <Swiper
         modules={[Navigation]}
         slidesPerView={1}
-        initialSlide={1}
+        initialSlide={0}
         loop
         navigation={{
           prevEl: `.${styles.navPrev}`,
