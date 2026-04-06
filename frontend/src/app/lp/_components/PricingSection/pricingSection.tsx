@@ -18,14 +18,6 @@ export default function PricingSection() {
       <p className={styles.subtitle}>
         様々なプランをご用意。焙煎したての新鮮な豆を送料無料でお届けします。いつでも解約OK。
       </p>
-      <div className={styles.campaignBox}>
-        <p className={styles.campaignTitle}>
-          初月割引キャンペーン実施中【4/9まで】
-        </p>
-        <p className={styles.campaignText}>
-          珈琲探求を気軽に試してほしい——そんな想いから、豆図書では4/9(水)までの期間限定で初月割引をご用意しました。ぜひこの機会に、さまざまな珈琲との出会いをお楽しみください。
-        </p>
-      </div>
       <PricingWithToggle />
     </section>
   );
