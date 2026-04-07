@@ -35,8 +35,11 @@ export default function Footer() {
         <div className={styles.bottom}>
           <p className={styles.contact}>
             お問い合わせ：
-            <a href="mailto:inquiry@m.mametosho.com" className={styles.email}>
-              inquiry@m.mametosho.com
+            <a
+              href="mailto:libraryofcoffeebeans@m.mametosho.com"
+              className={styles.email}
+            >
+              libraryofcoffeebeans@m.mametosho.com
             </a>
           </p>
           <p className={styles.copy}>© 2025 豆図書. All rights reserved.</p>
