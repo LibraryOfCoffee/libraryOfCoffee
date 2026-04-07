@@ -35,7 +35,10 @@ export default function Footer() {
         <div className={styles.bottom}>
           <p className={styles.contact}>
             お問い合わせ：
-            <a href="mailto:libraryofcoffeebeans@m.mametosho.com" className={styles.email}>
+            <a
+              href="mailto:libraryofcoffeebeans@m.mametosho.com"
+              className={styles.email}
+            >
               libraryofcoffeebeans@m.mametosho.com
             </a>
           </p>
