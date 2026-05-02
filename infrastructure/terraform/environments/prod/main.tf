@@ -5,7 +5,7 @@ module "vpc" {
 module "acm" {
   source = "../../modules/acm"
 
-  domain_name = "mametosho.com"
+  domain_name = "admin.mametosho.com"
 }
 
 module "cd" {
@@ -17,109 +17,265 @@ module "cd" {
   github_repo = "libraryOfCoffee"
 }
 
-module "ecr_frontend" {
+# ============================================
+# Admin Frontend - ECR
+# ============================================
+
+module "ecr_admin_frontend" {
   source = "../../modules/ecr"
 
-  repository_name      = "frontend"
+  repository_name      = "admin-frontend"
   env                  = local.env
-  image_retention_days = 90
+  image_retention_days = 30
   image_tag_mutability = "IMMUTABLE"
 }
 
-module "frontend" {
-  source = "../../modules/frontend"
+# ============================================
+# Admin Frontend - Security Groups
+# ============================================
 
-  account_id         = local.account_id
-  env                = local.env
-  vpc_id             = module.vpc.vpc_id
-  public_subnet_ids  = module.vpc.public_subnet_ids
-  private_subnet_ids = module.vpc.private_subnet_ids
-  ecr_repository_url = module.ecr_frontend.repository_url
+resource "aws_security_group" "admin_frontend_alb" {
+  name        = "${local.account_id}-${local.env}-admin-alb"
+  description = "Security group for admin ALB"
+  vpc_id      = module.vpc.vpc_id
 
-  image_tag       = "latest"
-  container_port  = 3000
-  cpu             = 512
-  memory          = 1024
-  desired_count   = 2
-  enable_https    = true
-  certificate_arn = module.acm.certificate_arn
-  api_url         = "http://${module.backend.service_discovery_endpoint}:8080"
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = local.allowed_cidr_blocks
+    description = "HTTP from allowed IPs"
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = local.allowed_cidr_blocks
+    description = "HTTPS from allowed IPs"
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group" "admin_frontend_ecs" {
+  name        = "${local.account_id}-${local.env}-admin-frontend-ecs"
+  description = "Security group for admin-frontend ECS tasks"
+  vpc_id      = module.vpc.vpc_id
+
+  ingress {
+    from_port       = 3001
+    to_port         = 3001
+    protocol        = "tcp"
+    security_groups = [aws_security_group.admin_frontend_alb.id]
+    description     = "Allow access from admin ALB"
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 
 # ============================================
-# Backend API
+# Admin Frontend - ALB
 # ============================================
 
-module "ecr_backend" {
-  source = "../../modules/ecr"
-
-  repository_name      = "backend"
-  env                  = local.env
-  image_retention_days = 90
-  image_tag_mutability = "IMMUTABLE"
+resource "aws_lb" "admin_frontend" {
+  name               = "${local.env}-admin-alb"
+  internal           = false
+  load_balancer_type = "application"
+  security_groups    = [aws_security_group.admin_frontend_alb.id]
+  subnets            = module.vpc.public_subnet_ids
 }
 
-module "aurora" {
-  source = "../../modules/aurora"
+resource "aws_lb_target_group" "admin_frontend" {
+  name        = "${local.env}-admin-frontend-tg"
+  port        = 3001
+  protocol    = "HTTP"
+  vpc_id      = module.vpc.vpc_id
+  target_type = "ip"
 
-  account_id         = local.account_id
-  env                = local.env
-  vpc_id             = module.vpc.vpc_id
-  private_subnet_ids = module.vpc.private_subnet_ids
-
-  instance_class = "db.r6g.large"
-  instance_count = 2
-  engine_version = "8.0.mysql_aurora.3.11.1"
-
-  backup_retention_period = 14
-  skip_final_snapshot     = false
-  deletion_protection     = true
-
-  # Backendからのアクセスを許可
-  allowed_security_group_ids = [module.backend.ecs_security_group_id]
+  health_check {
+    enabled             = true
+    healthy_threshold   = 2
+    interval            = 30
+    matcher             = "200"
+    path                = "/"
+    port                = "traffic-port"
+    protocol            = "HTTP"
+    timeout             = 5
+    unhealthy_threshold = 2
+  }
 }
 
-module "backend" {
-  source = "../../modules/backend"
+resource "aws_lb_listener" "admin_frontend_http" {
+  load_balancer_arn = aws_lb.admin_frontend.arn
+  port              = 80
+  protocol          = "HTTP"
 
-  account_id         = local.account_id
-  env                = local.env
-  vpc_id             = module.vpc.vpc_id
-  private_subnet_ids = module.vpc.private_subnet_ids
-  ecr_repository_url = module.ecr_backend.repository_url
+  default_action {
+    type = "redirect"
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+}
 
-  image_tag      = "latest"
-  container_port = 8080
-  cpu            = 512
-  memory         = 1024
-  desired_count  = 2
+resource "aws_lb_listener" "admin_frontend_https" {
+  load_balancer_arn = aws_lb.admin_frontend.arn
+  port              = 443
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
+  certificate_arn   = module.acm.certificate_arn
 
-  # Frontendからのアクセスを許可
-  allowed_security_group_ids = [module.frontend.ecs_security_group_id]
+  default_action {
+    type = "fixed-response"
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Not Found"
+      status_code  = "404"
+    }
+  }
+}
 
-  # Aurora接続設定
-  db_host        = module.aurora.cluster_endpoint
-  db_port        = module.aurora.cluster_port
-  db_name        = module.aurora.database_name
-  db_secrets_arn = module.aurora.master_user_secret_arn
+resource "aws_lb_listener_rule" "admin_frontend" {
+  listener_arn = aws_lb_listener.admin_frontend_https.arn
+  priority     = 10
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.admin_frontend.arn
+  }
+
+  condition {
+    host_header {
+      values = ["admin.mametosho.com"]
+    }
+  }
+}
+
+# ============================================
+# Admin Frontend - ECS
+# ============================================
+
+resource "aws_cloudwatch_log_group" "admin_frontend" {
+  name              = "/ecs/${local.account_id}-${local.env}-admin-frontend"
+  retention_in_days = 30
+}
+
+resource "aws_iam_role" "admin_frontend_ecs_execution" {
+  name = "${local.account_id}-${local.env}-admin-frontend-ecs-execution"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "ecs-tasks.amazonaws.com"
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "admin_frontend_ecs_execution" {
+  role       = aws_iam_role.admin_frontend_ecs_execution.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+resource "aws_ecs_cluster" "admin_frontend" {
+  name = "${local.account_id}-${local.env}-admin-frontend"
+}
+
+resource "aws_ecs_cluster_capacity_providers" "admin_frontend" {
+  cluster_name       = aws_ecs_cluster.admin_frontend.name
+  capacity_providers = ["FARGATE", "FARGATE_SPOT"]
+}
+
+resource "aws_ecs_task_definition" "admin_frontend" {
+  family                   = "${local.account_id}-${local.env}-admin-frontend"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = 256
+  memory                   = 512
+  execution_role_arn       = aws_iam_role.admin_frontend_ecs_execution.arn
+
+  container_definitions = jsonencode([
+    {
+      name  = "admin-frontend"
+      image = "${module.ecr_admin_frontend.repository_url}:latest"
+
+      portMappings = [
+        {
+          containerPort = 3001
+          hostPort      = 3001
+          protocol      = "tcp"
+        }
+      ]
+
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          "awslogs-group"         = aws_cloudwatch_log_group.admin_frontend.name
+          "awslogs-region"        = "ap-northeast-1"
+          "awslogs-stream-prefix" = "ecs"
+        }
+      }
+
+      essential = true
+    }
+  ])
+}
+
+resource "aws_ecs_service" "admin_frontend" {
+  name            = "${local.account_id}-${local.env}-admin-frontend"
+  cluster         = aws_ecs_cluster.admin_frontend.id
+  task_definition = aws_ecs_task_definition.admin_frontend.arn
+  desired_count   = 1
+
+  capacity_provider_strategy {
+    capacity_provider = "FARGATE_SPOT"
+    weight            = 100
+    base              = 0
+  }
+
+  network_configuration {
+    subnets          = module.vpc.private_subnet_ids
+    security_groups  = [aws_security_group.admin_frontend_ecs.id]
+    assign_public_ip = false
+  }
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.admin_frontend.arn
+    container_name   = "admin-frontend"
+    container_port   = 3001
+  }
+
+  depends_on = [aws_lb_listener.admin_frontend_https]
 }
 
 # ============================================
 # Outputs
 # ============================================
 
-# ACM DNS検証用レコード（お名前.comで手動設定が必要）
 output "acm_validation_records" {
   description = "Add these CNAME records to your DNS provider"
   value       = module.acm.domain_validation_options
 }
 
-output "backend_service_discovery_endpoint" {
-  description = "Backend API Service Discovery endpoint"
-  value       = module.backend.service_discovery_endpoint
-}
-
-output "aurora_endpoint" {
-  description = "Aurora cluster endpoint"
-  value       = module.aurora.cluster_endpoint
+output "admin_alb_dns" {
+  description = "Admin ALB DNS name (set admin.mametosho.com CNAME to this)"
+  value       = aws_lb.admin_frontend.dns_name
 }
