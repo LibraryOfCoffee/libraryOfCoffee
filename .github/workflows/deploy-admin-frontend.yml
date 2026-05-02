@@ -68,9 +68,18 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+  approve:
+    name: Approve Deployment
+    needs: build
+    runs-on: ubuntu-latest
+    environment: approve
+
+    steps:
+      - run: echo "Deployment to ${{ inputs.environment }} approved"
+
   deploy:
     name: Deploy to ${{ inputs.environment }}
-    needs: build
+    needs: [build, approve]
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
 
@@ -95,5 +104,4 @@ jobs:
           IMAGE_TAG: ${{ needs.build.outputs.image_tag }}
         run: |
           ecspresso deploy \
-            --config infrastructure/ecspresso/admin-frontend/ecspresso.yml \
-            --rollout-strategy=ECS
+            --config infrastructure/ecspresso/admin-frontend/ecspresso.yml
