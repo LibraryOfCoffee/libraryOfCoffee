@@ -70,6 +70,23 @@ resource "aws_iam_role_policy" "ecs" {
           "ecs:DescribeServices"
         ]
         Resource = "arn:aws:ecs:${var.aws_region}:${var.account_id}:service/*/*"
+      },
+      {
+        Sid    = "ECSRegisterTaskDefinition"
+        Effect = "Allow"
+        Action = [
+          "ecs:RegisterTaskDefinition",
+          "ecs:DescribeTaskDefinition"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "IAMPassRole"
+        Effect = "Allow"
+        Action = [
+          "iam:PassRole"
+        ]
+        Resource = "arn:aws:iam::${var.account_id}:role/*-ecs-execution"
       }
     ]
   })
