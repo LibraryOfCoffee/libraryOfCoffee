@@ -1,0 +1,63 @@
+{
+  "family": "{{ must_env \"AWS_ACCOUNT_ID\" }}-{{ must_env \"ENV\" }}-admin-api",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "executionRoleArn": "arn:aws:iam::{{ must_env \"AWS_ACCOUNT_ID\" }}:role/{{ must_env \"AWS_ACCOUNT_ID\" }}-{{ must_env \"ENV\" }}-admin-api-ecs-execution",
+  "taskRoleArn": "arn:aws:iam::{{ must_env \"AWS_ACCOUNT_ID\" }}:role/{{ must_env \"AWS_ACCOUNT_ID\" }}-{{ must_env \"ENV\" }}-admin-api-ecs-task",
+  "containerDefinitions": [
+    {
+      "name": "admin-api",
+      "image": "{{ must_env \"AWS_ACCOUNT_ID\" }}.dkr.ecr.ap-northeast-1.amazonaws.com/admin-api-{{ must_env \"ENV\" }}:{{ must_env \"IMAGE_TAG\" }}",
+      "portMappings": [
+        {
+          "containerPort": 8080,
+          "hostPort": 8080,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "DB_URL",
+          "value": "{{ must_env \"DB_URL\" }}"
+        },
+        {
+          "name": "S3_BUCKET_NAME",
+          "value": "{{ must_env \"S3_BUCKET_NAME\" }}"
+        },
+        {
+          "name": "S3_REGION",
+          "value": "ap-northeast-1"
+        },
+        {
+          "name": "S3_BASE_URL",
+          "value": "{{ must_env \"S3_BASE_URL\" }}"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "DB_USERNAME",
+          "valueFrom": "{{ must_env \"DB_SECRET_ARN\" }}:username::"
+        },
+        {
+          "name": "DB_PASSWORD",
+          "valueFrom": "{{ must_env \"DB_SECRET_ARN\" }}:password::"
+        },
+        {
+          "name": "JWT_SECRET_KEY",
+          "valueFrom": "{{ must_env \"JWT_SECRET_ARN\" }}"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/{{ must_env \"AWS_ACCOUNT_ID\" }}-{{ must_env \"ENV\" }}-admin-api",
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "essential": true
+    }
+  ]
+}

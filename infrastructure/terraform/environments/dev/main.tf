@@ -225,6 +225,13 @@ resource "aws_ecs_task_definition" "admin_frontend" {
         }
       ]
 
+      environment = [
+        {
+          name  = "ADMIN_API_URL"
+          value = "http://admin-api.${local.env}.local:8080"
+        }
+      ]
+
       logConfiguration = {
         logDriver = "awslogs"
         options = {
@@ -264,6 +271,281 @@ resource "aws_ecs_service" "admin_frontend" {
   }
 
   depends_on = [aws_lb_listener.admin_frontend_https]
+}
+
+# ============================================
+# S3 (Image Storage)
+# ============================================
+
+module "s3_images" {
+  source = "../../modules/s3"
+
+  bucket_name   = "mametosho-images-${local.env}"
+  force_destroy = true
+}
+
+# ============================================
+# RDS (MySQL)
+# ============================================
+
+module "rds" {
+  source = "../../modules/rds"
+
+  account_id         = local.account_id
+  env                = local.env
+  vpc_id             = module.vpc.vpc_id
+  private_subnet_ids = module.vpc.private_subnet_ids
+
+  allowed_security_group_ids = [aws_security_group.admin_api_ecs.id]
+
+  instance_class          = "db.t4g.micro"
+  db_name                 = "mametosho"
+  backup_retention_period = 7
+  skip_final_snapshot     = true
+  deletion_protection     = false
+}
+
+# ============================================
+# JWT Secret
+# ============================================
+
+resource "aws_secretsmanager_secret" "jwt_secret" {
+  name = "${local.account_id}-${local.env}-admin-api-jwt-secret"
+}
+
+# ============================================
+# Service Discovery
+# ============================================
+
+resource "aws_service_discovery_private_dns_namespace" "main" {
+  name = "${local.env}.local"
+  vpc  = module.vpc.vpc_id
+}
+
+resource "aws_service_discovery_service" "admin_api" {
+  name = "admin-api"
+
+  dns_config {
+    namespace_id = aws_service_discovery_private_dns_namespace.main.id
+
+    dns_records {
+      ttl  = 10
+      type = "A"
+    }
+
+    routing_policy = "MULTIVALUE"
+  }
+
+  health_check_custom_config {}
+}
+
+# ============================================
+# Admin API - ECR
+# ============================================
+
+module "ecr_admin_api" {
+  source = "../../modules/ecr"
+
+  repository_name      = "admin-api"
+  env                  = local.env
+  image_retention_days = 30
+  image_tag_mutability = "MUTABLE"
+}
+
+# ============================================
+# Admin API - Security Group
+# ============================================
+
+resource "aws_security_group" "admin_api_ecs" {
+  name        = "${local.account_id}-${local.env}-admin-api-ecs"
+  description = "Security group for admin-api ECS tasks"
+  vpc_id      = module.vpc.vpc_id
+
+  ingress {
+    from_port       = 8080
+    to_port         = 8080
+    protocol        = "tcp"
+    security_groups = [aws_security_group.admin_frontend_ecs.id]
+    description     = "Allow access from admin-frontend"
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+# ============================================
+# Admin API - ECS
+# ============================================
+
+resource "aws_cloudwatch_log_group" "admin_api" {
+  name              = "/ecs/${local.account_id}-${local.env}-admin-api"
+  retention_in_days = 30
+}
+
+resource "aws_iam_role" "admin_api_ecs_execution" {
+  name = "${local.account_id}-${local.env}-admin-api-ecs-execution"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Action    = "sts:AssumeRole"
+      Effect    = "Allow"
+      Principal = { Service = "ecs-tasks.amazonaws.com" }
+    }]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "admin_api_ecs_execution" {
+  role       = aws_iam_role.admin_api_ecs_execution.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+resource "aws_iam_role_policy" "admin_api_ecs_execution_secrets" {
+  name = "secrets-access"
+  role = aws_iam_role.admin_api_ecs_execution.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect   = "Allow"
+      Action   = ["secretsmanager:GetSecretValue"]
+      Resource = [
+        module.rds.master_user_secret_arn,
+        aws_secretsmanager_secret.jwt_secret.arn,
+      ]
+    }]
+  })
+}
+
+resource "aws_iam_role" "admin_api_ecs_task" {
+  name = "${local.account_id}-${local.env}-admin-api-ecs-task"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Action    = "sts:AssumeRole"
+      Effect    = "Allow"
+      Principal = { Service = "ecs-tasks.amazonaws.com" }
+    }]
+  })
+}
+
+resource "aws_iam_role_policy" "admin_api_ecs_task_s3" {
+  name = "s3-images-access"
+  role = aws_iam_role.admin_api_ecs_task.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect   = "Allow"
+      Action   = ["s3:PutObject", "s3:DeleteObject", "s3:GetObject"]
+      Resource = "${module.s3_images.bucket_arn}/*"
+    }]
+  })
+}
+
+resource "aws_ecs_cluster" "admin_api" {
+  name = "${local.account_id}-${local.env}-admin-api"
+}
+
+resource "aws_ecs_cluster_capacity_providers" "admin_api" {
+  cluster_name       = aws_ecs_cluster.admin_api.name
+  capacity_providers = ["FARGATE", "FARGATE_SPOT"]
+}
+
+resource "aws_ecs_task_definition" "admin_api" {
+  family                   = "${local.account_id}-${local.env}-admin-api"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = 512
+  memory                   = 1024
+  execution_role_arn       = aws_iam_role.admin_api_ecs_execution.arn
+  task_role_arn            = aws_iam_role.admin_api_ecs_task.arn
+
+  container_definitions = jsonencode([
+    {
+      name  = "admin-api"
+      image = "${module.ecr_admin_api.repository_url}:latest"
+
+      portMappings = [{
+        containerPort = 8080
+        hostPort      = 8080
+        protocol      = "tcp"
+      }]
+
+      environment = [
+        {
+          name  = "DB_URL"
+          value = "jdbc:mysql://${module.rds.endpoint}:${module.rds.port}/${module.rds.db_name}"
+        },
+        {
+          name  = "S3_BUCKET_NAME"
+          value = module.s3_images.bucket_name
+        },
+        {
+          name  = "S3_REGION"
+          value = "ap-northeast-1"
+        },
+        {
+          name  = "S3_BASE_URL"
+          value = module.s3_images.base_url
+        },
+      ]
+
+      secrets = [
+        {
+          name      = "DB_USERNAME"
+          valueFrom = "${module.rds.master_user_secret_arn}:username::"
+        },
+        {
+          name      = "DB_PASSWORD"
+          valueFrom = "${module.rds.master_user_secret_arn}:password::"
+        },
+        {
+          name      = "JWT_SECRET_KEY"
+          valueFrom = aws_secretsmanager_secret.jwt_secret.arn
+        },
+      ]
+
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          "awslogs-group"         = aws_cloudwatch_log_group.admin_api.name
+          "awslogs-region"        = "ap-northeast-1"
+          "awslogs-stream-prefix" = "ecs"
+        }
+      }
+
+      essential = true
+    }
+  ])
+}
+
+resource "aws_ecs_service" "admin_api" {
+  name            = "${local.account_id}-${local.env}-admin-api"
+  cluster         = aws_ecs_cluster.admin_api.id
+  task_definition = aws_ecs_task_definition.admin_api.arn
+  desired_count   = 1
+
+  capacity_provider_strategy {
+    capacity_provider = "FARGATE_SPOT"
+    weight            = 100
+    base              = 0
+  }
+
+  network_configuration {
+    subnets          = module.vpc.private_subnet_ids
+    security_groups  = [aws_security_group.admin_api_ecs.id]
+    assign_public_ip = false
+  }
+
+  service_registries {
+    registry_arn = aws_service_discovery_service.admin_api.arn
+  }
 }
 
 # ============================================

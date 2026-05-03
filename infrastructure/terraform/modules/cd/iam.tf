@@ -86,7 +86,7 @@ resource "aws_iam_role_policy" "ecs" {
         Action = [
           "iam:PassRole"
         ]
-        Resource = "arn:aws:iam::${var.account_id}:role/*-ecs-execution"
+        Resource = "arn:aws:iam::${var.account_id}:role/*-ecs-*"
       }
     ]
   })
