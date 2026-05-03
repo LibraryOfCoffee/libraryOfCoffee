@@ -87,6 +87,23 @@ resource "aws_iam_role_policy" "ecs" {
           "iam:PassRole"
         ]
         Resource = "arn:aws:iam::${var.account_id}:role/*-ecs-*"
+      },
+      {
+        Sid    = "SecretsManagerRead"
+        Effect = "Allow"
+        Action = [
+          "secretsmanager:ListSecrets",
+          "secretsmanager:DescribeSecret"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "RDSDescribe"
+        Effect = "Allow"
+        Action = [
+          "rds:DescribeDBInstances"
+        ]
+        Resource = "*"
       }
     ]
   })
