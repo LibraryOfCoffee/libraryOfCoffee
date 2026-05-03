@@ -29,7 +29,7 @@ tasks.withType<Test> {
 }
 
 dependencies {
-	implementation("com.mametosho:common")
+	implementation(project(":common"))
 
 	implementation(libs.spring.boot.starter.web)
 	implementation(libs.spring.boot.starter.actuator)

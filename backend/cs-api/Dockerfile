@@ -5,13 +5,13 @@ WORKDIR /app
 
 COPY gradle gradle
 COPY gradlew .
+COPY build.gradle.kts .
+COPY settings.docker-cs-api.gradle.kts settings.gradle.kts
 COPY common common
 COPY cs-api cs-api
 
-WORKDIR /app/cs-api
-
-RUN chmod +x ../gradlew
-RUN ../gradlew bootJar --no-daemon
+RUN chmod +x gradlew
+RUN ./gradlew :cs-api:bootJar --no-daemon
 
 # Runtime stage
 FROM eclipse-temurin:24-jre
