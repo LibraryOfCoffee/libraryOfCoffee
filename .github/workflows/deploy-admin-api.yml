@@ -100,10 +100,9 @@ jobs:
           ENV="${{ inputs.environment }}"
           ACCOUNT_ID="${{ env.AWS_ACCOUNT_ID }}"
 
-          DB_SECRET_ARN=$(aws secretsmanager list-secrets \
-            --filter Key=name,Values="rds!db-" \
-            --query "SecretList[?contains(Name, '${ACCOUNT_ID}-${ENV}-mysql')].ARN" \
-            --output text)
+          DB_SECRET_ARN=$(aws rds describe-db-instances \
+            --db-instance-identifier "mametosho-${ENV}-mysql" \
+            --query 'DBInstances[0].MasterUserSecret.SecretArn' --output text)
 
           JWT_SECRET_ARN=$(aws secretsmanager describe-secret \
             --secret-id "${ACCOUNT_ID}-${ENV}-admin-api-jwt-secret" \
