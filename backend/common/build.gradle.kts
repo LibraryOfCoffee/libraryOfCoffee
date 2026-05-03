@@ -18,7 +18,7 @@ java {
 	}
 }
 
-tasks.withType<Test> {
+tasks.withType<org.gradle.api.tasks.testing.Test> {
 	useJUnitPlatform()
 }
 
