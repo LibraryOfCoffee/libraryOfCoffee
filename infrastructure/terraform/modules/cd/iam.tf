@@ -104,6 +104,14 @@ resource "aws_iam_role_policy" "ecs" {
           "rds:DescribeDBInstances"
         ]
         Resource = "*"
+      },
+      {
+        Sid    = "SSMGetParameter"
+        Effect = "Allow"
+        Action = [
+          "ssm:GetParameter"
+        ]
+        Resource = "arn:aws:ssm:${var.aws_region}:${var.account_id}:parameter/*"
       }
     ]
   })

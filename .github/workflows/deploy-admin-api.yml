@@ -100,19 +100,14 @@ jobs:
           ENV="${{ inputs.environment }}"
           ACCOUNT_ID="${{ env.AWS_ACCOUNT_ID }}"
 
-          DB_SECRET_ARN=$(aws rds describe-db-instances \
-            --db-instance-identifier "mametosho-${ENV}-mysql" \
-            --query 'DBInstances[0].MasterUserSecret.SecretArn' --output text)
+          get_param() {
+            aws ssm get-parameter --name "$1" --query 'Parameter.Value' --output text
+          }
 
-          JWT_SECRET_ARN=$(aws secretsmanager describe-secret \
-            --secret-id "${ACCOUNT_ID}-${ENV}-admin-api-jwt-secret" \
-            --query ARN --output text)
-
-          RDS_ENDPOINT=$(aws rds describe-db-instances \
-            --db-instance-identifier "mametosho-${ENV}-mysql" \
-            --query 'DBInstances[0].Endpoint.Address' --output text)
-
-          S3_BUCKET="mametosho-images-${ENV}"
+          DB_SECRET_ARN=$(get_param "/${ENV}/admin-api/db-secret-arn")
+          JWT_SECRET_ARN=$(get_param "/${ENV}/admin-api/jwt-secret-arn")
+          RDS_ENDPOINT=$(get_param "/${ENV}/admin-api/rds-endpoint")
+          S3_BUCKET=$(get_param "/${ENV}/admin-api/s3-bucket-name")
 
           echo "db_secret_arn=${DB_SECRET_ARN}" >> $GITHUB_OUTPUT
           echo "jwt_secret_arn=${JWT_SECRET_ARN}" >> $GITHUB_OUTPUT

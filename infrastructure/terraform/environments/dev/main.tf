@@ -285,6 +285,18 @@ module "s3_images" {
 }
 
 # ============================================
+# Bastion (DB接続用踏み台サーバー)
+# ============================================
+
+module "bastion" {
+  source = "../../modules/bastion"
+
+  env       = local.env
+  vpc_id    = module.vpc.vpc_id
+  subnet_id = module.vpc.public_subnet_ids[0]
+}
+
+# ============================================
 # RDS (MySQL)
 # ============================================
 
@@ -296,7 +308,10 @@ module "rds" {
   vpc_id             = module.vpc.vpc_id
   private_subnet_ids = module.vpc.private_subnet_ids
 
-  allowed_security_group_ids = [aws_security_group.admin_api_ecs.id]
+  allowed_security_group_ids = [
+    aws_security_group.admin_api_ecs.id,
+    module.bastion.security_group_id,
+  ]
 
   instance_class          = "db.t4g.micro"
   db_name                 = "mametosho"
@@ -546,6 +561,34 @@ resource "aws_ecs_service" "admin_api" {
   service_registries {
     registry_arn = aws_service_discovery_service.admin_api.arn
   }
+}
+
+# ============================================
+# SSM Parameters（デプロイワークフロー参照用）
+# ============================================
+
+resource "aws_ssm_parameter" "db_secret_arn" {
+  name  = "/${local.env}/admin-api/db-secret-arn"
+  type  = "String"
+  value = module.rds.master_user_secret_arn
+}
+
+resource "aws_ssm_parameter" "jwt_secret_arn" {
+  name  = "/${local.env}/admin-api/jwt-secret-arn"
+  type  = "String"
+  value = aws_secretsmanager_secret.jwt_secret.arn
+}
+
+resource "aws_ssm_parameter" "rds_endpoint" {
+  name  = "/${local.env}/admin-api/rds-endpoint"
+  type  = "String"
+  value = module.rds.endpoint
+}
+
+resource "aws_ssm_parameter" "s3_bucket_name" {
+  name  = "/${local.env}/admin-api/s3-bucket-name"
+  type  = "String"
+  value = module.s3_images.bucket_name
 }
 
 # ============================================
