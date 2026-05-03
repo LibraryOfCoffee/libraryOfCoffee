@@ -25,8 +25,17 @@ permissions:
   contents: read
 
 jobs:
+  approve:
+    name: Approve Deployment
+    runs-on: ubuntu-latest
+    environment: approve
+
+    steps:
+      - run: echo "Deployment to ${{ inputs.environment }} approved"
+
   build:
     name: Build and Push
+    needs: approve
     runs-on: ubuntu-latest
     outputs:
       image_tag: ${{ steps.set-tag.outputs.tag }}
@@ -69,18 +78,9 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-  approve:
-    name: Approve Deployment
-    needs: build
-    runs-on: ubuntu-latest
-    environment: approve
-
-    steps:
-      - run: echo "Deployment to ${{ inputs.environment }} approved"
-
   deploy:
     name: Deploy to ${{ inputs.environment }}
-    needs: [build, approve]
+    needs: build
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
 
