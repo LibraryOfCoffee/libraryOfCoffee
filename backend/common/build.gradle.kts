@@ -1,6 +1,7 @@
 plugins {
 	`java-library`
 	alias(libs.plugins.kotlin.spring)
+	alias(libs.plugins.spring.boot) apply false
 	alias(libs.plugins.spring.dependency.management)
 }
 
@@ -11,16 +12,9 @@ repositories {
 	mavenCentral()
 }
 
-configure<JavaPluginExtension> {
+java {
 	toolchain {
 		languageVersion.set(JavaLanguageVersion.of(25))
-	}
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-	compilerOptions {
-		jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25)
-		freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property")
 	}
 }
 

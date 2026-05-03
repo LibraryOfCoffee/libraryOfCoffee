@@ -2,7 +2,6 @@ plugins {
 	alias(libs.plugins.kotlin.spring)
 	alias(libs.plugins.spring.boot)
 	alias(libs.plugins.spring.dependency.management)
-	alias(libs.plugins.springdoc.openapi.gradle)
 }
 
 group = "com.mametosho"
@@ -12,13 +11,13 @@ repositories {
 	mavenCentral()
 }
 
-configure<JavaPluginExtension> {
+java {
 	toolchain {
 		languageVersion.set(JavaLanguageVersion.of(25))
 	}
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+kotlin {
 	compilerOptions {
 		jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25)
 		freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property")
@@ -48,11 +47,3 @@ dependencies {
 	testRuntimeOnly(libs.junit.platform.launcher)
 }
 
-openApi {
-	apiDocsUrl.set("http://localhost:8081/v3/api-docs.yaml")
-	outputDir.set(file("${rootProject.projectDir}/../docs/swagger"))
-	outputFileName.set("admin-api.yml")
-	customBootRun {
-		args.set(listOf("--spring.profiles.active=openapi"))
-	}
-}
