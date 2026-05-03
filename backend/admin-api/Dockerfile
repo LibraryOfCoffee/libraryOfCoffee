@@ -1,5 +1,5 @@
 # Build stage
-FROM eclipse-temurin:24-jdk AS builder
+FROM eclipse-temurin:25-jdk AS builder
 
 WORKDIR /app
 
@@ -14,7 +14,7 @@ RUN chmod +x gradlew
 RUN ./gradlew :admin-api:bootJar --no-daemon
 
 # Runtime stage
-FROM eclipse-temurin:24-jre
+FROM eclipse-temurin:25-jre
 
 WORKDIR /app
 
