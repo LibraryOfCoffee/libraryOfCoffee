@@ -8,6 +8,7 @@ COPY gradlew .
 COPY build.gradle.kts .
 COPY settings.gradle.kts .
 COPY common common
+COPY cs-api cs-api
 COPY admin-api admin-api
 
 RUN chmod +x gradlew
