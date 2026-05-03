@@ -5,15 +5,13 @@ WORKDIR /app
 
 COPY gradle gradle
 COPY gradlew .
-COPY build.gradle.kts .
-COPY settings.gradle.kts .
 COPY common common
-COPY cs-api cs-api
 COPY admin-api admin-api
 
-RUN chmod +x gradlew
-RUN ./gradlew :admin-api:dependencies --no-daemon
-RUN ./gradlew :admin-api:bootJar --no-daemon
+WORKDIR /app/admin-api
+
+RUN chmod +x ../gradlew
+RUN ../gradlew bootJar --no-daemon
 
 # Runtime stage
 FROM eclipse-temurin:24-jre

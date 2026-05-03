@@ -5,8 +5,32 @@ plugins {
 	alias(libs.plugins.springdoc.openapi.gradle)
 }
 
+group = "com.mametosho"
+version = "0.0.1-SNAPSHOT"
+
+repositories {
+	mavenCentral()
+}
+
+configure<JavaPluginExtension> {
+	toolchain {
+		languageVersion.set(JavaLanguageVersion.of(25))
+	}
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+	compilerOptions {
+		jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25)
+		freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property")
+	}
+}
+
+tasks.withType<Test> {
+	useJUnitPlatform()
+}
+
 dependencies {
-	implementation(project(":common"))
+	implementation("com.mametosho:common")
 
 	implementation(libs.spring.boot.starter.web)
 	implementation(libs.spring.boot.starter.actuator)
@@ -31,8 +55,4 @@ openApi {
 	customBootRun {
 		args.set(listOf("--spring.profiles.active=openapi"))
 	}
-}
-
-tasks.named("forkedSpringBootRun") {
-	dependsOn(":common:jar")
 }
