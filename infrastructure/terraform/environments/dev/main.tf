@@ -350,8 +350,6 @@ resource "aws_service_discovery_service" "admin_api" {
 
     routing_policy = "MULTIVALUE"
   }
-
-  health_check_custom_config {}
 }
 
 # ============================================
