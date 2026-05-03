@@ -11,6 +11,8 @@ resource "aws_security_group" "main" {
     description     = "MySQL from allowed services"
   }
 
+  # AWSコンソールで手動作成したDB管理用EC2のセキュリティグループID
+  # このSG IDはTerraform管理外のリソースのため、EC2を作り直した場合は手動で更新が必要
   ingress {
     from_port       = 3306
     to_port         = 3306
