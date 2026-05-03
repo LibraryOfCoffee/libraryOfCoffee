@@ -11,6 +11,14 @@ resource "aws_security_group" "main" {
     description     = "MySQL from allowed services"
   }
 
+  ingress {
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = ["sg-0419687d09f22b843"]
+    description     = "MySQL from DB management EC2"
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
