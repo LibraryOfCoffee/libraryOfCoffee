@@ -321,8 +321,13 @@ module "rds" {
 }
 
 # ============================================
-# JWT Secret
+# Secrets Manager
 # ============================================
+
+resource "aws_secretsmanager_secret" "db_credentials" {
+  name                    = "${local.account_id}-${local.env}-admin-api-db"
+  recovery_window_in_days = 0
+}
 
 resource "aws_secretsmanager_secret" "jwt_secret" {
   name                    = "${local.account_id}-${local.env}-admin-api-jwt-secret"
@@ -428,7 +433,7 @@ resource "aws_iam_role_policy" "admin_api_ecs_execution_secrets" {
       Effect   = "Allow"
       Action   = ["secretsmanager:GetSecretValue"]
       Resource = [
-        module.rds.master_user_secret_arn,
+        aws_secretsmanager_secret.db_credentials.arn,
         aws_secretsmanager_secret.jwt_secret.arn,
       ]
     }]
@@ -569,7 +574,7 @@ resource "aws_ecs_service" "admin_api" {
 resource "aws_ssm_parameter" "db_secret_arn" {
   name  = "/${local.env}/admin-api/db-secret-arn"
   type  = "String"
-  value = module.rds.master_user_secret_arn
+  value = aws_secretsmanager_secret.db_credentials.arn
 }
 
 resource "aws_ssm_parameter" "jwt_secret_arn" {
