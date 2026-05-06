@@ -227,7 +227,7 @@ resource "aws_ecs_task_definition" "admin_frontend" {
 
       environment = [
         {
-          name  = "ADMIN_API_URL"
+          name  = "API_BASE_URL"
           value = "http://admin-api.${local.env}.local:8080"
         }
       ]
