@@ -42,7 +42,21 @@ resource "aws_iam_role_policy" "secretsmanager" {
     Statement = [{
       Effect   = "Allow"
       Action   = ["secretsmanager:GetSecretValue"]
-      Resource = "arn:aws:secretsmanager:ap-northeast-1:${data.aws_caller_identity.current.account_id}:secret:mametosho-*"
+      Resource = "arn:aws:secretsmanager:ap-northeast-1:${data.aws_caller_identity.current.account_id}:secret:*"
+    }]
+  })
+}
+
+resource "aws_iam_role_policy" "ssm_parameter_store" {
+  name = "ssm-parameter-store-read"
+  role = aws_iam_role.main.name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect   = "Allow"
+      Action   = ["ssm:GetParameter", "ssm:GetParameters"]
+      Resource = "arn:aws:ssm:ap-northeast-1:${data.aws_caller_identity.current.account_id}:parameter/*"
     }]
   })
 }
@@ -76,9 +90,20 @@ resource "aws_instance" "main" {
 
   user_data = <<-EOF
     #!/bin/bash
-    dnf install -y amazon-ssm-agent
+    dnf install -y amazon-ssm-agent jq mysql
     systemctl enable amazon-ssm-agent
     systemctl start amazon-ssm-agent
+
+    LATEST_URL=$(curl -fsSL "https://api.github.com/repos/sqldef/sqldef/releases/latest" \
+      | grep '"browser_download_url"' \
+      | grep 'mysqldef_linux_amd64\.tar\.gz' \
+      | head -1 \
+      | sed 's/.*"browser_download_url": "\(.*\)"/\1/')
+    TMP_DIR=$(mktemp -d)
+    curl -fsSL "$LATEST_URL" -o "$TMP_DIR/mysqldef.tar.gz"
+    tar -xzf "$TMP_DIR/mysqldef.tar.gz" -C "$TMP_DIR"
+    install -m 0755 "$TMP_DIR/mysqldef" /usr/local/bin/mysqldef
+    rm -rf "$TMP_DIR"
   EOF
 
   tags = {
