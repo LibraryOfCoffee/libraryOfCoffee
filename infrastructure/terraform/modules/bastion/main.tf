@@ -90,7 +90,7 @@ resource "aws_instance" "main" {
 
   user_data = <<-EOF
     #!/bin/bash
-    dnf install -y amazon-ssm-agent jq mysql
+    dnf install -y amazon-ssm-agent jq mysql git
     systemctl enable amazon-ssm-agent
     systemctl start amazon-ssm-agent
 
