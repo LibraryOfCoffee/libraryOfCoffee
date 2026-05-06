@@ -2,6 +2,7 @@ plugins {
 	alias(libs.plugins.kotlin.spring)
 	alias(libs.plugins.spring.boot)
 	alias(libs.plugins.spring.dependency.management)
+	alias(libs.plugins.springdoc.openapi.gradle)
 }
 
 group = "com.mametosho"
@@ -26,6 +27,15 @@ kotlin {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+openApi {
+	apiDocsUrl.set("http://localhost:8080/v3/api-docs.yaml")
+	outputDir.set(file("${rootProject.projectDir}/../docs/swagger"))
+	outputFileName.set("cs-api.yml")
+	customBootRun {
+		args.set(listOf("--spring.profiles.active=openapi"))
+	}
 }
 
 dependencies {

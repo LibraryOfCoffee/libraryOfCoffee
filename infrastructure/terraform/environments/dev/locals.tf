@@ -1,5 +1,5 @@
 locals {
-  account_id = "446468848828"
+  account_id = data.aws_caller_identity.current.account_id
   env        = "dev"
 
   config              = yamldecode(file("../../files/config/${local.env}.yml"))

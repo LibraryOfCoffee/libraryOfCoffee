@@ -518,11 +518,11 @@ resource "aws_ecs_task_definition" "admin_api" {
       secrets = [
         {
           name      = "DB_USERNAME"
-          valueFrom = "${module.rds.master_user_secret_arn}:username::"
+          valueFrom = "${aws_secretsmanager_secret.db_credentials.arn}:username::"
         },
         {
           name      = "DB_PASSWORD"
-          valueFrom = "${module.rds.master_user_secret_arn}:password::"
+          valueFrom = "${aws_secretsmanager_secret.db_credentials.arn}:password::"
         },
         {
           name      = "JWT_SECRET_KEY"
