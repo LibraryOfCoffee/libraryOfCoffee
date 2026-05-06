@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 data "aws_ami" "amazon_linux_2023" {
   most_recent = true
   owners      = ["amazon"]
@@ -29,6 +31,20 @@ resource "aws_iam_role" "main" {
 resource "aws_iam_role_policy_attachment" "ssm" {
   role       = aws_iam_role.main.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
+resource "aws_iam_role_policy" "secretsmanager" {
+  name = "secretsmanager-read"
+  role = aws_iam_role.main.name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect   = "Allow"
+      Action   = ["secretsmanager:GetSecretValue"]
+      Resource = "arn:aws:secretsmanager:ap-northeast-1:${data.aws_caller_identity.current.account_id}:secret:mametosho-*"
+    }]
+  })
 }
 
 resource "aws_iam_instance_profile" "main" {
