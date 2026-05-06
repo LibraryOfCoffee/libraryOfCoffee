@@ -325,7 +325,8 @@ module "rds" {
 # ============================================
 
 resource "aws_secretsmanager_secret" "jwt_secret" {
-  name = "${local.account_id}-${local.env}-admin-api-jwt-secret"
+  name                    = "${local.account_id}-${local.env}-admin-api-jwt-secret"
+  recovery_window_in_days = 0
 }
 
 # ============================================
