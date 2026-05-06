@@ -34,8 +34,8 @@ resource "aws_db_parameter_group" "main" {
   }
 
   parameter {
-    name  = "collation_database"
-    value = "utf8mb4_0900_ai_ci"
+    name  = "character_set_server"
+    value = "utf8mb4"
   }
 }
 
