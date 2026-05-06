@@ -1,3 +1,7 @@
+variable "account_id" {
+  type = string
+}
+
 variable "env" {
   type = string
 }
@@ -15,9 +19,9 @@ variable "public_subnet_ids" {
   type = list(string)
 }
 
-variable "alb_security_group_id" {
-  type        = string
-  description = "ALBに付与するセキュリティグループID"
+variable "allowed_cidr_blocks" {
+  type        = list(string)
+  description = "ALBへのHTTP/HTTPSアクセスを許可するCIDRブロック"
 }
 
 variable "certificate_arn" {

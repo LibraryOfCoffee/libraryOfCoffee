@@ -24,9 +24,15 @@ variable "private_subnet_ids" {
   type = list(string)
 }
 
-variable "ecs_security_group_id" {
+variable "ingress_from_sg_id" {
   type        = string
-  description = "ECSタスクに付与するセキュリティグループID"
+  description = "ECSタスクへのingressを許可するセキュリティグループID"
+}
+
+variable "ingress_description" {
+  type        = string
+  default     = "allowed source"
+  description = "ingressルールの説明"
 }
 
 variable "container_port" {
@@ -88,4 +94,10 @@ variable "s3_bucket_arn" {
   type        = string
   default     = null
   description = "S3アクセス用タスクロールを作成するバケットARN (指定時のみタスクロールを作成)"
+}
+
+variable "rds_security_group_id" {
+  type        = string
+  default     = null
+  description = "RDS SGのID (指定時にRDS SGへのingressルールを追加)"
 }

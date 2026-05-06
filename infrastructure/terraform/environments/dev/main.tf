@@ -63,47 +63,6 @@ module "bastion" {
 }
 
 # ============================================
-# Security Groups
-# ============================================
-
-module "sg_admin_alb" {
-  source = "../../modules/security_group"
-
-  name        = "${local.account_id}-${local.env}-admin-alb"
-  description = "Security group for admin ALB"
-  vpc_id      = module.vpc.vpc_id
-
-  ingress_with_cidr_rules = [
-    { from_port = 80, to_port = 80, cidr_blocks = local.allowed_cidr_blocks, description = "HTTP from allowed IPs" },
-    { from_port = 443, to_port = 443, cidr_blocks = local.allowed_cidr_blocks, description = "HTTPS from allowed IPs" },
-  ]
-}
-
-module "sg_admin_frontend_ecs" {
-  source = "../../modules/security_group"
-
-  name        = "${local.account_id}-${local.env}-admin-frontend-ecs"
-  description = "Security group for admin-frontend ECS tasks"
-  vpc_id      = module.vpc.vpc_id
-
-  ingress_with_sg_rules = [
-    { from_port = 3001, to_port = 3001, sg_id = module.sg_admin_alb.id, description = "Allow access from admin ALB" },
-  ]
-}
-
-module "sg_admin_api_ecs" {
-  source = "../../modules/security_group"
-
-  name        = "${local.account_id}-${local.env}-admin-api-ecs"
-  description = "Security group for admin-api ECS tasks"
-  vpc_id      = module.vpc.vpc_id
-
-  ingress_with_sg_rules = [
-    { from_port = 8080, to_port = 8080, sg_id = module.sg_admin_frontend_ecs.id, description = "Allow access from admin-frontend" },
-  ]
-}
-
-# ============================================
 # RDS (MySQL)
 # ============================================
 
@@ -116,7 +75,6 @@ module "rds" {
   private_subnet_ids = module.vpc.private_subnet_ids
 
   allowed_security_group_ids = [
-    module.sg_admin_api_ecs.id,
     module.bastion.security_group_id,
   ]
 
@@ -134,14 +92,15 @@ module "rds" {
 module "alb_admin" {
   source = "../../modules/alb"
 
-  env                   = local.env
-  name                  = "admin"
-  vpc_id                = module.vpc.vpc_id
-  public_subnet_ids     = module.vpc.public_subnet_ids
-  alb_security_group_id = module.sg_admin_alb.id
-  certificate_arn       = module.acm.certificate_arn
-  host_header           = "${local.env}.admin.mametosho.com"
-  container_port        = 3001
+  account_id          = local.account_id
+  env                 = local.env
+  name                = "admin"
+  vpc_id              = module.vpc.vpc_id
+  public_subnet_ids   = module.vpc.public_subnet_ids
+  allowed_cidr_blocks = local.allowed_cidr_blocks
+  certificate_arn     = module.acm.certificate_arn
+  host_header         = "${local.env}.admin.mametosho.com"
+  container_port      = 3001
 }
 
 # ============================================
@@ -176,18 +135,19 @@ module "secrets_admin_api" {
 module "ecs_admin_frontend" {
   source = "../../modules/ecs_fargate"
 
-  account_id            = local.account_id
-  env                   = local.env
-  service_name          = "admin-frontend"
-  container_name        = "admin-frontend"
-  vpc_id                = module.vpc.vpc_id
-  private_subnet_ids    = module.vpc.private_subnet_ids
-  ecs_security_group_id = module.sg_admin_frontend_ecs.id
-  container_port        = 3001
-  cpu                   = 256
-  memory                = 512
-  image_url             = "${module.ecr_admin_frontend.repository_url}:latest"
-  target_group_arn      = module.alb_admin.target_group_arn
+  account_id          = local.account_id
+  env                 = local.env
+  service_name        = "admin-frontend"
+  container_name      = "admin-frontend"
+  vpc_id              = module.vpc.vpc_id
+  private_subnet_ids  = module.vpc.private_subnet_ids
+  ingress_from_sg_id  = module.alb_admin.alb_security_group_id
+  ingress_description = "Allow access from admin ALB"
+  container_port      = 3001
+  cpu                 = 256
+  memory              = 512
+  image_url           = "${module.ecr_admin_frontend.repository_url}:latest"
+  target_group_arn    = module.alb_admin.target_group_arn
 
   environment = [
     { name = "API_BASE_URL", value = "http://admin-api.${local.env}.local:8080" },
@@ -207,12 +167,14 @@ module "ecs_admin_api" {
   container_name        = "admin-api"
   vpc_id                = module.vpc.vpc_id
   private_subnet_ids    = module.vpc.private_subnet_ids
-  ecs_security_group_id = module.sg_admin_api_ecs.id
+  ingress_from_sg_id    = module.ecs_admin_frontend.ecs_sg_id
+  ingress_description   = "Allow access from admin-frontend"
   container_port        = 8080
   cpu                   = 512
   memory                = 1024
   image_url             = "${module.ecr_admin_api.repository_url}:latest"
   service_registry_arn  = module.service_discovery.service_arns["admin-api"]
+  rds_security_group_id = module.rds.security_group_id
   secret_arns = [
     module.secrets_admin_api.db_credentials_arn,
     module.secrets_admin_api.jwt_secret_arn,
