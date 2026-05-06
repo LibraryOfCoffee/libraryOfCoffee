@@ -24,6 +24,21 @@ resource "aws_db_subnet_group" "main" {
   subnet_ids = var.private_subnet_ids
 }
 
+resource "aws_db_parameter_group" "main" {
+  name   = "mametosho-${var.env}-mysql84"
+  family = "mysql8.4"
+
+  parameter {
+    name  = "character_set_database"
+    value = "utf8mb4"
+  }
+
+  parameter {
+    name  = "collation_database"
+    value = "utf8mb4_0900_ai_ci"
+  }
+}
+
 resource "aws_db_instance" "main" {
   identifier     = "mametosho-${var.env}-mysql"
   engine         = "mysql"
@@ -36,6 +51,7 @@ resource "aws_db_instance" "main" {
   manage_master_user_password = true
 
   db_subnet_group_name   = aws_db_subnet_group.main.name
+  parameter_group_name   = aws_db_parameter_group.main.name
   vpc_security_group_ids = [aws_security_group.main.id]
 
   storage_type      = "gp3"
