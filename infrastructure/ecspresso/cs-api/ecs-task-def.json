@@ -1,0 +1,46 @@
+{
+  "family": "{{ must_env `AWS_ACCOUNT_ID` }}-{{ must_env `ENV` }}-cs-api",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "executionRoleArn": "arn:aws:iam::{{ must_env `AWS_ACCOUNT_ID` }}:role/{{ must_env `AWS_ACCOUNT_ID` }}-{{ must_env `ENV` }}-cs-api-ecs-execution",
+  "containerDefinitions": [
+    {
+      "name": "cs-api",
+      "image": "{{ must_env `AWS_ACCOUNT_ID` }}.dkr.ecr.ap-northeast-1.amazonaws.com/cs-api-{{ must_env `ENV` }}:{{ must_env `IMAGE_TAG` }}",
+      "portMappings": [
+        {
+          "containerPort": 8080,
+          "hostPort": 8080,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "DB_URL",
+          "value": "{{ must_env `DB_URL` }}"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "DB_USERNAME",
+          "valueFrom": "{{ must_env `DB_SECRET_ARN` }}:username::"
+        },
+        {
+          "name": "DB_PASSWORD",
+          "valueFrom": "{{ must_env `DB_SECRET_ARN` }}:password::"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/{{ must_env `AWS_ACCOUNT_ID` }}-{{ must_env `ENV` }}-cs-api",
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "essential": true
+    }
+  ]
+}
