@@ -6,7 +6,7 @@ data "aws_ami" "amazon_linux_2023" {
 
   filter {
     name   = "name"
-    values = ["al2023-ami-*-x86_64"]
+    values = ["al2023-ami-2023*-x86_64"]
   }
 
   filter {
@@ -86,13 +86,12 @@ resource "aws_instance" "main" {
   iam_instance_profile        = aws_iam_instance_profile.main.name
   associate_public_ip_address = true
 
-  vpc_security_group_ids = [aws_security_group.main.id]
+  vpc_security_group_ids      = [aws_security_group.main.id]
+  user_data_replace_on_change = true
 
   user_data = <<-EOF
     #!/bin/bash
-    dnf install -y amazon-ssm-agent jq mysql git
-    systemctl enable amazon-ssm-agent
-    systemctl start amazon-ssm-agent
+    dnf install -y jq mysql git
 
     LATEST_URL=$(curl -fsSL "https://api.github.com/repos/sqldef/sqldef/releases/latest" \
       | grep '"browser_download_url"' \
