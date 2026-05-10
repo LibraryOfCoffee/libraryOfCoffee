@@ -82,7 +82,7 @@ export function CoffeeBeanDetail({
             <div className={styles.tasteList}>
               {coffeeBean.tastes.map((taste) => (
                 <div key={taste.id} className={styles.tasteItem}>
-                  <span className={styles.tasteId}>{taste.tasteId}</span>
+                  <span className={styles.tasteName}>{taste.tasteName}</span>
                   <div className={styles.tasteBar}>
                     <div
                       className={styles.tasteFill}

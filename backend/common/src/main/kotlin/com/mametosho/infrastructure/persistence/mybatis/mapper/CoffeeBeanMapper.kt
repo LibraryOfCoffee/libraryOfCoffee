@@ -2,6 +2,7 @@ package com.mametosho.infrastructure.persistence.mybatis.mapper
 
 import com.mametosho.infrastructure.persistence.mybatis.entity.CoffeeBeanEntity
 import com.mametosho.infrastructure.persistence.mybatis.entity.CoffeeBeanImageEntity
+import com.mametosho.infrastructure.persistence.mybatis.entity.CoffeeBeanTasteDetailRow
 import com.mametosho.infrastructure.persistence.mybatis.entity.CoffeeBeanTasteEntity
 import org.apache.ibatis.annotations.Delete
 import org.apache.ibatis.annotations.Insert
@@ -24,6 +25,16 @@ interface CoffeeBeanMapper {
 
     @Select("SELECT id, coffee_bean_id, tastes_id, evaluation_value FROM coffee_bean_tastes WHERE coffee_bean_id = #{coffeeBeanId}")
     fun findTastesByCoffeeBeanId(coffeeBeanId: String): List<CoffeeBeanTasteEntity>
+
+    @Select(
+        """
+        SELECT cbt.id, t.name AS taste_name, cbt.evaluation_value
+        FROM coffee_bean_tastes cbt
+        INNER JOIN tastes t ON cbt.tastes_id = t.id
+        WHERE cbt.coffee_bean_id = #{coffeeBeanId}
+        """,
+    )
+    fun findTasteDetailsByCoffeeBeanId(coffeeBeanId: String): List<CoffeeBeanTasteDetailRow>
 
     @Select(
         """

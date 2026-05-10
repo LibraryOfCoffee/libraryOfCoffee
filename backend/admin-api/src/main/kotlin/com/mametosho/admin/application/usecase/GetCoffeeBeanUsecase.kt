@@ -1,17 +1,16 @@
 package com.mametosho.admin.application.usecase
 
-import com.mametosho.domain.model.coffeebean.CoffeeBean
-import com.mametosho.domain.model.coffeebean.CoffeeBeanId
-import com.mametosho.domain.repository.CoffeeBeanRepository
+import com.mametosho.admin.application.query.CoffeeBeanQueryService
+import com.mametosho.admin.application.query.result.CoffeeBeanDetailResult
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class GetCoffeeBeanUsecase(
-    private val coffeeBeanRepository: CoffeeBeanRepository,
+    private val coffeeBeanQueryService: CoffeeBeanQueryService,
 ) {
     @Transactional(readOnly = true)
-    open fun execute(id: String): CoffeeBean? {
-        return coffeeBeanRepository.findById(CoffeeBeanId(id))
+    open fun execute(id: String): CoffeeBeanDetailResult? {
+        return coffeeBeanQueryService.findDetail(id)
     }
 }

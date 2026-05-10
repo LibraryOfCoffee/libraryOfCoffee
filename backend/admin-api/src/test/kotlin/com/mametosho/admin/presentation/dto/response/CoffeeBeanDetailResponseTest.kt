@@ -1,18 +1,6 @@
 package com.mametosho.admin.presentation.dto.response
 
-import com.mametosho.domain.model.coffeebean.CoffeeBean
-import com.mametosho.domain.model.coffeebean.CoffeeBeanId
-import com.mametosho.domain.model.coffeebean.CoffeeBeanImage
-import com.mametosho.domain.model.coffeebean.CoffeeBeanImageId
-import com.mametosho.domain.model.coffeebean.CoffeeBeanImageType
-import com.mametosho.domain.model.coffeebean.CoffeeBeanTaste
-import com.mametosho.domain.model.coffeebean.CoffeeBeanTasteId
-import com.mametosho.domain.model.coffeebean.ProcessingMethod
-import com.mametosho.domain.model.coffeebean.RoastLevel
-import com.mametosho.domain.model.coffeebean.ShopifyBeanId
-import com.mametosho.domain.model.shared.ImageUrl
-import com.mametosho.domain.model.shop.ShopId
-import com.mametosho.domain.model.taste.TasteId
+import com.mametosho.admin.application.query.result.CoffeeBeanDetailResult
 import org.junit.jupiter.api.Nested
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -20,20 +8,20 @@ import kotlin.test.assertNull
 
 class CoffeeBeanDetailResponseTest {
 
-    private fun createCoffeeBean(
+    private fun createResult(
         farm: String? = "テスト農園",
-        images: List<CoffeeBeanImage> = emptyList(),
-        tastes: List<CoffeeBeanTaste> = emptyList(),
-    ): CoffeeBean = CoffeeBean(
-        id = CoffeeBeanId("00000000-0000-4000-8000-000000000001"),
-        shopId = ShopId("00000000-0000-4000-8000-000000000002"),
-        shopifyBeanId = ShopifyBeanId("test-bean-001"),
+        images: List<CoffeeBeanDetailResult.ImageResult> = emptyList(),
+        tastes: List<CoffeeBeanDetailResult.TasteResult> = emptyList(),
+    ): CoffeeBeanDetailResult = CoffeeBeanDetailResult(
+        id = "00000000-0000-4000-8000-000000000001",
+        shopId = "00000000-0000-4000-8000-000000000002",
+        shopifyBeanId = "test-bean-001",
         name = "テストコーヒー豆",
         description = "テスト説明文",
         origin = "エチオピア",
         farm = farm,
-        roastLevel = RoastLevel.MEDIUM,
-        processingMethod = ProcessingMethod.WASHED,
+        roastLevel = "MEDIUM",
+        processingMethod = "WASHED",
         isSpecialty = true,
         images = images,
         tastes = tastes,
@@ -43,19 +31,19 @@ class CoffeeBeanDetailResponseTest {
     inner class 正常系変換 {
         @Test
         fun `全フィールドが正しく変換される`() {
-            val image = CoffeeBeanImage(
-                id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000010"),
-                type = CoffeeBeanImageType.MAIN,
-                imageUrl = ImageUrl("https://example.com/image.jpg"),
+            val image = CoffeeBeanDetailResult.ImageResult(
+                id = "00000000-0000-4000-8000-000000000010",
+                type = "MAIN",
+                imageUrl = "https://example.com/image.jpg",
             )
-            val taste = CoffeeBeanTaste(
-                id = CoffeeBeanTasteId("00000000-0000-4000-8000-000000000020"),
-                tasteId = TasteId("00000000-0000-4000-8000-000000000030"),
+            val taste = CoffeeBeanDetailResult.TasteResult(
+                id = "00000000-0000-4000-8000-000000000020",
+                tasteName = "酸味",
                 evaluationValue = 4,
             )
-            val coffeeBean = createCoffeeBean(images = listOf(image), tastes = listOf(taste))
+            val result = createResult(images = listOf(image), tastes = listOf(taste))
 
-            val response = CoffeeBeanDetailResponse.from(coffeeBean)
+            val response = CoffeeBeanDetailResponse.from(result)
 
             assertEquals("00000000-0000-4000-8000-000000000001", response.id)
             assertEquals("00000000-0000-4000-8000-000000000002", response.shopId)
@@ -73,7 +61,7 @@ class CoffeeBeanDetailResponseTest {
             assertEquals("https://example.com/image.jpg", response.images[0].imageUrl)
             assertEquals(1, response.tastes.size)
             assertEquals("00000000-0000-4000-8000-000000000020", response.tastes[0].id)
-            assertEquals("00000000-0000-4000-8000-000000000030", response.tastes[0].tasteId)
+            assertEquals("酸味", response.tastes[0].tasteName)
             assertEquals(4, response.tastes[0].evaluationValue)
         }
     }
@@ -82,9 +70,9 @@ class CoffeeBeanDetailResponseTest {
     inner class nullable項目 {
         @Test
         fun `farmがnullの場合nullが返る`() {
-            val coffeeBean = createCoffeeBean(farm = null)
+            val result = createResult(farm = null)
 
-            val response = CoffeeBeanDetailResponse.from(coffeeBean)
+            val response = CoffeeBeanDetailResponse.from(result)
 
             assertNull(response.farm)
         }
@@ -94,18 +82,18 @@ class CoffeeBeanDetailResponseTest {
     inner class 空コレクション {
         @Test
         fun `画像が空の場合空リストが返る`() {
-            val coffeeBean = createCoffeeBean(images = emptyList())
+            val result = createResult(images = emptyList())
 
-            val response = CoffeeBeanDetailResponse.from(coffeeBean)
+            val response = CoffeeBeanDetailResponse.from(result)
 
             assertEquals(emptyList(), response.images)
         }
 
         @Test
         fun `テイスト評価が空の場合空リストが返る`() {
-            val coffeeBean = createCoffeeBean(tastes = emptyList())
+            val result = createResult(tastes = emptyList())
 
-            val response = CoffeeBeanDetailResponse.from(coffeeBean)
+            val response = CoffeeBeanDetailResponse.from(result)
 
             assertEquals(emptyList(), response.tastes)
         }
