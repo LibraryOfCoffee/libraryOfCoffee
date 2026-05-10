@@ -19,7 +19,7 @@ export type CoffeeBeanListItem = {
 
 export type CoffeeBeanDetail = CoffeeBeanListItem & {
   images: { id: string; type: string; imageUrl: string }[];
-  tastes: { id: string; tasteId: string; evaluationValue: number }[];
+  tastes: { id: string; tasteName: string; evaluationValue: number }[];
 };
 
 export async function fetchCoffeeBeans(
