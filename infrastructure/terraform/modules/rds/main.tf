@@ -3,20 +3,24 @@ resource "aws_security_group" "main" {
   description = "Security group for RDS"
   vpc_id      = var.vpc_id
 
-  ingress {
-    from_port       = 3306
-    to_port         = 3306
-    protocol        = "tcp"
-    security_groups = var.allowed_security_group_ids
-    description     = "MySQL from allowed services"
-  }
-
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+}
+
+resource "aws_security_group_rule" "ingress_allowed" {
+  for_each = toset(var.allowed_security_group_ids)
+
+  type                     = "ingress"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.main.id
+  source_security_group_id = each.value
+  description              = "MySQL from allowed services"
 }
 
 resource "aws_db_subnet_group" "main" {
