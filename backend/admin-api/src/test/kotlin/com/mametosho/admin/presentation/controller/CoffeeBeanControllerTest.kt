@@ -1,6 +1,7 @@
 package com.mametosho.admin.presentation.controller
 
 import com.mametosho.admin.application.query.CoffeeBeanQueryService
+import com.mametosho.admin.application.query.result.CoffeeBeanDetailResult
 import com.mametosho.admin.application.query.result.CoffeeBeanListResult
 import com.mametosho.admin.application.query.result.PagedResult
 import com.mametosho.admin.application.usecase.CreateCoffeeBeanUsecase
@@ -40,10 +41,25 @@ class CoffeeBeanControllerTest {
         tastes = emptyList(),
     )
 
+    private val sampleDetailResult = CoffeeBeanDetailResult(
+        id = "00000000-0000-4000-8000-000000000001",
+        shopId = "00000000-0000-4000-8000-000000000002",
+        shopifyBeanId = "test-bean-001",
+        name = "テストコーヒー豆",
+        description = "テスト説明文",
+        origin = "エチオピア",
+        farm = "テスト農園",
+        roastLevel = "MEDIUM",
+        processingMethod = "WASHED",
+        isSpecialty = true,
+        images = emptyList(),
+        tastes = emptyList(),
+    )
+
     private val fakeRepository = object : com.mametosho.domain.repository.CoffeeBeanRepository {
         override fun save(coffeeBean: CoffeeBean) = Unit
-        override fun findById(id: com.mametosho.domain.model.coffeebean.CoffeeBeanId): CoffeeBean? = null
-        override fun deleteById(id: com.mametosho.domain.model.coffeebean.CoffeeBeanId) = Unit
+        override fun findById(id: CoffeeBeanId): CoffeeBean? = null
+        override fun deleteById(id: CoffeeBeanId) = Unit
     }
 
     private val fakeImageStorageService = FakeImageStorageService
@@ -75,19 +91,19 @@ class CoffeeBeanControllerTest {
         size = 20,
     )
 
-    private val fakeQueryService = object : CoffeeBeanQueryService {
-        override fun findList(page: Int, size: Int): PagedResult<CoffeeBeanListResult> = sampleListResult
-    }
-
     private fun createController(
         coffeeBean: CoffeeBean = sampleCoffeeBean,
-        getResult: CoffeeBean? = sampleCoffeeBean,
+        getResult: CoffeeBeanDetailResult? = sampleDetailResult,
         listResult: PagedResult<CoffeeBeanListResult> = sampleListResult,
         updateResult: CoffeeBean? = sampleCoffeeBean,
         deleteResult: Boolean = true,
     ): CoffeeBeanController {
-        val fakeGetUsecase = object : GetCoffeeBeanUsecase(fakeRepository) {
-            override fun execute(id: String): CoffeeBean? = getResult
+        val fakeQueryService = object : CoffeeBeanQueryService {
+            override fun findList(page: Int, size: Int): PagedResult<CoffeeBeanListResult> = listResult
+            override fun findDetail(id: String): CoffeeBeanDetailResult? = getResult
+        }
+        val fakeGetUsecase = object : GetCoffeeBeanUsecase(fakeQueryService) {
+            override fun execute(id: String): CoffeeBeanDetailResult? = getResult
         }
         val fakeListUsecase = object : ListCoffeeBeansUsecase(fakeQueryService) {
             override fun execute(page: Int, size: Int): PagedResult<CoffeeBeanListResult> = listResult

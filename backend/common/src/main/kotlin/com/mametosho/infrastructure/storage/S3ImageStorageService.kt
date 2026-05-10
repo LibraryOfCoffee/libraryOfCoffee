@@ -1,6 +1,7 @@
 package com.mametosho.infrastructure.storage
 
 import com.mametosho.domain.service.ImageStorageService
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Service
 import software.amazon.awssdk.core.sync.RequestBody
 import software.amazon.awssdk.services.s3.S3Client
@@ -9,6 +10,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest
 import java.io.InputStream
 
 @Service
+@ConditionalOnProperty(name = ["storage.s3.bucket-name"])
 class S3ImageStorageService(
     private val s3Client: S3Client,
     private val s3Properties: S3Properties,

@@ -1,5 +1,6 @@
 package com.mametosho.infrastructure.storage
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -13,6 +14,7 @@ import software.amazon.awssdk.services.s3.S3Configuration
 import java.net.URI
 
 @Configuration
+@ConditionalOnProperty(name = ["storage.s3.bucket-name"])
 @EnableConfigurationProperties(S3Properties::class)
 class S3Config {
 

@@ -1,0 +1,36 @@
+{
+  "family": "{{ must_env `AWS_ACCOUNT_ID` }}-{{ must_env `ENV` }}-admin-frontend",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::{{ must_env `AWS_ACCOUNT_ID` }}:role/{{ must_env `AWS_ACCOUNT_ID` }}-{{ must_env `ENV` }}-admin-frontend-ecs-execution",
+  "containerDefinitions": [
+    {
+      "name": "admin-frontend",
+      "image": "{{ must_env `AWS_ACCOUNT_ID` }}.dkr.ecr.ap-northeast-1.amazonaws.com/admin-frontend-{{ must_env `ENV` }}:{{ must_env `IMAGE_TAG` }}",
+      "portMappings": [
+        {
+          "containerPort": 3001,
+          "hostPort": 3001,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "API_BASE_URL",
+          "value": "http://admin-api.{{ must_env `ENV` }}.local:8080"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/{{ must_env `AWS_ACCOUNT_ID` }}-{{ must_env `ENV` }}-admin-frontend",
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "essential": true
+    }
+  ]
+}

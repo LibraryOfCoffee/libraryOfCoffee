@@ -137,7 +137,7 @@ class CoffeeBeanController(
                                       "tastes": [
                                         {
                                           "id": "00000000-0000-4000-8000-000000000020",
-                                          "tasteId": "00000000-0000-4000-8000-000000000030",
+                                          "tasteName": "酸味",
                                           "evaluationValue": 4
                                         }
                                       ]
@@ -176,9 +176,9 @@ class CoffeeBeanController(
         @Parameter(description = "コーヒー豆ID", required = true, example = "00000000-0000-4000-8000-000000000001")
         @PathVariable id: String,
     ): ResponseEntity<CoffeeBeanDetailResponse> {
-        val coffeeBean = getCoffeeBeanUsecase.execute(id)
+        val result = getCoffeeBeanUsecase.execute(id)
             ?: return ResponseEntity.notFound().build()
-        return ResponseEntity.ok(CoffeeBeanDetailResponse.from(coffeeBean))
+        return ResponseEntity.ok(CoffeeBeanDetailResponse.from(result))
     }
 
     @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
