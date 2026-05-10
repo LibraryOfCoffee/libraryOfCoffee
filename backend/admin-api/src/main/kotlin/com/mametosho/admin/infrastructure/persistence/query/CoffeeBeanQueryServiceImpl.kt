@@ -41,35 +41,41 @@ class CoffeeBeanQueryServiceImpl(
     }
 
     override fun findDetail(id: String): CoffeeBeanDetailResult? {
-        val bean = coffeeBeanMapper.findById(id) ?: return null
-        val images = coffeeBeanMapper.findImagesByCoffeeBeanId(id)
-        val tastes = coffeeBeanMapper.findTasteDetailsByCoffeeBeanId(id)
+        val rows = coffeeBeanMapper.findDetailRowsById(id)
+        if (rows.isEmpty()) return null
 
+        val first = rows.first()
         return CoffeeBeanDetailResult(
-            id = bean.id,
-            shopId = bean.shopId,
-            shopifyBeanId = bean.shopifyBeanId,
-            name = bean.name,
-            description = bean.description,
-            origin = bean.origin,
-            farm = bean.farm,
-            roastLevel = bean.roastLevel,
-            processingMethod = bean.processingMethod,
-            isSpecialty = bean.isSpecialty,
-            images = images.map { img ->
-                CoffeeBeanDetailResult.ImageResult(
-                    id = img.id,
-                    type = img.type,
-                    imageUrl = img.imageUrl,
-                )
-            },
-            tastes = tastes.map { taste ->
-                CoffeeBeanDetailResult.TasteResult(
-                    id = taste.id,
-                    tasteName = taste.tasteName,
-                    evaluationValue = taste.evaluationValue,
-                )
-            },
+            id = first.beanId,
+            shopId = first.shopId,
+            shopifyBeanId = first.shopifyBeanId,
+            name = first.beanName,
+            description = first.description,
+            origin = first.origin,
+            farm = first.farm,
+            roastLevel = first.roastLevel,
+            processingMethod = first.processingMethod,
+            isSpecialty = first.isSpecialty,
+            images = rows
+                .filter { it.imageId != null }
+                .distinctBy { it.imageId }
+                .map { row ->
+                    CoffeeBeanDetailResult.ImageResult(
+                        id = checkNotNull(row.imageId),
+                        type = checkNotNull(row.imageType),
+                        imageUrl = checkNotNull(row.imageUrl),
+                    )
+                },
+            tastes = rows
+                .filter { it.tasteEvalId != null }
+                .distinctBy { it.tasteEvalId }
+                .map { row ->
+                    CoffeeBeanDetailResult.TasteResult(
+                        id = checkNotNull(row.tasteEvalId),
+                        tasteName = checkNotNull(row.tasteName),
+                        evaluationValue = checkNotNull(row.evaluationValue),
+                    )
+                },
         )
     }
 }

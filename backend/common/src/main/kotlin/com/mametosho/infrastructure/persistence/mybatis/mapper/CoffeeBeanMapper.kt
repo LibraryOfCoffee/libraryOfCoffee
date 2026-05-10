@@ -1,8 +1,8 @@
 package com.mametosho.infrastructure.persistence.mybatis.mapper
 
+import com.mametosho.infrastructure.persistence.mybatis.entity.CoffeeBeanDetailRow
 import com.mametosho.infrastructure.persistence.mybatis.entity.CoffeeBeanEntity
 import com.mametosho.infrastructure.persistence.mybatis.entity.CoffeeBeanImageEntity
-import com.mametosho.infrastructure.persistence.mybatis.entity.CoffeeBeanTasteDetailRow
 import com.mametosho.infrastructure.persistence.mybatis.entity.CoffeeBeanTasteEntity
 import org.apache.ibatis.annotations.Delete
 import org.apache.ibatis.annotations.Insert
@@ -28,13 +28,19 @@ interface CoffeeBeanMapper {
 
     @Select(
         """
-        SELECT cbt.id, t.name AS taste_name, cbt.evaluation_value
-        FROM coffee_bean_tastes cbt
-        INNER JOIN tastes t ON cbt.tastes_id = t.id
-        WHERE cbt.coffee_bean_id = #{coffeeBeanId}
+        SELECT
+            cb.id AS bean_id, cb.shop_id, cb.shopify_bean_id, cb.name AS bean_name,
+            cb.description, cb.origin, cb.farm, cb.roast_level, cb.processing_method, cb.is_specialty,
+            cbi.id AS image_id, cbi.type AS image_type, cbi.image_url,
+            cbt.id AS taste_eval_id, t.name AS taste_name, cbt.evaluation_value
+        FROM coffee_beans cb
+        LEFT JOIN coffee_bean_images cbi ON cbi.coffee_bean_id = cb.id
+        LEFT JOIN coffee_bean_tastes cbt ON cbt.coffee_bean_id = cb.id
+        LEFT JOIN tastes t ON cbt.tastes_id = t.id
+        WHERE cb.id = #{id}
         """,
     )
-    fun findTasteDetailsByCoffeeBeanId(coffeeBeanId: String): List<CoffeeBeanTasteDetailRow>
+    fun findDetailRowsById(id: String): List<CoffeeBeanDetailRow>
 
     @Select(
         """
