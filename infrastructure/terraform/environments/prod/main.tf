@@ -8,6 +8,12 @@ module "acm" {
   domain_name = "admin.mametosho.com"
 }
 
+module "acm_cs" {
+  source = "../../modules/acm"
+
+  domain_name = "api.mametosho.com"
+}
+
 module "cd" {
   source = "../../modules/cd"
 
@@ -34,6 +40,15 @@ module "ecr_admin_api" {
   source = "../../modules/ecr"
 
   repository_name      = "admin-api"
+  env                  = local.env
+  image_retention_days = 30
+  image_tag_mutability = "IMMUTABLE"
+}
+
+module "ecr_cs_api" {
+  source = "../../modules/ecr"
+
+  repository_name      = "cs-api"
   env                  = local.env
   image_retention_days = 30
   image_tag_mutability = "IMMUTABLE"
@@ -103,6 +118,21 @@ module "alb_admin" {
   container_port      = 3001
 }
 
+module "alb_cs" {
+  source = "../../modules/alb"
+
+  account_id          = local.account_id
+  env                 = local.env
+  name                = "cs"
+  vpc_id              = module.vpc.vpc_id
+  public_subnet_ids   = module.vpc.public_subnet_ids
+  allowed_cidr_blocks = local.allowed_cidr_blocks
+  certificate_arn     = module.acm_cs.certificate_arn
+  host_header         = "api.mametosho.com"
+  container_port      = 8080
+  health_check_path   = "/actuator/health"
+}
+
 # ============================================
 # Service Discovery
 # ============================================
@@ -116,16 +146,39 @@ module "service_discovery" {
 }
 
 # ============================================
-# Secrets Manager & SSM Parameters
+# ECS - CS API
 # ============================================
 
-module "secrets_admin_api" {
-  source = "../../modules/secrets_manager"
+module "ecs_cs_api" {
+  source = "../../modules/ecs_fargate"
 
-  account_id     = local.account_id
-  env            = local.env
-  rds_endpoint   = module.rds.endpoint
-  s3_bucket_name = module.s3_images.bucket_name
+  account_id            = local.account_id
+  env                   = local.env
+  service_name          = "cs-api"
+  container_name        = "cs-api"
+  vpc_id                = module.vpc.vpc_id
+  private_subnet_ids    = module.vpc.private_subnet_ids
+  ingress_from_sg_id    = module.alb_cs.alb_security_group_id
+  ingress_description   = "Allow access from cs ALB"
+  container_port        = 8080
+  cpu                   = 512
+  memory                = 1024
+  image_url             = "${module.ecr_cs_api.repository_url}:latest"
+  target_group_arn      = module.alb_cs.target_group_arn
+  enable_rds_access     = true
+  rds_security_group_id = module.rds.security_group_id
+  secret_arns = [
+    aws_secretsmanager_secret.cs_api_db.arn,
+  ]
+
+  environment = [
+    { name = "DB_URL", value = "jdbc:mysql://${module.rds.endpoint}:${module.rds.port}/${module.rds.db_name}" },
+  ]
+
+  secrets = [
+    { name = "DB_USERNAME", valueFrom = "${aws_secretsmanager_secret.cs_api_db.arn}:username::" },
+    { name = "DB_PASSWORD", valueFrom = "${aws_secretsmanager_secret.cs_api_db.arn}:password::" },
+  ]
 }
 
 # ============================================
@@ -178,8 +231,8 @@ module "ecs_admin_api" {
   rds_security_group_id = module.rds.security_group_id
   enable_s3_access      = true
   secret_arns = [
-    module.secrets_admin_api.db_credentials_arn,
-    module.secrets_admin_api.jwt_secret_arn,
+    aws_secretsmanager_secret.admin_api_db.arn,
+    aws_secretsmanager_secret.admin_api_jwt.arn,
   ]
   s3_bucket_arn = module.s3_images.bucket_arn
 
@@ -191,9 +244,9 @@ module "ecs_admin_api" {
   ]
 
   secrets = [
-    { name = "DB_USERNAME", valueFrom = "${module.secrets_admin_api.db_credentials_arn}:username::" },
-    { name = "DB_PASSWORD", valueFrom = "${module.secrets_admin_api.db_credentials_arn}:password::" },
-    { name = "JWT_SECRET_KEY", valueFrom = module.secrets_admin_api.jwt_secret_arn },
+    { name = "DB_USERNAME", valueFrom = "${aws_secretsmanager_secret.admin_api_db.arn}:username::" },
+    { name = "DB_PASSWORD", valueFrom = "${aws_secretsmanager_secret.admin_api_db.arn}:password::" },
+    { name = "JWT_SECRET_KEY", valueFrom = aws_secretsmanager_secret.admin_api_jwt.arn },
   ]
 }
 
@@ -209,4 +262,14 @@ output "acm_validation_records" {
 output "admin_alb_dns" {
   description = "Admin ALB DNS name (set admin.mametosho.com CNAME to this)"
   value       = module.alb_admin.alb_dns_name
+}
+
+output "cs_acm_validation_records" {
+  description = "Add these CNAME records to your DNS provider"
+  value       = module.acm_cs.domain_validation_options
+}
+
+output "cs_alb_dns" {
+  description = "CS ALB DNS name (set api.mametosho.com CNAME to this)"
+  value       = module.alb_cs.alb_dns_name
 }
