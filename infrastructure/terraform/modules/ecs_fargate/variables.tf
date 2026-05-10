@@ -93,11 +93,23 @@ variable "secret_arns" {
 variable "s3_bucket_arn" {
   type        = string
   default     = null
-  description = "S3アクセス用タスクロールを作成するバケットARN (指定時のみタスクロールを作成)"
+  description = "S3アクセス用タスクロールに付与するバケットARN"
+}
+
+variable "enable_s3_access" {
+  type        = bool
+  default     = false
+  description = "S3アクセス用タスクロールを作成するかどうか"
 }
 
 variable "rds_security_group_id" {
   type        = string
   default     = null
-  description = "RDS SGのID (指定時にRDS SGへのingressルールを追加)"
+  description = "RDS SGのID (ingressルール追加先)"
+}
+
+variable "enable_rds_access" {
+  type        = bool
+  default     = false
+  description = "RDS SGへのingressルールを追加するかどうか"
 }

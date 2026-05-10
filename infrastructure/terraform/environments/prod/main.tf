@@ -174,7 +174,9 @@ module "ecs_admin_api" {
   memory                = 1024
   image_url             = "${module.ecr_admin_api.repository_url}:latest"
   service_registry_arn  = module.service_discovery.service_arns["admin-api"]
+  enable_rds_access     = true
   rds_security_group_id = module.rds.security_group_id
+  enable_s3_access      = true
   secret_arns = [
     module.secrets_admin_api.db_credentials_arn,
     module.secrets_admin_api.jwt_secret_arn,

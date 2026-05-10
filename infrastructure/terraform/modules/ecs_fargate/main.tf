@@ -38,7 +38,7 @@ resource "aws_iam_role_policy" "execution_secrets" {
 }
 
 resource "aws_iam_role" "task" {
-  count = var.s3_bucket_arn != null ? 1 : 0
+  count = var.enable_s3_access ? 1 : 0
 
   name = "${var.account_id}-${var.env}-${var.service_name}-ecs-task"
 
@@ -53,7 +53,7 @@ resource "aws_iam_role" "task" {
 }
 
 resource "aws_iam_role_policy" "task_s3" {
-  count = var.s3_bucket_arn != null ? 1 : 0
+  count = var.enable_s3_access ? 1 : 0
 
   name = "s3-images-access"
   role = aws_iam_role.task[0].id
@@ -84,7 +84,7 @@ resource "aws_ecs_task_definition" "this" {
   cpu                      = var.cpu
   memory                   = var.memory
   execution_role_arn       = aws_iam_role.execution.arn
-  task_role_arn            = var.s3_bucket_arn != null ? aws_iam_role.task[0].arn : null
+  task_role_arn            = var.enable_s3_access ? aws_iam_role.task[0].arn : null
 
   container_definitions = jsonencode([
     {

@@ -20,7 +20,7 @@ resource "aws_security_group" "ecs" {
 }
 
 resource "aws_security_group_rule" "to_rds" {
-  count = var.rds_security_group_id != null ? 1 : 0
+  count = var.enable_rds_access ? 1 : 0
 
   type                     = "ingress"
   from_port                = 3306
