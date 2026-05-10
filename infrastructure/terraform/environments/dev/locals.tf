@@ -1,7 +1,7 @@
 locals {
-  # 豆図書のAWSアカウントID
-  account_id = "446468848828"
+  account_id = data.aws_caller_identity.current.account_id
   env        = "dev"
 
-  config = yamldecode(file("../../files/config/${local.env}.yml"))
+  config              = yamldecode(file("../../files/config/${local.env}.yml"))
+  allowed_cidr_blocks = local.config.allowed_cidr_blocks
 }

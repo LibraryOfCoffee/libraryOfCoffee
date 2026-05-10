@@ -82,6 +82,16 @@ resource "aws_vpc_endpoint" "s3" {
   route_table_ids   = [aws_route_table.private.id]
 }
 
+# Secrets Manager用 (Interface型) - ECSタスクがDB認証情報を取得するために必要
+resource "aws_vpc_endpoint" "secretsmanager" {
+  vpc_id              = aws_vpc.main.id
+  service_name        = "com.amazonaws.ap-northeast-1.secretsmanager"
+  vpc_endpoint_type   = "Interface"
+  subnet_ids          = [aws_subnet.private-1.id, aws_subnet.private-2.id]
+  security_group_ids  = [aws_security_group.vpc_endpoint.id]
+  private_dns_enabled = true
+}
+
 # CloudWatch Logs用 (Interface型)
 resource "aws_vpc_endpoint" "logs" {
   vpc_id              = aws_vpc.main.id

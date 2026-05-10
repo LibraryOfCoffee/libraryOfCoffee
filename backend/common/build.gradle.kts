@@ -1,7 +1,25 @@
 plugins {
 	`java-library`
 	alias(libs.plugins.kotlin.spring)
+	alias(libs.plugins.spring.boot) apply false
 	alias(libs.plugins.spring.dependency.management)
+}
+
+group = "com.mametosho"
+version = "0.0.1-SNAPSHOT"
+
+repositories {
+	mavenCentral()
+}
+
+java {
+	toolchain {
+		languageVersion.set(JavaLanguageVersion.of(25))
+	}
+}
+
+tasks.withType<org.gradle.api.tasks.testing.Test> {
+	useJUnitPlatform()
 }
 
 dependencyManagement {

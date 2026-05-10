@@ -5,6 +5,39 @@ plugins {
 	alias(libs.plugins.springdoc.openapi.gradle)
 }
 
+group = "com.mametosho"
+version = "0.0.1-SNAPSHOT"
+
+repositories {
+	mavenCentral()
+}
+
+java {
+	toolchain {
+		languageVersion.set(JavaLanguageVersion.of(25))
+	}
+}
+
+kotlin {
+	compilerOptions {
+		jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25)
+		freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property")
+	}
+}
+
+tasks.withType<Test> {
+	useJUnitPlatform()
+}
+
+openApi {
+	apiDocsUrl.set("http://localhost:8080/v3/api-docs.yaml")
+	outputDir.set(file("${rootProject.projectDir}/../docs/swagger"))
+	outputFileName.set("cs-api.yml")
+	customBootRun {
+		args.set(listOf("--spring.profiles.active=openapi"))
+	}
+}
+
 dependencies {
 	implementation(project(":common"))
 
@@ -23,15 +56,3 @@ dependencies {
 	testRuntimeOnly(libs.junit.platform.launcher)
 }
 
-openApi {
-	apiDocsUrl.set("http://localhost:8080/v3/api-docs.yaml")
-	outputDir.set(file("${rootProject.projectDir}/../docs/swagger"))
-	outputFileName.set("cs-api.yml")
-	customBootRun {
-		args.set(listOf("--spring.profiles.active=openapi"))
-	}
-}
-
-tasks.named("forkedSpringBootRun") {
-	dependsOn(":common:jar")
-}

@@ -1,21 +1,20 @@
 # Build stage
-FROM eclipse-temurin:24-jdk AS builder
+FROM eclipse-temurin:25-jdk AS builder
 
 WORKDIR /app
 
 COPY gradle gradle
 COPY gradlew .
 COPY build.gradle.kts .
-COPY settings.gradle.kts .
+COPY settings.docker-cs-api.gradle.kts settings.gradle.kts
 COPY common common
 COPY cs-api cs-api
 
 RUN chmod +x gradlew
-RUN ./gradlew :cs-api:dependencies --no-daemon
 RUN ./gradlew :cs-api:bootJar --no-daemon
 
 # Runtime stage
-FROM eclipse-temurin:24-jre
+FROM eclipse-temurin:25-jre
 
 WORKDIR /app
 
