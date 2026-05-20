@@ -3,8 +3,8 @@ package com.mametosho.cs.presentation.controller
 import com.mametosho.cs.application.usecase.FindCoffeeBeansUsecase
 import com.mametosho.cs.presentation.dto.response.CoffeeBeanListResponse
 import com.mametosho.cs.presentation.dto.response.PagedResponse
-import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import com.mametosho.domain.model.coffeebean.RoastLevel
+import com.mametosho.domain.model.shop.Prefecture
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.media.Content
@@ -73,10 +73,10 @@ class CoffeeBeanController(
         @RequestParam(required = false) origin: String?,
         @Parameter(description = "焙煎度", example = "LIGHT")
         @RequestParam(required = false) roastLevel: RoastLevel?,
-        @Parameter(description = "精製方法", example = "WASHED")
-        @RequestParam(required = false) processingMethod: ProcessingMethod?,
+        @Parameter(description = "ロースターの都道府県", example = "TOKYO")
+        @RequestParam(required = false) prefecture: Prefecture?,
     ): ResponseEntity<PagedResponse<CoffeeBeanListResponse>> {
-        val result = findCoffeeBeansUsecase.execute(page, size, origin, roastLevel, processingMethod)
+        val result = findCoffeeBeansUsecase.execute(page, size, origin, roastLevel, prefecture)
         return ResponseEntity.ok(PagedResponse.from(result) { CoffeeBeanListResponse.from(it) })
     }
 }

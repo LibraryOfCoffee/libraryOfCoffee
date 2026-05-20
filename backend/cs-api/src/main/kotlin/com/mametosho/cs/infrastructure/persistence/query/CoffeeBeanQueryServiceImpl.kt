@@ -4,8 +4,8 @@ import com.mametosho.cs.application.query.CoffeeBeanQueryService
 import com.mametosho.cs.application.query.result.CoffeeBeanListResult
 import com.mametosho.cs.application.query.result.PagedResult
 import com.mametosho.cs.infrastructure.persistence.mybatis.mapper.CoffeeBeanQueryMapper
-import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import com.mametosho.domain.model.coffeebean.RoastLevel
+import com.mametosho.domain.model.shop.Prefecture
 import org.springframework.stereotype.Service
 
 @Service
@@ -18,11 +18,11 @@ class CoffeeBeanQueryServiceImpl(
         size: Int,
         origin: String?,
         roastLevel: RoastLevel?,
-        processingMethod: ProcessingMethod?,
+        prefecture: Prefecture?,
     ): PagedResult<CoffeeBeanListResult> {
         val offset = page * size
-        val rows = coffeeBeanQueryMapper.findListRows(size, offset, origin, roastLevel?.name, processingMethod?.name)
-        val totalCount = coffeeBeanQueryMapper.countFiltered(origin, roastLevel?.name, processingMethod?.name)
+        val rows = coffeeBeanQueryMapper.findListRows(size, offset, origin, roastLevel?.name, prefecture?.name)
+        val totalCount = coffeeBeanQueryMapper.countFiltered(origin, roastLevel?.name, prefecture?.name)
 
         val items = rows.map { row ->
             CoffeeBeanListResult(

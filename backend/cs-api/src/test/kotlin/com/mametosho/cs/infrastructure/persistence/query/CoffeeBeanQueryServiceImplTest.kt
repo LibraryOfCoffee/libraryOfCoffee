@@ -2,8 +2,8 @@ package com.mametosho.cs.infrastructure.persistence.query
 
 import com.mametosho.cs.infrastructure.persistence.mybatis.entity.CoffeeBeanListRow
 import com.mametosho.cs.infrastructure.persistence.mybatis.mapper.CoffeeBeanQueryMapper
-import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import com.mametosho.domain.model.coffeebean.RoastLevel
+import com.mametosho.domain.model.shop.Prefecture
 import org.junit.jupiter.api.Nested
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -14,7 +14,7 @@ class CoffeeBeanQueryServiceImplTest {
     private var capturedOffset: Int? = null
     private var capturedOrigin: String? = null
     private var capturedRoastLevel: String? = null
-    private var capturedProcessingMethod: String? = null
+    private var capturedPrefecture: String? = null
 
     private val sampleRow = CoffeeBeanListRow(
         id = "00000000-0000-4000-8000-000000000001",
@@ -35,20 +35,20 @@ class CoffeeBeanQueryServiceImplTest {
                 offset: Int,
                 origin: String?,
                 roastLevel: String?,
-                processingMethod: String?,
+                prefecture: String?,
             ): List<CoffeeBeanListRow> {
                 capturedSize = size
                 capturedOffset = offset
                 capturedOrigin = origin
                 capturedRoastLevel = roastLevel
-                capturedProcessingMethod = processingMethod
+                capturedPrefecture = prefecture
                 return rows
             }
 
             override fun countFiltered(
                 origin: String?,
                 roastLevel: String?,
-                processingMethod: String?,
+                prefecture: String?,
             ): Long = count
         }
         return CoffeeBeanQueryServiceImpl(fakeMapper)
@@ -60,7 +60,7 @@ class CoffeeBeanQueryServiceImplTest {
         fun `フィルタなしで一覧を取得できる`() {
             val service = createService()
 
-            val result = service.findList(page = 0, size = 20, origin = null, roastLevel = null, processingMethod = null)
+            val result = service.findList(page = 0, size = 20, origin = null, roastLevel = null, prefecture = null)
 
             assertEquals(1, result.items.size)
             assertEquals(1L, result.totalCount)
@@ -72,7 +72,7 @@ class CoffeeBeanQueryServiceImplTest {
         fun `Rowが正しくResultに変換される`() {
             val service = createService()
 
-            val result = service.findList(page = 0, size = 20, origin = null, roastLevel = null, processingMethod = null)
+            val result = service.findList(page = 0, size = 20, origin = null, roastLevel = null, prefecture = null)
 
             val item = result.items[0]
             assertEquals("00000000-0000-4000-8000-000000000001", item.id)
@@ -87,7 +87,7 @@ class CoffeeBeanQueryServiceImplTest {
         fun `offsetがpage×sizeで計算される`() {
             val service = createService()
 
-            service.findList(page = 1, size = 10, origin = null, roastLevel = null, processingMethod = null)
+            service.findList(page = 1, size = 10, origin = null, roastLevel = null, prefecture = null)
 
             assertEquals(10, capturedSize)
             assertEquals(10, capturedOffset)
@@ -102,19 +102,19 @@ class CoffeeBeanQueryServiceImplTest {
                 size = 20,
                 origin = "エチオピア",
                 roastLevel = RoastLevel.LIGHT,
-                processingMethod = ProcessingMethod.WASHED,
+                prefecture = Prefecture.TOKYO,
             )
 
             assertEquals("エチオピア", capturedOrigin)
             assertEquals("LIGHT", capturedRoastLevel)
-            assertEquals("WASHED", capturedProcessingMethod)
+            assertEquals("TOKYO", capturedPrefecture)
         }
 
         @Test
         fun `件数が0件の場合は空リストを返す`() {
             val service = createService(rows = emptyList(), count = 0L)
 
-            val result = service.findList(page = 0, size = 20, origin = null, roastLevel = null, processingMethod = null)
+            val result = service.findList(page = 0, size = 20, origin = null, roastLevel = null, prefecture = null)
 
             assertEquals(0, result.items.size)
             assertEquals(0L, result.totalCount)

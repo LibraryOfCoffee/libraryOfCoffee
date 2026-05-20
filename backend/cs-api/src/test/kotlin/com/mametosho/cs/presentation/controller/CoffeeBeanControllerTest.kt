@@ -4,8 +4,8 @@ import com.mametosho.cs.application.query.CoffeeBeanQueryService
 import com.mametosho.cs.application.query.result.CoffeeBeanListResult
 import com.mametosho.cs.application.query.result.PagedResult
 import com.mametosho.cs.application.usecase.FindCoffeeBeansUsecase
-import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import com.mametosho.domain.model.coffeebean.RoastLevel
+import com.mametosho.domain.model.shop.Prefecture
 import org.junit.jupiter.api.Nested
 import org.springframework.http.HttpStatus
 import kotlin.test.Test
@@ -38,7 +38,7 @@ class CoffeeBeanControllerTest {
                 size: Int,
                 origin: String?,
                 roastLevel: RoastLevel?,
-                processingMethod: ProcessingMethod?,
+                prefecture: Prefecture?,
             ): PagedResult<CoffeeBeanListResult> = result
         }
         val fakeUsecase = object : FindCoffeeBeansUsecase(fakeQueryService) {
@@ -47,7 +47,7 @@ class CoffeeBeanControllerTest {
                 size: Int,
                 origin: String?,
                 roastLevel: RoastLevel?,
-                processingMethod: ProcessingMethod?,
+                prefecture: Prefecture?,
             ): PagedResult<CoffeeBeanListResult> = result
         }
         return CoffeeBeanController(fakeUsecase)
@@ -64,7 +64,7 @@ class CoffeeBeanControllerTest {
                 size = 20,
                 origin = null,
                 roastLevel = null,
-                processingMethod = null,
+                prefecture = null,
             )
 
             assertEquals(HttpStatus.OK, response.statusCode)
@@ -83,7 +83,7 @@ class CoffeeBeanControllerTest {
                 size = 20,
                 origin = null,
                 roastLevel = null,
-                processingMethod = null,
+                prefecture = null,
             )
 
             val item = response.body?.items?.get(0)
@@ -104,7 +104,7 @@ class CoffeeBeanControllerTest {
                 size = 20,
                 origin = "エチオピア",
                 roastLevel = null,
-                processingMethod = null,
+                prefecture = null,
             )
 
             assertEquals(HttpStatus.OK, response.statusCode)
@@ -119,14 +119,14 @@ class CoffeeBeanControllerTest {
                 size = 20,
                 origin = null,
                 roastLevel = RoastLevel.LIGHT,
-                processingMethod = null,
+                prefecture = null,
             )
 
             assertEquals(HttpStatus.OK, response.statusCode)
         }
 
         @Test
-        fun `processingMethodフィルタを指定して取得できる`() {
+        fun `prefectureフィルタを指定して取得できる`() {
             val controller = createController()
 
             val response = controller.listCoffeeBeans(
@@ -134,7 +134,7 @@ class CoffeeBeanControllerTest {
                 size = 20,
                 origin = null,
                 roastLevel = null,
-                processingMethod = ProcessingMethod.WASHED,
+                prefecture = Prefecture.TOKYO,
             )
 
             assertEquals(HttpStatus.OK, response.statusCode)
@@ -155,7 +155,7 @@ class CoffeeBeanControllerTest {
                 size = 20,
                 origin = null,
                 roastLevel = null,
-                processingMethod = null,
+                prefecture = null,
             )
 
             assertEquals(HttpStatus.OK, response.statusCode)

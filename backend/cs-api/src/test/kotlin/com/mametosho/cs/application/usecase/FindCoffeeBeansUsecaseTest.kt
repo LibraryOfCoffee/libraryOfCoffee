@@ -3,8 +3,8 @@ package com.mametosho.cs.application.usecase
 import com.mametosho.cs.application.query.CoffeeBeanQueryService
 import com.mametosho.cs.application.query.result.CoffeeBeanListResult
 import com.mametosho.cs.application.query.result.PagedResult
-import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import com.mametosho.domain.model.coffeebean.RoastLevel
+import com.mametosho.domain.model.shop.Prefecture
 import org.junit.jupiter.api.Nested
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,7 +15,7 @@ class FindCoffeeBeansUsecaseTest {
     private var capturedSize: Int? = null
     private var capturedOrigin: String? = null
     private var capturedRoastLevel: RoastLevel? = null
-    private var capturedProcessingMethod: ProcessingMethod? = null
+    private var capturedPrefecture: Prefecture? = null
 
     private val sampleResult = PagedResult(
         items = listOf(
@@ -42,13 +42,13 @@ class FindCoffeeBeansUsecaseTest {
                 size: Int,
                 origin: String?,
                 roastLevel: RoastLevel?,
-                processingMethod: ProcessingMethod?,
+                prefecture: Prefecture?,
             ): PagedResult<CoffeeBeanListResult> {
                 capturedPage = page
                 capturedSize = size
                 capturedOrigin = origin
                 capturedRoastLevel = roastLevel
-                capturedProcessingMethod = processingMethod
+                capturedPrefecture = prefecture
                 return result
             }
         }
@@ -61,21 +61,21 @@ class FindCoffeeBeansUsecaseTest {
         fun `フィルタなしで一覧を取得できる`() {
             val usecase = createUsecase()
 
-            val result = usecase.execute(page = 0, size = 20, origin = null, roastLevel = null, processingMethod = null)
+            val result = usecase.execute(page = 0, size = 20, origin = null, roastLevel = null, prefecture = null)
 
             assertEquals(1, result.items.size)
             assertEquals(0, capturedPage)
             assertEquals(20, capturedSize)
             assertEquals(null, capturedOrigin)
             assertEquals(null, capturedRoastLevel)
-            assertEquals(null, capturedProcessingMethod)
+            assertEquals(null, capturedPrefecture)
         }
 
         @Test
         fun `originを指定して取得できる`() {
             val usecase = createUsecase()
 
-            usecase.execute(page = 0, size = 20, origin = "エチオピア", roastLevel = null, processingMethod = null)
+            usecase.execute(page = 0, size = 20, origin = "エチオピア", roastLevel = null, prefecture = null)
 
             assertEquals("エチオピア", capturedOrigin)
         }
@@ -84,18 +84,18 @@ class FindCoffeeBeansUsecaseTest {
         fun `roastLevelを指定して取得できる`() {
             val usecase = createUsecase()
 
-            usecase.execute(page = 0, size = 20, origin = null, roastLevel = RoastLevel.LIGHT, processingMethod = null)
+            usecase.execute(page = 0, size = 20, origin = null, roastLevel = RoastLevel.LIGHT, prefecture = null)
 
             assertEquals(RoastLevel.LIGHT, capturedRoastLevel)
         }
 
         @Test
-        fun `processingMethodを指定して取得できる`() {
+        fun `prefectureを指定して取得できる`() {
             val usecase = createUsecase()
 
-            usecase.execute(page = 0, size = 20, origin = null, roastLevel = null, processingMethod = ProcessingMethod.WASHED)
+            usecase.execute(page = 0, size = 20, origin = null, roastLevel = null, prefecture = Prefecture.TOKYO)
 
-            assertEquals(ProcessingMethod.WASHED, capturedProcessingMethod)
+            assertEquals(Prefecture.TOKYO, capturedPrefecture)
         }
 
         @Test
@@ -107,14 +107,14 @@ class FindCoffeeBeansUsecaseTest {
                 size = 10,
                 origin = "エチオピア",
                 roastLevel = RoastLevel.LIGHT,
-                processingMethod = ProcessingMethod.WASHED,
+                prefecture = Prefecture.TOKYO,
             )
 
             assertEquals(1, capturedPage)
             assertEquals(10, capturedSize)
             assertEquals("エチオピア", capturedOrigin)
             assertEquals(RoastLevel.LIGHT, capturedRoastLevel)
-            assertEquals(ProcessingMethod.WASHED, capturedProcessingMethod)
+            assertEquals(Prefecture.TOKYO, capturedPrefecture)
         }
     }
 }

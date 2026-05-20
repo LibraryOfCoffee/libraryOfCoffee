@@ -10,14 +10,15 @@ interface CoffeeBeanQueryMapper {
 
     @Select("""
         <script>
-        SELECT id, name, origin, roast_level, processing_method, is_specialty
-        FROM coffee_beans
+        SELECT cb.id, cb.name, cb.origin, cb.roast_level, cb.processing_method, cb.is_specialty
+        FROM coffee_beans cb
+        INNER JOIN shops s ON cb.shop_id = s.id
         <where>
-            <if test="origin != null">AND origin LIKE CONCAT('%', #{origin}, '%')</if>
-            <if test="roastLevel != null">AND roast_level = #{roastLevel}</if>
-            <if test="processingMethod != null">AND processing_method = #{processingMethod}</if>
+            <if test="origin != null">AND cb.origin LIKE CONCAT('%', #{origin}, '%')</if>
+            <if test="roastLevel != null">AND cb.roast_level = #{roastLevel}</if>
+            <if test="prefecture != null">AND s.prefecture = #{prefecture}</if>
         </where>
-        ORDER BY created_at DESC
+        ORDER BY cb.created_at DESC
         LIMIT #{size} OFFSET #{offset}
         </script>
     """)
@@ -26,23 +27,24 @@ interface CoffeeBeanQueryMapper {
         @Param("offset") offset: Int,
         @Param("origin") origin: String?,
         @Param("roastLevel") roastLevel: String?,
-        @Param("processingMethod") processingMethod: String?,
+        @Param("prefecture") prefecture: String?,
     ): List<CoffeeBeanListRow>
 
     @Select("""
         <script>
         SELECT COUNT(*)
-        FROM coffee_beans
+        FROM coffee_beans cb
+        INNER JOIN shops s ON cb.shop_id = s.id
         <where>
-            <if test="origin != null">AND origin LIKE CONCAT('%', #{origin}, '%')</if>
-            <if test="roastLevel != null">AND roast_level = #{roastLevel}</if>
-            <if test="processingMethod != null">AND processing_method = #{processingMethod}</if>
+            <if test="origin != null">AND cb.origin LIKE CONCAT('%', #{origin}, '%')</if>
+            <if test="roastLevel != null">AND cb.roast_level = #{roastLevel}</if>
+            <if test="prefecture != null">AND s.prefecture = #{prefecture}</if>
         </where>
         </script>
     """)
     fun countFiltered(
         @Param("origin") origin: String?,
         @Param("roastLevel") roastLevel: String?,
-        @Param("processingMethod") processingMethod: String?,
+        @Param("prefecture") prefecture: String?,
     ): Long
 }

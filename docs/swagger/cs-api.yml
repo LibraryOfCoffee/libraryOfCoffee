@@ -47,18 +47,70 @@ paths:
         example: エチオピア
       - name: roastLevel
         in: query
-        description: 焙煎度（LIGHT/MEDIUM/CITY/FRENCH）
+        description: 焙煎度
         required: false
         schema:
           type: string
+          enum:
+          - LIGHT
+          - MEDIUM
+          - CITY
+          - FRENCH
         example: LIGHT
-      - name: processingMethod
+      - name: prefecture
         in: query
-        description: 精製方法（FULLY_WASHED/WASHED/THERMAL_SHOCK_NATURAL/NATURAL/WET_HULLING/HONEY）
+        description: ロースターの都道府県
         required: false
         schema:
           type: string
-        example: WASHED
+          enum:
+          - HOKKAIDO
+          - AOMORI
+          - IWATE
+          - MIYAGI
+          - AKITA
+          - YAMAGATA
+          - FUKUSHIMA
+          - IBARAKI
+          - TOCHIGI
+          - GUNMA
+          - SAITAMA
+          - CHIBA
+          - TOKYO
+          - KANAGAWA
+          - NIIGATA
+          - TOYAMA
+          - ISHIKAWA
+          - FUKUI
+          - YAMANASHI
+          - NAGANO
+          - SHIZUOKA
+          - AICHI
+          - MIE
+          - SHIGA
+          - KYOTO
+          - OSAKA
+          - HYOGO
+          - NARA
+          - WAKAYAMA
+          - TOTTORI
+          - SHIMANE
+          - OKAYAMA
+          - HIROSHIMA
+          - YAMAGUCHI
+          - TOKUSHIMA
+          - KAGAWA
+          - EHIME
+          - KOCHI
+          - FUKUOKA
+          - SAGA
+          - NAGASAKI
+          - KUMAMOTO
+          - OITA
+          - MIYAZAKI
+          - KAGOSHIMA
+          - OKINAWA
+        example: TOKYO
       responses:
         "200":
           description: 取得成功
