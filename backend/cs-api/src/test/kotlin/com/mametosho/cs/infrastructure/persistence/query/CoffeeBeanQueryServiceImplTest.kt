@@ -97,7 +97,13 @@ class CoffeeBeanQueryServiceImplTest {
         fun `EnumがMapper向けに文字列名に変換されてから渡される`() {
             val service = createService()
 
-            service.findList(page = 0, size = 20, origin = "エチオピア", roastLevel = RoastLevel.LIGHT, processingMethod = ProcessingMethod.WASHED)
+            service.findList(
+                page = 0,
+                size = 20,
+                origin = "エチオピア",
+                roastLevel = RoastLevel.LIGHT,
+                processingMethod = ProcessingMethod.WASHED,
+            )
 
             assertEquals("エチオピア", capturedOrigin)
             assertEquals("LIGHT", capturedRoastLevel)

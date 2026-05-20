@@ -102,7 +102,13 @@ class FindCoffeeBeansUsecaseTest {
         fun `全フィルタを組み合わせて取得できる`() {
             val usecase = createUsecase()
 
-            usecase.execute(page = 1, size = 10, origin = "エチオピア", roastLevel = RoastLevel.LIGHT, processingMethod = ProcessingMethod.WASHED)
+            usecase.execute(
+                page = 1,
+                size = 10,
+                origin = "エチオピア",
+                roastLevel = RoastLevel.LIGHT,
+                processingMethod = ProcessingMethod.WASHED,
+            )
 
             assertEquals(1, capturedPage)
             assertEquals(10, capturedSize)
