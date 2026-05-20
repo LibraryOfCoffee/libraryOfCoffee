@@ -27,7 +27,7 @@ class CoffeeBeanController(
     @GetMapping
     @Operation(
         summary = "珈琲豆一覧取得",
-        description = "珈琲豆の一覧をページネーション付きで取得します。産地・焙煎度・精製方法でフィルタリングできます。",
+        description = "珈琲豆の一覧をページネーション付きで取得します。産地・焙煎度・ロースターの都道府県でフィルタリングできます。",
     )
     @ApiResponses(
         value = [
