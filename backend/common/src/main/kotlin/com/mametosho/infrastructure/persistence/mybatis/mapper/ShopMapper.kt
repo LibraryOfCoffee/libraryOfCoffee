@@ -12,14 +12,15 @@ import org.apache.ibatis.annotations.Select
 interface ShopMapper {
     @Insert(
         """
-        INSERT INTO shops (id, shopify_shop_id, name, introduction, particular, shop_url)
-        VALUES (#{id}, #{shopifyShopId}, #{name}, #{introduction}, #{particular}, #{shopUrl})
+        INSERT INTO shops (id, shopify_shop_id, name, introduction, particular, shop_url, prefecture)
+        VALUES (#{id}, #{shopifyShopId}, #{name}, #{introduction}, #{particular}, #{shopUrl}, #{prefecture})
         ON DUPLICATE KEY UPDATE
             shopify_shop_id = VALUES(shopify_shop_id),
             name = VALUES(name),
             introduction = VALUES(introduction),
             particular = VALUES(particular),
-            shop_url = VALUES(shop_url)
+            shop_url = VALUES(shop_url),
+            prefecture = VALUES(prefecture)
         """,
     )
     fun upsertShop(entity: ShopEntity)
@@ -35,7 +36,7 @@ interface ShopMapper {
     )
     fun insertShopImage(entity: ShopImageEntity)
 
-    @Select("SELECT id, shopify_shop_id, name, introduction, particular, shop_url FROM shops WHERE id = #{id}")
+    @Select("SELECT id, shopify_shop_id, name, introduction, particular, shop_url, prefecture FROM shops WHERE id = #{id}")
     fun findShopById(id: String): ShopEntity?
 
     @Select("SELECT id, shop_id, type, image_url FROM shop_images WHERE shop_id = #{shopId}")
@@ -47,7 +48,7 @@ interface ShopMapper {
     @Select(
         """
         <script>
-        SELECT id, shopify_shop_id, name, introduction, particular, shop_url
+        SELECT id, shopify_shop_id, name, introduction, particular, shop_url, prefecture
         FROM shops
         <where>
             <if test="name != null">

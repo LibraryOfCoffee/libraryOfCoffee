@@ -32,10 +32,10 @@ INSERT IGNORE INTO subscription_plans (id, shopify_subscription_id, price, bean_
 -- ------------------------------------------------------------
 -- shops（店舗）
 -- ------------------------------------------------------------
-INSERT IGNORE INTO shops (id, shopify_shop_id, name, introduction, particular, shop_url) VALUES
-('00000000-0000-4000-8000-000000000031', 'gid://shopify/Shop/300001', '珈琲工房 まめとしょ', '東京都渋谷区にある自家焙煎珈琲店。厳選されたスペシャルティコーヒーをお届けします。', 'シングルオリジンの豆を、注文後に焙煎してお届けします。', 'https://mametosho.example.com'),
-('00000000-0000-4000-8000-000000000032', 'gid://shopify/Shop/300002', 'CAFÉ LUMIÈRE', '京都の町家を改装した珈琲専門店。フレンチローストからライトローストまで幅広い焙煎度をご用意。', '契約農園から直接仕入れた高品質な生豆のみを使用しています。', 'https://cafe-lumiere.example.com'),
-('00000000-0000-4000-8000-000000000033', 'gid://shopify/Shop/300003', '豆蔵珈琲', '福岡の老舗珈琲焙煎所。創業以来変わらない焙煎技術で深みのある一杯を。', '炭火焙煎による独自の香ばしさが特徴です。', 'https://mamezou-coffee.example.com');
+INSERT IGNORE INTO shops (id, shopify_shop_id, name, introduction, particular, shop_url, prefecture) VALUES
+('00000000-0000-4000-8000-000000000031', 'gid://shopify/Shop/300001', '珈琲工房 まめとしょ', '東京都渋谷区にある自家焙煎珈琲店。厳選されたスペシャルティコーヒーをお届けします。', 'シングルオリジンの豆を、注文後に焙煎してお届けします。', 'https://mametosho.example.com', 'TOKYO'),
+('00000000-0000-4000-8000-000000000032', 'gid://shopify/Shop/300002', 'CAFÉ LUMIÈRE', '京都の町家を改装した珈琲専門店。フレンチローストからライトローストまで幅広い焙煎度をご用意。', '契約農園から直接仕入れた高品質な生豆のみを使用しています。', 'https://cafe-lumiere.example.com', 'KYOTO'),
+('00000000-0000-4000-8000-000000000033', 'gid://shopify/Shop/300003', '豆蔵珈琲', '福岡の老舗珈琲焙煎所。創業以来変わらない焙煎技術で深みのある一杯を。', '炭火焙煎による独自の香ばしさが特徴です。', 'https://mamezou-coffee.example.com', 'FUKUOKA');
 
 -- ------------------------------------------------------------
 -- tastes（テイスト）

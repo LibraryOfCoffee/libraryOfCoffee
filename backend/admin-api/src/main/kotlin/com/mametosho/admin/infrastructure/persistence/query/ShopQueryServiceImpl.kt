@@ -24,6 +24,7 @@ class ShopQueryServiceImpl(
                 introduction = row.introduction,
                 particular = row.particular,
                 shopUrl = row.shopUrl,
+                prefecture = row.prefecture,
             )
         }
 

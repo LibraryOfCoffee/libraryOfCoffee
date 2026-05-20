@@ -13,6 +13,7 @@ export type ShopListItem = {
   introduction: string | null;
   particular: string | null;
   shopUrl: string;
+  prefecture: string;
 };
 
 export type ImageDetail = {

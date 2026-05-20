@@ -18,6 +18,8 @@ data class ShopDetailResponse(
     val particular: String?,
     @Schema(description = "店舗URL", example = "https://example.com")
     val shopUrl: String,
+    @Schema(description = "都道府県", example = "TOKYO")
+    val prefecture: String,
     @Schema(description = "画像一覧")
     val images: List<ImageDetail>,
 ) {
@@ -47,6 +49,7 @@ data class ShopDetailResponse(
             introduction = shop.introduction,
             particular = shop.particular,
             shopUrl = shop.shopUrl,
+            prefecture = shop.prefecture.name,
             images = shop.images.map { ImageDetail.from(it) },
         )
     }

@@ -75,6 +75,7 @@ class CreateShopUsecaseIntegrationTest {
             introduction = "テスト紹介文",
             particular = "テストこだわり",
             shopUrl = "https://example.com",
+            prefecture = "TOKYO",
         )
 
         val logoFile = MockMultipartFile("images", "logo.png", "image/png", byteArrayOf(1))
@@ -89,8 +90,8 @@ class CreateShopUsecaseIntegrationTest {
     fun `重複するshopify_shop_idの場合はupsertでshop行数が増えない`() {
         jdbcTemplate.execute(
             """
-            INSERT INTO shops (id, shopify_shop_id, name, shop_url)
-            VALUES ('00000000-0000-4000-8000-000000000098', 'dummy-shop', 'ダミー店舗', 'https://dummy.example.com')
+            INSERT INTO shops (id, shopify_shop_id, name, shop_url, prefecture)
+            VALUES ('00000000-0000-4000-8000-000000000098', 'dummy-shop', 'ダミー店舗', 'https://dummy.example.com', 'TOKYO')
             """,
         )
 
@@ -98,8 +99,8 @@ class CreateShopUsecaseIntegrationTest {
 
         jdbcTemplate.execute(
             """
-            INSERT INTO shops (id, shopify_shop_id, name, shop_url)
-            VALUES ('00000000-0000-4000-8000-000000000099', 'dummy-shop', '重複店舗', 'https://dummy-shop.example.com')
+            INSERT INTO shops (id, shopify_shop_id, name, shop_url, prefecture)
+            VALUES ('00000000-0000-4000-8000-000000000099', 'dummy-shop', '重複店舗', 'https://dummy-shop.example.com', 'OSAKA')
             ON DUPLICATE KEY UPDATE
                 name = VALUES(name),
                 shop_url = VALUES(shop_url)

@@ -6,6 +6,7 @@ import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.shop.ShopImage
 import com.mametosho.domain.model.shop.ShopImageId
 import com.mametosho.domain.model.shop.ShopImageType
+import com.mametosho.domain.model.shop.Prefecture
 import com.mametosho.domain.model.shop.ShopifyShopId
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -86,6 +87,7 @@ class ShopRepositoryImplTest {
         introduction = introduction,
         particular = particular,
         shopUrl = shopUrl,
+        prefecture = Prefecture.TOKYO,
         images = images,
     )
 

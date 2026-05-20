@@ -19,6 +19,7 @@ export async function createShopAction(
     introduction: (formData.get("introduction") as string) ?? "",
     particular: (formData.get("particular") as string) ?? "",
     shopUrl: (formData.get("shopUrl") as string) ?? "",
+    prefecture: (formData.get("prefecture") as string) ?? "",
   };
 
   const result = shopFieldsSchema.safeParse(values);
@@ -36,13 +37,13 @@ export async function createShopAction(
     return { error: "ロゴ画像は必須です。", values };
   }
 
-  const { shopifyShopId, name, introduction, particular, shopUrl } =
+  const { shopifyShopId, name, introduction, particular, shopUrl, prefecture } =
     result.data;
 
   const response = await multipartRequest(
     "/api/admin/shops",
     "POST",
-    { shopifyShopId, name, introduction, particular, shopUrl },
+    { shopifyShopId, name, introduction, particular, shopUrl, prefecture },
     formData,
   );
 

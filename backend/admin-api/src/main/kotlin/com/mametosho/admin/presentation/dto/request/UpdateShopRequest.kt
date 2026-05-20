@@ -18,4 +18,7 @@ data class UpdateShopRequest(
 
     @Schema(description = "店舗URL", example = "https://example.com")
     val shopUrl: String,
+
+    @Schema(description = "都道府県", example = "TOKYO")
+    val prefecture: String,
 )

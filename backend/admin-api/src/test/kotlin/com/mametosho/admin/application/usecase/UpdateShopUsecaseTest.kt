@@ -7,6 +7,7 @@ import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.shop.ShopImage
 import com.mametosho.domain.model.shop.ShopImageId
 import com.mametosho.domain.model.shop.ShopImageType
+import com.mametosho.domain.model.shop.Prefecture
 import com.mametosho.domain.model.shop.ShopifyShopId
 import com.mametosho.domain.repository.ShopRepository
 import com.mametosho.admin.test.FakeImageStorageService
@@ -29,6 +30,7 @@ class UpdateShopUsecaseTest {
         introduction = "既存紹介文",
         particular = "既存こだわり",
         shopUrl = "https://existing.example.com",
+        prefecture = Prefecture.TOKYO,
         images = listOf(
             ShopImage(
                 id = ShopImageId("00000000-0000-4000-8000-000000000011"),
@@ -65,12 +67,14 @@ class UpdateShopUsecaseTest {
         introduction: String? = "更新紹介文",
         particular: String? = "更新こだわり",
         shopUrl: String = "https://updated.example.com",
+        prefecture: String = "OSAKA",
     ): UpdateShopRequest = UpdateShopRequest(
         shopifyShopId = shopifyShopId,
         name = name,
         introduction = introduction,
         particular = particular,
         shopUrl = shopUrl,
+        prefecture = prefecture,
     )
 
     @Nested

@@ -26,6 +26,7 @@ class ShopTest {
         introduction = "こだわりの珈琲豆をお届けします",
         particular = "産地直送の豆を使用",
         shopUrl = shopUrl,
+        prefecture = Prefecture.TOKYO,
         images = images,
     )
 
@@ -78,6 +79,7 @@ class ShopTest {
                 introduction = "更新紹介文",
                 particular = "更新こだわり",
                 shopUrl = "https://updated.example.com",
+                prefecture = Prefecture.OSAKA,
                 images = listOf("LOGO" to "https://example.com/logo.png", "MAIN" to "https://example.com/new.png"),
             )
 
@@ -99,6 +101,7 @@ class ShopTest {
                 introduction = null,
                 particular = null,
                 shopUrl = "https://example.com",
+                prefecture = Prefecture.TOKYO,
                 images = listOf("LOGO" to "https://example.com/logo.png"),
             )
 
@@ -114,6 +117,7 @@ class ShopTest {
                 introduction = null,
                 particular = null,
                 shopUrl = "https://example.com",
+                prefecture = Prefecture.TOKYO,
                 images = listOf("LOGO" to "https://example.com/logo.png", "MAIN" to "https://example.com/image.png"),
             )
 

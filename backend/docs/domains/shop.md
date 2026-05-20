@@ -22,6 +22,7 @@ Shopifyのショップと1対1で紐づく。
 | introduction | String? | 店舗紹介 |
 | particular | String? | こだわり |
 | shopUrl | String | 店舗URL |
+| prefecture | Prefecture | 都道府県 |
 | images | List\<ShopImage\> | 店舗画像一覧 |
 
 ### 不変条件
@@ -31,7 +32,14 @@ Shopifyのショップと1対1で紐づく。
 - introductionは非null時、空白不可（10000文字以内）
 - particularは非null時、空白不可（10000文字以内）
 - shopUrlは必須、空白不可（2048文字以内）
+- prefectureは必須
 - LOGO画像はちょうど1枚（必須）
+
+## Prefecture（Enum）
+
+47都道府県を表すEnum。
+
+`HOKKAIDO`, `AOMORI`, `IWATE`, `MIYAGI`, `AKITA`, `YAMAGATA`, `FUKUSHIMA`, `IBARAKI`, `TOCHIGI`, `GUNMA`, `SAITAMA`, `CHIBA`, `TOKYO`, `KANAGAWA`, `NIIGATA`, `TOYAMA`, `ISHIKAWA`, `FUKUI`, `YAMANASHI`, `NAGANO`, `SHIZUOKA`, `AICHI`, `MIE`, `SHIGA`, `KYOTO`, `OSAKA`, `HYOGO`, `NARA`, `WAKAYAMA`, `TOTTORI`, `SHIMANE`, `OKAYAMA`, `HIROSHIMA`, `YAMAGUCHI`, `TOKUSHIMA`, `KAGAWA`, `EHIME`, `KOCHI`, `FUKUOKA`, `SAGA`, `NAGASAKI`, `KUMAMOTO`, `OITA`, `MIYAZAKI`, `KAGOSHIMA`, `OKINAWA`
 
 ## ShopImage（エンティティ）
 

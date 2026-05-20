@@ -3,6 +3,7 @@ package com.mametosho.admin.application.usecase
 import com.mametosho.admin.application.service.deleteImages
 import com.mametosho.admin.application.service.uploadImages
 import com.mametosho.admin.presentation.dto.request.UpdateShopRequest
+import com.mametosho.domain.model.shop.Prefecture
 import com.mametosho.domain.model.shop.Shop
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.repository.ShopRepository
@@ -44,6 +45,7 @@ class UpdateShopUsecase(
             introduction = request.introduction,
             particular = request.particular,
             shopUrl = request.shopUrl,
+            prefecture = Prefecture.valueOf(request.prefecture),
             images = images,
         )
         shopRepository.save(updatedShop)

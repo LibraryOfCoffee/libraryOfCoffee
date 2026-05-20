@@ -1,4 +1,10 @@
 import { z } from "zod/v4";
+import { PREFECTURE_OPTIONS } from "./prefecture";
+
+const prefectureValues = PREFECTURE_OPTIONS.map((p) => p.value) as [
+  string,
+  ...string[],
+];
 
 export const shopFieldsSchema = z.object({
   shopifyShopId: z
@@ -24,6 +30,9 @@ export const shopFieldsSchema = z.object({
     .min(1, "店舗URLを入力してください。")
     .max(2048, "2,048文字以内で入力してください。")
     .url("有効なURLを入力してください。"),
+  prefecture: z.enum(prefectureValues, {
+    error: "都道府県を選択してください。",
+  }),
 });
 
 export type ShopFormValues = {
@@ -32,6 +41,7 @@ export type ShopFormValues = {
   introduction?: string;
   particular?: string;
   shopUrl?: string;
+  prefecture?: string;
 };
 
 export type ShopFormState = {
@@ -43,6 +53,7 @@ export type ShopFormState = {
     introduction?: string[];
     particular?: string[];
     shopUrl?: string[];
+    prefecture?: string[];
   };
   values?: ShopFormValues;
 };

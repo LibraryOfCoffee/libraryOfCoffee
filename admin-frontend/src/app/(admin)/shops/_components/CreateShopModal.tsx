@@ -7,6 +7,7 @@ import {
   useId,
   useRef,
 } from "react";
+import { PREFECTURE_OPTIONS } from "@/app/(admin)/shops/_lib/prefecture";
 import { ImageUploadField } from "@/components/ImageUploadField";
 import styles from "@/components/modal.module.css";
 import { type CreateShopState, createShopAction } from "./createShopAction";
@@ -31,6 +32,7 @@ export function CreateShopModal({
   const introductionId = useId();
   const particularId = useId();
   const shopUrlId = useId();
+  const prefectureId = useId();
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -175,6 +177,33 @@ export function CreateShopModal({
             className={styles.input}
           />
           {state.fieldErrors?.shopUrl?.map((msg) => (
+            <span key={msg} className={styles.fieldError}>
+              {msg}
+            </span>
+          ))}
+        </div>
+
+        <div className={styles.field}>
+          <label htmlFor={prefectureId} className={styles.label}>
+            都道府県
+            <span className={styles.required}>*</span>
+          </label>
+          <select
+            id={prefectureId}
+            name="prefecture"
+            defaultValue={state.values?.prefecture ?? ""}
+            className={styles.input}
+          >
+            <option value="" disabled>
+              選択してください
+            </option>
+            {PREFECTURE_OPTIONS.map((p) => (
+              <option key={p.value} value={p.value}>
+                {p.label}
+              </option>
+            ))}
+          </select>
+          {state.fieldErrors?.prefecture?.map((msg) => (
             <span key={msg} className={styles.fieldError}>
               {msg}
             </span>

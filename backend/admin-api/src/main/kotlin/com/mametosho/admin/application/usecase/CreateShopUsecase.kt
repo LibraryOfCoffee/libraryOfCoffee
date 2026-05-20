@@ -2,6 +2,7 @@ package com.mametosho.admin.application.usecase
 
 import com.mametosho.admin.application.service.uploadImages
 import com.mametosho.admin.presentation.dto.request.CreateShopRequest
+import com.mametosho.domain.model.shop.Prefecture
 import com.mametosho.domain.model.shop.Shop
 import com.mametosho.domain.repository.ShopRepository
 import com.mametosho.domain.service.ImageStorageService
@@ -36,6 +37,7 @@ class CreateShopUsecase(
             introduction = request.introduction,
             particular = request.particular,
             shopUrl = request.shopUrl,
+            prefecture = Prefecture.valueOf(request.prefecture),
             images = images,
             id = shopId,
         )
