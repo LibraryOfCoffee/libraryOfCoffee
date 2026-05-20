@@ -11,7 +11,74 @@ servers:
 tags:
 - name: CoffeeListGroup
   description: 珈琲リストグループAPI
+- name: CoffeeBean
+  description: 珈琲豆API
 paths:
+  /api/coffeeBeans:
+    get:
+      tags:
+      - CoffeeBean
+      summary: 珈琲豆一覧取得
+      description: 珈琲豆の一覧をページネーション付きで取得します。産地・焙煎度・精製方法でフィルタリングできます。
+      operationId: listCoffeeBeans
+      parameters:
+      - name: page
+        in: query
+        description: ページ番号（0始まり）
+        required: true
+        schema:
+          type: integer
+          format: int32
+        example: 0
+      - name: size
+        in: query
+        description: 1ページあたりの件数
+        required: true
+        schema:
+          type: integer
+          format: int32
+        example: 20
+      - name: origin
+        in: query
+        description: 産地（部分一致）
+        required: false
+        schema:
+          type: string
+        example: エチオピア
+      - name: roastLevel
+        in: query
+        description: 焙煎度（LIGHT/MEDIUM/CITY/FRENCH）
+        required: false
+        schema:
+          type: string
+        example: LIGHT
+      - name: processingMethod
+        in: query
+        description: 精製方法（FULLY_WASHED/WASHED/THERMAL_SHOCK_NATURAL/NATURAL/WET_HULLING/HONEY）
+        required: false
+        schema:
+          type: string
+        example: WASHED
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            '*/*':
+              examples:
+                success:
+                  summary: 取得成功例
+                  description: success
+                  value:
+                    items:
+                    - id: 00000000-0000-4000-8000-000000000071
+                      name: エチオピア イルガチェフェ G1
+                      origin: エチオピア
+                      roastLevel: LIGHT
+                      processingMethod: WASHED
+                      isSpecialty: true
+                    totalCount: 1
+                    page: 0
+                    size: 20
   /api/coffee-list-groups/{coffeeListGroupId}:
     get:
       tags:
