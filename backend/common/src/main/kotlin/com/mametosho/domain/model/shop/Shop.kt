@@ -14,6 +14,7 @@ import java.util.UUID
  * @property introduction 店舗紹介
  * @property particular こだわり
  * @property shopUrl 店舗URL
+ * @property prefecture 都道府県
  * @property images 店舗画像一覧
  */
 @Suppress("MagicNumber")
@@ -24,6 +25,7 @@ data class Shop(
     val introduction: String?,
     val particular: String?,
     val shopUrl: String,
+    val prefecture: Prefecture,
     val images: List<ShopImage>,
 ) {
     init {
@@ -64,6 +66,7 @@ data class Shop(
         introduction: String?,
         particular: String?,
         shopUrl: String,
+        prefecture: Prefecture,
         images: List<Pair<String, String>>,
     ): Shop = Shop(
         id = this.id,
@@ -72,6 +75,7 @@ data class Shop(
         introduction = introduction,
         particular = particular,
         shopUrl = shopUrl,
+        prefecture = prefecture,
         images = images.map { (type, imageUrl) ->
             ShopImage(
                 id = ShopImageId(UUID.randomUUID().toString()),
@@ -101,6 +105,7 @@ data class Shop(
             introduction: String?,
             particular: String?,
             shopUrl: String,
+            prefecture: Prefecture,
             images: List<Pair<String, String>>,
             id: String = UUID.randomUUID().toString(),
         ): Shop = Shop(
@@ -110,6 +115,7 @@ data class Shop(
             introduction = introduction,
             particular = particular,
             shopUrl = shopUrl,
+            prefecture = prefecture,
             images = images.map { (type, imageUrl) ->
                 ShopImage(
                     id = ShopImageId(UUID.randomUUID().toString()),

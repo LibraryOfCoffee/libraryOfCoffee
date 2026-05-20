@@ -7,4 +7,5 @@ data class ShopListResult(
     val introduction: String?,
     val particular: String?,
     val shopUrl: String,
+    val prefecture: String,
 )

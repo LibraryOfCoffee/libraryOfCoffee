@@ -251,7 +251,7 @@ paths:
                       imageUrl: https://example.com/image.jpg
                     tastes:
                     - id: 00000000-0000-4000-8000-000000000020
-                      tasteId: 00000000-0000-4000-8000-000000000030
+                      tasteName: 酸味
                       evaluationValue: 4
         "404":
           description: コーヒー豆が見つかりません
@@ -702,6 +702,10 @@ components:
           type: string
           description: 店舗URL
           example: https://example.com
+        prefecture:
+          type: string
+          description: 都道府県
+          example: TOKYO
     ShopResponse:
       type: object
       description: 店舗登録レスポンス
@@ -749,6 +753,10 @@ components:
       type: object
       description: コーヒー豆更新リクエスト
       properties:
+        shopId:
+          type: string
+          description: 店舗ID
+          example: 00000000-0000-4000-8000-000000000001
         shopifyBeanId:
           type: string
           description: Shopifyの商品ID
@@ -816,6 +824,10 @@ components:
           type: string
           description: 店舗URL
           example: https://example.com
+        prefecture:
+          type: string
+          description: 都道府県
+          example: TOKYO
     CreateCoffeeBeanRequest:
       type: object
       description: コーヒー豆登録リクエスト
@@ -932,6 +944,10 @@ components:
           type: string
           description: 店舗URL
           example: https://example.com
+        prefecture:
+          type: string
+          description: 都道府県
+          example: TOKYO
         images:
           type: array
           description: 画像一覧
@@ -997,10 +1013,10 @@ components:
           type: string
           description: テイスト評価ID
           example: 00000000-0000-4000-8000-000000000020
-        tasteId:
+        tasteName:
           type: string
-          description: テイストID
-          example: 00000000-0000-4000-8000-000000000030
+          description: テイスト名
+          example: 酸味
         evaluationValue:
           type: integer
           format: int32

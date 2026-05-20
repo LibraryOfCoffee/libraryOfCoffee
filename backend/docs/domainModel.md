@@ -125,6 +125,7 @@ classDiagram
       introduction: String?
       particular: String?
       shopUrl: String
+      prefecture: Prefecture
       images: List~ShopImage~
     }
 
@@ -140,9 +141,17 @@ classDiagram
       main
       logo
     }
+
+    class Prefecture {
+      <<Enum>>
+      HOKKAIDO
+      ...
+      OKINAWA
+    }
   }
 
   Shop *-- ShopImage
+  Shop --> Prefecture
   ShopImage --> ShopImageType
 
   namespace CoffeeBean集約 {

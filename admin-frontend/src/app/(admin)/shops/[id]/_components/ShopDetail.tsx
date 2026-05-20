@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ShopDetail as ShopDetailType } from "@/api/shops";
+import { getPrefectureLabel } from "@/app/(admin)/shops/_lib/prefecture";
 import { ShopActions } from "./ShopActions";
 import styles from "./ShopDetail.module.css";
 
@@ -37,6 +38,13 @@ export function ShopDetail({ shop }: { shop: ShopDetailType }) {
             <dt className={styles.fieldLabel}>こだわり</dt>
             <dd className={styles.fieldValue}>
               {shop.particular ?? <span className={styles.empty}>未設定</span>}
+            </dd>
+          </div>
+
+          <div className={styles.field}>
+            <dt className={styles.fieldLabel}>都道府県</dt>
+            <dd className={styles.fieldValue}>
+              {getPrefectureLabel(shop.prefecture)}
             </dd>
           </div>
 

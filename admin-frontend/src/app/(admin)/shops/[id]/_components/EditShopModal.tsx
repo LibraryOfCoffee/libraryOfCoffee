@@ -8,6 +8,7 @@ import {
   useRef,
 } from "react";
 import type { ShopDetail } from "@/api/shops";
+import { PREFECTURE_OPTIONS } from "@/app/(admin)/shops/_lib/prefecture";
 import { ImageUploadField } from "@/components/ImageUploadField";
 import modalStyles from "@/components/modal.module.css";
 import { type EditShopState, editShopAction } from "./editShopAction";
@@ -34,6 +35,7 @@ export function EditShopModal({
   const introductionId = useId();
   const particularId = useId();
   const shopUrlId = useId();
+  const prefectureId = useId();
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -180,6 +182,30 @@ export function EditShopModal({
             className={modalStyles.input}
           />
           {state.fieldErrors?.shopUrl?.map((msg) => (
+            <span key={msg} className={modalStyles.fieldError}>
+              {msg}
+            </span>
+          ))}
+        </div>
+
+        <div className={modalStyles.field}>
+          <label htmlFor={prefectureId} className={modalStyles.label}>
+            都道府県
+            <span className={modalStyles.required}>*</span>
+          </label>
+          <select
+            id={prefectureId}
+            name="prefecture"
+            defaultValue={state.values?.prefecture ?? shop.prefecture}
+            className={modalStyles.input}
+          >
+            {PREFECTURE_OPTIONS.map((p) => (
+              <option key={p.value} value={p.value}>
+                {p.label}
+              </option>
+            ))}
+          </select>
+          {state.fieldErrors?.prefecture?.map((msg) => (
             <span key={msg} className={modalStyles.fieldError}>
               {msg}
             </span>

@@ -6,6 +6,7 @@ import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.shop.ShopImage
 import com.mametosho.domain.model.shop.ShopImageId
 import com.mametosho.domain.model.shop.ShopImageType
+import com.mametosho.domain.model.shop.Prefecture
 import com.mametosho.domain.model.shop.ShopifyShopId
 import com.mametosho.domain.repository.ShopRepository
 import com.mametosho.infrastructure.persistence.mybatis.entity.ShopEntity
@@ -26,6 +27,7 @@ class ShopRepositoryImpl(
                 introduction = shop.introduction,
                 particular = shop.particular,
                 shopUrl = shop.shopUrl,
+                prefecture = shop.prefecture.name,
             ),
         )
         shopMapper.deleteShopImagesByShopId(shop.id.value)
@@ -56,6 +58,7 @@ class ShopRepositoryImpl(
             introduction = shopEntity.introduction,
             particular = shopEntity.particular,
             shopUrl = shopEntity.shopUrl,
+            prefecture = Prefecture.valueOf(shopEntity.prefecture),
             images = imageEntities.map { img ->
                 ShopImage(
                     id = ShopImageId(img.id),

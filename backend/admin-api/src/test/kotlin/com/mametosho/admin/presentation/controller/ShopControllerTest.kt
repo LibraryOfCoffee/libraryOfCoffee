@@ -16,6 +16,7 @@ import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.shop.ShopImage
 import com.mametosho.domain.model.shop.ShopImageId
 import com.mametosho.domain.model.shop.ShopImageType
+import com.mametosho.domain.model.shop.Prefecture
 import com.mametosho.domain.model.shop.ShopifyShopId
 import com.mametosho.domain.repository.ShopRepository
 import com.mametosho.admin.test.FakeImageStorageService
@@ -35,6 +36,7 @@ class ShopControllerTest {
         introduction = "テスト紹介文",
         particular = "テストこだわり",
         shopUrl = "https://example.com",
+        prefecture = Prefecture.TOKYO,
         images = listOf(
             ShopImage(
                 id = ShopImageId("00000000-0000-4000-8000-000000000011"),
@@ -58,6 +60,7 @@ class ShopControllerTest {
                 introduction = "テスト紹介文",
                 particular = "テストこだわり",
                 shopUrl = "https://example.com",
+                prefecture = "TOKYO",
             ),
         ),
         totalCount = 1L,
@@ -169,6 +172,7 @@ class ShopControllerTest {
                 introduction = "テスト紹介文",
                 particular = "テストこだわり",
                 shopUrl = "https://example.com",
+                prefecture = "TOKYO",
             )
 
             val response = controller.createShop(request, emptyList(), emptyList())
@@ -189,6 +193,7 @@ class ShopControllerTest {
                 introduction = "テスト紹介文",
                 particular = "テストこだわり",
                 shopUrl = "https://example.com",
+                prefecture = "TOKYO",
             )
 
             val response = controller.updateShop("00000000-0000-4000-8000-000000000001", request, emptyList(), emptyList())
@@ -206,6 +211,7 @@ class ShopControllerTest {
                 introduction = null,
                 particular = null,
                 shopUrl = "https://example.com",
+                prefecture = "TOKYO",
             )
 
             val response = controller.updateShop("00000000-0000-4000-8000-999999999999", request, emptyList(), emptyList())

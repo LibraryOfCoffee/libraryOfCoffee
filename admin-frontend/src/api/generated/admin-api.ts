@@ -159,6 +159,11 @@ export interface components {
        * @example https://example.com
        */
       shopUrl?: string;
+      /**
+       * @description 都道府県
+       * @example TOKYO
+       */
+      prefecture?: string;
     };
     /** @description 店舗登録レスポンス */
     ShopResponse: {
@@ -209,6 +214,11 @@ export interface components {
     };
     /** @description コーヒー豆更新リクエスト */
     UpdateCoffeeBeanRequest: {
+      /**
+       * @description 店舗ID
+       * @example 00000000-0000-4000-8000-000000000001
+       */
+      shopId?: string;
       /**
        * @description Shopifyの商品ID
        * @example test-bean-001
@@ -283,6 +293,11 @@ export interface components {
        * @example https://example.com
        */
       shopUrl?: string;
+      /**
+       * @description 都道府県
+       * @example TOKYO
+       */
+      prefecture?: string;
     };
     /** @description コーヒー豆登録リクエスト */
     CreateCoffeeBeanRequest: {
@@ -412,6 +427,11 @@ export interface components {
        * @example https://example.com
        */
       shopUrl?: string;
+      /**
+       * @description 都道府県
+       * @example TOKYO
+       */
+      prefecture?: string;
       /** @description 画像一覧 */
       images?: components["schemas"]["ImageDetail"][];
     };
@@ -476,10 +496,10 @@ export interface components {
        */
       id?: string;
       /**
-       * @description テイストID
-       * @example 00000000-0000-4000-8000-000000000030
+       * @description テイスト名
+       * @example 酸味
        */
-      tasteId?: string;
+      tasteName?: string;
       /**
        * Format: int32
        * @description 評価値（0-5）

@@ -6,6 +6,7 @@ import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.shop.ShopImage
 import com.mametosho.domain.model.shop.ShopImageId
 import com.mametosho.domain.model.shop.ShopImageType
+import com.mametosho.domain.model.shop.Prefecture
 import com.mametosho.domain.model.shop.ShopifyShopId
 import com.mametosho.domain.repository.ShopRepository
 import com.mametosho.admin.test.FakeImageStorageService
@@ -27,6 +28,7 @@ class DeleteShopUsecaseTest {
         introduction = "テスト紹介文",
         particular = "テストこだわり",
         shopUrl = "https://example.com",
+        prefecture = Prefecture.TOKYO,
         images = listOf(
             ShopImage(
                 id = ShopImageId("00000000-0000-4000-8000-000000000011"),
