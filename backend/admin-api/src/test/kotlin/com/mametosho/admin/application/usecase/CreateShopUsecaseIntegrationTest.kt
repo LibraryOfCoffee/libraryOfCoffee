@@ -62,7 +62,6 @@ class CreateShopUsecaseIntegrationTest {
         jdbcTemplate.execute("DELETE FROM shop_images")
         jdbcTemplate.execute("DELETE FROM coffee_bean_tastes")
         jdbcTemplate.execute("DELETE FROM coffee_bean_images")
-        jdbcTemplate.execute("DELETE FROM coffee_list_childs")
         jdbcTemplate.execute("DELETE FROM coffee_beans")
         jdbcTemplate.execute("DELETE FROM shops")
     }

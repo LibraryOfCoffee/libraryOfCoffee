@@ -72,4 +72,3 @@ Shopifyの商品と1対1で紐づく。産地、焙煎度、精製方法、テ�
 | [Shop](./shop.md) | ID参照 | 珈琲豆を提供する店舗 |
 | [Taste](./taste.md) | ID参照 | テイスト評価の種別 |
 | [MonthlySubscriptionDetail](./monthlySubscriptionDetail.md) | 被参照 | 月次詳細の選択・発送豆として参照される |
-| [CoffeeListGroup](./coffeeListGroup.md) | 被参照 | 珈琲リストの子要素として参照される |

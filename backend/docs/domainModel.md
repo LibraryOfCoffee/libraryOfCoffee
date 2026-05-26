@@ -11,7 +11,6 @@
 | [Shop](domains/shop.md) | 珈琲豆を提供する店舗 |
 | [CoffeeBean](domains/coffeeBean.md) | 店舗が提供する珈琲豆 |
 | [Taste](domains/taste.md) | テイスト評価の種別（酸味・苦味など） |
-| [CoffeeListGroup](domains/coffeeListGroup.md) | CSサイトに表示する珈琲豆リスト |
 
 ## ドメインモデル図
 
@@ -226,23 +225,6 @@ classDiagram
 
   CoffeeBeanTaste o-- Taste : tasteId
 
-  namespace CoffeeListGroup集約 {
-    class CoffeeListGroup {
-      <<Aggregate Root>>
-      id: CoffeeListGroupId
-      description: String?
-      children: List~CoffeeListChild~
-    }
-
-    class CoffeeListChild {
-      <<Entity>>
-      id: CoffeeListChildId
-      coffeeBeanId: CoffeeBeanId
-    }
-  }
-
-  CoffeeListGroup *-- CoffeeListChild
-  CoffeeListChild o-- CoffeeBean : coffeeBeanId
   MonthlySubscriptionDetail o-- CoffeeBean : choices / shippingBeans
 ```
 
