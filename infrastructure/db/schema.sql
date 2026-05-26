@@ -50,13 +50,6 @@ CREATE TABLE IF NOT EXISTS tastes (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='テイストマスタテーブル';
 
-CREATE TABLE IF NOT EXISTS coffee_list_groups (
-    id          CHAR(36) NOT NULL PRIMARY KEY                                  COMMENT 'グループID',
-    description TEXT                                                           COMMENT 'グループの説明',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                             COMMENT '作成日時',
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='珈琲リストグループマスタテーブル';
-
 CREATE TABLE IF NOT EXISTS customer_subscriptions (
     id                   CHAR(36) NOT NULL PRIMARY KEY                         COMMENT '契約ID',
     customer_id          CHAR(36) NOT NULL                                     COMMENT '顧客ID',
@@ -129,17 +122,6 @@ CREATE TABLE IF NOT EXISTS shop_images (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時',
     FOREIGN KEY (shop_id) REFERENCES shops (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='店舗の画像テーブル';
-
-CREATE TABLE IF NOT EXISTS coffee_list_childs (
-    id                   CHAR(36) NOT NULL PRIMARY KEY                         COMMENT '明細ID',
-    coffee_list_group_id CHAR(36) NOT NULL                                     COMMENT 'グループID',
-    coffee_bean_id       CHAR(36) NOT NULL                                     COMMENT '珈琲豆ID',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                             COMMENT '作成日時',
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時',
-    UNIQUE (coffee_bean_id),
-    FOREIGN KEY (coffee_list_group_id) REFERENCES coffee_list_groups (id),
-    FOREIGN KEY (coffee_bean_id) REFERENCES coffee_beans (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='珈琲リスト明細テーブル';
 
 CREATE TABLE IF NOT EXISTS customer_coffee_bean_choices (
     id                             CHAR(36) NOT NULL PRIMARY KEY               COMMENT '選択ID',
