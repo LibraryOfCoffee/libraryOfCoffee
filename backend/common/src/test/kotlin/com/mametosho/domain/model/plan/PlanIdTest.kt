@@ -1,18 +1,18 @@
-package com.mametosho.domain.model.subscriptionplan
+package com.mametosho.domain.model.plan
 
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ShopifyPlanIdTest {
+class PlanIdTest {
 
     @Nested
     inner class 生成テスト {
         @Test
-        fun `正常に生成できる`() {
-            val id = ShopifyPlanId("gid://shopify/SellingPlan/200001")
-            assertEquals("gid://shopify/SellingPlan/200001", id.value)
+        fun `正常なUUID形式で生成できる`() {
+            val id = PlanId("00000000-0000-4000-8000-000000000001")
+            assertEquals("00000000-0000-4000-8000-000000000001", id.value)
         }
     }
 
@@ -21,14 +21,14 @@ class ShopifyPlanIdTest {
         @Test
         fun `空文字の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                ShopifyPlanId("")
+                PlanId("")
             }
         }
 
         @Test
-        fun `256文字以上の場合は例外が発生する`() {
+        fun `不正なUUID形式の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                ShopifyPlanId("a".repeat(256))
+                PlanId("invalid-uuid")
             }
         }
     }

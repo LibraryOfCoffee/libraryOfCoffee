@@ -1,5 +1,6 @@
 import { fetchCoffeeBean } from "@/api/coffee-beans";
 import { fetchShops } from "@/api/shops";
+import { fetchTastes } from "@/api/tastes";
 import { CoffeeBeanDetail } from "./_components/CoffeeBeanDetail";
 
 export default async function CoffeeBeanDetailPage({
@@ -8,12 +9,17 @@ export default async function CoffeeBeanDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const [coffeeBean, shops] = await Promise.all([
+  const [coffeeBean, shops, tastes] = await Promise.all([
     fetchCoffeeBean(id),
     fetchShops(0, 10),
+    fetchTastes(),
   ]);
   const initialShops = shops.items.map((s) => ({ id: s.id, name: s.name }));
   return (
-    <CoffeeBeanDetail coffeeBean={coffeeBean} initialShops={initialShops} />
+    <CoffeeBeanDetail
+      coffeeBean={coffeeBean}
+      initialShops={initialShops}
+      tastes={tastes}
+    />
   );
 }

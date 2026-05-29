@@ -11,9 +11,25 @@ import kotlin.test.assertTrue
 
 class CoffeeBeanTest {
 
+    private val defaultTastes = listOf(
+        CoffeeBeanTaste(
+            id = CoffeeBeanTasteId("00000000-0000-4000-8000-000000000101"),
+            tasteId = TasteId("00000000-0000-4000-8000-000000000041"),
+            evaluationValue = 3,
+        ),
+    )
+
+    private val defaultImages = listOf(
+        CoffeeBeanImage(
+            id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000201"),
+            type = CoffeeBeanImageType.MAIN,
+            imageUrl = com.mametosho.domain.model.shared.ImageUrl("https://example.com/bean.jpg"),
+        ),
+    )
+
     private fun createCoffeeBean(
-        tastes: List<CoffeeBeanTaste> = emptyList(),
-        images: List<CoffeeBeanImage> = emptyList(),
+        tastes: List<CoffeeBeanTaste> = defaultTastes,
+        images: List<CoffeeBeanImage> = defaultImages,
     ): CoffeeBean = CoffeeBean(
         id = CoffeeBeanId("00000000-0000-4000-8000-000000000001"),
         shopId = ShopId("00000000-0000-4000-8000-000000000003"),
@@ -120,8 +136,8 @@ class CoffeeBeanTest {
                 roastLevel = "FRENCH",
                 processingMethod = "NATURAL",
                 isSpecialty = true,
-                images = emptyList(),
-                tastes = emptyList(),
+                images = listOf("MAIN" to "https://example.com/updated.png"),
+                tastes = listOf("00000000-0000-4000-8000-000000000041" to 3),
             )
             assertEquals(bean.id, updated.id)
             assertEquals(ShopId(newShopId), updated.shopId)

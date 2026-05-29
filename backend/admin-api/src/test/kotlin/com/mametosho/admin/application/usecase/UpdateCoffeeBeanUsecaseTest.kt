@@ -9,6 +9,7 @@ import com.mametosho.domain.model.coffeebean.RoastLevel
 import com.mametosho.domain.repository.CoffeeBeanRepository
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
+import org.springframework.mock.web.MockMultipartFile
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -28,7 +29,7 @@ class UpdateCoffeeBeanUsecaseTest {
         roastLevel = "LIGHT",
         processingMethod = "WASHED",
         isSpecialty = false,
-        images = emptyList(),
+        images = listOf("MAIN" to "https://example.com/bean.jpg"),
         tastes = listOf("00000000-0000-4000-8000-000000000041" to 3),
     )
 
@@ -45,6 +46,8 @@ class UpdateCoffeeBeanUsecaseTest {
     }
 
     private val usecase = UpdateCoffeeBeanUsecase(fakeRepository, FakeImageStorageService)
+
+    private val imageFile = MockMultipartFile("images", "bean.jpg", "image/jpeg", byteArrayOf(1))
 
     private fun createRequest(
         shopId: String = "00000000-0000-4000-8000-000000000002",
@@ -80,7 +83,7 @@ class UpdateCoffeeBeanUsecaseTest {
         @Test
         fun `正常にCoffeeBeanを更新できる`() {
             val request = createRequest()
-            val bean = usecase.execute(existingBean.id.value, request, emptyList(), emptyList())!!
+            val bean = usecase.execute(existingBean.id.value, request, listOf(imageFile), listOf("MAIN"))!!
 
             assertEquals("updated-bean-001", bean.shopifyBeanId.value)
             assertEquals("更新後コーヒー豆", bean.name)
@@ -103,15 +106,15 @@ class UpdateCoffeeBeanUsecaseTest {
             val bean = usecase.execute(
                 existingBean.id.value,
                 createRequest(shopId = "00000000-0000-4000-8000-000000000099"),
-                emptyList(),
-                emptyList(),
+                listOf(imageFile),
+                listOf("MAIN"),
             )!!
             assertEquals("00000000-0000-4000-8000-000000000099", bean.shopId.value)
         }
 
         @Test
         fun `更新後もidが保持される`() {
-            val bean = usecase.execute(existingBean.id.value, createRequest(), emptyList(), emptyList())!!
+            val bean = usecase.execute(existingBean.id.value, createRequest(), listOf(imageFile), listOf("MAIN"))!!
             assertEquals(existingBean.id, bean.id)
         }
     }
@@ -120,7 +123,7 @@ class UpdateCoffeeBeanUsecaseTest {
     inner class 存在しない場合 {
         @Test
         fun `存在しないIDの場合はnullが返る`() {
-            val result = usecase.execute("00000000-0000-4000-8000-999999999999", createRequest(), emptyList(), emptyList())
+            val result = usecase.execute("00000000-0000-4000-8000-999999999999", createRequest(), listOf(imageFile), listOf("MAIN"))
             assertNull(result)
         }
     }
@@ -129,7 +132,7 @@ class UpdateCoffeeBeanUsecaseTest {
     inner class nullable項目 {
         @Test
         fun `farmがnullでもCoffeeBeanを更新できる`() {
-            val bean = usecase.execute(existingBean.id.value, createRequest(farm = null), emptyList(), emptyList())!!
+            val bean = usecase.execute(existingBean.id.value, createRequest(farm = null), listOf(imageFile), listOf("MAIN"))!!
             assertNull(bean.farm)
         }
     }
@@ -137,15 +140,16 @@ class UpdateCoffeeBeanUsecaseTest {
     @Nested
     inner class 空コレクション {
         @Test
-        fun `画像なしでもCoffeeBeanを更新できる`() {
+        fun `画像ファイルが空の場合は既存の画像が維持される`() {
             val bean = usecase.execute(existingBean.id.value, createRequest(), emptyList(), emptyList())!!
-            assertEquals(0, bean.images.size)
+            assertEquals(1, bean.images.size)
         }
 
         @Test
-        fun `テイストなしでもCoffeeBeanを更新できる`() {
-            val bean = usecase.execute(existingBean.id.value, createRequest(tastes = emptyList()), emptyList(), emptyList())!!
-            assertEquals(0, bean.tastes.size)
+        fun `テイストなしではCoffeeBeanを更新できない`() {
+            assertThrows<IllegalArgumentException> {
+                usecase.execute(existingBean.id.value, createRequest(tastes = emptyList()), listOf(imageFile), listOf("MAIN"))
+            }
         }
     }
 
@@ -154,7 +158,7 @@ class UpdateCoffeeBeanUsecaseTest {
         @Test
         fun `更新したCoffeeBeanがリポジトリに保存される`() {
             savedBeans.clear()
-            usecase.execute(existingBean.id.value, createRequest(), emptyList(), emptyList())
+            usecase.execute(existingBean.id.value, createRequest(), listOf(imageFile), listOf("MAIN"))
             assertEquals(1, savedBeans.size)
             assertEquals("更新後コーヒー豆", savedBeans[0].name)
         }
@@ -162,7 +166,7 @@ class UpdateCoffeeBeanUsecaseTest {
         @Test
         fun `存在しないIDの場合はリポジトリに保存されない`() {
             savedBeans.clear()
-            usecase.execute("00000000-0000-4000-8000-999999999999", createRequest(), emptyList(), emptyList())
+            usecase.execute("00000000-0000-4000-8000-999999999999", createRequest(), listOf(imageFile), listOf("MAIN"))
             assertEquals(0, savedBeans.size)
         }
     }
@@ -172,21 +176,21 @@ class UpdateCoffeeBeanUsecaseTest {
         @Test
         fun `nameが空白の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                usecase.execute(existingBean.id.value, createRequest(name = ""), emptyList(), emptyList())
+                usecase.execute(existingBean.id.value, createRequest(name = ""), listOf(imageFile), listOf("MAIN"))
             }
         }
 
         @Test
         fun `不正な焙煎度の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                usecase.execute(existingBean.id.value, createRequest(roastLevel = "INVALID"), emptyList(), emptyList())
+                usecase.execute(existingBean.id.value, createRequest(roastLevel = "INVALID"), listOf(imageFile), listOf("MAIN"))
             }
         }
 
         @Test
         fun `不正な精製方法の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                usecase.execute(existingBean.id.value, createRequest(processingMethod = "INVALID"), emptyList(), emptyList())
+                usecase.execute(existingBean.id.value, createRequest(processingMethod = "INVALID"), listOf(imageFile), listOf("MAIN"))
             }
         }
 
@@ -203,8 +207,8 @@ class UpdateCoffeeBeanUsecaseTest {
                             ),
                         ),
                     ),
-                    emptyList(),
-                    emptyList(),
+                    listOf(imageFile),
+                    listOf("MAIN"),
                 )
             }
         }

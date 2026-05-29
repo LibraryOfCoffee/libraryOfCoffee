@@ -8,6 +8,7 @@ import {
   useRef,
 } from "react";
 import type { CoffeeBeanDetail } from "@/api/coffee-beans";
+import type { TasteListItem } from "@/api/tastes";
 import { searchShopsAction } from "@/app/(admin)/coffee-beans/_components/searchShopsAction";
 import {
   PROCESSING_METHOD_LABELS,
@@ -26,11 +27,13 @@ const initialState: EditCoffeeBeanState = {};
 export function EditCoffeeBeanModal({
   coffeeBean,
   initialShops,
+  tastes,
   open,
   onClose,
 }: {
   coffeeBean: CoffeeBeanDetail;
   initialShops: { id: string; name: string }[];
+  tastes: TasteListItem[];
   open: boolean;
   onClose: () => void;
 }) {
@@ -93,11 +96,6 @@ export function EditCoffeeBeanModal({
 
       <form onSubmit={handleSubmit} className={modalStyles.form}>
         <input type="hidden" name="id" value={coffeeBean.id} />
-        <input
-          type="hidden"
-          name="currentTastes"
-          value={JSON.stringify(coffeeBean.tastes ?? [])}
-        />
 
         {state.error && <div className={modalStyles.error}>{state.error}</div>}
 
@@ -281,6 +279,34 @@ export function EditCoffeeBeanModal({
             </span>
           ))}
         </div>
+
+        {tastes.length > 0 && (
+          <div className={modalStyles.field}>
+            <span className={modalStyles.label}>テイストプロファイル</span>
+            {tastes.map((taste) => {
+              const existing = coffeeBean.tastes.find(
+                (t) => t.tasteName === taste.name,
+              );
+              const defaultValue = existing?.evaluationValue ?? 0;
+              return (
+                <div key={taste.id}>
+                  <input type="hidden" name="tasteIds" value={taste.id} />
+                  <label>
+                    {taste.name}
+                    <input
+                      type="number"
+                      name={`tasteValue_${taste.id}`}
+                      min="0"
+                      max="5"
+                      defaultValue={defaultValue}
+                      className={modalStyles.input}
+                    />
+                  </label>
+                </div>
+              );
+            })}
+          </div>
+        )}
 
         <ImageUploadField
           imageTypes={[{ value: "MAIN", label: "メイン" }]}

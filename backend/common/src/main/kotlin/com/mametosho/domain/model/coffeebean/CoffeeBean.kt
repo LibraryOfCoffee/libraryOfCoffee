@@ -49,6 +49,8 @@ data class CoffeeBean(
             require(it.isNotBlank()) { "farm must not be blank" }
             require(it.length <= 255) { "farm must be at most 255 characters, but was ${it.length}" }
         }
+        require(images.isNotEmpty()) { "images must not be empty" }
+        require(tastes.isNotEmpty()) { "tastes must not be empty" }
         val duplicateTasteIds = tastes.groupBy { it.tasteId }.filter { it.value.size > 1 }.keys
         require(duplicateTasteIds.isEmpty()) {
             "Duplicate tasteId is not allowed: $duplicateTasteIds"

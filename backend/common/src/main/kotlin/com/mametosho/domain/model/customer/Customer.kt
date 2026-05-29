@@ -1,6 +1,6 @@
 package com.mametosho.domain.model.customer
 
-import com.mametosho.domain.model.subscriptionplan.PlanId
+import com.mametosho.domain.model.plan.PlanId
 import java.time.LocalDate
 
 /**

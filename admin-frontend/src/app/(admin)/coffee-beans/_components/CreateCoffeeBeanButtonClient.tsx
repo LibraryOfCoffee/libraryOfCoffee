@@ -2,13 +2,16 @@
 
 import { useState } from "react";
 import type { ShopListItem } from "@/api/shops";
+import type { TasteListItem } from "@/api/tastes";
 import styles from "@/components/list-page.module.css";
 import { CreateCoffeeBeanModal } from "./CreateCoffeeBeanModal";
 
 export function CreateCoffeeBeanButtonClient({
   shops,
+  tastes,
 }: {
   shops: ShopListItem[];
+  tastes: TasteListItem[];
 }) {
   const [open, setOpen] = useState(false);
   const [modalKey, setModalKey] = useState(0);
@@ -30,6 +33,7 @@ export function CreateCoffeeBeanButtonClient({
       <CreateCoffeeBeanModal
         key={modalKey}
         shops={shops}
+        tastes={tastes}
         open={open}
         onClose={() => setOpen(false)}
       />

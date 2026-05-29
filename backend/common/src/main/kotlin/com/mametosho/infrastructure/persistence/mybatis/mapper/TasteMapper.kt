@@ -6,6 +6,6 @@ import org.apache.ibatis.annotations.Select
 
 @Mapper
 interface TasteMapper {
-    @Select("SELECT id, name FROM tastes WHERE name = #{name}")
-    fun findByName(name: String): TasteEntity?
+    @Select("SELECT id, name FROM tastes ORDER BY name")
+    fun findAll(): List<TasteEntity>
 }

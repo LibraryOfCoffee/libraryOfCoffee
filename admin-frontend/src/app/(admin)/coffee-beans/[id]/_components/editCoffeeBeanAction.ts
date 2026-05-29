@@ -41,23 +41,24 @@ export async function editCoffeeBeanAction(
 
   const { id, ...fields } = result.data;
 
-  const currentTastesRaw = formData.get("currentTastes") as string;
-  let tastes: { tasteId: string; evaluationValue: number }[] = [];
-  try {
-    tastes = JSON.parse(currentTastesRaw || "[]");
-  } catch {
-    tastes = [];
-  }
+  const tasteIds = formData.getAll("tasteIds") as string[];
+  const tastes = tasteIds
+    .map((tasteId) => {
+      const rawValue = formData.get(`tasteValue_${tasteId}`) as string;
+      const evaluationValue = Number.parseInt(rawValue, 10);
+      if (Number.isNaN(evaluationValue)) return null;
+      return { tasteId, evaluationValue };
+    })
+    .filter(
+      (t): t is { tasteId: string; evaluationValue: number } => t !== null,
+    );
 
   const response = await multipartRequest(
     `/api/admin/coffee-beans/${id}`,
     "PUT",
     {
       ...fields,
-      tastes: tastes.map((t) => ({
-        tasteId: t.tasteId,
-        evaluationValue: t.evaluationValue,
-      })),
+      tastes,
     },
     formData,
   );

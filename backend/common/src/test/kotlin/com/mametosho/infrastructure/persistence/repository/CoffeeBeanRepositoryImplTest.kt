@@ -15,6 +15,7 @@ import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.taste.TasteId
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.jdbc.core.JdbcTemplate
@@ -190,27 +191,17 @@ class CoffeeBeanRepositoryImplTest {
     @Nested
     inner class 空コレクション {
         @Test
-        fun `画像なしでも保存できる`() {
-            val coffeeBean = createCoffeeBean(images = emptyList())
-
-            coffeeBeanRepositoryImpl.save(coffeeBean)
-
-            val beans = jdbcTemplate.queryForList("SELECT * FROM coffee_beans")
-            assertEquals(1, beans.size)
-            val images = jdbcTemplate.queryForList("SELECT * FROM coffee_bean_images")
-            assertEquals(0, images.size)
+        fun `画像が空の場合はIllegalArgumentExceptionが発生する`() {
+            assertThrows<IllegalArgumentException> {
+                createCoffeeBean(images = emptyList())
+            }
         }
 
         @Test
-        fun `テイストなしでも保存できる`() {
-            val coffeeBean = createCoffeeBean(tastes = emptyList())
-
-            coffeeBeanRepositoryImpl.save(coffeeBean)
-
-            val beans = jdbcTemplate.queryForList("SELECT * FROM coffee_beans")
-            assertEquals(1, beans.size)
-            val tastes = jdbcTemplate.queryForList("SELECT * FROM coffee_bean_tastes")
-            assertEquals(0, tastes.size)
+        fun `テイストが空の場合はIllegalArgumentExceptionが発生する`() {
+            assertThrows<IllegalArgumentException> {
+                createCoffeeBean(tastes = emptyList())
+            }
         }
     }
 
@@ -279,8 +270,20 @@ class CoffeeBeanRepositoryImplTest {
                     roastLevel = roastLevel,
                     processingMethod = ProcessingMethod.WASHED,
                     isSpecialty = false,
-                    images = emptyList(),
-                    tastes = emptyList(),
+                    images = listOf(
+                        CoffeeBeanImage(
+                            id = CoffeeBeanImageId("00000000-0000-4000-${String.format("%04d", index)}-000000000099"),
+                            type = CoffeeBeanImageType.MAIN,
+                            imageUrl = ImageUrl("https://example.com/bean-$index.jpg"),
+                        ),
+                    ),
+                    tastes = listOf(
+                        CoffeeBeanTaste(
+                            id = CoffeeBeanTasteId("00000000-0000-4001-${String.format("%04d", index)}-000000000099"),
+                            tasteId = TasteId("00000000-0000-4000-8000-000000000101"),
+                            evaluationValue = 3,
+                        ),
+                    ),
                 )
                 coffeeBeanRepositoryImpl.save(coffeeBean)
             }
@@ -306,8 +309,20 @@ class CoffeeBeanRepositoryImplTest {
                     roastLevel = RoastLevel.MEDIUM,
                     processingMethod = method,
                     isSpecialty = false,
-                    images = emptyList(),
-                    tastes = emptyList(),
+                    images = listOf(
+                        CoffeeBeanImage(
+                            id = CoffeeBeanImageId("00000000-0000-4000-${String.format("%04d", index)}-000000000099"),
+                            type = CoffeeBeanImageType.MAIN,
+                            imageUrl = ImageUrl("https://example.com/bean-$index.jpg"),
+                        ),
+                    ),
+                    tastes = listOf(
+                        CoffeeBeanTaste(
+                            id = CoffeeBeanTasteId("00000000-0000-4001-${String.format("%04d", index)}-000000000099"),
+                            tasteId = TasteId("00000000-0000-4000-8000-000000000101"),
+                            evaluationValue = 3,
+                        ),
+                    ),
                 )
                 coffeeBeanRepositoryImpl.save(coffeeBean)
             }

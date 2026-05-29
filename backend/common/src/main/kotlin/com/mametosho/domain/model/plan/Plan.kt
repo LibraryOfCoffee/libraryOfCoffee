@@ -1,4 +1,4 @@
-package com.mametosho.domain.model.subscriptionplan
+package com.mametosho.domain.model.plan
 
 /**
  * プランを表す集約ルート。

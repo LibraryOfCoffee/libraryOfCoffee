@@ -14,10 +14,17 @@ import com.mametosho.admin.presentation.dto.request.UpdateCoffeeBeanRequest
 import com.mametosho.admin.test.FakeImageStorageService
 import com.mametosho.domain.model.coffeebean.CoffeeBean
 import com.mametosho.domain.model.coffeebean.CoffeeBeanId
+import com.mametosho.domain.model.coffeebean.CoffeeBeanImage
+import com.mametosho.domain.model.coffeebean.CoffeeBeanImageId
+import com.mametosho.domain.model.coffeebean.CoffeeBeanImageType
+import com.mametosho.domain.model.coffeebean.CoffeeBeanTaste
+import com.mametosho.domain.model.coffeebean.CoffeeBeanTasteId
 import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import com.mametosho.domain.model.coffeebean.RoastLevel
 import com.mametosho.domain.model.coffeebean.ShopifyBeanId
+import com.mametosho.domain.model.shared.ImageUrl
 import com.mametosho.domain.model.shop.ShopId
+import com.mametosho.domain.model.taste.TasteId
 import org.junit.jupiter.api.Nested
 import org.springframework.http.HttpStatus
 import org.springframework.web.multipart.MultipartFile
@@ -37,8 +44,20 @@ class CoffeeBeanControllerTest {
         roastLevel = RoastLevel.MEDIUM,
         processingMethod = ProcessingMethod.WASHED,
         isSpecialty = true,
-        images = emptyList(),
-        tastes = emptyList(),
+        images = listOf(
+            CoffeeBeanImage(
+                id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000010"),
+                type = CoffeeBeanImageType.MAIN,
+                imageUrl = ImageUrl("https://example.com/bean.jpg"),
+            ),
+        ),
+        tastes = listOf(
+            CoffeeBeanTaste(
+                id = CoffeeBeanTasteId("00000000-0000-4000-8000-000000000020"),
+                tasteId = TasteId("00000000-0000-4000-8000-000000000041"),
+                evaluationValue = 3,
+            ),
+        ),
     )
 
     private val sampleDetailResult = CoffeeBeanDetailResult(

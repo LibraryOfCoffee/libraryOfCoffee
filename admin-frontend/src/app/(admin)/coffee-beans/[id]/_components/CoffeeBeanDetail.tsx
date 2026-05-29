@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CoffeeBeanDetail as CoffeeBeanDetailType } from "@/api/coffee-beans";
+import type { TasteListItem } from "@/api/tastes";
 import {
   getProcessingMethodLabel,
   getRoastLevelLabel,
@@ -11,9 +12,11 @@ import styles from "./CoffeeBeanDetail.module.css";
 export function CoffeeBeanDetail({
   coffeeBean,
   initialShops,
+  tastes,
 }: {
   coffeeBean: CoffeeBeanDetailType;
   initialShops: { id: string; name: string }[];
+  tastes: TasteListItem[];
 }) {
   return (
     <div className={styles.container}>
@@ -27,6 +30,7 @@ export function CoffeeBeanDetail({
         <CoffeeBeanActions
           coffeeBean={coffeeBean}
           initialShops={initialShops}
+          tastes={tastes}
         />
       </div>
 
