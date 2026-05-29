@@ -94,5 +94,5 @@ stateDiagram-v2
 
 | 集約 | 関連 | 説明 |
 |------|------|------|
-| [SubscriptionPlan](./subscriptionPlan.md) | ID参照 | CustomerSubscriptionが契約しているプラン |
+| [Plan](./plan.md) | ID参照 | CustomerSubscriptionが契約しているプラン |
 | [MonthlySubscriptionDetail](./monthlySubscriptionDetail.md) | 被参照 | 月次の配送内容がCustomerSubscriptionを参照する |

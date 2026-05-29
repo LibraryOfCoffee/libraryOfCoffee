@@ -85,14 +85,18 @@ class ShopTest {
 テストデータの生成には `private fun create{Entity}(...)` ファクトリメソッドを使う。テスト対象のパラメータのみを引数に公開し、それ以外はデフォルト値を設定する。
 
 ```kotlin
-private fun createSubscriptionPlan(
-    price: Int = 3000,
-    beanQuantity: Int = 3,
-): SubscriptionPlan = SubscriptionPlan(
-    id = SubscriptionPlanId("00000000-0000-4000-8000-000000000001"),
-    shopifySubscriptionId = ShopifySubscriptionId("shopify-sub-1"),
-    price = price,
+private fun createPlan(
+    price: Int = 3800,
+    beanQuantity: Int = 4,
+): Plan = Plan(
+    id = PlanId("00000000-0000-4000-8000-00000000000d"),
+    shopifyPlanId = ShopifyPlanId("shopify-plan-1"),
+    label = "定番",
+    gramWeight = 60,
     beanQuantity = beanQuantity,
+    price = price,
+    type = PlanType.SUBSCRIPTION,
+    isRecommended = true,
 )
 ```
 

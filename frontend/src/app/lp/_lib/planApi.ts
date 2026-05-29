@@ -1,24 +1,5 @@
 export type WeightGrams = 30 | 60 | 90;
 
-export const WEIGHT_OPTIONS: WeightGrams[] = [30, 60, 90];
-
-export interface PlanDetail {
-  id: string;
-  name: string;
-  price: number;
-  singlePrice: number;
-  totalBeans: number;
-  maxSelection: number;
-  description: string;
-  weight: WeightGrams;
-  catchphrase?: string;
-  badge?: string;
-}
-
-export function formatPrice(price: number): string {
-  return price.toLocaleString("ja-JP");
-}
-
 export type PlanGroup = {
   subscriptionId: string;
   singleId: string;
