@@ -1,6 +1,6 @@
 package com.mametosho.domain.model.customer
 
-import com.mametosho.domain.model.subscriptionplan.SubscriptionPlanId
+import com.mametosho.domain.model.subscriptionplan.PlanId
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
 import java.time.LocalDate
@@ -26,7 +26,7 @@ class CustomerTest {
         status: SubscriptionStatus = SubscriptionStatus.ACTIVE,
     ): CustomerSubscription = CustomerSubscription(
         id = CustomerSubscriptionId(id),
-        subscriptionPlanId = SubscriptionPlanId(planId),
+        planId = PlanId(planId),
         status = status,
         contractPeriod = ContractPeriod(from = LocalDate.of(2025, 1, 1), to = null),
     )
@@ -50,7 +50,7 @@ class CustomerTest {
             val customer = createCustomer()
             val updated = customer.addSubscription(
                 id = CustomerSubscriptionId("00000000-0000-4000-8000-00000000000b"),
-                subscriptionPlanId = SubscriptionPlanId("00000000-0000-4000-8000-00000000000d"),
+                planId = PlanId("00000000-0000-4000-8000-00000000000d"),
                 contractedFrom = LocalDate.of(2025, 1, 1),
             )
             assertEquals(1, updated.subscriptions.size)
@@ -63,7 +63,7 @@ class CustomerTest {
             assertThrows<IllegalStateException> {
                 customer.addSubscription(
                     id = CustomerSubscriptionId("00000000-0000-4000-8000-00000000000b"),
-                    subscriptionPlanId = SubscriptionPlanId("00000000-0000-4000-8000-00000000000d"),
+                    planId = PlanId("00000000-0000-4000-8000-00000000000d"),
                     contractedFrom = LocalDate.of(2025, 1, 1),
                 )
             }
@@ -78,7 +78,7 @@ class CustomerTest {
             assertThrows<IllegalStateException> {
                 customer.addSubscription(
                     id = CustomerSubscriptionId("00000000-0000-4000-8000-00000000000c"),
-                    subscriptionPlanId = SubscriptionPlanId(planId),
+                    planId = PlanId(planId),
                     contractedFrom = LocalDate.of(2025, 6, 1),
                 )
             }
@@ -92,7 +92,7 @@ class CustomerTest {
             )
             val updated = customer.addSubscription(
                 id = CustomerSubscriptionId("00000000-0000-4000-8000-00000000000c"),
-                subscriptionPlanId = SubscriptionPlanId(planId),
+                planId = PlanId(planId),
                 contractedFrom = LocalDate.of(2025, 6, 1),
             )
             assertEquals(2, updated.subscriptions.size)
@@ -105,7 +105,7 @@ class CustomerTest {
             )
             val updated = customer.addSubscription(
                 id = CustomerSubscriptionId("00000000-0000-4000-8000-00000000000c"),
-                subscriptionPlanId = SubscriptionPlanId("00000000-0000-4000-8000-00000000000e"),
+                planId = PlanId("00000000-0000-4000-8000-00000000000e"),
                 contractedFrom = LocalDate.of(2025, 6, 1),
             )
             assertEquals(2, updated.subscriptions.size)

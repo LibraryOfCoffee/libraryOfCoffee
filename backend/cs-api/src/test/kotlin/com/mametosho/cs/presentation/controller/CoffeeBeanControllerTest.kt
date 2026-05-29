@@ -22,6 +22,13 @@ class CoffeeBeanControllerTest {
                 roastLevel = "LIGHT",
                 processingMethod = "WASHED",
                 isSpecialty = true,
+                description = "フルーティーな香りと明るい酸味が特徴の豆です。",
+                imageUrl = "https://example.com/images/ethiopia.jpg",
+                shopName = "山田珈琲焙煎所",
+                tasteProfiles = listOf(
+                    CoffeeBeanListResult.TasteProfileResult(name = "酸味", value = 60),
+                    CoffeeBeanListResult.TasteProfileResult(name = "苦味", value = 20),
+                ),
             ),
         ),
         totalCount = 1L,

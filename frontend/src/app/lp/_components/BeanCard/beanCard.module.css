@@ -1,97 +1,174 @@
 .card {
-  background: var(--color-white);
-  border-radius: 16px;
+  background: var(--mt-surface);
+  border: 0.5px solid var(--mt-line-soft);
+  border-radius: 4px;
   overflow: hidden;
-  border: none;
-  width: 100%;
-  height: 100%;
+  box-shadow: 0 1px 0 rgba(60, 40, 20, 0.04);
   cursor: pointer;
+  width: 100%;
   text-align: left;
   padding: 0;
-  font-family: var(--font-base);
-  box-shadow:
-    0 2px 8px rgba(0, 0, 0, 0.1),
-    0 4px 16px rgba(0, 0, 0, 0.06);
-  display: flex;
-  flex-direction: column;
+  font-family: var(--mt-font-jp-sans);
 }
 
-.img {
-  width: 100%;
-  height: 160px;
-  position: relative;
+.punchBar {
+  height: 6px;
+  border-bottom: 0.5px dashed var(--mt-line);
+  background:
+    radial-gradient(circle at 18px 0, var(--mt-bg-deep) 2.5px, transparent 3px),
+    radial-gradient(circle at 50% 0, var(--mt-bg-deep) 2.5px, transparent 3px),
+    radial-gradient(
+      circle at calc(100% - 18px) 0,
+      var(--mt-bg-deep) 2.5px,
+      transparent 3px
+    );
+}
+
+.body {
+  display: flex;
+  padding: 12px 14px;
+}
+
+.imgWrap {
+  width: 72px;
+  height: 92px;
+  flex-shrink: 0;
+  border-radius: 2px;
   overflow: hidden;
+  position: relative;
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
 }
 
 .imgInner {
   object-fit: cover;
 }
 
-.content {
-  padding: 16px;
-  background: var(--color-white);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  flex: 1;
-}
-
 .crown {
   position: absolute;
-  top: 8px;
-  left: 8px;
-  width: 28px;
-  height: 28px;
+  top: 6px;
+  left: 6px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  background: var(--color-white);
+  background: var(--mt-gold);
+  color: #fff;
+  font-size: 9px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+  z-index: 1;
 }
 
-.tag {
-  display: inline-block;
-  align-self: flex-start;
-  color: var(--color-white);
+.content {
+  flex: 1;
+  margin-left: 13px;
+  min-width: 0;
+}
+
+.pillRow {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.roastPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 7px;
+  border-radius: 999px;
   font-size: 11px;
-  font-weight: 600;
-  border-radius: 100px;
-  padding: 4px 10px;
+  font-weight: 500;
+  font-family: var(--mt-font-jp-sans);
+}
+
+.roastDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+/* Roast level pill variants */
+.roastLight {
+  background: #f5e6c8;
+  color: #8a6630;
+  border: 0.5px solid #d4a857;
+}
+.roastMedium {
+  background: #e8c9a0;
+  color: #7a4d22;
+  border: 0.5px solid #b07a3c;
+}
+.roastMediumDark {
+  background: #c89878;
+  color: #5a2f15;
+  border: 0.5px solid #864a25;
+}
+.roastDark {
+  background: #8d5a3a;
+  color: #f7ecdc;
+  border: 0.5px solid #3c1f10;
+}
+
+/* Roast dot variants */
+.dotLight {
+  background: #d4a857;
+}
+.dotMedium {
+  background: #b07a3c;
+}
+.dotMediumDark {
+  background: #864a25;
+}
+.dotDark {
+  background: #3c1f10;
 }
 
 .name {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--color-text);
-  margin: 0;
+  font-family: var(--mt-font-jp-serif);
+  font-size: 18px;
+  margin: 4px 0 0;
+  line-height: 1.25;
+  color: var(--mt-ink);
+  font-weight: 500;
+}
+
+.region {
+  font-size: 11px;
+  color: var(--mt-ink-3);
+  margin-left: 6px;
 }
 
 .desc {
-  font-size: 13px;
-  color: var(--color-text-secondary);
-  margin: 0;
+  margin-top: 4px;
+  font-size: 11px;
+  color: var(--mt-ink-2);
+  line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-.roasterName {
-  position: absolute;
-  right: 6px;
-  bottom: 6px;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.9);
-  margin: 0;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+.footer {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 0.5px dashed var(--mt-line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  color: var(--mt-ink-3);
+}
+
+.roaster {
+  color: var(--mt-ink-2);
+  font-family: var(--mt-font-en);
+  margin-left: 4px;
+  font-size: 10px;
 }
 
 .detailLink {
-  font-size: 11px;
-  color: var(--color-brown);
-  margin: 0;
-  margin-top: auto;
-  text-align: right;
-  text-decoration: underline;
+  font-family: var(--mt-font-en);
+  font-size: 12px;
+  color: var(--mt-ink-3);
 }

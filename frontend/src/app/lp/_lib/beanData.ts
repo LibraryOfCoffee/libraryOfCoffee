@@ -10,6 +10,7 @@ export interface BeanDetail {
   tagColor: string;
   name: string;
   subName: string;
+  region: string;
   description: string;
   detailDescription: string;
   origin: string;
@@ -32,6 +33,7 @@ export const beans: BeanDetail[] = [
     tagColor: "#E2B36E",
     name: "コスタリカ",
     subName: "コスタリカ シュマバ シドラ レッドハニー",
+    region: "タラス",
     description:
       "真っ赤な林檎のような甘さのある香りと丸く柔らかく柔らかい口当たり",
     detailDescription:
@@ -58,6 +60,7 @@ export const beans: BeanDetail[] = [
     tagColor: "#A6683D",
     name: "東ティモール",
     subName: "東ティモール・ロダン集落",
+    region: "レテフォホ",
     description: "レモンやみかんの様な酸味とヘーゼルナッツを思わせる",
     detailDescription:
       "レモンやみかんの様な酸味とヘーゼルナッツを思わせる風味。\n・サトウキビらしい砂糖の穏やかな甘味も感じさせ、デイリーのコーヒーに適したテイスト。\n\n【どんなコーヒー？】\n19世紀に当時の東ティモールを統治していたポルトガルが、高地の気候を活かして栽培を始めたのが起源です。現在は小規模農家が中心となって生産され、熟した果実のようなやさしい甘さが特徴。世界的なスペシャルティコーヒー人気を背景に、丁寧な精製と品質重視の豆として注目されています。",
@@ -83,6 +86,7 @@ export const beans: BeanDetail[] = [
     tagColor: "#A6683D",
     name: "インドネシア",
     subName: "インドネシア・マンデリン/ビンタンリマ",
+    region: "マンデリン",
     description:
       "オレンジピールやグレープフルーツの明るい風味からカカオのほろ苦さまで",
     detailDescription:
@@ -109,6 +113,7 @@ export const beans: BeanDetail[] = [
     tagColor: "#A6683D",
     name: "ブルンジ",
     subName: "ブルンジ カランボ",
+    region: "ムインガ",
     description: "温かいうちに感じる赤りんごのような力強い甘さ。",
     detailDescription:
       "温かいうちに感じる赤りんごのような力強い甘さ。\nブルンジ北東部ムインガの美しい丘陵地帯に位置するカランボWSは、約1,000人の小規模生産者が「ブルンジの最高品質のコーヒーを世に送り出す」というミッションのもとに集い、協力しながら歩調を合わせて品質向上に取り組んでいるウォッシングステーションです。\nその丁寧な栽培と精選体制から生まれるコーヒーは、クリーンで調和の取れた味わいが特長です。\nmarucacoffeeさんでは、2016年のオープン当初から継続してブルンジの豆を焙煎・提供されています。ブルンジは店主が特に愛着を持つ生産国のひとつであり、お店にとって欠かすことのできない存在です。",
@@ -134,6 +139,7 @@ export const beans: BeanDetail[] = [
     tagColor: "#5C3317",
     name: "ホンジュラス",
     subName: "ホンジュラス・ウエヴォ・デ・オロ農園",
+    region: "テパングアレ",
     description:
       "ラズベリーのような華やかな香り、ハチミツのような優しい甘みとしっとりとした余韻",
     detailDescription:
@@ -160,6 +166,7 @@ export const beans: BeanDetail[] = [
     tagColor: "#321E14",
     name: "インディア",
     subName: "インディア・APAA",
+    region: "シェバロイ",
     description: "ナッツ系の香ばしさとペッパーのようなキレのある爽やかさ",
     detailDescription:
       "ナッツ系の香ばしさの中にペッパーのようなキレのある爽やかさが特徴です。\n\n【どんなコーヒー？】\nインドは南部を中心に高原地帯が広がり、穏やかな気候の中でじっくり成熟するため、角の取れた飲み口になりやすいのが魅力。APAAは「Arabica Plantation AA」の略で、サイズや形、が基準を満たし、異物混入のない高品質なアラビカ種（washed製法）であることを保証。インドコーヒーの特徴である独特なスパイスのような香りが特徴です。",

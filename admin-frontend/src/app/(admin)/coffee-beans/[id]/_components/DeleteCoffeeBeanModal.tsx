@@ -37,18 +37,11 @@ export function DeleteCoffeeBeanModal({
     }
   }, [open]);
 
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDialogElement>) => {
-    if (e.target === dialogRef.current) {
-      onClose();
-    }
-  };
-
   return (
     <dialog
       ref={dialogRef}
       className={modalStyles.dialog}
       onClose={onClose}
-      onClick={handleBackdropClick}
       onKeyDown={(e) => {
         if (e.key === "Escape") onClose();
       }}

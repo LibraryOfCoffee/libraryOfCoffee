@@ -4,6 +4,7 @@ import com.mametosho.admin.application.service.uploadImages
 import com.mametosho.admin.presentation.dto.request.CreateCoffeeBeanRequest
 import com.mametosho.domain.model.coffeebean.CoffeeBean
 import com.mametosho.domain.repository.CoffeeBeanRepository
+import com.mametosho.domain.repository.TasteRepository
 import com.mametosho.domain.service.ImageStorageService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -14,6 +15,7 @@ import java.util.UUID
 class CreateCoffeeBeanUsecase(
     private val coffeeBeanRepository: CoffeeBeanRepository,
     private val imageStorageService: ImageStorageService,
+    private val tasteRepository: TasteRepository,
 ) {
     @Transactional
     open fun execute(
@@ -30,6 +32,12 @@ class CreateCoffeeBeanUsecase(
             imageTypes = imageTypes,
         )
 
+        val tastes = request.tastes.map { tasteRequest ->
+            val taste = tasteRepository.findByName(tasteRequest.tasteName)
+                ?: error("テイストが見つかりません: ${tasteRequest.tasteName}")
+            taste.id.value to tasteRequest.evaluationValue
+        }
+
         val coffeeBean = CoffeeBean.create(
             shopId = request.shopId,
             shopifyBeanId = request.shopifyBeanId,
@@ -41,7 +49,7 @@ class CreateCoffeeBeanUsecase(
             processingMethod = request.processingMethod,
             isSpecialty = request.isSpecialty,
             images = images,
-            tastes = request.tastes.map { it.tasteId to it.evaluationValue },
+            tastes = tastes,
             id = coffeeBeanId,
         )
         coffeeBeanRepository.save(coffeeBean)

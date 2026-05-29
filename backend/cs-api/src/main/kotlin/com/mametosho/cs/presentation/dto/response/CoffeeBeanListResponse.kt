@@ -17,7 +17,23 @@ data class CoffeeBeanListResponse(
     val processingMethod: String,
     @Schema(description = "スペシャルティ珈琲かどうか", example = "true")
     val isSpecialty: Boolean,
+    @Schema(description = "説明文", example = "フルーティーな香りと明るい酸味が特徴の豆です。")
+    val description: String,
+    @Schema(description = "メイン画像URL", example = "https://example.com/images/coffee.jpg")
+    val imageUrl: String,
+    @Schema(description = "ロースター名", example = "山田珈琲焙煎所")
+    val shopName: String,
+    @Schema(description = "テイストプロファイル一覧")
+    val tasteProfiles: List<TasteProfileResponse>,
 ) {
+    @Schema(description = "テイストプロファイル")
+    data class TasteProfileResponse(
+        @Schema(description = "テイスト名", example = "酸味")
+        val name: String,
+        @Schema(description = "評価値", example = "60")
+        val value: Int,
+    )
+
     companion object {
         fun from(result: CoffeeBeanListResult): CoffeeBeanListResponse = CoffeeBeanListResponse(
             id = result.id,
@@ -26,6 +42,12 @@ data class CoffeeBeanListResponse(
             roastLevel = result.roastLevel,
             processingMethod = result.processingMethod,
             isSpecialty = result.isSpecialty,
+            description = result.description,
+            imageUrl = result.imageUrl,
+            shopName = result.shopName,
+            tasteProfiles = result.tasteProfiles.map { taste ->
+                TasteProfileResponse(name = taste.name, value = taste.value)
+            },
         )
     }
 }

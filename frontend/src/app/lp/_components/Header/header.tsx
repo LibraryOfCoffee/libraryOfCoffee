@@ -10,14 +10,12 @@ export default function Header() {
           src="/logo.svg"
           alt="豆図書"
           width={80}
-          height={26}
+          height={28}
           className={styles.logo}
         />
-        <div className={styles.actions}>
-          <a href={LOGIN_URL} className={styles.login}>
-            ログイン
-          </a>
-        </div>
+        <a href={LOGIN_URL} className={styles.login}>
+          ログイン
+        </a>
       </div>
     </header>
   );

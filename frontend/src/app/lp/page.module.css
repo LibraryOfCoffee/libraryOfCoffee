@@ -1,0 +1,11 @@
+.pageMain {
+  background: var(--mt-bg);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.pageFooterWrap {
+  max-width: 480px;
+  margin: 0 auto;
+  background: var(--mt-bg);
+}

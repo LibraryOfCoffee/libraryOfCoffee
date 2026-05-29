@@ -26,6 +26,12 @@ class FindCoffeeBeansUsecaseTest {
                 roastLevel = "LIGHT",
                 processingMethod = "WASHED",
                 isSpecialty = true,
+                description = "テスト用の説明文です。",
+                imageUrl = "https://example.com/images/test.jpg",
+                shopName = "テスト珈琲焙煎所",
+                tasteProfiles = listOf(
+                    CoffeeBeanListResult.TasteProfileResult(name = "酸味", value = 60),
+                ),
             ),
         ),
         totalCount = 1L,

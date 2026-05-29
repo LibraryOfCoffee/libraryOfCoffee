@@ -67,12 +67,6 @@ export function CreateCoffeeBeanModal({
     }
   }, [state.success, onClose]);
 
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDialogElement>) => {
-    if (e.target === dialogRef.current) {
-      onClose();
-    }
-  };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     startTransition(() => formAction(new FormData(e.currentTarget)));
@@ -83,7 +77,6 @@ export function CreateCoffeeBeanModal({
       ref={dialogRef}
       className={modalStyles.dialog}
       onClose={onClose}
-      onClick={handleBackdropClick}
       onKeyDown={(e) => {
         if (e.key === "Escape") onClose();
       }}

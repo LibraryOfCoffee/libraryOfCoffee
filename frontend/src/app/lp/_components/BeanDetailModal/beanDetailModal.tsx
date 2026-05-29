@@ -29,9 +29,6 @@ export default function BeanDetailModal({
       className={styles.overlay}
       role="dialog"
       aria-modal="true"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
       onKeyDown={(e) => {
         if (e.key === "Escape") onClose();
       }}
@@ -50,20 +47,22 @@ export default function BeanDetailModal({
         </div>
 
         <div className={styles.body}>
-          <div className={styles.heroWrap}>
-            <Image
-              src={bean.imageSrc}
-              alt={bean.name}
-              fill
-              sizes="(max-width: 440px) 100vw, 400px"
-              className={styles.hero}
-            />
-            {bean.isSpecialty && (
-              <span className={styles.crown}>
-                <LuCrown size={16} color={SPECIALTY_TAG_COLOR} />
-              </span>
-            )}
-          </div>
+          {bean.imageSrc && (
+            <div className={styles.heroWrap}>
+              <Image
+                src={bean.imageSrc}
+                alt={bean.name}
+                fill
+                sizes="(max-width: 440px) 100vw, 400px"
+                className={styles.hero}
+              />
+              {bean.isSpecialty && (
+                <span className={styles.crown}>
+                  <LuCrown size={16} color={SPECIALTY_TAG_COLOR} />
+                </span>
+              )}
+            </div>
+          )}
 
           <div className={styles.titleRow}>
             <h3>{bean.name}</h3>

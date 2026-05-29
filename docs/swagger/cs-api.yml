@@ -9,9 +9,116 @@ servers:
 - url: /
   description: Current Server
 tags:
+- name: Plan
+  description: プランAPI
+- name: Shop
+  description: 店舗API
 - name: CoffeeBean
   description: 珈琲豆API
 paths:
+  /api/shops:
+    get:
+      tags:
+      - Shop
+      summary: 店舗一覧取得
+      description: 店舗の一覧をページネーション付きで取得します。
+      operationId: listShops
+      parameters:
+      - name: page
+        in: query
+        description: ページ番号（0始まり）
+        required: true
+        schema:
+          type: integer
+          format: int32
+        example: 0
+      - name: size
+        in: query
+        description: 1ページあたりの件数
+        required: true
+        schema:
+          type: integer
+          format: int32
+        example: 20
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ShopListResponse"
+              examples:
+                success:
+                  summary: 取得成功例
+                  description: success
+                  value:
+                    items:
+                    - id: 00000000-0000-4000-8000-000000000031
+                      name: 珈琲工房 まめとしょ
+                      introduction: 東京都渋谷区にある自家焙煎珈琲店。厳選されたスペシャルティコーヒーをお届けします。
+                      shopUrl: https://mametosho.example.com
+                      prefecture: TOKYO
+                      logoImageUrl: https://placehold.jp/100x100.png
+                    - id: 00000000-0000-4000-8000-000000000032
+                      name: CAFÉ LUMIÈRE
+                      introduction: 京都の町家を改装した珈琲専門店。フレンチローストからライトローストまで幅広い焙煎度をご用意。
+                      shopUrl: https://cafe-lumiere.example.com
+                      prefecture: KYOTO
+                      logoImageUrl: https://placehold.jp/100x100.png
+                    totalCount: 3
+                    page: 0
+                    size: 20
+  /api/plans:
+    get:
+      tags:
+      - Plan
+      summary: プラン一覧取得
+      description: プランの一覧を取得します。typeパラメータで定期便/単品の絞り込み、gramWeightパラメータでグラム数の絞り込みができます。
+      operationId: listPlans
+      parameters:
+      - name: type
+        in: query
+        description: プラン種別（SUBSCRIPTION / SINGLE）で絞り込み
+        required: false
+        schema:
+          type: string
+        example: SUBSCRIPTION
+      - name: gramWeight
+        in: query
+        description: 1種あたりのグラム数（30/60/90）で絞り込み
+        required: false
+        schema:
+          type: integer
+          format: int32
+        example: 30
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PlanListResponse"
+              examples:
+                success:
+                  summary: 取得成功例
+                  description: success
+                  value:
+                  - id: 00000000-0000-4000-8000-000000000024
+                    label: 定番
+                    gramWeight: 30
+                    beanQuantity: 4
+                    price: 1950
+                    type: SUBSCRIPTION
+                    isRecommended: true
+                  - id: 00000000-0000-4000-8000-00000000002d
+                    label: 定番
+                    gramWeight: 30
+                    beanQuantity: 4
+                    price: 2150
+                    type: SINGLE
+                    isRecommended: true
   /api/coffeeBeans:
     get:
       tags:
@@ -114,19 +221,150 @@ paths:
           description: 取得成功
           content:
             '*/*':
-              examples:
-                success:
-                  summary: 取得成功例
-                  description: success
-                  value:
-                    items:
-                    - id: 00000000-0000-4000-8000-000000000071
-                      name: エチオピア イルガチェフェ G1
-                      origin: エチオピア
-                      roastLevel: LIGHT
-                      processingMethod: WASHED
-                      isSpecialty: true
-                    totalCount: 1
-                    page: 0
-                    size: 20
-components: {}
+              schema:
+                $ref: "#/components/schemas/PagedResponseCoffeeBeanListResponse"
+components:
+  schemas:
+    ShopListResponse:
+      type: object
+      description: 店舗一覧アイテム
+      properties:
+        id:
+          type: string
+          description: 店舗ID
+          example: 00000000-0000-4000-8000-000000000031
+        name:
+          type: string
+          description: 店舗名
+          example: 珈琲工房 まめとしょ
+        introduction:
+          type: string
+          description: 店舗紹介文
+          example: 東京都渋谷区にある自家焙煎珈琲店。厳選されたスペシャルティコーヒーをお届けします。
+        shopUrl:
+          type: string
+          description: 店舗URL
+          example: https://mametosho.example.com
+        prefecture:
+          type: string
+          description: 都道府県
+          example: TOKYO
+        logoImageUrl:
+          type: string
+          description: ロゴ画像URL
+          example: https://placehold.jp/100x100.png
+    PlanListResponse:
+      type: object
+      description: プラン一覧アイテム
+      properties:
+        isRecommended:
+          type: boolean
+          description: おすすめバッジ
+          example: true
+        id:
+          type: string
+          description: プランID
+          example: 00000000-0000-4000-8000-000000000024
+        label:
+          type: string
+          description: プラン表示名
+          example: 定番
+        gramWeight:
+          type: integer
+          format: int32
+          description: 1種あたりのグラム数
+          example: 60
+        beanQuantity:
+          type: integer
+          format: int32
+          description: 豆の種類数
+          example: 4
+        price:
+          type: integer
+          format: int32
+          description: 価格
+          example: 3800
+        type:
+          type: string
+          description: プラン種別（SUBSCRIPTION / SINGLE）
+          example: SUBSCRIPTION
+    CoffeeBeanListResponse:
+      type: object
+      description: 珈琲豆一覧アイテム
+      properties:
+        id:
+          type: string
+          description: 珈琲豆ID
+          example: 00000000-0000-4000-8000-000000000071
+        name:
+          type: string
+          description: 珈琲豆名
+          example: エチオピア イルガチェフェ G1
+        origin:
+          type: string
+          description: 産地
+          example: エチオピア
+        roastLevel:
+          type: string
+          description: 焙煎度
+          example: LIGHT
+        processingMethod:
+          type: string
+          description: 精製方法
+          example: WASHED
+        description:
+          type: string
+          description: 説明文
+          example: フルーティーな香りと明るい酸味が特徴の豆です。
+        imageUrl:
+          type: string
+          description: メイン画像URL
+          example: https://example.com/images/coffee.jpg
+        shopName:
+          type: string
+          description: ロースター名
+          example: 山田珈琲焙煎所
+        tasteProfiles:
+          type: array
+          description: テイストプロファイル一覧
+          items:
+            $ref: "#/components/schemas/TasteProfileResponse"
+        specialty:
+          type: boolean
+    PagedResponseCoffeeBeanListResponse:
+      type: object
+      description: ページネーション付きレスポンス
+      properties:
+        items:
+          type: array
+          description: アイテム一覧
+          items:
+            $ref: "#/components/schemas/CoffeeBeanListResponse"
+        totalCount:
+          type: integer
+          format: int64
+          description: 全件数
+          example: 42
+        page:
+          type: integer
+          format: int32
+          description: 現在のページ番号（0始まり）
+          example: 0
+        size:
+          type: integer
+          format: int32
+          description: 1ページあたりの件数
+          example: 20
+    TasteProfileResponse:
+      type: object
+      description: テイストプロファイル
+      properties:
+        name:
+          type: string
+          description: テイスト名
+          example: 酸味
+        value:
+          type: integer
+          format: int32
+          description: 評価値
+          example: 60

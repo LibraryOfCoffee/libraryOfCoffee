@@ -6,6 +6,7 @@ import com.mametosho.admin.presentation.dto.request.UpdateCoffeeBeanRequest
 import com.mametosho.domain.model.coffeebean.CoffeeBean
 import com.mametosho.domain.model.coffeebean.CoffeeBeanId
 import com.mametosho.domain.repository.CoffeeBeanRepository
+import com.mametosho.domain.repository.TasteRepository
 import com.mametosho.domain.service.ImageStorageService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile
 class UpdateCoffeeBeanUsecase(
     private val coffeeBeanRepository: CoffeeBeanRepository,
     private val imageStorageService: ImageStorageService,
+    private val tasteRepository: TasteRepository,
 ) {
     @Transactional
     open fun execute(
@@ -37,6 +39,12 @@ class UpdateCoffeeBeanUsecase(
             existingBean.images.map { it.type.name to it.imageUrl.value }
         }
 
+        val tastes = request.tastes.map { tasteRequest ->
+            val taste = tasteRepository.findByName(tasteRequest.tasteName)
+                ?: error("テイストが見つかりません: ${tasteRequest.tasteName}")
+            taste.id.value to tasteRequest.evaluationValue
+        }
+
         val updatedBean = existingBean.update(
             shopId = request.shopId,
             shopifyBeanId = request.shopifyBeanId,
@@ -48,7 +56,7 @@ class UpdateCoffeeBeanUsecase(
             processingMethod = request.processingMethod,
             isSpecialty = request.isSpecialty,
             images = images,
-            tastes = request.tastes.map { it.tasteId to it.evaluationValue },
+            tastes = tastes,
         )
         coffeeBeanRepository.save(updatedBean)
 

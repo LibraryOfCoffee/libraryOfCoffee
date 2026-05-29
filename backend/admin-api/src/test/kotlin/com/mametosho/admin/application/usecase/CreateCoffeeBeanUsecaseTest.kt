@@ -1,11 +1,14 @@
 package com.mametosho.admin.application.usecase
 
 import com.mametosho.admin.presentation.dto.request.CreateCoffeeBeanRequest
+import com.mametosho.admin.test.FakeImageStorageService
 import com.mametosho.domain.model.coffeebean.CoffeeBean
 import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import com.mametosho.domain.model.coffeebean.RoastLevel
+import com.mametosho.domain.model.taste.Taste
+import com.mametosho.domain.model.taste.TasteId
 import com.mametosho.domain.repository.CoffeeBeanRepository
-import com.mametosho.admin.test.FakeImageStorageService
+import com.mametosho.domain.repository.TasteRepository
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
@@ -26,7 +29,19 @@ class CreateCoffeeBeanUsecaseTest {
         override fun deleteById(id: com.mametosho.domain.model.coffeebean.CoffeeBeanId) = Unit
     }
 
-    private val usecase = CreateCoffeeBeanUsecase(fakeRepository, FakeImageStorageService)
+    private val fakeTasteRepository = object : TasteRepository {
+        private val tastes = mapOf(
+            "酸味" to Taste(TasteId("00000000-0000-4000-8000-000000000041"), "酸味"),
+            "苦味" to Taste(TasteId("00000000-0000-4000-8000-000000000042"), "苦味"),
+            "甘味" to Taste(TasteId("00000000-0000-4000-8000-000000000043"), "甘味"),
+            "コク" to Taste(TasteId("00000000-0000-4000-8000-000000000044"), "コク"),
+            "香り" to Taste(TasteId("00000000-0000-4000-8000-000000000045"), "香り"),
+        )
+
+        override fun findByName(name: String): Taste? = tastes[name]
+    }
+
+    private val usecase = CreateCoffeeBeanUsecase(fakeRepository, FakeImageStorageService, fakeTasteRepository)
 
     private fun createRequest(
         shopId: String = "00000000-0000-4000-8000-000000000001",
@@ -40,7 +55,7 @@ class CreateCoffeeBeanUsecaseTest {
         isSpecialty: Boolean = true,
         tastes: List<CreateCoffeeBeanRequest.TasteRequest> = listOf(
             CreateCoffeeBeanRequest.TasteRequest(
-                tasteId = "00000000-0000-4000-8000-000000000002",
+                tasteName = "酸味",
                 evaluationValue = 3,
             ),
         ),
@@ -74,7 +89,7 @@ class CreateCoffeeBeanUsecaseTest {
             assertEquals(ProcessingMethod.WASHED, bean.processingMethod)
             assertTrue(bean.isSpecialty)
             assertEquals(1, bean.tastes.size)
-            assertEquals("00000000-0000-4000-8000-000000000002", bean.tastes[0].tasteId.value)
+            assertEquals("00000000-0000-4000-8000-000000000041", bean.tastes[0].tasteId.value)
             assertEquals(3, bean.tastes[0].evaluationValue)
         }
     }
@@ -151,6 +166,24 @@ class CreateCoffeeBeanUsecaseTest {
         fun `不正な精製方法の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
                 usecase.execute(createRequest(processingMethod = "INVALID"), emptyList(), emptyList())
+            }
+        }
+
+        @Test
+        fun `存在しないテイスト名の場合は例外が発生する`() {
+            assertThrows<IllegalStateException> {
+                usecase.execute(
+                    createRequest(
+                        tastes = listOf(
+                            CreateCoffeeBeanRequest.TasteRequest(
+                                tasteName = "存在しないテイスト",
+                                evaluationValue = 3,
+                            ),
+                        ),
+                    ),
+                    emptyList(),
+                    emptyList(),
+                )
             }
         }
     }

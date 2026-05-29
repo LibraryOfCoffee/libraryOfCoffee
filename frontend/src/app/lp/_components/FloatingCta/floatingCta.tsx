@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { LuChevronRight } from "react-icons/lu";
 import { getPlanPagePath } from "../../_lib/purchaseLinkUtil";
 import LinkWithLoading from "../LinkWithLoading/linkWithLoading";
 import styles from "./floatingCta.module.css";
@@ -25,11 +24,8 @@ export default function FloatingCta() {
     <div className={`${styles.wrapper} ${visible ? styles.visible : ""}`}>
       <div className={styles.inner}>
         <LinkWithLoading href={getPlanPagePath()} className={styles.cta}>
-          <span className={styles.hint}>
-            簡単3ステップで、約2分で登録完了！
-          </span>
           <span className={styles.label}>豆を選ぶ</span>
-          <LuChevronRight className={styles.arrow} size={22} />
+          <span className={styles.arrow}>→</span>
         </LinkWithLoading>
       </div>
     </div>

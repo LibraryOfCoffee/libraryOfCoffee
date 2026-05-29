@@ -11,6 +11,29 @@
   --color-badge: #c0392b;
   --font-base:
     "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+
+  /* New design tokens */
+  --mt-bg: #f6f1e7;
+  --mt-bg-deep: #ece4d2;
+  --mt-surface: #fffdf7;
+  --mt-surface-2: #faf5ea;
+  --mt-ink: #221c14;
+  --mt-ink-2: #4a3f30;
+  --mt-ink-3: #7a6a55;
+  --mt-line: #d9cdb4;
+  --mt-line-soft: #e8dfc8;
+  --mt-accent: #8b5e2e;
+  --mt-accent-deep: #5c3d1d;
+  --mt-gold: #c89a4f;
+  --mt-shadow-sm:
+    0 1px 0 rgba(60, 40, 20, 0.04), 0 2px 6px rgba(60, 40, 20, 0.05);
+  --mt-shadow-md:
+    0 4px 16px rgba(60, 40, 20, 0.08), 0 1px 0 rgba(60, 40, 20, 0.04);
+  --mt-font-jp-serif:
+    var(--font-shippori), "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --mt-font-jp-sans:
+    var(--font-zen-kaku), "Hiragino Sans", "Yu Gothic", sans-serif;
+  --mt-font-en: var(--font-eb-garamond), "EB Garamond", Georgia, serif;
 }
 
 .swiper-slide {

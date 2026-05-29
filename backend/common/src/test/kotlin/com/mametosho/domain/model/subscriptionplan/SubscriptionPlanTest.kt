@@ -8,13 +8,21 @@ import kotlin.test.assertEquals
 class SubscriptionPlanTest {
 
     private fun createSubscriptionPlan(
-        price: Int = 3000,
-        beanQuantity: Int = 3,
+        label: String = "定番",
+        gramWeight: Int = 60,
+        beanQuantity: Int = 4,
+        subscriptionPrice: Int = 3800,
+        singlePrice: Int = 4200,
+        isRecommended: Boolean = true,
     ): SubscriptionPlan = SubscriptionPlan(
         id = SubscriptionPlanId("00000000-0000-4000-8000-00000000000d"),
         shopifySubscriptionId = ShopifySubscriptionId("shopify-sub-1"),
-        price = price,
+        label = label,
+        gramWeight = gramWeight,
         beanQuantity = beanQuantity,
+        subscriptionPrice = subscriptionPrice,
+        singlePrice = singlePrice,
+        isRecommended = isRecommended,
     )
 
     @Nested
@@ -23,8 +31,12 @@ class SubscriptionPlanTest {
         @Test
         fun `正常にSubscriptionPlanを生成できる`() {
             val plan = createSubscriptionPlan()
-            assertEquals(3000, plan.price)
-            assertEquals(3, plan.beanQuantity)
+            assertEquals("定番", plan.label)
+            assertEquals(60, plan.gramWeight)
+            assertEquals(4, plan.beanQuantity)
+            assertEquals(3800, plan.subscriptionPrice)
+            assertEquals(4200, plan.singlePrice)
+            assertEquals(true, plan.isRecommended)
         }
     }
 
@@ -32,15 +44,48 @@ class SubscriptionPlanTest {
     inner class バリデーション {
 
         @Test
-        fun `priceが0の場合は生成できる`() {
-            val plan = createSubscriptionPlan(price = 0)
-            assertEquals(0, plan.price)
+        fun `subscriptionPriceが0の場合は生成できる`() {
+            val plan = createSubscriptionPlan(subscriptionPrice = 0)
+            assertEquals(0, plan.subscriptionPrice)
         }
 
         @Test
-        fun `priceが負の値の場合は例外が発生する`() {
+        fun `subscriptionPriceが負の値の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                createSubscriptionPlan(price = -1)
+                createSubscriptionPlan(subscriptionPrice = -1)
+            }
+        }
+
+        @Test
+        fun `singlePriceが0の場合は生成できる`() {
+            val plan = createSubscriptionPlan(singlePrice = 0)
+            assertEquals(0, plan.singlePrice)
+        }
+
+        @Test
+        fun `singlePriceが負の値の場合は例外が発生する`() {
+            assertThrows<IllegalArgumentException> {
+                createSubscriptionPlan(singlePrice = -1)
+            }
+        }
+
+        @Test
+        fun `gramWeightが1の場合は生成できる`() {
+            val plan = createSubscriptionPlan(gramWeight = 1)
+            assertEquals(1, plan.gramWeight)
+        }
+
+        @Test
+        fun `gramWeightが0の場合は例外が発生する`() {
+            assertThrows<IllegalArgumentException> {
+                createSubscriptionPlan(gramWeight = 0)
+            }
+        }
+
+        @Test
+        fun `gramWeightが負の値の場合は例外が発生する`() {
+            assertThrows<IllegalArgumentException> {
+                createSubscriptionPlan(gramWeight = -1)
             }
         }
 

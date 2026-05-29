@@ -7,4 +7,13 @@ data class CoffeeBeanListResult(
     val roastLevel: String,
     val processingMethod: String,
     val isSpecialty: Boolean,
-)
+    val description: String,
+    val imageUrl: String,
+    val shopName: String,
+    val tasteProfiles: List<TasteProfileResult>,
+) {
+    data class TasteProfileResult(
+        val name: String,
+        val value: Int,
+    )
+}

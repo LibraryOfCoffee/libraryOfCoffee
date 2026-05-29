@@ -24,16 +24,29 @@ class CoffeeBeanQueryServiceImpl(
         val rows = coffeeBeanQueryMapper.findListRows(size, offset, origin, roastLevel?.name, prefecture?.name)
         val totalCount = coffeeBeanQueryMapper.countFiltered(origin, roastLevel?.name, prefecture?.name)
 
-        val items = rows.map { row ->
-            CoffeeBeanListResult(
-                id = row.id,
-                name = row.name,
-                origin = row.origin,
-                roastLevel = row.roastLevel,
-                processingMethod = row.processingMethod,
-                isSpecialty = row.isSpecialty,
-            )
-        }
+        val items = rows
+            .groupBy { it.id }
+            .map { (_, beanRows) ->
+                val first = beanRows.first()
+                CoffeeBeanListResult(
+                    id = first.id,
+                    name = first.name,
+                    origin = first.origin,
+                    roastLevel = first.roastLevel,
+                    processingMethod = first.processingMethod,
+                    isSpecialty = first.isSpecialty,
+                    description = first.description,
+                    imageUrl = first.imageUrl,
+                    shopName = first.shopName,
+                    tasteProfiles = beanRows
+                        .map { row ->
+                            CoffeeBeanListResult.TasteProfileResult(
+                                name = row.tasteName,
+                                value = row.evaluationValue,
+                            )
+                        },
+                )
+            }
 
         return PagedResult(
             items = items,

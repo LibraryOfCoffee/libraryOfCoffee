@@ -7,8 +7,6 @@ import com.mametosho.domain.model.coffeebean.RoastLevel
 import com.mametosho.domain.model.shop.Prefecture
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
-import io.swagger.v3.oas.annotations.media.Content
-import io.swagger.v3.oas.annotations.media.ExampleObject
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -34,33 +32,6 @@ class CoffeeBeanController(
             ApiResponse(
                 responseCode = "200",
                 description = "取得成功",
-                content = [
-                    Content(
-                        examples = [
-                            ExampleObject(
-                                name = "success",
-                                summary = "取得成功例",
-                                value = """
-                                    {
-                                      "items": [
-                                        {
-                                          "id": "00000000-0000-4000-8000-000000000071",
-                                          "name": "エチオピア イルガチェフェ G1",
-                                          "origin": "エチオピア",
-                                          "roastLevel": "LIGHT",
-                                          "processingMethod": "WASHED",
-                                          "isSpecialty": true
-                                        }
-                                      ],
-                                      "totalCount": 1,
-                                      "page": 0,
-                                      "size": 20
-                                    }
-                                """,
-                            ),
-                        ],
-                    ),
-                ],
             ),
         ],
     )
