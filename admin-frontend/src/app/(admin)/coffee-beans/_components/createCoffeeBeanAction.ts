@@ -62,10 +62,9 @@ export async function createCoffeeBeanAction(
         values,
       };
     }
-    return {
-      error: "コーヒー豆の登録に失敗しました。",
-      values,
-    };
+    const body = await response.json().catch(() => null);
+    const message = body?.message ?? "コーヒー豆の登録に失敗しました。";
+    return { error: message, values };
   }
 
   revalidatePath("/coffee-beans");

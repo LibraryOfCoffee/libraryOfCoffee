@@ -70,7 +70,9 @@ export async function editCoffeeBeanAction(
         values,
       };
     }
-    return { error: "コーヒー豆の更新に失敗しました。", values };
+    const body = await response.json().catch(() => null);
+    const message = body?.message ?? "コーヒー豆の更新に失敗しました。";
+    return { error: message, values };
   }
 
   revalidatePath(`/coffee-beans/${id}`);
