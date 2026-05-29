@@ -224,7 +224,7 @@ classDiagram
   CoffeeBean o-- Shop : shopId
   CoffeeBeanImage --> CoffeeBeanImageType
   CoffeeBean *-- CoffeeBeanImage
-  CoffeeBean *-- CoffeeBeanTaste
+  CoffeeBean "1" *-- "1..*" CoffeeBeanTaste : 必須（全テイスト種別）
 
   namespace Taste集約 {
     class Taste {
