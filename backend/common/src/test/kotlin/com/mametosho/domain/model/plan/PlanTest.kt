@@ -64,9 +64,28 @@ class PlanTest {
         }
 
         @Test
-        fun `gramWeightが1の場合は生成できる`() {
-            val plan = createPlan(gramWeight = 1)
-            assertEquals(1, plan.gramWeight)
+        fun `gramWeightが30の場合は生成できる`() {
+            val plan = createPlan(gramWeight = 30)
+            assertEquals(30, plan.gramWeight)
+        }
+
+        @Test
+        fun `gramWeightが60の場合は生成できる`() {
+            val plan = createPlan(gramWeight = 60)
+            assertEquals(60, plan.gramWeight)
+        }
+
+        @Test
+        fun `gramWeightが90の場合は生成できる`() {
+            val plan = createPlan(gramWeight = 90)
+            assertEquals(90, plan.gramWeight)
+        }
+
+        @Test
+        fun `gramWeightが30_60_90以外の場合は例外が発生する`() {
+            assertThrows<IllegalArgumentException> {
+                createPlan(gramWeight = 1)
+            }
         }
 
         @Test
@@ -84,9 +103,28 @@ class PlanTest {
         }
 
         @Test
-        fun `beanQuantityが1の場合は生成できる`() {
-            val plan = createPlan(beanQuantity = 1)
-            assertEquals(1, plan.beanQuantity)
+        fun `beanQuantityが3の場合は生成できる`() {
+            val plan = createPlan(beanQuantity = 3)
+            assertEquals(3, plan.beanQuantity)
+        }
+
+        @Test
+        fun `beanQuantityが4の場合は生成できる`() {
+            val plan = createPlan(beanQuantity = 4)
+            assertEquals(4, plan.beanQuantity)
+        }
+
+        @Test
+        fun `beanQuantityが5の場合は生成できる`() {
+            val plan = createPlan(beanQuantity = 5)
+            assertEquals(5, plan.beanQuantity)
+        }
+
+        @Test
+        fun `beanQuantityが3_4_5以外の場合は例外が発生する`() {
+            assertThrows<IllegalArgumentException> {
+                createPlan(beanQuantity = 1)
+            }
         }
 
         @Test

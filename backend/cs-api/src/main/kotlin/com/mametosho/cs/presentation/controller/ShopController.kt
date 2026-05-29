@@ -35,7 +35,8 @@ class ShopController(
                 description = "取得成功",
                 content = [
                     Content(
-                        schema = Schema(implementation = ShopListResponse::class),
+                        mediaType = "application/json",
+                        schema = Schema(ref = "#/components/schemas/PagedResponseShopListResponse"),
                         examples = [
                             ExampleObject(
                                 name = "success",

@@ -1,7 +1,5 @@
 package com.mametosho.cs.presentation.dto.response
 
-import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.mametosho.cs.application.query.result.PlanListResult
 import io.swagger.v3.oas.annotations.media.Schema
 
@@ -20,8 +18,6 @@ data class PlanListResponse(
     @Schema(description = "プラン種別（SUBSCRIPTION / SINGLE）", example = "SUBSCRIPTION")
     val type: String,
     @Schema(description = "おすすめバッジ", example = "true")
-    @JsonProperty("isRecommended")
-    @get:JsonIgnore
     val isRecommended: Boolean,
 ) {
     companion object {
