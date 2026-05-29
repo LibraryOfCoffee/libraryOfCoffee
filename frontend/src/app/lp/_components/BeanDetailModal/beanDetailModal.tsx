@@ -29,6 +29,7 @@ export default function BeanDetailModal({
       className={styles.overlay}
       role="dialog"
       aria-modal="true"
+      tabIndex={-1}
       onKeyDown={(e) => {
         if (e.key === "Escape") onClose();
       }}
@@ -99,14 +100,18 @@ export default function BeanDetailModal({
             <div className={styles.infoRow}>
               <span className={styles.infoLabel}>提供ロースター</span>
               <span className={styles.infoValue}>
-                <a
-                  href={bean.roasterLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={styles.roasterLink}
-                >
-                  {bean.roaster}
-                </a>
+                {bean.roasterLink ? (
+                  <a
+                    href={bean.roasterLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.roasterLink}
+                  >
+                    {bean.roaster}
+                  </a>
+                ) : (
+                  bean.roaster
+                )}
               </span>
             </div>
           </div>

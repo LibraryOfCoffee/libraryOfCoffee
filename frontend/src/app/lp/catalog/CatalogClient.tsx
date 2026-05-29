@@ -60,7 +60,11 @@ function CatalogContent({
   planGroups: PlanGroup[];
 }) {
   const prefectures = Array.from(
-    new Set(beans.map((b) => ROASTER_PREFECTURES[b.roaster]).filter(Boolean)),
+    new Set(
+      beans
+        .map((b) => ROASTER_PREFECTURES[b.roaster])
+        .filter((p): p is string => !!p),
+    ),
   );
   const countries = Array.from(new Set(beans.map((b) => b.name)));
   const roastLevels = Array.from(new Set(beans.map((b) => b.tag)));
@@ -606,7 +610,15 @@ function LibraryCard({
               className={styles.libCardImg}
             />
           )}
-          {bean.isSpecialty && <span className={styles.libCardCrown}>♔</span>}
+          {bean.isSpecialty && (
+            <span
+              className={styles.libCardCrown}
+              role="img"
+              aria-label="スペシャリティコーヒー"
+            >
+              ♔
+            </span>
+          )}
         </div>
         <div className={styles.libCardContent}>
           <div className={styles.libCardPillRow}>

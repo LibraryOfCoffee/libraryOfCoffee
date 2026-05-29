@@ -1,7 +1,6 @@
-import { Suspense } from "react";
-
 export const dynamic = "force-dynamic";
 
+import { Suspense } from "react";
 import { fetchCoffeeBeans } from "../_lib/coffeeBeanApi";
 import { fetchPlans } from "../_lib/planApi";
 import "../globals.css";

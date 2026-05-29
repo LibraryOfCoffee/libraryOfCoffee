@@ -1,7 +1,6 @@
-import type { Metadata } from "next";
-
 export const dynamic = "force-dynamic";
 
+import type { Metadata } from "next";
 import BeanShowcase from "./_components/BeanShowcase/beanShowcase";
 import ConceptSection from "./_components/ConceptSection/conceptSection";
 import CtaSection from "./_components/CtaSection/ctaSection";
