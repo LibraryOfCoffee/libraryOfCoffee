@@ -13,6 +13,7 @@ import com.mametosho.domain.model.coffeebean.ShopifyBeanId
 import com.mametosho.domain.model.shared.ImageUrl
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.taste.TasteId
+import java.util.Locale
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
@@ -272,14 +273,14 @@ class CoffeeBeanRepositoryImplTest {
                     isSpecialty = false,
                     images = listOf(
                         CoffeeBeanImage(
-                            id = CoffeeBeanImageId("00000000-0000-4000-${String.format("%04d", index)}-000000000099"),
+                            id = CoffeeBeanImageId("00000000-0000-4000-${String.format(Locale.ROOT, "%04d", index)}-000000000099"),
                             type = CoffeeBeanImageType.MAIN,
                             imageUrl = ImageUrl("https://example.com/bean-$index.jpg"),
                         ),
                     ),
                     tastes = listOf(
                         CoffeeBeanTaste(
-                            id = CoffeeBeanTasteId("00000000-0000-4001-${String.format("%04d", index)}-000000000099"),
+                            id = CoffeeBeanTasteId("00000000-0000-4001-${String.format(Locale.ROOT, "%04d", index)}-000000000099"),
                             tasteId = TasteId("00000000-0000-4000-8000-000000000101"),
                             evaluationValue = 3,
                         ),
@@ -311,14 +312,14 @@ class CoffeeBeanRepositoryImplTest {
                     isSpecialty = false,
                     images = listOf(
                         CoffeeBeanImage(
-                            id = CoffeeBeanImageId("00000000-0000-4000-${String.format("%04d", index)}-000000000099"),
+                            id = CoffeeBeanImageId("00000000-0000-4000-${String.format(Locale.ROOT, "%04d", index)}-000000000099"),
                             type = CoffeeBeanImageType.MAIN,
                             imageUrl = ImageUrl("https://example.com/bean-$index.jpg"),
                         ),
                     ),
                     tastes = listOf(
                         CoffeeBeanTaste(
-                            id = CoffeeBeanTasteId("00000000-0000-4001-${String.format("%04d", index)}-000000000099"),
+                            id = CoffeeBeanTasteId("00000000-0000-4001-${String.format(Locale.ROOT, "%04d", index)}-000000000099"),
                             tasteId = TasteId("00000000-0000-4000-8000-000000000101"),
                             evaluationValue = 3,
                         ),
