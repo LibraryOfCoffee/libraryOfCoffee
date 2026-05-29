@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import BeanDetailModal from "../_components/BeanDetailModal/beanDetailModal";
-import type { BeanDetail } from "../_lib/beanData";
+import type { BeanDetail } from "../_lib/coffeeBeanApi";
 import {
   groupPlansByGram,
   type PlanGroup,

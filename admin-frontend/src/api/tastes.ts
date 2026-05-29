@@ -10,16 +10,20 @@ export type TasteListItem = {
 };
 
 export async function fetchTastes(): Promise<TasteListItem[]> {
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get("accessToken")?.value ?? "";
+  try {
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get("accessToken")?.value ?? "";
 
-  const response = await fetch(`${API_BASE_URL}/api/admin/tastes`, {
-    headers: { Authorization: `Bearer ${accessToken}` },
-  });
+    const response = await fetch(`${API_BASE_URL}/api/admin/tastes`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
 
-  if (!response.ok) {
-    throw new Error("テイスト一覧の取得に失敗しました");
+    if (!response.ok) {
+      return [];
+    }
+
+    return response.json() as Promise<TasteListItem[]>;
+  } catch {
+    return [];
   }
-
-  return response.json() as Promise<TasteListItem[]>;
 }

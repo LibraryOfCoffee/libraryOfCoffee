@@ -3,7 +3,7 @@
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import type { PlanDetail } from "../../_lib/planData";
+import type { PlanDetail } from "../../_lib/planApi";
 import PricingCard from "./pricingCard";
 import styles from "./pricingSection.module.css";
 import "swiper/css";

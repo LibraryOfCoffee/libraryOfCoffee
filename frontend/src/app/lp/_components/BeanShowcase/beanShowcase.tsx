@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { BeanDetail } from "../../_lib/beanData";
+import type { BeanDetail } from "../../_lib/coffeeBeanApi";
 import { getPlanPagePath } from "../../_lib/purchaseLinkUtil";
 import BeanCard from "../BeanCard/beanCard";
 import BeanDetailModal from "../BeanDetailModal/beanDetailModal";
@@ -21,6 +21,16 @@ const ROASTER_PREFECTURES: Record<string, string> = {
   "FIVE COFFEE STAND&ROASTERY": "愛知県",
 };
 
+const KANTO_PREFECTURES = new Set([
+  "東京都",
+  "神奈川県",
+  "埼玉県",
+  "千葉県",
+  "茨城県",
+  "栃木県",
+  "群馬県",
+]);
+
 const PREVIEW_COUNT = 6;
 
 interface BeanShowcaseProps {
@@ -35,7 +45,13 @@ export default function BeanShowcase({ beans }: BeanShowcaseProps) {
   const [loading, setLoading] = useState(false);
 
   const prefectures = Array.from(
-    new Set(beans.map((b) => ROASTER_PREFECTURES[b.roaster]).filter(Boolean)),
+    new Set(
+      beans
+        .map((b) => ROASTER_PREFECTURES[b.roaster])
+        .filter(
+          (pref): pref is string => !!pref && KANTO_PREFECTURES.has(pref),
+        ),
+    ),
   );
   const countries = Array.from(new Set(beans.map((b) => b.name)));
   const roastLevels = Array.from(new Set(beans.map((b) => b.tag)));

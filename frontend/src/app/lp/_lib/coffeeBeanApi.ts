@@ -1,4 +1,29 @@
-import type { BeanDetail } from "./beanData";
+export type TasteProfile = {
+  label: string;
+  value: number;
+};
+
+export interface BeanDetail {
+  id: string;
+  imageSrc: string;
+  tag: string;
+  tagColor: string;
+  name: string;
+  subName: string;
+  region: string;
+  description: string;
+  detailDescription: string;
+  origin: string;
+  farm: string;
+  roastLevel: string;
+  processing: string;
+  roaster: string;
+  roasterLink: string;
+  tasteProfile: TasteProfile[];
+  isSpecialty: boolean;
+}
+
+export const SPECIALTY_TAG_COLOR = "#C4972A";
 
 type TasteProfileApiItem = {
   name: string;

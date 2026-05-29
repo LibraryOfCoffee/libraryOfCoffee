@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect } from "react";
 import { LuCrown, LuPlus, LuX } from "react-icons/lu";
-import { type BeanDetail, SPECIALTY_TAG_COLOR } from "../../_lib/beanData";
+import { type BeanDetail, SPECIALTY_TAG_COLOR } from "../../_lib/coffeeBeanApi";
 import styles from "./beanDetailModal.module.css";
 
 interface BeanDetailModalProps {

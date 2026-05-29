@@ -1,5 +1,5 @@
 import { LuCheck, LuChevronRight } from "react-icons/lu";
-import { formatPrice, type PlanDetail } from "../../_lib/planData";
+import { formatPrice, type PlanDetail } from "../../_lib/planApi";
 import LinkWithLoading from "../LinkWithLoading/linkWithLoading";
 import styles from "./pricingSection.module.css";
 

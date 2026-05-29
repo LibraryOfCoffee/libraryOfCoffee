@@ -1,5 +1,5 @@
 import { LuCheck } from "react-icons/lu";
-import { formatPrice, type PlanDetail } from "../../_lib/planData";
+import { formatPrice, type PlanDetail } from "../../_lib/planApi";
 import styles from "./planCard.module.css";
 
 interface PlanCardProps {

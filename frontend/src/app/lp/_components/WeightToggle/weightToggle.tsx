@@ -1,6 +1,6 @@
 "use client";
 
-import { WEIGHT_OPTIONS, type WeightGrams } from "../../_lib/planData";
+import { WEIGHT_OPTIONS, type WeightGrams } from "../../_lib/planApi";
 import styles from "./weightToggle.module.css";
 
 interface WeightToggleProps {
