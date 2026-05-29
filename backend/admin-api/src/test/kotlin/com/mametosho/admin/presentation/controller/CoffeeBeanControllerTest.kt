@@ -18,9 +18,6 @@ import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import com.mametosho.domain.model.coffeebean.RoastLevel
 import com.mametosho.domain.model.coffeebean.ShopifyBeanId
 import com.mametosho.domain.model.shop.ShopId
-import com.mametosho.domain.model.taste.Taste
-import com.mametosho.domain.model.taste.TasteId
-import com.mametosho.domain.repository.TasteRepository
 import org.junit.jupiter.api.Nested
 import org.springframework.http.HttpStatus
 import org.springframework.web.multipart.MultipartFile
@@ -67,10 +64,6 @@ class CoffeeBeanControllerTest {
 
     private val fakeImageStorageService = FakeImageStorageService
 
-    private val fakeTasteRepository = object : TasteRepository {
-        override fun findByName(name: String): Taste? = null
-    }
-
     private val sampleListResult = PagedResult(
         items = listOf(
             CoffeeBeanListResult(
@@ -115,14 +108,14 @@ class CoffeeBeanControllerTest {
         val fakeListUsecase = object : ListCoffeeBeansUsecase(fakeQueryService) {
             override fun execute(page: Int, size: Int): PagedResult<CoffeeBeanListResult> = listResult
         }
-        val fakeCreateUsecase = object : CreateCoffeeBeanUsecase(fakeRepository, fakeImageStorageService, fakeTasteRepository) {
+        val fakeCreateUsecase = object : CreateCoffeeBeanUsecase(fakeRepository, fakeImageStorageService) {
             override fun execute(
                 request: CreateCoffeeBeanRequest,
                 imageFiles: List<MultipartFile>,
                 imageTypes: List<String>,
             ): CoffeeBean = coffeeBean
         }
-        val fakeUpdateUsecase = object : UpdateCoffeeBeanUsecase(fakeRepository, fakeImageStorageService, fakeTasteRepository) {
+        val fakeUpdateUsecase = object : UpdateCoffeeBeanUsecase(fakeRepository, fakeImageStorageService) {
             override fun execute(
                 id: String,
                 request: UpdateCoffeeBeanRequest,

@@ -602,6 +602,7 @@ function LibraryCard({
               alt={bean.name}
               fill
               sizes="72px"
+              unoptimized
               className={styles.libCardImg}
             />
           )}

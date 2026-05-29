@@ -50,6 +50,7 @@ export default function BeanCard({
               alt={name}
               fill
               sizes="72px"
+              unoptimized
               className={styles.imgInner}
             />
           )}

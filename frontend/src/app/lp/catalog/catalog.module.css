@@ -98,19 +98,6 @@
   color: var(--mt-ink);
 }
 
-.planSummaryPrice {
-  font-family: var(--mt-font-en);
-  font-size: 13px;
-  color: var(--mt-ink);
-  margin-left: 2px;
-}
-
-.planSummaryUnit {
-  font-size: 9px;
-  color: var(--mt-ink-3);
-  margin-left: 1px;
-}
-
 .planSummaryChange {
   font-size: 11px;
   color: var(--mt-ink-3);
@@ -505,16 +492,6 @@
   cursor: pointer;
 }
 
-.filterLabelText {
-  font-family: var(--mt-font-en);
-  font-size: 9px;
-  letter-spacing: 0.18em;
-  color: var(--mt-ink-3);
-  text-transform: uppercase;
-  margin-bottom: 4px;
-  white-space: nowrap;
-}
-
 .filterSelectWrap {
   position: relative;
   background: var(--mt-surface);
@@ -794,9 +771,6 @@
   border-radius: 3px;
   cursor: pointer;
   transition: all 0.15s;
-}
-
-.libCardToggle {
   color: var(--mt-ink-2);
   border: 0.5px solid var(--mt-line);
   background: transparent;

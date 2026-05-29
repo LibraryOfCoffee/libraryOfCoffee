@@ -5,10 +5,7 @@ import com.mametosho.admin.test.FakeImageStorageService
 import com.mametosho.domain.model.coffeebean.CoffeeBean
 import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import com.mametosho.domain.model.coffeebean.RoastLevel
-import com.mametosho.domain.model.taste.Taste
-import com.mametosho.domain.model.taste.TasteId
 import com.mametosho.domain.repository.CoffeeBeanRepository
-import com.mametosho.domain.repository.TasteRepository
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
@@ -29,19 +26,7 @@ class CreateCoffeeBeanUsecaseTest {
         override fun deleteById(id: com.mametosho.domain.model.coffeebean.CoffeeBeanId) = Unit
     }
 
-    private val fakeTasteRepository = object : TasteRepository {
-        private val tastes = mapOf(
-            "酸味" to Taste(TasteId("00000000-0000-4000-8000-000000000041"), "酸味"),
-            "苦味" to Taste(TasteId("00000000-0000-4000-8000-000000000042"), "苦味"),
-            "甘味" to Taste(TasteId("00000000-0000-4000-8000-000000000043"), "甘味"),
-            "コク" to Taste(TasteId("00000000-0000-4000-8000-000000000044"), "コク"),
-            "香り" to Taste(TasteId("00000000-0000-4000-8000-000000000045"), "香り"),
-        )
-
-        override fun findByName(name: String): Taste? = tastes[name]
-    }
-
-    private val usecase = CreateCoffeeBeanUsecase(fakeRepository, FakeImageStorageService, fakeTasteRepository)
+    private val usecase = CreateCoffeeBeanUsecase(fakeRepository, FakeImageStorageService)
 
     private fun createRequest(
         shopId: String = "00000000-0000-4000-8000-000000000001",
@@ -55,7 +40,7 @@ class CreateCoffeeBeanUsecaseTest {
         isSpecialty: Boolean = true,
         tastes: List<CreateCoffeeBeanRequest.TasteRequest> = listOf(
             CreateCoffeeBeanRequest.TasteRequest(
-                tasteName = "酸味",
+                tasteId = "00000000-0000-4000-8000-000000000041",
                 evaluationValue = 3,
             ),
         ),
@@ -170,13 +155,13 @@ class CreateCoffeeBeanUsecaseTest {
         }
 
         @Test
-        fun `存在しないテイスト名の場合は例外が発生する`() {
-            assertThrows<IllegalStateException> {
+        fun `不正なテイストIDの場合は例外が発生する`() {
+            assertThrows<IllegalArgumentException> {
                 usecase.execute(
                     createRequest(
                         tastes = listOf(
                             CreateCoffeeBeanRequest.TasteRequest(
-                                tasteName = "存在しないテイスト",
+                                tasteId = "invalid-uuid",
                                 evaluationValue = 3,
                             ),
                         ),

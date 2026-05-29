@@ -36,8 +36,8 @@ data class UpdateCoffeeBeanRequest(
 ) {
     @Schema(description = "テイスト評価リクエスト")
     data class TasteRequest(
-        @Schema(description = "テイスト名", example = "酸味")
-        val tasteName: String,
+        @Schema(description = "テイストID", example = "00000000-0000-4000-8000-000000000041")
+        val tasteId: String,
 
         @Schema(description = "評価値（0-5）", example = "3")
         val evaluationValue: Int,
