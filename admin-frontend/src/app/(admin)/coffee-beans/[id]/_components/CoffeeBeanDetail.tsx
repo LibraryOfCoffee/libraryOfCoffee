@@ -16,7 +16,7 @@ export function CoffeeBeanDetail({
 }: {
   coffeeBean: CoffeeBeanDetailType;
   initialShops: { id: string; name: string }[];
-  tastes: TasteListItem[];
+  tastes: TasteListItem[] | null;
 }) {
   return (
     <div className={styles.container}>

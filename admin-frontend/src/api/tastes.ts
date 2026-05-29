@@ -9,7 +9,11 @@ export type TasteListItem = {
   name: string;
 };
 
-export async function fetchTastes(): Promise<TasteListItem[]> {
+/**
+ * テイスト一覧を取得する。
+ * APIエラー時は null を返す（空配列 [] との区別のため）。
+ */
+export async function fetchTastes(): Promise<TasteListItem[] | null> {
   try {
     const cookieStore = await cookies();
     const accessToken = cookieStore.get("accessToken")?.value ?? "";
@@ -19,11 +23,11 @@ export async function fetchTastes(): Promise<TasteListItem[]> {
     });
 
     if (!response.ok) {
-      return [];
+      return null;
     }
 
     return response.json() as Promise<TasteListItem[]>;
   } catch {
-    return [];
+    return null;
   }
 }
