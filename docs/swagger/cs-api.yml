@@ -73,24 +73,8 @@ paths:
       tags:
       - Plan
       summary: プラン一覧取得
-      description: プランの一覧を取得します。typeパラメータで定期便/単品の絞り込み、gramWeightパラメータでグラム数の絞り込みができます。
+      description: プランの一覧を取得します。
       operationId: listPlans
-      parameters:
-      - name: type
-        in: query
-        description: プラン種別（SUBSCRIPTION / SINGLE）で絞り込み
-        required: false
-        schema:
-          type: string
-        example: SUBSCRIPTION
-      - name: gramWeight
-        in: query
-        description: 1種あたりのグラム数（30/60/90）で絞り込み
-        required: false
-        schema:
-          type: integer
-          format: int32
-        example: 30
       responses:
         "200":
           description: 取得成功
@@ -220,9 +204,38 @@ paths:
         "200":
           description: 取得成功
           content:
-            '*/*':
+            application/json:
               schema:
                 $ref: "#/components/schemas/PagedResponseCoffeeBeanListResponse"
+              examples:
+                success:
+                  summary: 取得成功例
+                  description: success
+                  value:
+                    items:
+                    - id: 00000000-0000-4000-8000-000000000071
+                      name: エチオピア イルガチェフェ G1
+                      origin: エチオピア
+                      roastLevel: LIGHT
+                      processingMethod: WASHED
+                      isSpecialty: true
+                      description: 花のような華やかなフレーバーと、柑橘系の明るい酸味が特徴。
+                      imageUrl: https://example.com/images/ethiopia.jpg
+                      shopName: 珈琲工房 まめとしょ
+                      tasteProfiles:
+                      - name: 酸味
+                        value: 5
+                      - name: 苦味
+                        value: 1
+                      - name: 甘味
+                        value: 3
+                      - name: コク
+                        value: 3
+                      - name: 香り
+                        value: 5
+                    totalCount: 1
+                    page: 0
+                    size: 20
 components:
   schemas:
     ShopListResponse:
@@ -288,83 +301,3 @@ components:
           type: string
           description: プラン種別（SUBSCRIPTION / SINGLE）
           example: SUBSCRIPTION
-    CoffeeBeanListResponse:
-      type: object
-      description: 珈琲豆一覧アイテム
-      properties:
-        id:
-          type: string
-          description: 珈琲豆ID
-          example: 00000000-0000-4000-8000-000000000071
-        name:
-          type: string
-          description: 珈琲豆名
-          example: エチオピア イルガチェフェ G1
-        origin:
-          type: string
-          description: 産地
-          example: エチオピア
-        roastLevel:
-          type: string
-          description: 焙煎度
-          example: LIGHT
-        processingMethod:
-          type: string
-          description: 精製方法
-          example: WASHED
-        description:
-          type: string
-          description: 説明文
-          example: フルーティーな香りと明るい酸味が特徴の豆です。
-        imageUrl:
-          type: string
-          description: メイン画像URL
-          example: https://example.com/images/coffee.jpg
-        shopName:
-          type: string
-          description: ロースター名
-          example: 山田珈琲焙煎所
-        tasteProfiles:
-          type: array
-          description: テイストプロファイル一覧
-          items:
-            $ref: "#/components/schemas/TasteProfileResponse"
-        specialty:
-          type: boolean
-    PagedResponseCoffeeBeanListResponse:
-      type: object
-      description: ページネーション付きレスポンス
-      properties:
-        items:
-          type: array
-          description: アイテム一覧
-          items:
-            $ref: "#/components/schemas/CoffeeBeanListResponse"
-        totalCount:
-          type: integer
-          format: int64
-          description: 全件数
-          example: 42
-        page:
-          type: integer
-          format: int32
-          description: 現在のページ番号（0始まり）
-          example: 0
-        size:
-          type: integer
-          format: int32
-          description: 1ページあたりの件数
-          example: 20
-    TasteProfileResponse:
-      type: object
-      description: テイストプロファイル
-      properties:
-        name:
-          type: string
-          description: テイスト名
-          example: 酸味
-        value:
-          type: integer
-          format: int32
-          description: 評価値
-          example: 60

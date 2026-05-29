@@ -7,6 +7,9 @@ import com.mametosho.domain.model.coffeebean.RoastLevel
 import com.mametosho.domain.model.shop.Prefecture
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.ExampleObject
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -32,6 +35,45 @@ class CoffeeBeanController(
             ApiResponse(
                 responseCode = "200",
                 description = "取得成功",
+                content = [
+                    Content(
+                        mediaType = "application/json",
+                        schema = Schema(ref = "#/components/schemas/PagedResponseCoffeeBeanListResponse"),
+                        examples = [
+                            ExampleObject(
+                                name = "success",
+                                summary = "取得成功例",
+                                value = """
+                                    {
+                                      "items": [
+                                        {
+                                          "id": "00000000-0000-4000-8000-000000000071",
+                                          "name": "エチオピア イルガチェフェ G1",
+                                          "origin": "エチオピア",
+                                          "roastLevel": "LIGHT",
+                                          "processingMethod": "WASHED",
+                                          "isSpecialty": true,
+                                          "description": "花のような華やかなフレーバーと、柑橘系の明るい酸味が特徴。",
+                                          "imageUrl": "https://example.com/images/ethiopia.jpg",
+                                          "shopName": "珈琲工房 まめとしょ",
+                                          "tasteProfiles": [
+                                            { "name": "酸味", "value": 5 },
+                                            { "name": "苦味", "value": 1 },
+                                            { "name": "甘味", "value": 3 },
+                                            { "name": "コク", "value": 3 },
+                                            { "name": "香り", "value": 5 }
+                                          ]
+                                        }
+                                      ],
+                                      "totalCount": 1,
+                                      "page": 0,
+                                      "size": 20
+                                    }
+                                """,
+                            ),
+                        ],
+                    ),
+                ],
             ),
         ],
     )

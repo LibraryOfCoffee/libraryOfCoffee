@@ -10,8 +10,8 @@ class PlanQueryServiceImpl(
     private val planQueryMapper: PlanQueryMapper,
 ) : PlanQueryService {
 
-    override fun findList(type: String?, gramWeight: Int?): List<PlanListResult> {
-        val rows = planQueryMapper.findListRows(type, gramWeight)
+    override fun findList(): List<PlanListResult> {
+        val rows = planQueryMapper.findListRows()
         return rows.map { row ->
             PlanListResult(
                 id = row.id,

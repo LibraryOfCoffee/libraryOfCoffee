@@ -3,7 +3,6 @@ package com.mametosho.cs.presentation.controller
 import com.mametosho.cs.application.query.PlanQueryService
 import com.mametosho.cs.presentation.dto.response.PlanListResponse
 import io.swagger.v3.oas.annotations.Operation
-import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.ExampleObject
@@ -14,7 +13,6 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -26,7 +24,7 @@ class PlanController(
     @GetMapping
     @Operation(
         summary = "プラン一覧取得",
-        description = "プランの一覧を取得します。typeパラメータで定期便/単品の絞り込み、gramWeightパラメータでグラム数の絞り込みができます。",
+        description = "プランの一覧を取得します。",
     )
     @ApiResponses(
         value = [
@@ -70,13 +68,8 @@ class PlanController(
             ),
         ],
     )
-    fun listPlans(
-        @Parameter(description = "プラン種別（SUBSCRIPTION / SINGLE）で絞り込み", example = "SUBSCRIPTION")
-        @RequestParam(required = false) type: String?,
-        @Parameter(description = "1種あたりのグラム数（30/60/90）で絞り込み", example = "30")
-        @RequestParam(required = false) gramWeight: Int?,
-    ): ResponseEntity<List<PlanListResponse>> {
-        val results = planQueryService.findList(type, gramWeight)
+    fun listPlans(): ResponseEntity<List<PlanListResponse>> {
+        val results = planQueryService.findList()
         return ResponseEntity.ok(results.map { PlanListResponse.from(it) })
     }
 }
