@@ -8,7 +8,14 @@ import java.util.UUID
  *
  * 珈琲豆を提供する店舗の情報を管理する。Shopifyのショップと1対1で紐づく。
  *
- * @property shopifyShopId システム内で一意
+ * @property id 店舗ID
+ * @property shopifyShopId ShopifyのショップID。システム内で一意
+ * @property name 店舗名
+ * @property introduction 店舗紹介
+ * @property particular こだわり
+ * @property shopUrl 店舗URL
+ * @property prefecture 都道府県
+ * @property images 店舗画像一覧
  */
 @Suppress("MagicNumber")
 data class Shop(
@@ -44,6 +51,14 @@ data class Shop(
      * 店舗情報を更新する。
      *
      * ShopIdは変更せず、それ以外の項目を置換する。ShopImageIdはUUIDv4を自動再生成する。
+     *
+     * @param shopifyShopId ShopifyのショップID
+     * @param name 店舗名
+     * @param introduction 店舗紹介
+     * @param particular こだわり
+     * @param shopUrl 店舗URL
+     * @param images 画像情報（種別とURL）のリスト
+     * @return 更新された[Shop]
      */
     fun update(
         shopifyShopId: String,
@@ -75,6 +90,14 @@ data class Shop(
          * 新しい店舗を生成する。
          *
          * IDはサーバー側でUUIDv4を自動生成する。
+         *
+         * @param shopifyShopId ShopifyのショップID
+         * @param name 店舗名
+         * @param introduction 店舗紹介
+         * @param particular こだわり
+         * @param shopUrl 店舗URL
+         * @param images 画像情報（種別とURL）のリスト
+         * @return 生成された[Shop]
          */
         fun create(
             shopifyShopId: String,

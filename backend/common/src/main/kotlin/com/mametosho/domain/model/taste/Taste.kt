@@ -5,7 +5,8 @@ package com.mametosho.domain.model.taste
  *
  * 「酸味」「苦味」「コク」など、珈琲豆のテイスト評価の種別を管理する。
  *
- * @property name システム内で一意
+ * @property id テイストID
+ * @property name テイスト名。システム内で一意
  */
 @Suppress("MagicNumber")
 data class Taste(

@@ -5,11 +5,14 @@ package com.mametosho.domain.model.plan
  *
  * Shopifyのプランと1対1で紐づく。定期便（SUBSCRIPTION）と単品（SINGLE）の2種別がある。
  *
- * @property shopifyPlanId システム内で一意
+ * @property id プランID
+ * @property shopifyPlanId ShopifyのプランID。システム内で一意
  * @property label プラン表示名（例: はじめて）
- * @property gramWeight 30 / 60 / 90 のいずれか
- * @property beanQuantity 3 / 4 / 5 のいずれか
- * @property price 0以上
+ * @property gramWeight 1種あたりのグラム数（30 / 60 / 90 のいずれか）
+ * @property beanQuantity 豆の種類数（3 / 4 / 5 のいずれか）
+ * @property price 価格。0以上
+ * @property type プラン種別（SUBSCRIPTION / SINGLE）
+ * @property isRecommended おすすめバッジ
  */
 data class Plan(
     val id: PlanId,
