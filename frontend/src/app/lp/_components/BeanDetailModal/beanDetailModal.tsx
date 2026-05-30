@@ -10,14 +10,20 @@ import styles from "./beanDetailModal.module.css";
 type BeanDetailModalProps = {
   bean: BeanDetail;
   onClose: () => void;
-} & ({ selectHref: string; onSelect?: never } | { onSelect: (bean: BeanDetail) => void; selectHref?: never });
+} & (
+  | { selectHref: string; onSelect?: never }
+  | { onSelect: (bean: BeanDetail) => void; selectHref?: never }
+);
 
 export default function BeanDetailModal({
   bean,
   onClose,
   selectHref,
   onSelect,
-}: BeanDetailModalProps & { selectHref?: string; onSelect?: (bean: BeanDetail) => void }) {
+}: BeanDetailModalProps & {
+  selectHref?: string;
+  onSelect?: (bean: BeanDetail) => void;
+}) {
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -142,7 +148,10 @@ export default function BeanDetailModal({
               <LuPlus size={18} />
             </button>
           ) : (
-            <LinkWithLoading href={selectHref!} className={styles.selectBtn}>
+            <LinkWithLoading
+              href={selectHref ?? ""}
+              className={styles.selectBtn}
+            >
               この豆を選ぶ
               <LuPlus size={18} />
             </LinkWithLoading>

@@ -30,6 +30,7 @@ class FindCoffeeBeansUsecaseTest {
                 imageUrl = "https://example.com/images/test.jpg",
                 shopName = "テスト珈琲焙煎所",
                 shopPrefecture = "TOKYO",
+                shopUrl = "https://example.com/shop/test",
                 tasteProfiles = listOf(
                     CoffeeBeanSummaryResult.TasteProfileResult(name = "酸味", value = 60),
                 ),
