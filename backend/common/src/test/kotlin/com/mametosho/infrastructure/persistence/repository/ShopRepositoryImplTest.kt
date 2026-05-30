@@ -196,8 +196,8 @@ class ShopRepositoryImplTest {
 
             val result = shopRepositoryImpl.findAll(page = 0, size = 1)
 
-            assertEquals(1, result.items.size)
-            assertEquals(2L, result.totalCount)
+            assertEquals(1, result.first.size)
+            assertEquals(2L, result.second)
         }
 
         @Test
@@ -206,8 +206,8 @@ class ShopRepositoryImplTest {
 
             val result = shopRepositoryImpl.findAll(page = 0, size = 20, name = "テスト")
 
-            assertEquals(1, result.items.size)
-            assertEquals("テスト店舗", result.items[0].name)
+            assertEquals(1, result.first.size)
+            assertEquals("テスト店舗", result.first[0].name)
         }
 
         @Test
@@ -216,16 +216,16 @@ class ShopRepositoryImplTest {
 
             val result = shopRepositoryImpl.findAll(page = 0, size = 20)
 
-            assertEquals(1, result.items.size)
-            assertEquals(2, result.items[0].images.size)
+            assertEquals(1, result.first.size)
+            assertEquals(2, result.first[0].images.size)
         }
 
         @Test
         fun `件数が0件の場合は空リストを返す`() {
             val result = shopRepositoryImpl.findAll(page = 0, size = 20)
 
-            assertEquals(0, result.items.size)
-            assertEquals(0L, result.totalCount)
+            assertEquals(0, result.first.size)
+            assertEquals(0L, result.second)
         }
     }
 

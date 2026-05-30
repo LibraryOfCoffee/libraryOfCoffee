@@ -2,7 +2,7 @@ package com.mametosho.cs.infrastructure.persistence.query
 
 import com.mametosho.cs.application.query.CoffeeBeanQueryService
 import com.mametosho.cs.application.query.result.CoffeeBeanListResult
-import com.mametosho.domain.model.PagedResult
+import com.mametosho.cs.application.result.PagedResult
 import com.mametosho.cs.infrastructure.persistence.mybatis.mapper.CoffeeBeanQueryMapper
 import com.mametosho.domain.model.coffeebean.RoastLevel
 import com.mametosho.domain.model.shop.Prefecture

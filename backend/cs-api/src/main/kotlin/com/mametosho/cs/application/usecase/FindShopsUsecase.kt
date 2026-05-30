@@ -1,6 +1,6 @@
 package com.mametosho.cs.application.usecase
 
-import com.mametosho.domain.model.PagedResult
+import com.mametosho.cs.application.result.PagedResult
 import com.mametosho.domain.model.shop.Shop
 import com.mametosho.domain.repository.ShopRepository
 import org.springframework.stereotype.Service
@@ -11,5 +11,8 @@ class FindShopsUsecase(
     private val shopRepository: ShopRepository,
 ) {
     @Transactional(readOnly = true)
-    open fun execute(page: Int, size: Int): PagedResult<Shop> = shopRepository.findAll(page, size)
+    open fun execute(page: Int, size: Int): PagedResult<Shop> {
+        val (shops, totalCount) = shopRepository.findAll(page, size)
+        return PagedResult(shops, totalCount, page, size)
+    }
 }

@@ -5,7 +5,7 @@ import com.mametosho.domain.model.shop.ShopImageType
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "店舗一覧アイテム")
-data class ShopListResponse(
+data class ShopResponse(
     @Schema(description = "店舗ID", example = "00000000-0000-4000-8000-000000000031")
     val id: String,
     @Schema(description = "店舗名", example = "珈琲工房 まめとしょ")
@@ -20,7 +20,7 @@ data class ShopListResponse(
     val logoImageUrl: String,
 ) {
     companion object {
-        fun from(shop: Shop): ShopListResponse = ShopListResponse(
+        fun from(shop: Shop): ShopResponse = ShopResponse(
             id = shop.id.value,
             name = shop.name,
             introduction = shop.introduction ?: "",

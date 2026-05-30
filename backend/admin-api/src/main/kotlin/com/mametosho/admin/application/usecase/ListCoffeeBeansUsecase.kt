@@ -2,7 +2,7 @@ package com.mametosho.admin.application.usecase
 
 import com.mametosho.admin.application.query.CoffeeBeanQueryService
 import com.mametosho.admin.application.query.result.CoffeeBeanListResult
-import com.mametosho.domain.model.PagedResult
+import com.mametosho.admin.application.result.PagedResult
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

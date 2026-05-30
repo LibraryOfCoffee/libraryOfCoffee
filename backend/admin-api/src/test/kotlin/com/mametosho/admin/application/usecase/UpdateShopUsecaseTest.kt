@@ -9,7 +9,6 @@ import com.mametosho.domain.model.shop.ShopImageId
 import com.mametosho.domain.model.shop.ShopImageType
 import com.mametosho.domain.model.shop.Prefecture
 import com.mametosho.domain.model.shop.ShopifyShopId
-import com.mametosho.domain.model.PagedResult
 import com.mametosho.domain.repository.ShopRepository
 import com.mametosho.admin.test.FakeImageStorageService
 import org.junit.jupiter.api.Nested
@@ -57,7 +56,7 @@ class UpdateShopUsecaseTest {
             return if (id.value == existingShopId) existingShop else null
         }
 
-        override fun findAll(page: Int, size: Int, name: String?): PagedResult<Shop> = PagedResult(emptyList(), 0L, page, size)
+        override fun findAll(page: Int, size: Int, name: String?): Pair<List<Shop>, Long> = Pair(emptyList(), 0L)
         override fun deleteById(id: ShopId) = Unit
     }
 

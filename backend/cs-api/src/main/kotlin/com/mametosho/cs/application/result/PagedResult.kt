@@ -1,4 +1,4 @@
-package com.mametosho.domain.model
+package com.mametosho.cs.application.result
 
 data class PagedResult<T>(
     val items: List<T>,

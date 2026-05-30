@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Nested
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class CoffeeBeanListResponseTest {
+class CoffeeBeanResponseTest {
 
     private fun createResult(
         isSpecialty: Boolean = true,
@@ -29,8 +29,8 @@ class CoffeeBeanListResponseTest {
     @Nested
     inner class 正常系変換 {
         @Test
-        fun `CoffeeBeanListResultからCoffeeBeanListResponseに正しく変換される`() {
-            val response = CoffeeBeanListResponse.from(createResult())
+        fun `CoffeeBeanListResultからCoffeeBeanResponseに正しく変換される`() {
+            val response = CoffeeBeanResponse.from(createResult())
 
             assertEquals("00000000-0000-4000-8000-000000000001", response.id)
             assertEquals("テストコーヒー豆", response.name)
@@ -50,7 +50,7 @@ class CoffeeBeanListResponseTest {
 
         @Test
         fun `isSpecialtyがfalseの場合も正しく変換される`() {
-            val response = CoffeeBeanListResponse.from(createResult(isSpecialty = false))
+            val response = CoffeeBeanResponse.from(createResult(isSpecialty = false))
 
             assertEquals(false, response.isSpecialty)
         }

@@ -4,7 +4,7 @@ import com.mametosho.cs.application.query.result.CoffeeBeanListResult
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "珈琲豆一覧アイテム")
-data class CoffeeBeanListResponse(
+data class CoffeeBeanResponse(
     @Schema(description = "珈琲豆ID", example = "00000000-0000-4000-8000-000000000071")
     val id: String,
     @Schema(description = "珈琲豆名", example = "エチオピア イルガチェフェ G1")
@@ -39,7 +39,7 @@ data class CoffeeBeanListResponse(
     )
 
     companion object {
-        fun from(result: CoffeeBeanListResult): CoffeeBeanListResponse = CoffeeBeanListResponse(
+        fun from(result: CoffeeBeanListResult): CoffeeBeanResponse = CoffeeBeanResponse(
             id = result.id,
             name = result.name,
             origin = result.origin,

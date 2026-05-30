@@ -3,7 +3,7 @@ package com.mametosho.admin.infrastructure.persistence.query
 import com.mametosho.admin.application.query.CoffeeBeanQueryService
 import com.mametosho.admin.application.query.result.CoffeeBeanDetailResult
 import com.mametosho.admin.application.query.result.CoffeeBeanListResult
-import com.mametosho.domain.model.PagedResult
+import com.mametosho.admin.application.result.PagedResult
 import com.mametosho.infrastructure.persistence.mybatis.mapper.CoffeeBeanMapper
 import org.springframework.stereotype.Service
 
