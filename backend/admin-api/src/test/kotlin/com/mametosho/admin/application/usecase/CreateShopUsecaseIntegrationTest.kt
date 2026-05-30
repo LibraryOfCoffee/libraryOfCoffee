@@ -1,36 +1,27 @@
 package com.mametosho.admin.application.usecase
 
 import com.mametosho.admin.presentation.dto.request.CreateShopRequest
-import com.mametosho.admin.test.FakeImageStorageService
-import com.mametosho.domain.service.ImageStorageService
+import com.mametosho.admin.test.FakeImageStorageConfig
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.context.TestConfiguration
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Primary
+import org.springframework.context.annotation.Import
 import org.springframework.jdbc.core.JdbcTemplate
+import org.springframework.mock.web.MockMultipartFile
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.DynamicPropertyRegistry
 import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.MySQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
-import org.springframework.mock.web.MockMultipartFile
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @SpringBootTest
 @Testcontainers
 @ActiveProfiles("test")
+@Import(FakeImageStorageConfig::class)
 class CreateShopUsecaseIntegrationTest {
-
-    @TestConfiguration
-    class TestConfig {
-        @Bean
-        @Primary
-        fun imageStorageService(): ImageStorageService = FakeImageStorageService
-    }
 
     companion object {
         @Container
