@@ -32,6 +32,30 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/admin/plans/{id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * プラン詳細取得
+     * @description 指定されたIDのプランの詳細情報を取得します。
+     */
+    get: operations["getPlan"];
+    /**
+     * プラン編集
+     * @description 指定されたIDのプランを編集します。全項目を置換します。
+     */
+    put: operations["updatePlan"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/admin/coffee-beans/{id}": {
     parameters: {
       query?: never;
@@ -128,6 +152,46 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/admin/tastes": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * テイスト一覧取得
+     * @description テイスト（酸味・苦味・甘味・コク・香りなど）の一覧を取得します。
+     */
+    get: operations["listTastes"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/admin/plans": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * プラン一覧取得
+     * @description プランの一覧をページネーション付きで取得します。プラン表示名による部分一致検索が可能です。
+     */
+    get: operations["listPlans"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -193,10 +257,60 @@ export interface components {
        */
       error?: string;
       /**
+       * @description エラーメッセージ
+       * @example tastes must not be empty
+       */
+      message?: string;
+      /**
        * @description リクエストパス
        * @example /api/admin/resources/00000000-0000-4000-8000-000000000099
        */
       path?: string;
+    };
+    /** @description プラン編集リクエスト */
+    UpdatePlanRequest: {
+      /**
+       * @description ShopifyのプランID
+       * @example test-plan-001
+       */
+      shopifyPlanId?: string;
+      /**
+       * @description プラン表示名
+       * @example 定番
+       */
+      label?: string;
+      /**
+       * Format: int32
+       * @description 1種あたりのグラム数（30 / 60 / 90）
+       * @example 60
+       */
+      gramWeight?: number;
+      /**
+       * Format: int32
+       * @description 豆の種類数（3 / 4 / 5）
+       * @example 4
+       */
+      beanQuantity?: number;
+      /**
+       * Format: int32
+       * @description 価格
+       * @example 3800
+       */
+      price?: number;
+      /**
+       * @description プラン種別（SUBSCRIPTION / SINGLE）
+       * @example SUBSCRIPTION
+       */
+      type?: string;
+      recommended?: boolean;
+    };
+    /** @description プラン編集レスポンス */
+    PlanResponse: {
+      /**
+       * @description プランID
+       * @example 00000000-0000-4000-8000-000000000024
+       */
+      id?: string;
     };
     /** @description テイスト評価リクエスト */
     TasteRequest: {
@@ -207,7 +321,7 @@ export interface components {
       tasteId?: string;
       /**
        * Format: int32
-       * @description 評価値
+       * @description 評価値（0-5）
        * @example 3
        */
       evaluationValue?: number;
@@ -435,6 +549,48 @@ export interface components {
       /** @description 画像一覧 */
       images?: components["schemas"]["ImageDetail"][];
     };
+    /** @description プラン詳細レスポンス */
+    PlanDetailResponse: {
+      /**
+       * @description プランID
+       * @example 00000000-0000-4000-8000-000000000024
+       */
+      id?: string;
+      /**
+       * @description ShopifyのプランID
+       * @example test-plan-001
+       */
+      shopifyPlanId?: string;
+      /**
+       * @description プラン表示名
+       * @example 定番
+       */
+      label?: string;
+      /**
+       * Format: int32
+       * @description 1種あたりのグラム数
+       * @example 60
+       */
+      gramWeight?: number;
+      /**
+       * Format: int32
+       * @description 豆の種類数
+       * @example 4
+       */
+      beanQuantity?: number;
+      /**
+       * Format: int32
+       * @description 価格
+       * @example 3800
+       */
+      price?: number;
+      /**
+       * @description プラン種別（SUBSCRIPTION / SINGLE）
+       * @example SUBSCRIPTION
+       */
+      type?: string;
+      recommended?: boolean;
+    };
     /** @description コーヒー豆詳細レスポンス */
     CoffeeBeanDetailResponse: {
       /**
@@ -495,6 +651,11 @@ export interface components {
        * @example 00000000-0000-4000-8000-000000000020
        */
       id?: string;
+      /**
+       * @description テイストマスタID
+       * @example 00000000-0000-4000-8000-000000000041
+       */
+      tasteId?: string;
       /**
        * @description テイスト名
        * @example 酸味
@@ -645,6 +806,98 @@ export interface operations {
         };
       };
       /** @description 関連するコーヒー豆が存在するため削除できません */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  getPlan: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /**
+         * @description プランID
+         * @example 00000000-0000-4000-8000-000000000024
+         */
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 取得成功 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PlanDetailResponse"];
+        };
+      };
+      /** @description プランが見つかりません */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": unknown;
+        };
+      };
+    };
+  };
+  updatePlan: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /**
+         * @description プランID
+         * @example 00000000-0000-4000-8000-000000000024
+         */
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdatePlanRequest"];
+      };
+    };
+    responses: {
+      /** @description 編集成功 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PlanResponse"];
+        };
+      };
+      /** @description バリデーションエラー */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description プランが見つかりません */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": unknown;
+        };
+      };
+      /** @description ShopifyプランIDが重複しています */
       409: {
         headers: {
           [name: string]: unknown;
@@ -970,6 +1223,62 @@ export interface operations {
       };
       /** @description 認証失敗 */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": unknown;
+        };
+      };
+    };
+  };
+  listTastes: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 取得成功 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": unknown;
+        };
+      };
+    };
+  };
+  listPlans: {
+    parameters: {
+      query?: {
+        /**
+         * @description ページ番号（0始まり）
+         * @example 0
+         */
+        page?: number;
+        /**
+         * @description 1ページあたりの件数
+         * @example 20
+         */
+        size?: number;
+        /**
+         * @description プラン表示名（部分一致検索）
+         * @example 定番
+         */
+        keyword?: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 取得成功 */
+      200: {
         headers: {
           [name: string]: unknown;
         };
