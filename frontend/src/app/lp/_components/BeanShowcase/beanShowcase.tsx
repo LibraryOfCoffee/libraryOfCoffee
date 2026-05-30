@@ -9,18 +9,6 @@ import LinkWithLoading from "../LinkWithLoading/linkWithLoading";
 import LoadingOverlay from "../LoadingOverlay/loadingOverlay";
 import styles from "./beanShowcase.module.css";
 
-const ROASTER_PREFECTURES: Record<string, string> = {
-  "+ninth coffee": "東京都",
-  "LUSH-COFFEE": "神奈川県",
-  "MOSHIMOSHI COFFEE": "東京都",
-  marucacoffee: "大阪府",
-  "Tama Coffee Roaster": "東京都",
-  "NORTH NODE COFFEE": "北海道",
-  ゆるり珈琲: "京都府",
-  "Black Sloth Coffee": "福岡県",
-  "FIVE COFFEE STAND&ROASTERY": "愛知県",
-};
-
 const KANTO_PREFECTURES = new Set([
   "東京都",
   "神奈川県",
@@ -47,7 +35,7 @@ export default function BeanShowcase({ beans }: BeanShowcaseProps) {
   const prefectures = Array.from(
     new Set(
       beans
-        .map((b) => ROASTER_PREFECTURES[b.roaster])
+        .map((b) => b.prefecture)
         .filter(
           (pref): pref is string => !!pref && KANTO_PREFECTURES.has(pref),
         ),
@@ -57,8 +45,7 @@ export default function BeanShowcase({ beans }: BeanShowcaseProps) {
   const roastLevels = Array.from(new Set(beans.map((b) => b.tag)));
 
   const filtered = beans.filter((b) => {
-    if (prefFilter && ROASTER_PREFECTURES[b.roaster] !== prefFilter)
-      return false;
+    if (prefFilter && b.prefecture !== prefFilter) return false;
     if (countryFilter && b.name !== countryFilter) return false;
     if (roastFilter && b.tag !== roastFilter) return false;
     return true;

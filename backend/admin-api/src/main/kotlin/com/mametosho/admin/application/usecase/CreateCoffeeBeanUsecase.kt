@@ -30,10 +30,6 @@ class CreateCoffeeBeanUsecase(
             imageTypes = imageTypes,
         )
 
-        val tastes = request.tastes.map { tasteRequest ->
-            tasteRequest.tasteId to tasteRequest.evaluationValue
-        }
-
         val coffeeBean = CoffeeBean.create(
             shopId = request.shopId,
             shopifyBeanId = request.shopifyBeanId,
@@ -45,7 +41,7 @@ class CreateCoffeeBeanUsecase(
             processingMethod = request.processingMethod,
             isSpecialty = request.isSpecialty,
             images = images,
-            tastes = tastes,
+            tastes = request.tastes.map { it.tasteId to it.evaluationValue },
             id = coffeeBeanId,
         )
         coffeeBeanRepository.save(coffeeBean)

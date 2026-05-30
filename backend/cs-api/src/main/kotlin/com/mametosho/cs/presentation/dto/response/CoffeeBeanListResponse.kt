@@ -23,6 +23,8 @@ data class CoffeeBeanListResponse(
     val imageUrl: String,
     @Schema(description = "ロースター名", example = "山田珈琲焙煎所")
     val shopName: String,
+    @Schema(description = "ロースターの都道府県", example = "TOKYO")
+    val shopPrefecture: String,
     @Schema(description = "テイストプロファイル一覧")
     val tasteProfiles: List<TasteProfileResponse>,
 ) {
@@ -45,6 +47,7 @@ data class CoffeeBeanListResponse(
             description = result.description,
             imageUrl = result.imageUrl,
             shopName = result.shopName,
+            shopPrefecture = result.shopPrefecture,
             tasteProfiles = result.tasteProfiles.map { taste ->
                 TasteProfileResponse(name = taste.name, value = taste.value)
             },

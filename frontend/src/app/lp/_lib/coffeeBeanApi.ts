@@ -19,6 +19,7 @@ export interface BeanDetail {
   processing: string;
   roaster: string;
   roasterLink: string;
+  prefecture: string;
   tasteProfile: TasteProfile[];
   isSpecialty: boolean;
 }
@@ -40,6 +41,7 @@ type CoffeeBeanApiItem = {
   description: string;
   imageUrl: string;
   shopName: string;
+  shopPrefecture: string;
   tasteProfiles: TasteProfileApiItem[];
 };
 
@@ -83,6 +85,7 @@ function toBeanDetail(item: CoffeeBeanApiItem): BeanDetail {
     processing: item.processingMethod,
     roaster: item.shopName,
     roasterLink: "",
+    prefecture: item.shopPrefecture,
     tasteProfile: item.tasteProfiles.map((t) => ({
       label: t.name,
       value: t.value,

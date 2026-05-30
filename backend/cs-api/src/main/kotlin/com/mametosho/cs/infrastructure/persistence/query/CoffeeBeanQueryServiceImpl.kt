@@ -38,6 +38,7 @@ class CoffeeBeanQueryServiceImpl(
                     description = first.description,
                     imageUrl = first.imageUrl,
                     shopName = first.shopName,
+                    shopPrefecture = first.shopPrefecture,
                     tasteProfiles = beanRows
                         .map { row ->
                             CoffeeBeanListResult.TasteProfileResult(

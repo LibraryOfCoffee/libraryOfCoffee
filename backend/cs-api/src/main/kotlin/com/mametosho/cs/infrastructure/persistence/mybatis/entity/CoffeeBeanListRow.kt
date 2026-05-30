@@ -10,6 +10,7 @@ data class CoffeeBeanListRow(
     val description: String,
     val imageUrl: String,
     val shopName: String,
+    val shopPrefecture: String,
     val tasteName: String,        // INNER JOIN → non-null
     val evaluationValue: Int,     // INNER JOIN → non-null
 )

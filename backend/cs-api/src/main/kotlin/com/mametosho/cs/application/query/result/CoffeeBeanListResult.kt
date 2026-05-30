@@ -10,6 +10,7 @@ data class CoffeeBeanListResult(
     val description: String,
     val imageUrl: String,
     val shopName: String,
+    val shopPrefecture: String,
     val tasteProfiles: List<TasteProfileResult>,
 ) {
     data class TasteProfileResult(
