@@ -6,6 +6,8 @@ import {
   type PlanGroup,
   type WeightGrams,
 } from "../../_lib/planApi";
+import { getPlanPagePath } from "../../_lib/purchaseLinkUtil";
+import LinkWithLoading from "../LinkWithLoading/linkWithLoading";
 import styles from "./pricingSection.module.css";
 
 const GRAM_LABELS: Record<number, string> = {
@@ -48,7 +50,11 @@ export default function PricingSection({ planGroups }: PricingSectionProps) {
 
       <div className={styles.cards}>
         {plans.map((p) => (
-          <div key={p.subscriptionId} className={styles.card}>
+          <LinkWithLoading
+            key={p.subscriptionId}
+            href={getPlanPagePath()}
+            className={styles.card}
+          >
             {p.isRecommended && <span className={styles.badge}>おすすめ</span>}
             <div className={styles.cardInner}>
               <div className={styles.cardLeft}>
@@ -68,7 +74,7 @@ export default function PricingSection({ planGroups }: PricingSectionProps) {
                 </div>
               </div>
             </div>
-          </div>
+          </LinkWithLoading>
         ))}
       </div>
     </section>
