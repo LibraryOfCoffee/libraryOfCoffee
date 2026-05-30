@@ -13,21 +13,17 @@ export type TasteListItem = {
  * テイスト一覧を取得する。
  * APIエラー時は null を返す（空配列 [] との区別のため）。
  */
-export async function fetchTastes(): Promise<TasteListItem[] | null> {
-  try {
-    const cookieStore = await cookies();
-    const accessToken = cookieStore.get("accessToken")?.value ?? "";
+export async function fetchTastes(): Promise<TasteListItem[]> {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get("accessToken")?.value ?? "";
 
-    const response = await fetch(`${API_BASE_URL}/api/admin/tastes`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
+  const response = await fetch(`${API_BASE_URL}/api/admin/tastes`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
 
-    if (!response.ok) {
-      return null;
-    }
-
-    return response.json() as Promise<TasteListItem[]>;
-  } catch {
-    return null;
+  if (!response.ok) {
+    throw new Error("テイスト一覧の取得に失敗しました");
   }
+
+  return response.json() as Promise<TasteListItem[]>;
 }

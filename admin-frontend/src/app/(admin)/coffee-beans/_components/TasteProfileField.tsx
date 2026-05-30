@@ -7,17 +7,9 @@ export function TasteProfileField({
   tastes,
   getDefaultValue = () => 0,
 }: {
-  tastes: TasteListItem[] | null;
+  tastes: TasteListItem[];
   getDefaultValue?: (taste: TasteListItem) => number;
 }) {
-  if (tastes === null || tastes.length === 0) {
-    return (
-      <div className={modalStyles.error}>
-        テイスト情報の取得に失敗しました。ページを再読み込みしてください。
-      </div>
-    );
-  }
-
   return (
     <div className={modalStyles.field}>
       <span className={modalStyles.label}>テイストプロファイル</span>

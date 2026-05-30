@@ -34,7 +34,7 @@ export function EditCoffeeBeanModal({
 }: {
   coffeeBean: CoffeeBeanDetail;
   initialShops: { id: string; name: string }[];
-  tastes: TasteListItem[] | null;
+  tastes: TasteListItem[];
   open: boolean;
   onClose: () => void;
 }) {
@@ -304,7 +304,7 @@ export function EditCoffeeBeanModal({
           </button>
           <button
             type="submit"
-            disabled={isPending || tastes === null || tastes.length === 0}
+            disabled={isPending}
             className={modalStyles.submitButton}
           >
             {isPending ? "更新中..." : "更新"}

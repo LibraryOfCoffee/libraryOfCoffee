@@ -14,7 +14,7 @@ export function CoffeeBeanActions({
 }: {
   coffeeBean: CoffeeBeanDetail;
   initialShops: { id: string; name: string }[];
-  tastes: TasteListItem[] | null;
+  tastes: TasteListItem[];
 }) {
   const [editOpen, setEditOpen] = useState(false);
   const [editKey, setEditKey] = useState(0);

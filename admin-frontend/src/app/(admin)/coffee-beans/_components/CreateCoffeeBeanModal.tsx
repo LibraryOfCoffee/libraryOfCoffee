@@ -36,7 +36,7 @@ export function CreateCoffeeBeanModal({
   onClose,
 }: {
   shops: ShopListItem[];
-  tastes: TasteListItem[] | null;
+  tastes: TasteListItem[];
   open: boolean;
   onClose: () => void;
 }) {
@@ -301,7 +301,7 @@ export function CreateCoffeeBeanModal({
           </button>
           <button
             type="submit"
-            disabled={isPending || tastes === null || tastes.length === 0}
+            disabled={isPending}
             className={modalStyles.submitButton}
           >
             {isPending ? "登録中..." : "登録"}
