@@ -29,6 +29,7 @@ class UpdateCoffeeBeanUsecaseTest {
         roastLevel = "LIGHT",
         processingMethod = "WASHED",
         isSpecialty = false,
+        publishStatus = "PUBLISHED",
         images = listOf("MAIN" to "https://example.com/bean.jpg"),
         tastes = listOf("00000000-0000-4000-8000-000000000041" to 3),
     )
@@ -59,6 +60,7 @@ class UpdateCoffeeBeanUsecaseTest {
         roastLevel: String = "FRENCH",
         processingMethod: String = "NATURAL",
         isSpecialty: Boolean = true,
+        publishStatus: String = "PUBLISHED",
         tastes: List<UpdateCoffeeBeanRequest.TasteRequest> = listOf(
             UpdateCoffeeBeanRequest.TasteRequest(
                 tasteId = "00000000-0000-4000-8000-000000000042",
@@ -75,6 +77,7 @@ class UpdateCoffeeBeanUsecaseTest {
         roastLevel = roastLevel,
         processingMethod = processingMethod,
         isSpecialty = isSpecialty,
+        publishStatus = publishStatus,
         tastes = tastes,
     )
 

@@ -1,6 +1,7 @@
 package com.mametosho.cs.application.usecase
 
 import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.PublishStatus
 import com.mametosho.domain.model.shop.Prefecture
 import com.mametosho.domain.model.shop.Shop
 import com.mametosho.domain.model.shop.ShopId
@@ -17,6 +18,7 @@ class FindShopsUsecaseTest {
 
     private var capturedPage: Int? = null
     private var capturedSize: Int? = null
+    private var capturedPublishStatus: PublishStatus? = null
 
     private val sampleShop = Shop(
         id = ShopId("00000000-0000-4000-8000-000000000031"),
@@ -26,6 +28,7 @@ class FindShopsUsecaseTest {
         particular = null,
         shopUrl = "https://mametosho.example.com",
         prefecture = Prefecture.TOKYO,
+        publishStatus = PublishStatus.PUBLISHED,
         images = listOf(
             ShopImage(
                 id = ShopImageId("00000000-0000-4000-8000-000000000091"),
@@ -43,9 +46,15 @@ class FindShopsUsecaseTest {
             override fun save(shop: Shop) = Unit
             override fun findById(id: ShopId) = null
             override fun deleteById(id: ShopId) = Unit
-            override fun findAll(page: Int, size: Int, name: String?): Pair<List<Shop>, Long> {
+            override fun findAll(
+                page: Int,
+                size: Int,
+                name: String?,
+                publishStatus: PublishStatus?,
+            ): Pair<List<Shop>, Long> {
                 capturedPage = page
                 capturedSize = size
+                capturedPublishStatus = publishStatus
                 return Pair(shops, totalCount)
             }
         }
@@ -63,6 +72,15 @@ class FindShopsUsecaseTest {
             assertEquals(1, result.items.size)
             assertEquals(0, capturedPage)
             assertEquals(20, capturedSize)
+        }
+
+        @Test
+        fun `公開済みのみを取得するようpublishStatusがPUBLISHEDで渡される`() {
+            val usecase = createUsecase()
+
+            usecase.execute(page = 0, size = 20)
+
+            assertEquals(PublishStatus.PUBLISHED, capturedPublishStatus)
         }
 
         @Test

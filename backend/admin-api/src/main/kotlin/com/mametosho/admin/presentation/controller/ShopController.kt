@@ -69,7 +69,9 @@ class ShopController(
                                           "name": "テスト珈琲店",
                                           "introduction": "こだわりの珈琲をお届けします。",
                                           "particular": "厳選された豆のみを使用しています。",
-                                          "shopUrl": "https://example.com"
+                                          "shopUrl": "https://example.com",
+                                          "prefecture": "TOKYO",
+                                          "publishStatus": "PUBLISHED"
                                         }
                                       ],
                                       "totalCount": 1,
@@ -121,6 +123,8 @@ class ShopController(
                                       "introduction": "こだわりの珈琲をお届けします。",
                                       "particular": "厳選された豆のみを使用しています。",
                                       "shopUrl": "https://example.com",
+                                      "prefecture": "TOKYO",
+                                      "publishStatus": "PUBLISHED",
                                       "images": [
                                         {
                                           "id": "00000000-0000-4000-8000-000000000010",

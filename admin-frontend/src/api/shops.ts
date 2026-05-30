@@ -14,6 +14,7 @@ export type ShopListItem = {
   particular: string | null;
   shopUrl: string;
   prefecture: string;
+  publishStatus: "DRAFT" | "PUBLISHED";
 };
 
 export type ImageDetail = {

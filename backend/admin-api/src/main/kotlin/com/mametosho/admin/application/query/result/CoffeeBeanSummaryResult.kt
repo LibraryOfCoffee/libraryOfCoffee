@@ -11,4 +11,5 @@ data class CoffeeBeanSummaryResult(
     val roastLevel: String,
     val processingMethod: String,
     val isSpecialty: Boolean,
+    val publishStatus: String,
 )

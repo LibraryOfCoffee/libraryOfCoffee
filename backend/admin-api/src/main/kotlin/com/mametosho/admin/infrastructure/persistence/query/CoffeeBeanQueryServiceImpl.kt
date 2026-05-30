@@ -29,6 +29,7 @@ class CoffeeBeanQueryServiceImpl(
                 roastLevel = row.roastLevel,
                 processingMethod = row.processingMethod,
                 isSpecialty = row.isSpecialty,
+                publishStatus = row.publishStatus,
             )
         }
 
@@ -56,6 +57,7 @@ class CoffeeBeanQueryServiceImpl(
             roastLevel = first.roastLevel,
             processingMethod = first.processingMethod,
             isSpecialty = first.isSpecialty,
+            publishStatus = first.publishStatus,
             images = rows
                 .filter { it.imageId != null }
                 .distinctBy { it.imageId }

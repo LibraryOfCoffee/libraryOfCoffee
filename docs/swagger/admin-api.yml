@@ -11,6 +11,8 @@ servers:
 security:
 - Bearer: []
 tags:
+- name: Taste
+  description: テイストAPI
 - name: Shop
   description: 店舗API
 - name: Auth
@@ -51,6 +53,8 @@ paths:
                     introduction: こだわりの珈琲をお届けします。
                     particular: 厳選された豆のみを使用しています。
                     shopUrl: https://example.com
+                    prefecture: TOKYO
+                    publishStatus: PUBLISHED
                     images:
                     - id: 00000000-0000-4000-8000-000000000010
                       type: MAIN
@@ -245,6 +249,7 @@ paths:
                     roastLevel: MEDIUM
                     processingMethod: WASHED
                     isSpecialty: true
+                    publishStatus: PUBLISHED
                     images:
                     - id: 00000000-0000-4000-8000-000000000010
                       type: MAIN
@@ -438,6 +443,8 @@ paths:
                       introduction: こだわりの珈琲をお届けします。
                       particular: 厳選された豆のみを使用しています。
                       shopUrl: https://example.com
+                      prefecture: TOKYO
+                      publishStatus: PUBLISHED
                     totalCount: 1
                     page: 0
                     size: 20
@@ -560,6 +567,7 @@ paths:
                       roastLevel: MEDIUM
                       processingMethod: WASHED
                       isSpecialty: true
+                      publishStatus: PUBLISHED
                     totalCount: 1
                     page: 0
                     size: 20
@@ -676,6 +684,33 @@ paths:
                     status: 401
                     error: Unauthorized
                     path: /api/admin/auth/login
+  /api/admin/tastes:
+    get:
+      tags:
+      - Taste
+      summary: テイスト一覧取得
+      description: テイスト（酸味・苦味・甘味・コク・香りなど）の一覧を取得します。
+      operationId: listTastes
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            '*/*':
+              examples:
+                success:
+                  summary: 取得成功例
+                  description: success
+                  value:
+                  - id: 00000000-0000-4000-8000-000000000041
+                    name: 酸味
+                  - id: 00000000-0000-4000-8000-000000000042
+                    name: 苦味
+                  - id: 00000000-0000-4000-8000-000000000043
+                    name: 甘味
+                  - id: 00000000-0000-4000-8000-000000000044
+                    name: コク
+                  - id: 00000000-0000-4000-8000-000000000045
+                    name: 香り
 components:
   schemas:
     UpdateShopRequest:
@@ -706,6 +741,12 @@ components:
           type: string
           description: 都道府県
           example: TOKYO
+        publishStatus:
+          type: string
+          description: "公開状態（DRAFT: 下書き / PUBLISHED: 公開）"
+          example: PUBLISHED
+      required:
+      - publishStatus
     ShopResponse:
       type: object
       description: 店舗登録レスポンス
@@ -732,6 +773,10 @@ components:
           type: string
           description: エラー概要
           example: Not Found
+        message:
+          type: string
+          description: エラーメッセージ
+          example: tastes must not be empty
         path:
           type: string
           description: リクエストパス
@@ -785,6 +830,10 @@ components:
           type: string
           description: 精製方法
           example: WASHED
+        publishStatus:
+          type: string
+          description: "公開状態（DRAFT: 下書き / PUBLISHED: 公開）"
+          example: PUBLISHED
         tastes:
           type: array
           description: テイスト評価一覧
@@ -792,6 +841,8 @@ components:
             $ref: "#/components/schemas/TasteRequest"
         specialty:
           type: boolean
+      required:
+      - publishStatus
     CoffeeBeanResponse:
       type: object
       description: コーヒー豆登録レスポンス
@@ -828,6 +879,12 @@ components:
           type: string
           description: 都道府県
           example: TOKYO
+        publishStatus:
+          type: string
+          description: "公開状態（DRAFT: 下書き / PUBLISHED: 公開）"
+          example: DRAFT
+      required:
+      - publishStatus
     CreateCoffeeBeanRequest:
       type: object
       description: コーヒー豆登録リクエスト
@@ -864,6 +921,10 @@ components:
           type: string
           description: 精製方法
           example: WASHED
+        publishStatus:
+          type: string
+          description: "公開状態（DRAFT: 下書き / PUBLISHED: 公開）"
+          example: DRAFT
         tastes:
           type: array
           description: テイスト評価一覧
@@ -871,6 +932,8 @@ components:
             $ref: "#/components/schemas/TasteRequest"
         specialty:
           type: boolean
+      required:
+      - publishStatus
     LoginRequest:
       type: object
       description: ログインリクエスト
@@ -948,11 +1011,17 @@ components:
           type: string
           description: 都道府県
           example: TOKYO
+        publishStatus:
+          type: string
+          description: "公開状態（DRAFT: 下書き / PUBLISHED: 公開）"
+          example: PUBLISHED
         images:
           type: array
           description: 画像一覧
           items:
             $ref: "#/components/schemas/ImageDetail"
+      required:
+      - publishStatus
     CoffeeBeanDetailResponse:
       type: object
       description: コーヒー豆詳細レスポンス
@@ -993,6 +1062,10 @@ components:
           type: string
           description: 精製方法
           example: WASHED
+        publishStatus:
+          type: string
+          description: "公開状態（DRAFT: 下書き / PUBLISHED: 公開）"
+          example: PUBLISHED
         images:
           type: array
           description: 画像一覧
@@ -1005,6 +1078,8 @@ components:
             $ref: "#/components/schemas/TasteDetail"
         specialty:
           type: boolean
+      required:
+      - publishStatus
     TasteDetail:
       type: object
       description: テイスト評価詳細
@@ -1013,6 +1088,10 @@ components:
           type: string
           description: テイスト評価ID
           example: 00000000-0000-4000-8000-000000000020
+        tasteId:
+          type: string
+          description: テイストマスタID
+          example: 00000000-0000-4000-8000-000000000041
         tasteName:
           type: string
           description: テイスト名

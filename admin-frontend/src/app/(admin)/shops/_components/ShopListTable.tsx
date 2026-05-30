@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { PagedResponse, ShopListItem } from "@/api/shops";
 import styles from "@/components/list-page.module.css";
 import { Pagination } from "@/components/Pagination";
+import { PublishStatusBadge } from "@/components/PublishStatusBadge";
 import { CreateShopButton } from "./CreateShopButton";
 
 export function ShopListTable({
@@ -31,6 +32,7 @@ export function ShopListTable({
               <th>紹介文</th>
               <th>こだわり</th>
               <th>店舗URL</th>
+              <th>公開状態</th>
             </tr>
           </thead>
           <tbody>
@@ -68,6 +70,11 @@ export function ShopListTable({
                     className={`${styles.rowLink} ${styles.truncatedCell}`}
                   >
                     {shop.shopUrl}
+                  </Link>
+                </td>
+                <td>
+                  <Link href={`/shops/${shop.id}`} className={styles.rowLink}>
+                    <PublishStatusBadge status={shop.publishStatus} />
                   </Link>
                 </td>
               </tr>

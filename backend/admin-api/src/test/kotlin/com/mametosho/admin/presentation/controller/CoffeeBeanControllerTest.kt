@@ -112,6 +112,7 @@ class CoffeeBeanControllerTest {
         roastLevel = "MEDIUM",
         processingMethod = "WASHED",
         isSpecialty = true,
+        publishStatus = "PUBLISHED",
         tastes = listOf(CreateCoffeeBeanRequest.TasteRequest(tasteId = tasteId, evaluationValue = 4)),
     )
 
@@ -125,6 +126,7 @@ class CoffeeBeanControllerTest {
         roastLevel = "FRENCH",
         processingMethod = "NATURAL",
         isSpecialty = true,
+        publishStatus = "PUBLISHED",
         tastes = listOf(UpdateCoffeeBeanRequest.TasteRequest(tasteId = tasteId, evaluationValue = 3)),
     )
 

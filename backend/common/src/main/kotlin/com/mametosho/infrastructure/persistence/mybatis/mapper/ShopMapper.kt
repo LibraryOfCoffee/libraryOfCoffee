@@ -13,15 +13,16 @@ import org.apache.ibatis.annotations.Select
 interface ShopMapper {
     @Insert(
         """
-        INSERT INTO shops (id, shopify_shop_id, name, introduction, particular, shop_url, prefecture)
-        VALUES (#{id}, #{shopifyShopId}, #{name}, #{introduction}, #{particular}, #{shopUrl}, #{prefecture})
+        INSERT INTO shops (id, shopify_shop_id, name, introduction, particular, shop_url, prefecture, publish_status)
+        VALUES (#{id}, #{shopifyShopId}, #{name}, #{introduction}, #{particular}, #{shopUrl}, #{prefecture}, #{publishStatus})
         ON DUPLICATE KEY UPDATE
             shopify_shop_id = VALUES(shopify_shop_id),
             name = VALUES(name),
             introduction = VALUES(introduction),
             particular = VALUES(particular),
             shop_url = VALUES(shop_url),
-            prefecture = VALUES(prefecture)
+            prefecture = VALUES(prefecture),
+            publish_status = VALUES(publish_status)
         """,
     )
     fun upsertShop(entity: ShopEntity)
@@ -39,7 +40,7 @@ interface ShopMapper {
 
     @Select(
         """
-        SELECT s.id, s.shopify_shop_id, s.name, s.introduction, s.particular, s.shop_url, s.prefecture,
+        SELECT s.id, s.shopify_shop_id, s.name, s.introduction, s.particular, s.shop_url, s.prefecture, s.publish_status,
                si.id AS image_id, si.type AS image_type, si.image_url
         FROM shops s
         LEFT JOIN shop_images si ON si.shop_id = s.id
@@ -54,13 +55,16 @@ interface ShopMapper {
     @Select(
         """
         <script>
-        SELECT s.id, s.shopify_shop_id, s.name, s.introduction, s.particular, s.shop_url, s.prefecture,
+        SELECT s.id, s.shopify_shop_id, s.name, s.introduction, s.particular, s.shop_url, s.prefecture, s.publish_status,
                si.id AS image_id, si.type AS image_type, si.image_url
         FROM (
             SELECT id FROM shops
             <where>
                 <if test="name != null">
-                    name LIKE CONCAT('%', #{name}, '%')
+                    AND name LIKE CONCAT('%', #{name}, '%')
+                </if>
+                <if test="publishStatus != null">
+                    AND publish_status = #{publishStatus}
                 </if>
             </where>
             ORDER BY created_at DESC
@@ -76,6 +80,7 @@ interface ShopMapper {
         @Param("size") size: Int,
         @Param("offset") offset: Int,
         @Param("name") name: String?,
+        @Param("publishStatus") publishStatus: String?,
     ): List<ShopListRow>
 
     @Select(
@@ -84,11 +89,17 @@ interface ShopMapper {
         SELECT COUNT(*) FROM shops
         <where>
             <if test="name != null">
-                name LIKE CONCAT('%', #{name}, '%')
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="publishStatus != null">
+                AND publish_status = #{publishStatus}
             </if>
         </where>
         </script>
         """,
     )
-    fun countByCondition(@Param("name") name: String?): Long
+    fun countByCondition(
+        @Param("name") name: String?,
+        @Param("publishStatus") publishStatus: String?,
+    ): Long
 }

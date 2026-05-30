@@ -20,6 +20,7 @@ interface CoffeeBeanQueryMapper {
             INNER JOIN coffee_bean_images cbi_inner
                 ON cbi_inner.coffee_bean_id = cb_inner.id AND cbi_inner.type = 'MAIN'
             <where>
+                AND cb_inner.publish_status = 'PUBLISHED'
                 <if test="origin != null">AND cb_inner.origin LIKE CONCAT('%', #{origin}, '%')</if>
                 <if test="roastLevel != null">AND cb_inner.roast_level = #{roastLevel}</if>
                 <if test="prefecture != null">AND s_inner.prefecture = #{prefecture}</if>
@@ -50,6 +51,7 @@ interface CoffeeBeanQueryMapper {
         INNER JOIN shops s ON cb.shop_id = s.id
         INNER JOIN coffee_bean_images cbi ON cbi.coffee_bean_id = cb.id AND cbi.type = 'MAIN'
         <where>
+            AND cb.publish_status = 'PUBLISHED'
             <if test="origin != null">AND cb.origin LIKE CONCAT('%', #{origin}, '%')</if>
             <if test="roastLevel != null">AND cb.roast_level = #{roastLevel}</if>
             <if test="prefecture != null">AND s.prefecture = #{prefecture}</if>

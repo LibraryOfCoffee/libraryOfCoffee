@@ -1,6 +1,7 @@
 package com.mametosho.domain.model.shop
 
 import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.PublishStatus
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
@@ -27,6 +28,7 @@ class ShopTest {
         particular = "産地直送の豆を使用",
         shopUrl = shopUrl,
         prefecture = Prefecture.TOKYO,
+        publishStatus = PublishStatus.PUBLISHED,
         images = images,
     )
 
@@ -80,6 +82,7 @@ class ShopTest {
                 particular = "更新こだわり",
                 shopUrl = "https://updated.example.com",
                 prefecture = Prefecture.OSAKA,
+                publishStatus = "PUBLISHED",
                 images = listOf("LOGO" to "https://example.com/logo.png", "MAIN" to "https://example.com/new.png"),
             )
 
@@ -102,6 +105,7 @@ class ShopTest {
                 particular = null,
                 shopUrl = "https://example.com",
                 prefecture = Prefecture.TOKYO,
+                publishStatus = "PUBLISHED",
                 images = listOf("LOGO" to "https://example.com/logo.png"),
             )
 
@@ -118,6 +122,7 @@ class ShopTest {
                 particular = null,
                 shopUrl = "https://example.com",
                 prefecture = Prefecture.TOKYO,
+                publishStatus = "PUBLISHED",
                 images = listOf("LOGO" to "https://example.com/logo.png", "MAIN" to "https://example.com/image.png"),
             )
 

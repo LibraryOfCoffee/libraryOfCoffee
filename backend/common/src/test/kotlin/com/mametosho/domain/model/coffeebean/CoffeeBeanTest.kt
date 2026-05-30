@@ -1,6 +1,7 @@
 package com.mametosho.domain.model.coffeebean
 
 import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.PublishStatus
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.taste.TasteId
 import org.junit.jupiter.api.Nested
@@ -41,6 +42,7 @@ class CoffeeBeanTest {
         roastLevel = RoastLevel.LIGHT,
         processingMethod = ProcessingMethod.WASHED,
         isSpecialty = false,
+        publishStatus = PublishStatus.PUBLISHED,
         images = images,
         tastes = tastes,
     )
@@ -136,6 +138,7 @@ class CoffeeBeanTest {
                 roastLevel = "FRENCH",
                 processingMethod = "NATURAL",
                 isSpecialty = true,
+                publishStatus = "PUBLISHED",
                 images = listOf("MAIN" to "https://example.com/updated.png"),
                 tastes = listOf("00000000-0000-4000-8000-000000000041" to 3),
             )
@@ -156,6 +159,7 @@ class CoffeeBeanTest {
                 roastLevel = "FRENCH",
                 processingMethod = "NATURAL",
                 isSpecialty = true,
+                publishStatus = "PUBLISHED",
                 images = listOf("MAIN" to "https://example.com/updated.png"),
                 tastes = listOf("00000000-0000-4000-8000-000000000004" to 5),
             )
@@ -189,6 +193,7 @@ class CoffeeBeanTest {
                 roastLevel = "LIGHT",
                 processingMethod = "WASHED",
                 isSpecialty = false,
+                publishStatus = "PUBLISHED",
                 images = listOf("MAIN" to "https://example.com/bean.jpg"),
                 tastes = listOf("00000000-0000-4000-8000-000000000004" to 3),
             )

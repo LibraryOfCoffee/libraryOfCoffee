@@ -136,6 +136,7 @@ classDiagram
       particular: String?
       shopUrl: String
       prefecture: Prefecture
+      publishStatus: PublishStatus
       images: List~ShopImage~
     }
 
@@ -177,6 +178,7 @@ classDiagram
       roastLevel: RoastLevel
       processingMethod: ProcessingMethod
       isSpecialty: Boolean
+      publishStatus: PublishStatus
       images: List~CoffeeBeanImage~
       tastes: List~CoffeeBeanTaste~
     }

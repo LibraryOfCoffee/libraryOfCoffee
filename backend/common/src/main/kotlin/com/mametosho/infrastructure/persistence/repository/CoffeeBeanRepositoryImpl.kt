@@ -11,6 +11,7 @@ import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import com.mametosho.domain.model.coffeebean.RoastLevel
 import com.mametosho.domain.model.coffeebean.ShopifyBeanId
 import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.PublishStatus
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.taste.TasteId
 import com.mametosho.domain.repository.CoffeeBeanRepository
@@ -39,6 +40,7 @@ class CoffeeBeanRepositoryImpl(
             roastLevel = RoastLevel.valueOf(entity.roastLevel),
             processingMethod = ProcessingMethod.valueOf(entity.processingMethod),
             isSpecialty = entity.isSpecialty,
+            publishStatus = PublishStatus.valueOf(entity.publishStatus),
             images = imageEntities.map { img ->
                 CoffeeBeanImage(
                     id = CoffeeBeanImageId(img.id),
@@ -69,6 +71,7 @@ class CoffeeBeanRepositoryImpl(
                 roastLevel = coffeeBean.roastLevel.name,
                 processingMethod = coffeeBean.processingMethod.name,
                 isSpecialty = coffeeBean.isSpecialty,
+                publishStatus = coffeeBean.publishStatus.name,
             ),
         )
         coffeeBeanMapper.deleteCoffeeBeanImagesByCoffeeBeanId(coffeeBean.id.value)

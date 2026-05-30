@@ -1,6 +1,7 @@
 package com.mametosho.admin.presentation.dto.response
 
 import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.PublishStatus
 import com.mametosho.domain.model.shop.Shop
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.shop.ShopImage
@@ -22,6 +23,7 @@ class ShopResponseTest {
         particular = "テストこだわり",
         shopUrl = "https://example.com",
         prefecture = Prefecture.TOKYO,
+        publishStatus = PublishStatus.PUBLISHED,
         images = listOf(
             ShopImage(
                 id = ShopImageId("00000000-0000-4000-8000-000000000011"),

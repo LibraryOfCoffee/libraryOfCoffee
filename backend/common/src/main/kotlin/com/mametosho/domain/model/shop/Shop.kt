@@ -1,6 +1,7 @@
 package com.mametosho.domain.model.shop
 
 import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.PublishStatus
 import java.util.UUID
 
 /**
@@ -15,6 +16,7 @@ import java.util.UUID
  * @property particular こだわり
  * @property shopUrl 店舗URL
  * @property prefecture 都道府県
+ * @property publishStatus 公開状態（draft/published）
  * @property images 店舗画像一覧
  */
 @Suppress("MagicNumber")
@@ -26,6 +28,7 @@ data class Shop(
     val particular: String?,
     val shopUrl: String,
     val prefecture: Prefecture,
+    val publishStatus: PublishStatus,
     val images: List<ShopImage>,
 ) {
     init {
@@ -57,6 +60,7 @@ data class Shop(
      * @param introduction 店舗紹介
      * @param particular こだわり
      * @param shopUrl 店舗URL
+     * @param publishStatus 公開状態（draft/published）
      * @param images 画像情報（種別とURL）のリスト
      * @return 更新された[Shop]
      */
@@ -67,6 +71,7 @@ data class Shop(
         particular: String?,
         shopUrl: String,
         prefecture: Prefecture,
+        publishStatus: String,
         images: List<Pair<String, String>>,
     ): Shop = Shop(
         id = this.id,
@@ -76,6 +81,7 @@ data class Shop(
         particular = particular,
         shopUrl = shopUrl,
         prefecture = prefecture,
+        publishStatus = PublishStatus.valueOf(publishStatus),
         images = images.map { (type, imageUrl) ->
             ShopImage(
                 id = ShopImageId(UUID.randomUUID().toString()),
@@ -96,6 +102,7 @@ data class Shop(
          * @param introduction 店舗紹介
          * @param particular こだわり
          * @param shopUrl 店舗URL
+         * @param publishStatus 公開状態（draft/published）
          * @param images 画像情報（種別とURL）のリスト
          * @return 生成された[Shop]
          */
@@ -106,6 +113,7 @@ data class Shop(
             particular: String?,
             shopUrl: String,
             prefecture: Prefecture,
+            publishStatus: String,
             images: List<Pair<String, String>>,
             id: String = UUID.randomUUID().toString(),
         ): Shop = Shop(
@@ -116,6 +124,7 @@ data class Shop(
             particular = particular,
             shopUrl = shopUrl,
             prefecture = prefecture,
+            publishStatus = PublishStatus.valueOf(publishStatus),
             images = images.map { (type, imageUrl) ->
                 ShopImage(
                     id = ShopImageId(UUID.randomUUID().toString()),

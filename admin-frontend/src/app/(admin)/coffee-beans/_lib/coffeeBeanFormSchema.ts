@@ -35,6 +35,9 @@ export const coffeeBeanFieldsSchema = z.object({
       error: "スペシャルティを選択してください。",
     })
     .transform((v) => v === "true"),
+  publishStatus: z.enum(["DRAFT", "PUBLISHED"], {
+    error: "公開状態を選択してください。",
+  }),
 });
 
 export type CoffeeBeanFormValues = {
@@ -47,6 +50,7 @@ export type CoffeeBeanFormValues = {
   roastLevel?: string;
   processingMethod?: string;
   isSpecialty?: string;
+  publishStatus?: string;
 };
 
 export type CoffeeBeanFormState = {
@@ -62,6 +66,7 @@ export type CoffeeBeanFormState = {
     roastLevel?: string[];
     processingMethod?: string[];
     isSpecialty?: string[];
+    publishStatus?: string[];
   };
   values?: CoffeeBeanFormValues;
 };

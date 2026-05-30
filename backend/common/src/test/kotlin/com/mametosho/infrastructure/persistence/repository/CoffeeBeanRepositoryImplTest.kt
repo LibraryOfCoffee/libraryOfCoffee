@@ -11,6 +11,7 @@ import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import com.mametosho.domain.model.coffeebean.RoastLevel
 import com.mametosho.domain.model.coffeebean.ShopifyBeanId
 import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.PublishStatus
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.taste.TasteId
 import java.util.Locale
@@ -117,6 +118,7 @@ class CoffeeBeanRepositoryImplTest {
         roastLevel = RoastLevel.MEDIUM,
         processingMethod = ProcessingMethod.WASHED,
         isSpecialty = true,
+        publishStatus = PublishStatus.PUBLISHED,
         images = images,
         tastes = tastes,
     )
@@ -271,6 +273,7 @@ class CoffeeBeanRepositoryImplTest {
                     roastLevel = roastLevel,
                     processingMethod = ProcessingMethod.WASHED,
                     isSpecialty = false,
+                    publishStatus = PublishStatus.PUBLISHED,
                     images = listOf(
                         CoffeeBeanImage(
                             id = CoffeeBeanImageId("00000000-0000-4000-${String.format(Locale.ROOT, "%04d", index)}-000000000099"),
@@ -310,6 +313,7 @@ class CoffeeBeanRepositoryImplTest {
                     roastLevel = RoastLevel.MEDIUM,
                     processingMethod = method,
                     isSpecialty = false,
+                    publishStatus = PublishStatus.PUBLISHED,
                     images = listOf(
                         CoffeeBeanImage(
                             id = CoffeeBeanImageId("00000000-0000-4000-${String.format(Locale.ROOT, "%04d", index)}-000000000099"),

@@ -20,6 +20,12 @@ data class ShopDetailResponse(
     val shopUrl: String,
     @Schema(description = "都道府県", example = "TOKYO")
     val prefecture: String,
+    @Schema(
+        description = "公開状態（DRAFT: 下書き / PUBLISHED: 公開）",
+        example = "PUBLISHED",
+        requiredMode = Schema.RequiredMode.REQUIRED,
+    )
+    val publishStatus: String,
     @Schema(description = "画像一覧")
     val images: List<ImageDetail>,
 ) {
@@ -50,6 +56,7 @@ data class ShopDetailResponse(
             particular = shop.particular,
             shopUrl = shop.shopUrl,
             prefecture = shop.prefecture.name,
+            publishStatus = shop.publishStatus.name,
             images = shop.images.map { ImageDetail.from(it) },
         )
     }
