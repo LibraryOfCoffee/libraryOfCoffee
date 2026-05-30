@@ -52,7 +52,7 @@ export default function PricingSection({ planGroups }: PricingSectionProps) {
         {plans.map((p) => (
           <LinkWithLoading
             key={p.subscriptionId}
-            href={getPlanPagePath()}
+            href={getPlanPagePath(undefined, p.subscriptionId)}
             className={styles.card}
           >
             {p.isRecommended && <span className={styles.badge}>おすすめ</span>}

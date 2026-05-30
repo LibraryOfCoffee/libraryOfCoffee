@@ -56,11 +56,18 @@ function CatalogContent({
   const router = useRouter();
   const searchParams = useSearchParams();
   const preselectedBeanId = searchParams.get("beanId");
+  const preselectedPlanId = searchParams.get("planId");
+
+  const initialPlan = preselectedPlanId
+    ? (planGroups.find((p) => p.subscriptionId === preselectedPlanId) ?? null)
+    : null;
 
   const [mode, setMode] = useState<"sub" | "single">("sub");
-  const [gram, setGram] = useState<WeightGrams>(30);
-  const [selectedPlan, setSelectedPlan] = useState<PlanGroup | null>(null);
-  const [planChosen, setPlanChosen] = useState(false);
+  const [gram, setGram] = useState<WeightGrams>(initialPlan?.gramWeight ?? 30);
+  const [selectedPlan, setSelectedPlan] = useState<PlanGroup | null>(
+    initialPlan,
+  );
+  const [planChosen, setPlanChosen] = useState(initialPlan !== null);
   const [omakase, setOmakase] = useState(false);
   const [prefFilter, setPrefFilter] = useState("");
   const [countryFilter, setCountryFilter] = useState("");
