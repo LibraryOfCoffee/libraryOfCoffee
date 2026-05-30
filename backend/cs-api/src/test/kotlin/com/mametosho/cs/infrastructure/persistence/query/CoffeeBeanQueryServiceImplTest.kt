@@ -26,6 +26,7 @@ class CoffeeBeanQueryServiceImplTest {
         description = "テスト用の説明文です。",
         imageUrl = "https://example.com/images/test.jpg",
         shopName = "テスト珈琲焙煎所",
+        shopPrefecture = "TOKYO",
         tasteName = "酸味",
         evaluationValue = 60,
     )

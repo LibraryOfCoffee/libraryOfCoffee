@@ -1,6 +1,6 @@
 package com.mametosho.cs.presentation.dto.response
 
-import com.mametosho.cs.application.query.result.PlanListResult
+import com.mametosho.domain.model.plan.Plan
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "プラン一覧アイテム")
@@ -21,14 +21,14 @@ data class PlanListResponse(
     val isRecommended: Boolean,
 ) {
     companion object {
-        fun from(result: PlanListResult): PlanListResponse = PlanListResponse(
-            id = result.id,
-            label = result.label,
-            gramWeight = result.gramWeight,
-            beanQuantity = result.beanQuantity,
-            price = result.price,
-            type = result.type,
-            isRecommended = result.isRecommended,
+        fun from(plan: Plan): PlanListResponse = PlanListResponse(
+            id = plan.id.value,
+            label = plan.label,
+            gramWeight = plan.gramWeight,
+            beanQuantity = plan.beanQuantity,
+            price = plan.price,
+            type = plan.type.name,
+            isRecommended = plan.isRecommended,
         )
     }
 }

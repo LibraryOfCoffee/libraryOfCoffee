@@ -19,6 +19,7 @@ class CoffeeBeanListResponseTest {
         description = "テスト用の説明文です。",
         imageUrl = "https://example.com/images/test.jpg",
         shopName = "テスト珈琲焙煎所",
+        shopPrefecture = "TOKYO",
         tasteProfiles = listOf(
             CoffeeBeanListResult.TasteProfileResult(name = "酸味", value = 60),
             CoffeeBeanListResult.TasteProfileResult(name = "苦味", value = 20),

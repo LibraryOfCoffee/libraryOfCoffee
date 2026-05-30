@@ -1,6 +1,7 @@
 package com.mametosho.cs.presentation.dto.response
 
-import com.mametosho.cs.application.query.result.ShopListResult
+import com.mametosho.domain.model.shop.Shop
+import com.mametosho.domain.model.shop.ShopImageType
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "店舗一覧アイテム")
@@ -19,13 +20,13 @@ data class ShopListResponse(
     val logoImageUrl: String,
 ) {
     companion object {
-        fun from(result: ShopListResult): ShopListResponse = ShopListResponse(
-            id = result.id,
-            name = result.name,
-            introduction = result.introduction,
-            shopUrl = result.shopUrl,
-            prefecture = result.prefecture,
-            logoImageUrl = result.logoImageUrl,
+        fun from(shop: Shop): ShopListResponse = ShopListResponse(
+            id = shop.id.value,
+            name = shop.name,
+            introduction = shop.introduction ?: "",
+            shopUrl = shop.shopUrl,
+            prefecture = shop.prefecture.name,
+            logoImageUrl = shop.images.first { it.type == ShopImageType.LOGO }.imageUrl.value,
         )
     }
 }

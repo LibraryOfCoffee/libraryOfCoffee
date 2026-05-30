@@ -48,6 +48,37 @@ class ShopRepositoryImpl(
         shopMapper.deleteShopById(id.value)
     }
 
+    override fun findAll(page: Int, size: Int, name: String?): Pair<List<Shop>, Long> {
+        val offset = page * size
+        val shopEntities = shopMapper.findListRows(size, offset, name)
+        if (shopEntities.isEmpty()) return Pair(emptyList(), 0L)
+
+        val totalCount = shopMapper.countByCondition(name)
+        val imagesByShopId = shopMapper.findShopImagesByShopIds(shopEntities.map { it.id })
+            .groupBy { it.shopId }
+
+        val shops = shopEntities.map { shopEntity ->
+            val images = imagesByShopId[shopEntity.id] ?: emptyList()
+            Shop(
+                id = ShopId(shopEntity.id),
+                shopifyShopId = ShopifyShopId(shopEntity.shopifyShopId),
+                name = shopEntity.name,
+                introduction = shopEntity.introduction,
+                particular = shopEntity.particular,
+                shopUrl = shopEntity.shopUrl,
+                prefecture = Prefecture.valueOf(shopEntity.prefecture),
+                images = images.map { img ->
+                    ShopImage(
+                        id = ShopImageId(img.id),
+                        type = ShopImageType.valueOf(img.type),
+                        imageUrl = ImageUrl(img.imageUrl),
+                    )
+                },
+            )
+        }
+        return Pair(shops, totalCount)
+    }
+
     override fun findById(id: ShopId): Shop? {
         val shopEntity = shopMapper.findShopById(id.value) ?: return null
         val imageEntities = shopMapper.findShopImagesByShopId(id.value)

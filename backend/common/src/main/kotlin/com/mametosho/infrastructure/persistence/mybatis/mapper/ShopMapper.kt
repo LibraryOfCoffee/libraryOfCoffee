@@ -42,6 +42,19 @@ interface ShopMapper {
     @Select("SELECT id, shop_id, type, image_url FROM shop_images WHERE shop_id = #{shopId}")
     fun findShopImagesByShopId(shopId: String): List<ShopImageEntity>
 
+    @Select(
+        """
+        <script>
+        SELECT id, shop_id, type, image_url FROM shop_images
+        WHERE shop_id IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        </script>
+        """,
+    )
+    fun findShopImagesByShopIds(@Param("ids") ids: List<String>): List<ShopImageEntity>
+
     @Delete("DELETE FROM shops WHERE id = #{id}")
     fun deleteShopById(id: String)
 

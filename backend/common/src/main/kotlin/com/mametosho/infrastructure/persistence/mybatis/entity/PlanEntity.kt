@@ -1,7 +1,8 @@
-package com.mametosho.cs.application.query.result
+package com.mametosho.infrastructure.persistence.mybatis.entity
 
-data class PlanListResult(
+data class PlanEntity(
     val id: String,
+    val shopifyPlanId: String,
     val label: String,
     val gramWeight: Int,
     val beanQuantity: Int,
