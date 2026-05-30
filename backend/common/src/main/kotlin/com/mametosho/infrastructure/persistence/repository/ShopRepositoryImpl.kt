@@ -50,29 +50,29 @@ class ShopRepositoryImpl(
 
     override fun findAll(page: Int, size: Int, name: String?): Pair<List<Shop>, Long> {
         val offset = page * size
-        val shopEntities = shopMapper.findListRows(size, offset, name)
+        val rows = shopMapper.findListRows(size, offset, name)
         val totalCount = shopMapper.countByCondition(name)
-        if (shopEntities.isEmpty()) return Pair(emptyList<Shop>(), totalCount)
-        val imagesByShopId = shopMapper.findShopImagesByShopIds(shopEntities.map { it.id })
-            .groupBy { it.shopId }
+        if (rows.isEmpty()) return Pair(emptyList(), totalCount)
 
-        val shops = shopEntities.map { shopEntity ->
-            val images = imagesByShopId[shopEntity.id] ?: emptyList()
+        val shops = rows.groupBy { it.id }.map { (_, shopRows) ->
+            val first = shopRows.first()
             Shop(
-                id = ShopId(shopEntity.id),
-                shopifyShopId = ShopifyShopId(shopEntity.shopifyShopId),
-                name = shopEntity.name,
-                introduction = shopEntity.introduction,
-                particular = shopEntity.particular,
-                shopUrl = shopEntity.shopUrl,
-                prefecture = Prefecture.valueOf(shopEntity.prefecture),
-                images = images.map { img ->
-                    ShopImage(
-                        id = ShopImageId(img.id),
-                        type = ShopImageType.valueOf(img.type),
-                        imageUrl = ImageUrl(img.imageUrl),
-                    )
-                },
+                id = ShopId(first.id),
+                shopifyShopId = ShopifyShopId(first.shopifyShopId),
+                name = first.name,
+                introduction = first.introduction,
+                particular = first.particular,
+                shopUrl = first.shopUrl,
+                prefecture = Prefecture.valueOf(first.prefecture),
+                images = shopRows
+                    .filter { it.imageId != null }
+                    .map { row ->
+                        ShopImage(
+                            id = ShopImageId(checkNotNull(row.imageId)),
+                            type = ShopImageType.valueOf(checkNotNull(row.imageType)),
+                            imageUrl = ImageUrl(checkNotNull(row.imageUrl)),
+                        )
+                    },
             )
         }
         return Pair(shops, totalCount)

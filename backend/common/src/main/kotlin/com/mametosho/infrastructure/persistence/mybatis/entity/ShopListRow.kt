@@ -1,6 +1,6 @@
 package com.mametosho.infrastructure.persistence.mybatis.entity
 
-data class ShopEntity(
+data class ShopListRow(
     val id: String,
     val shopifyShopId: String,
     val name: String,
@@ -8,4 +8,7 @@ data class ShopEntity(
     val particular: String?,
     val shopUrl: String,
     val prefecture: String,
+    val imageId: String?,
+    val imageType: String?,
+    val imageUrl: String?,
 )

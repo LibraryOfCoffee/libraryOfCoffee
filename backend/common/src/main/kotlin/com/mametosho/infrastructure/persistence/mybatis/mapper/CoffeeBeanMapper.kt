@@ -45,14 +45,16 @@ interface CoffeeBeanMapper {
 
     @Select(
         """
-        SELECT id, shop_id, shopify_bean_id, name, description, origin, farm, roast_level, processing_method, is_specialty,
-               COUNT(*) OVER() AS total_count
+        SELECT id, shop_id, shopify_bean_id, name, description, origin, farm, roast_level, processing_method, is_specialty
         FROM coffee_beans
         ORDER BY created_at DESC
         LIMIT #{size} OFFSET #{offset}
         """,
     )
     fun findListRows(@Param("size") size: Int, @Param("offset") offset: Int): List<CoffeeBeanEntity>
+
+    @Select("SELECT COUNT(*) FROM coffee_beans")
+    fun countAll(): Long
 
     @Insert(
         """

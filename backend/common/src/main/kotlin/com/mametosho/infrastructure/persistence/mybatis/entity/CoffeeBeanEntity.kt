@@ -11,5 +11,4 @@ data class CoffeeBeanEntity(
     val roastLevel: String,
     val processingMethod: String,
     val isSpecialty: Boolean,
-    val totalCount: Long = 0,
 )

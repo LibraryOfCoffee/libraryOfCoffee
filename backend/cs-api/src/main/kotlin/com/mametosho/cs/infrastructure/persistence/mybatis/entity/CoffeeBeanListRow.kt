@@ -14,5 +14,4 @@ data class CoffeeBeanListRow(
     val shopUrl: String,
     val tasteName: String,
     val evaluationValue: Int,
-    val totalCount: Long = 0,
 )
