@@ -175,7 +175,24 @@ class ShopRepositoryImplTest {
         @Test
         fun `ページング付きで店舗一覧を取得できる`() {
             shopRepositoryImpl.save(createShop(id = "00000000-0000-4000-8000-000000000001", shopifyShopId = "shop-001"))
-            shopRepositoryImpl.save(createShop(id = "00000000-0000-4000-8000-000000000002", shopifyShopId = "shop-002"))
+            shopRepositoryImpl.save(
+                createShop(
+                    id = "00000000-0000-4000-8000-000000000002",
+                    shopifyShopId = "shop-002",
+                    images = listOf(
+                        ShopImage(
+                            id = ShopImageId("00000000-0000-4000-8000-000000000021"),
+                            type = ShopImageType.MAIN,
+                            imageUrl = ImageUrl("https://example.com/shop.png"),
+                        ),
+                        ShopImage(
+                            id = ShopImageId("00000000-0000-4000-8000-000000000022"),
+                            type = ShopImageType.LOGO,
+                            imageUrl = ImageUrl("https://example.com/logo.png"),
+                        ),
+                    ),
+                ),
+            )
 
             val result = shopRepositoryImpl.findAll(page = 0, size = 1)
 

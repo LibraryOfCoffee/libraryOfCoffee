@@ -20,12 +20,12 @@ import {
 import { ImageUploadField } from "@/components/ImageUploadField";
 import modalStyles from "@/components/modal.module.css";
 import { ShopSearchSelect } from "@/components/ShopSearchSelect";
-import { TasteProfileField } from "./TasteProfileField";
 import {
   type CreateCoffeeBeanState,
   createCoffeeBeanAction,
 } from "./createCoffeeBeanAction";
 import { searchShopsAction } from "./searchShopsAction";
+import { TasteProfileField } from "./TasteProfileField";
 
 const initialState: CreateCoffeeBeanState = {};
 
