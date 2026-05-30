@@ -120,7 +120,7 @@ class GlobalExceptionHandler {
                 timestamp = OffsetDateTime.now(),
                 status = status.value(),
                 error = status.reasonPhrase,
-                message = ex.message,
+                message = "予期しないエラーが発生しました",
                 path = request.requestURI,
             ),
         )

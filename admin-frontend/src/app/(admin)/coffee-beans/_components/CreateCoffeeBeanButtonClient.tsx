@@ -11,7 +11,7 @@ export function CreateCoffeeBeanButtonClient({
   tastes,
 }: {
   shops: ShopListItem[];
-  tastes: TasteListItem[] | null;
+  tastes: TasteListItem[];
 }) {
   const [open, setOpen] = useState(false);
   const [modalKey, setModalKey] = useState(0);

@@ -6,6 +6,7 @@ import {
   type CoffeeBeanFormState,
   coffeeBeanFieldsSchema,
 } from "@/app/(admin)/coffee-beans/_lib/coffeeBeanFormSchema";
+import { parseTastesFromFormData } from "@/app/(admin)/coffee-beans/_lib/parseTastes";
 
 export type CreateCoffeeBeanState = CoffeeBeanFormState;
 
@@ -36,17 +37,7 @@ export async function createCoffeeBeanAction(
 
   const { shopId: parsedShopId, ...fields } = result.data;
 
-  const tasteIds = formData.getAll("tasteIds") as string[];
-  const tastes = tasteIds
-    .map((tasteId) => {
-      const rawValue = formData.get(`tasteValue_${tasteId}`) as string;
-      const evaluationValue = Number.parseInt(rawValue, 10);
-      if (Number.isNaN(evaluationValue)) return null;
-      return { tasteId, evaluationValue };
-    })
-    .filter(
-      (t): t is { tasteId: string; evaluationValue: number } => t !== null,
-    );
+  const tastes = parseTastesFromFormData(formData);
 
   const response = await multipartRequest(
     "/api/admin/coffee-beans",

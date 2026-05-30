@@ -11,7 +11,7 @@ export type TasteListItem = {
 
 /**
  * テイスト一覧を取得する。
- * APIエラー時は null を返す（空配列 [] との区別のため）。
+ * APIエラー時は例外を throw する。
  */
 export async function fetchTastes(): Promise<TasteListItem[]> {
   const cookieStore = await cookies();

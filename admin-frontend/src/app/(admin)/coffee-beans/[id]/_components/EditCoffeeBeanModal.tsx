@@ -284,7 +284,7 @@ export function EditCoffeeBeanModal({
         <TasteProfileField
           tastes={tastes}
           getDefaultValue={(taste) =>
-            coffeeBean.tastes.find((t) => t.tasteName === taste.name)
+            coffeeBean.tastes.find((t) => t.tasteId === taste.id)
               ?.evaluationValue ?? 0
           }
         />

@@ -1,5 +1,3 @@
-"use client";
-
 import type { TasteListItem } from "@/api/tastes";
 import modalStyles from "@/components/modal.module.css";
 

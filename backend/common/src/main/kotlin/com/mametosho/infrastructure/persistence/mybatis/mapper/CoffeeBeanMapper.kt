@@ -32,7 +32,7 @@ interface CoffeeBeanMapper {
             cb.id AS bean_id, cb.shop_id, cb.shopify_bean_id, cb.name AS bean_name,
             cb.description, cb.origin, cb.farm, cb.roast_level, cb.processing_method, cb.is_specialty,
             cbi.id AS image_id, cbi.type AS image_type, cbi.image_url,
-            cbt.id AS taste_eval_id, t.name AS taste_name, cbt.evaluation_value
+            cbt.id AS taste_eval_id, cbt.tastes_id AS taste_id, t.name AS taste_name, cbt.evaluation_value
         FROM coffee_beans cb
         LEFT JOIN coffee_bean_images cbi ON cbi.coffee_bean_id = cb.id
         LEFT JOIN coffee_bean_tastes cbt ON cbt.coffee_bean_id = cb.id

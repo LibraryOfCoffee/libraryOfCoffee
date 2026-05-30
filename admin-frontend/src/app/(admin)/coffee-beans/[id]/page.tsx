@@ -12,7 +12,7 @@ export default async function CoffeeBeanDetailPage({
   const [coffeeBean, shops, tastes] = await Promise.all([
     fetchCoffeeBean(id),
     fetchShops(0, 10),
-    fetchTastes(),
+    fetchTastes().catch(() => []),
   ]);
   const initialShops = shops.items.map((s) => ({ id: s.id, name: s.name }));
   return (

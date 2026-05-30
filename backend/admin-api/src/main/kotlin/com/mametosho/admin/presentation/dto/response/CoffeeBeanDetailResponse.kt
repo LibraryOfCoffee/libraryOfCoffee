@@ -44,6 +44,8 @@ data class CoffeeBeanDetailResponse(
     data class TasteDetail(
         @Schema(description = "テイスト評価ID", example = "00000000-0000-4000-8000-000000000020")
         val id: String,
+        @Schema(description = "テイストマスタID", example = "00000000-0000-4000-8000-000000000041")
+        val tasteId: String,
         @Schema(description = "テイスト名", example = "酸味")
         val tasteName: String,
         @Schema(description = "評価値（0-5）", example = "4")
@@ -63,7 +65,7 @@ data class CoffeeBeanDetailResponse(
             processingMethod = result.processingMethod,
             isSpecialty = result.isSpecialty,
             images = result.images.map { ImageDetail(id = it.id, type = it.type, imageUrl = it.imageUrl) },
-            tastes = result.tastes.map { TasteDetail(id = it.id, tasteName = it.tasteName, evaluationValue = it.evaluationValue) },
+            tastes = result.tastes.map { TasteDetail(id = it.id, tasteId = it.tasteId, tasteName = it.tasteName, evaluationValue = it.evaluationValue) },
         )
     }
 }

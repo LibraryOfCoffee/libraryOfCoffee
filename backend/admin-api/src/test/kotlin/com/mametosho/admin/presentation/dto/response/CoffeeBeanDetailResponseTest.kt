@@ -38,6 +38,7 @@ class CoffeeBeanDetailResponseTest {
             )
             val taste = CoffeeBeanDetailResult.TasteResult(
                 id = "00000000-0000-4000-8000-000000000020",
+                tasteId = "00000000-0000-4000-8000-000000000041",
                 tasteName = "酸味",
                 evaluationValue = 4,
             )
@@ -61,6 +62,7 @@ class CoffeeBeanDetailResponseTest {
             assertEquals("https://example.com/image.jpg", response.images[0].imageUrl)
             assertEquals(1, response.tastes.size)
             assertEquals("00000000-0000-4000-8000-000000000020", response.tastes[0].id)
+            assertEquals("00000000-0000-4000-8000-000000000041", response.tastes[0].tasteId)
             assertEquals("酸味", response.tastes[0].tasteName)
             assertEquals(4, response.tastes[0].evaluationValue)
         }

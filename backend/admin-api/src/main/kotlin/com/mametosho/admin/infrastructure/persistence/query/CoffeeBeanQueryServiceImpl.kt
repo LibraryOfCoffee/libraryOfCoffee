@@ -72,6 +72,7 @@ class CoffeeBeanQueryServiceImpl(
                 .map { row ->
                     CoffeeBeanDetailResult.TasteResult(
                         id = checkNotNull(row.tasteEvalId),
+                        tasteId = checkNotNull(row.tasteId),
                         tasteName = checkNotNull(row.tasteName),
                         evaluationValue = checkNotNull(row.evaluationValue),
                     )
