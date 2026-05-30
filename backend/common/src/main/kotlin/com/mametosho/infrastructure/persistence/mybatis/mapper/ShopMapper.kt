@@ -61,7 +61,8 @@ interface ShopMapper {
     @Select(
         """
         <script>
-        SELECT id, shopify_shop_id, name, introduction, particular, shop_url, prefecture
+        SELECT id, shopify_shop_id, name, introduction, particular, shop_url, prefecture,
+               COUNT(*) OVER() AS total_count
         FROM shops
         <where>
             <if test="name != null">
@@ -78,18 +79,4 @@ interface ShopMapper {
         @Param("offset") offset: Int,
         @Param("name") name: String?,
     ): List<ShopEntity>
-
-    @Select(
-        """
-        <script>
-        SELECT COUNT(*) FROM shops
-        <where>
-            <if test="name != null">
-                name LIKE CONCAT('%', #{name}, '%')
-            </if>
-        </where>
-        </script>
-        """,
-    )
-    fun countByCondition(@Param("name") name: String?): Long
 }

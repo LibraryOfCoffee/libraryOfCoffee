@@ -8,4 +8,5 @@ data class ShopEntity(
     val particular: String?,
     val shopUrl: String,
     val prefecture: String,
+    val totalCount: Long = 0,
 )
