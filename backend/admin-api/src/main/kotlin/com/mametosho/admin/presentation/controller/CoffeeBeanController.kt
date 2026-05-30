@@ -8,7 +8,7 @@ import com.mametosho.admin.application.usecase.UpdateCoffeeBeanUsecase
 import com.mametosho.admin.presentation.dto.request.CreateCoffeeBeanRequest
 import com.mametosho.admin.presentation.dto.request.UpdateCoffeeBeanRequest
 import com.mametosho.admin.presentation.dto.response.CoffeeBeanDetailResponse
-import com.mametosho.admin.presentation.dto.response.CoffeeBeanListResponse
+import com.mametosho.admin.presentation.dto.response.CoffeeBeanSummaryResponse
 import com.mametosho.admin.presentation.dto.response.CoffeeBeanResponse
 import com.mametosho.admin.presentation.dto.response.ErrorResponse
 import com.mametosho.admin.presentation.dto.response.PagedResponse
@@ -93,9 +93,9 @@ class CoffeeBeanController(
         @RequestParam(defaultValue = "0") page: Int,
         @Parameter(description = "1ページあたりの件数", example = "20")
         @RequestParam(defaultValue = "20") size: Int,
-    ): ResponseEntity<PagedResponse<CoffeeBeanListResponse>> {
+    ): ResponseEntity<PagedResponse<CoffeeBeanSummaryResponse>> {
         val result = listCoffeeBeansUsecase.execute(page, size)
-        return ResponseEntity.ok(PagedResponse.from(result) { CoffeeBeanListResponse.from(it) })
+        return ResponseEntity.ok(PagedResponse.from(result) { CoffeeBeanSummaryResponse.from(it) })
     }
 
     @GetMapping("/{id}")

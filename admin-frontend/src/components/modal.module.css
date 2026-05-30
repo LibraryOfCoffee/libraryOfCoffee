@@ -184,6 +184,59 @@
   cursor: not-allowed;
 }
 
+.tasteRatingRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tasteName {
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+  min-width: 2.5rem;
+}
+
+.tasteOptions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.tasteOption {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s;
+}
+
+.tasteOption:hover {
+  border-color: var(--color-brand);
+  color: var(--color-brand);
+}
+
+.tasteOption:has(:checked) {
+  background: var(--color-brand);
+  border-color: var(--color-brand);
+  color: #ffffff;
+}
+
+.tasteOptionInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
 .imageField {
   display: flex;
   flex-direction: column;

@@ -4,7 +4,7 @@ import com.mametosho.domain.model.shop.Shop
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "店舗一覧アイテム")
-data class ShopListResponse(
+data class ShopSummaryResponse(
     @Schema(description = "店舗ID", example = "00000000-0000-4000-8000-000000000001")
     val id: String,
     @Schema(description = "ShopifyショップID", example = "test-shop-001")
@@ -21,7 +21,7 @@ data class ShopListResponse(
     val prefecture: String,
 ) {
     companion object {
-        fun from(shop: Shop): ShopListResponse = ShopListResponse(
+        fun from(shop: Shop): ShopSummaryResponse = ShopSummaryResponse(
             id = shop.id.value,
             shopifyShopId = shop.shopifyShopId.value,
             name = shop.name,
