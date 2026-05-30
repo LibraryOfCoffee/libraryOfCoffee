@@ -2,7 +2,7 @@ package com.mametosho.admin.infrastructure.persistence.query
 
 import com.mametosho.admin.application.query.CoffeeBeanQueryService
 import com.mametosho.admin.application.query.result.CoffeeBeanDetailResult
-import com.mametosho.admin.application.query.result.CoffeeBeanListResult
+import com.mametosho.admin.application.query.result.CoffeeBeanSummaryResult
 import com.mametosho.admin.application.result.PagedResult
 import com.mametosho.infrastructure.persistence.mybatis.mapper.CoffeeBeanMapper
 import org.springframework.stereotype.Service
@@ -12,13 +12,13 @@ class CoffeeBeanQueryServiceImpl(
     private val coffeeBeanMapper: CoffeeBeanMapper,
 ) : CoffeeBeanQueryService {
 
-    override fun findList(page: Int, size: Int): PagedResult<CoffeeBeanListResult> {
+    override fun findList(page: Int, size: Int): PagedResult<CoffeeBeanSummaryResult> {
         val offset = page * size
         val rows = coffeeBeanMapper.findListRows(size, offset)
         val totalCount = coffeeBeanMapper.countAll()
 
         val items = rows.map { row ->
-            CoffeeBeanListResult(
+            CoffeeBeanSummaryResult(
                 id = row.id,
                 shopId = row.shopId,
                 shopifyBeanId = row.shopifyBeanId,

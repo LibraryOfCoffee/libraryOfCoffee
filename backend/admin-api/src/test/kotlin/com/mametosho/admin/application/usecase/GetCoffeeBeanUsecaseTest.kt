@@ -2,7 +2,7 @@ package com.mametosho.admin.application.usecase
 
 import com.mametosho.admin.application.query.CoffeeBeanQueryService
 import com.mametosho.admin.application.query.result.CoffeeBeanDetailResult
-import com.mametosho.admin.application.query.result.CoffeeBeanListResult
+import com.mametosho.admin.application.query.result.CoffeeBeanSummaryResult
 import com.mametosho.admin.application.result.PagedResult
 import org.junit.jupiter.api.Nested
 import kotlin.test.Test
@@ -28,7 +28,7 @@ class GetCoffeeBeanUsecaseTest {
 
     private fun createUsecase(result: CoffeeBeanDetailResult? = existingResult): GetCoffeeBeanUsecase {
         val fakeQueryService = object : CoffeeBeanQueryService {
-            override fun findList(page: Int, size: Int): PagedResult<CoffeeBeanListResult> =
+            override fun findList(page: Int, size: Int): PagedResult<CoffeeBeanSummaryResult> =
                 PagedResult(emptyList(), 0L, page, size)
             override fun findDetail(id: String): CoffeeBeanDetailResult? =
                 if (id == existingResult.id) result else null

@@ -1,7 +1,7 @@
 package com.mametosho.cs.infrastructure.persistence.query
 
 import com.mametosho.cs.application.query.CoffeeBeanQueryService
-import com.mametosho.cs.application.query.result.CoffeeBeanListResult
+import com.mametosho.cs.application.query.result.CoffeeBeanSummaryResult
 import com.mametosho.cs.application.result.PagedResult
 import com.mametosho.cs.infrastructure.persistence.mybatis.mapper.CoffeeBeanQueryMapper
 import com.mametosho.domain.model.coffeebean.RoastLevel
@@ -19,7 +19,7 @@ class CoffeeBeanQueryServiceImpl(
         origin: String?,
         roastLevel: RoastLevel?,
         prefecture: Prefecture?,
-    ): PagedResult<CoffeeBeanListResult> {
+    ): PagedResult<CoffeeBeanSummaryResult> {
         val offset = page * size
         val rows = coffeeBeanQueryMapper.findListRows(size, offset, origin, roastLevel?.name, prefecture?.name)
         val totalCount = coffeeBeanQueryMapper.countFiltered(origin, roastLevel?.name, prefecture?.name)
@@ -28,7 +28,7 @@ class CoffeeBeanQueryServiceImpl(
             .groupBy { it.id }
             .map { (_, beanRows) ->
                 val first = beanRows.first()
-                CoffeeBeanListResult(
+                CoffeeBeanSummaryResult(
                     id = first.id,
                     name = first.name,
                     origin = first.origin,
@@ -42,7 +42,7 @@ class CoffeeBeanQueryServiceImpl(
                     shopUrl = first.shopUrl,
                     tasteProfiles = beanRows
                         .map { row ->
-                            CoffeeBeanListResult.TasteProfileResult(
+                            CoffeeBeanSummaryResult.TasteProfileResult(
                                 name = row.tasteName,
                                 value = row.evaluationValue,
                             )

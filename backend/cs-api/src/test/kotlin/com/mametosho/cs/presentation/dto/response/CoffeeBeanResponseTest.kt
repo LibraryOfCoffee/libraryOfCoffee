@@ -1,6 +1,6 @@
 package com.mametosho.cs.presentation.dto.response
 
-import com.mametosho.cs.application.query.result.CoffeeBeanListResult
+import com.mametosho.cs.application.query.result.CoffeeBeanSummaryResult
 import org.junit.jupiter.api.Nested
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -9,7 +9,7 @@ class CoffeeBeanResponseTest {
 
     private fun createResult(
         isSpecialty: Boolean = true,
-    ): CoffeeBeanListResult = CoffeeBeanListResult(
+    ): CoffeeBeanSummaryResult = CoffeeBeanSummaryResult(
         id = "00000000-0000-4000-8000-000000000001",
         name = "テストコーヒー豆",
         origin = "エチオピア",
@@ -21,15 +21,15 @@ class CoffeeBeanResponseTest {
         shopName = "テスト珈琲焙煎所",
         shopPrefecture = "TOKYO",
         tasteProfiles = listOf(
-            CoffeeBeanListResult.TasteProfileResult(name = "酸味", value = 60),
-            CoffeeBeanListResult.TasteProfileResult(name = "苦味", value = 20),
+            CoffeeBeanSummaryResult.TasteProfileResult(name = "酸味", value = 60),
+            CoffeeBeanSummaryResult.TasteProfileResult(name = "苦味", value = 20),
         ),
     )
 
     @Nested
     inner class 正常系変換 {
         @Test
-        fun `CoffeeBeanListResultからCoffeeBeanResponseに正しく変換される`() {
+        fun `CoffeeBeanSummaryResultからCoffeeBeanResponseに正しく変換される`() {
             val response = CoffeeBeanResponse.from(createResult())
 
             assertEquals("00000000-0000-4000-8000-000000000001", response.id)

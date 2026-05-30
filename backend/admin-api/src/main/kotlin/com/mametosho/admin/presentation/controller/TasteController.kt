@@ -1,6 +1,6 @@
 package com.mametosho.admin.presentation.controller
 
-import com.mametosho.admin.application.usecase.ListTastesUsecase
+import com.mametosho.admin.application.usecase.FindTastesUsecase
 import com.mametosho.admin.presentation.dto.response.TasteResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/admin/tastes")
 @Tag(name = "Taste", description = "テイストAPI")
 class TasteController(
-    private val listTastesUsecase: ListTastesUsecase,
+    private val findTastesUsecase: FindTastesUsecase,
 ) {
     @GetMapping
     @Operation(
@@ -67,7 +67,7 @@ class TasteController(
         ],
     )
     fun listTastes(): ResponseEntity<List<TasteResponse>> {
-        val results = listTastesUsecase.execute()
+        val results = findTastesUsecase.execute()
         return ResponseEntity.ok(results.map { TasteResponse.from(it) })
     }
 }

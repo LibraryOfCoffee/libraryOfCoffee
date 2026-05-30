@@ -1,7 +1,7 @@
 package com.mametosho.cs.application.usecase
 
 import com.mametosho.cs.application.query.CoffeeBeanQueryService
-import com.mametosho.cs.application.query.result.CoffeeBeanListResult
+import com.mametosho.cs.application.query.result.CoffeeBeanSummaryResult
 import com.mametosho.cs.application.result.PagedResult
 import com.mametosho.domain.model.coffeebean.RoastLevel
 import com.mametosho.domain.model.shop.Prefecture
@@ -19,7 +19,7 @@ class FindCoffeeBeansUsecaseTest {
 
     private val sampleResult = PagedResult(
         items = listOf(
-            CoffeeBeanListResult(
+            CoffeeBeanSummaryResult(
                 id = "00000000-0000-4000-8000-000000000001",
                 name = "テストコーヒー豆",
                 origin = "エチオピア",
@@ -31,7 +31,7 @@ class FindCoffeeBeansUsecaseTest {
                 shopName = "テスト珈琲焙煎所",
                 shopPrefecture = "TOKYO",
                 tasteProfiles = listOf(
-                    CoffeeBeanListResult.TasteProfileResult(name = "酸味", value = 60),
+                    CoffeeBeanSummaryResult.TasteProfileResult(name = "酸味", value = 60),
                 ),
             ),
         ),
@@ -41,7 +41,7 @@ class FindCoffeeBeansUsecaseTest {
     )
 
     private fun createUsecase(
-        result: PagedResult<CoffeeBeanListResult> = sampleResult,
+        result: PagedResult<CoffeeBeanSummaryResult> = sampleResult,
     ): FindCoffeeBeansUsecase {
         val fakeQueryService = object : CoffeeBeanQueryService {
             override fun findList(
@@ -50,7 +50,7 @@ class FindCoffeeBeansUsecaseTest {
                 origin: String?,
                 roastLevel: RoastLevel?,
                 prefecture: Prefecture?,
-            ): PagedResult<CoffeeBeanListResult> {
+            ): PagedResult<CoffeeBeanSummaryResult> {
                 capturedPage = page
                 capturedSize = size
                 capturedOrigin = origin

@@ -1,6 +1,6 @@
 package com.mametosho.cs.application.query.result
 
-data class CoffeeBeanListResult(
+data class CoffeeBeanSummaryResult(
     val id: String,
     val name: String,
     val origin: String,

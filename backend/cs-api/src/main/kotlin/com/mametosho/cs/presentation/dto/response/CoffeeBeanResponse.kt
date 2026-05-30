@@ -1,6 +1,6 @@
 package com.mametosho.cs.presentation.dto.response
 
-import com.mametosho.cs.application.query.result.CoffeeBeanListResult
+import com.mametosho.cs.application.query.result.CoffeeBeanSummaryResult
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "珈琲豆一覧アイテム")
@@ -39,7 +39,7 @@ data class CoffeeBeanResponse(
     )
 
     companion object {
-        fun from(result: CoffeeBeanListResult): CoffeeBeanResponse = CoffeeBeanResponse(
+        fun from(result: CoffeeBeanSummaryResult): CoffeeBeanResponse = CoffeeBeanResponse(
             id = result.id,
             name = result.name,
             origin = result.origin,

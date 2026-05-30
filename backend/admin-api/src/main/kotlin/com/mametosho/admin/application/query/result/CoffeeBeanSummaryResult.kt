@@ -1,6 +1,6 @@
 package com.mametosho.admin.application.query.result
 
-data class CoffeeBeanListResult(
+data class CoffeeBeanSummaryResult(
     val id: String,
     val shopId: String,
     val shopifyBeanId: String,

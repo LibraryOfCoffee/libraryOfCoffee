@@ -3,7 +3,7 @@ package com.mametosho.admin.presentation.controller
 import com.mametosho.admin.application.usecase.CreateShopUsecase
 import com.mametosho.admin.application.usecase.DeleteShopUsecase
 import com.mametosho.admin.application.usecase.GetShopUsecase
-import com.mametosho.admin.application.usecase.ListShopsUsecase
+import com.mametosho.admin.application.usecase.FindShopsUsecase
 import com.mametosho.admin.application.usecase.UpdateShopUsecase
 import com.mametosho.admin.presentation.dto.request.CreateShopRequest
 import com.mametosho.admin.presentation.dto.request.UpdateShopRequest
@@ -39,7 +39,7 @@ import org.springframework.web.multipart.MultipartFile
 @Tag(name = "Shop", description = "店舗API")
 class ShopController(
     private val getShopUsecase: GetShopUsecase,
-    private val listShopsUsecase: ListShopsUsecase,
+    private val findShopsUsecase: FindShopsUsecase,
     private val createShopUsecase: CreateShopUsecase,
     private val updateShopUsecase: UpdateShopUsecase,
     private val deleteShopUsecase: DeleteShopUsecase,
@@ -92,7 +92,7 @@ class ShopController(
         @Parameter(description = "店名（部分一致検索）", example = "珈琲", required = false)
         @RequestParam(required = false) name: String?,
     ): ResponseEntity<PagedResponse<ShopSummaryResponse>> {
-        val result = listShopsUsecase.execute(page, size, name)
+        val result = findShopsUsecase.execute(page, size, name)
         return ResponseEntity.ok(PagedResponse.from(result) { ShopSummaryResponse.from(it) })
     }
 

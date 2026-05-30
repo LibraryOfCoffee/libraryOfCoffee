@@ -38,6 +38,7 @@ interface CoffeeBeanMapper {
         LEFT JOIN coffee_bean_tastes cbt ON cbt.coffee_bean_id = cb.id
         LEFT JOIN tastes t ON cbt.tastes_id = t.id
         WHERE cb.id = #{id}
+        ORDER BY t.name
         """,
     )
     fun findDetailRowsById(id: String): List<CoffeeBeanDetailRow>
