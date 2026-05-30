@@ -31,7 +31,11 @@ data class CreateCoffeeBeanRequest(
     @Schema(description = "スペシャルティコーヒーかどうか", example = "true")
     val isSpecialty: Boolean,
 
-    @Schema(description = "公開状態（DRAFT: 下書き / PUBLISHED: 公開）", example = "DRAFT")
+    @Schema(
+        description = "公開状態（DRAFT: 下書き / PUBLISHED: 公開）",
+        example = "DRAFT",
+        requiredMode = Schema.RequiredMode.REQUIRED,
+    )
     val publishStatus: String,
 
     @Schema(description = "テイスト評価一覧")

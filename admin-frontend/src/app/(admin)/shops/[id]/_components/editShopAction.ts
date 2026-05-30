@@ -25,7 +25,7 @@ export async function editShopAction(
     particular: (formData.get("particular") as string) ?? "",
     shopUrl: (formData.get("shopUrl") as string) ?? "",
     prefecture: (formData.get("prefecture") as string) ?? "",
-    publishStatus: (formData.get("publishStatus") as string) ?? "DRAFT",
+    publishStatus: (formData.get("publishStatus") as string) ?? "",
   };
 
   const result = editShopSchema.safeParse({

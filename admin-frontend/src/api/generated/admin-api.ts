@@ -188,7 +188,7 @@ export interface components {
        * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
        * @example PUBLISHED
        */
-      publishStatus?: string;
+      publishStatus: string;
     };
     /** @description 店舗登録レスポンス */
     ShopResponse: {
@@ -288,7 +288,7 @@ export interface components {
        * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
        * @example PUBLISHED
        */
-      publishStatus?: string;
+      publishStatus: string;
       /** @description テイスト評価一覧 */
       tastes?: components["schemas"]["TasteRequest"][];
       specialty?: boolean;
@@ -337,7 +337,7 @@ export interface components {
        * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
        * @example DRAFT
        */
-      publishStatus?: string;
+      publishStatus: string;
     };
     /** @description コーヒー豆登録リクエスト */
     CreateCoffeeBeanRequest: {
@@ -385,7 +385,7 @@ export interface components {
        * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
        * @example DRAFT
        */
-      publishStatus?: string;
+      publishStatus: string;
       /** @description テイスト評価一覧 */
       tastes?: components["schemas"]["TasteRequest"][];
       specialty?: boolean;
@@ -481,7 +481,7 @@ export interface components {
        * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
        * @example PUBLISHED
        */
-      publishStatus?: string;
+      publishStatus: string;
       /** @description 画像一覧 */
       images?: components["schemas"]["ImageDetail"][];
     };
@@ -536,7 +536,7 @@ export interface components {
        * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
        * @example PUBLISHED
        */
-      publishStatus?: string;
+      publishStatus: string;
       /** @description 画像一覧 */
       images?: components["schemas"]["ImageDetail"][];
       /** @description テイスト評価一覧 */
