@@ -14,7 +14,6 @@ package com.mametosho.domain.model.plan
  * @property type プラン種別（SUBSCRIPTION / SINGLE）
  * @property isRecommended おすすめバッジ
  */
-@Suppress("MagicNumber")
 data class Plan(
     val id: PlanId,
     val shopifyPlanId: ShopifyPlanId,
@@ -26,8 +25,15 @@ data class Plan(
     val isRecommended: Boolean,
 ) {
     init {
-        require(gramWeight in setOf(30, 60, 90)) { "gramWeight must be 30, 60, or 90, but was $gramWeight" }
-        require(beanQuantity in setOf(3, 4, 5)) { "beanQuantity must be 3, 4, or 5, but was $beanQuantity" }
+        require(gramWeight in VALID_GRAM_WEIGHTS) { "gramWeight must be 30, 60, or 90, but was $gramWeight" }
+        require(beanQuantity in VALID_BEAN_QUANTITIES) { "beanQuantity must be 3, 4, or 5, but was $beanQuantity" }
         require(price >= 0) { "price must be non-negative" }
+    }
+
+    companion object {
+        @Suppress("MagicNumber")
+        val VALID_GRAM_WEIGHTS = setOf(30, 60, 90)
+        @Suppress("MagicNumber")
+        val VALID_BEAN_QUANTITIES = setOf(3, 4, 5)
     }
 }

@@ -1,6 +1,6 @@
 package com.mametosho.admin.presentation.dto.response
 
-import com.mametosho.admin.application.query.result.TasteListResult
+import com.mametosho.domain.model.taste.Taste
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "テイスト一覧アイテム")
@@ -11,9 +11,9 @@ data class TasteListResponse(
     val name: String,
 ) {
     companion object {
-        fun from(result: TasteListResult): TasteListResponse = TasteListResponse(
-            id = result.id,
-            name = result.name,
+        fun from(taste: Taste): TasteListResponse = TasteListResponse(
+            id = taste.id.value,
+            name = taste.name,
         )
     }
 }

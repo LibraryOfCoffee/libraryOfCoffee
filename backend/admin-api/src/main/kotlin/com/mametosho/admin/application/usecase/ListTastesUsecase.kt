@@ -1,16 +1,16 @@
 package com.mametosho.admin.application.usecase
 
-import com.mametosho.admin.application.query.TasteQueryService
-import com.mametosho.admin.application.query.result.TasteListResult
+import com.mametosho.domain.model.taste.Taste
+import com.mametosho.domain.repository.TasteRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class ListTastesUsecase(
-    private val tasteQueryService: TasteQueryService,
+    private val tasteRepository: TasteRepository,
 ) {
     @Transactional(readOnly = true)
-    open fun execute(): List<TasteListResult> {
-        return tasteQueryService.findAll()
+    open fun execute(): List<Taste> {
+        return tasteRepository.findAll()
     }
 }

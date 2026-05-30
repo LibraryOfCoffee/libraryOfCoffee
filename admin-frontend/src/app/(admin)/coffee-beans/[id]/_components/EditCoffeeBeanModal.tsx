@@ -10,6 +10,7 @@ import {
 import type { CoffeeBeanDetail } from "@/api/coffee-beans";
 import type { TasteListItem } from "@/api/tastes";
 import { searchShopsAction } from "@/app/(admin)/coffee-beans/_components/searchShopsAction";
+import { TasteProfileField } from "@/app/(admin)/coffee-beans/_components/TasteProfileField";
 import {
   PROCESSING_METHOD_LABELS,
   ROAST_LEVEL_LABELS,
@@ -280,39 +281,13 @@ export function EditCoffeeBeanModal({
           ))}
         </div>
 
-        {tastes === null ? (
-          <div className={modalStyles.error}>
-            テイスト情報の取得に失敗しました。ページを再読み込みしてください。
-          </div>
-        ) : (
-          tastes.length > 0 && (
-            <div className={modalStyles.field}>
-              <span className={modalStyles.label}>テイストプロファイル</span>
-              {tastes.map((taste) => {
-                const existing = coffeeBean.tastes.find(
-                  (t) => t.tasteName === taste.name,
-                );
-                const defaultValue = existing?.evaluationValue ?? 0;
-                return (
-                  <div key={taste.id}>
-                    <input type="hidden" name="tasteIds" value={taste.id} />
-                    <label>
-                      {taste.name}
-                      <input
-                        type="number"
-                        name={`tasteValue_${taste.id}`}
-                        min="0"
-                        max="5"
-                        defaultValue={defaultValue}
-                        className={modalStyles.input}
-                      />
-                    </label>
-                  </div>
-                );
-              })}
-            </div>
-          )
-        )}
+        <TasteProfileField
+          tastes={tastes}
+          getDefaultValue={(taste) =>
+            coffeeBean.tastes.find((t) => t.tasteName === taste.name)
+              ?.evaluationValue ?? 0
+          }
+        />
 
         <ImageUploadField
           imageTypes={[{ value: "MAIN", label: "メイン" }]}
@@ -329,7 +304,7 @@ export function EditCoffeeBeanModal({
           </button>
           <button
             type="submit"
-            disabled={isPending || tastes === null}
+            disabled={isPending || tastes === null || tastes.length === 0}
             className={modalStyles.submitButton}
           >
             {isPending ? "更新中..." : "更新"}
