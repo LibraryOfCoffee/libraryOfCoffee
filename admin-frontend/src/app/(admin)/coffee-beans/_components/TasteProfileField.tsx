@@ -5,7 +5,7 @@ const TASTE_VALUES = [1, 2, 3, 4, 5] as const;
 
 export function TasteProfileField({
   tastes,
-  getDefaultValue = () => 0,
+  getDefaultValue = () => 3,
 }: {
   tastes: TasteListItem[];
   getDefaultValue?: (taste: TasteListItem) => number;

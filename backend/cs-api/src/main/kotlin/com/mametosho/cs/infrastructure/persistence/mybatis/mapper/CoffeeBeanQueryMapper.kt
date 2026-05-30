@@ -48,6 +48,7 @@ interface CoffeeBeanQueryMapper {
         SELECT COUNT(*)
         FROM coffee_beans cb
         INNER JOIN shops s ON cb.shop_id = s.id
+        INNER JOIN coffee_bean_images cbi ON cbi.coffee_bean_id = cb.id AND cbi.type = 'MAIN'
         <where>
             <if test="origin != null">AND cb.origin LIKE CONCAT('%', #{origin}, '%')</if>
             <if test="roastLevel != null">AND cb.roast_level = #{roastLevel}</if>
