@@ -7,17 +7,17 @@ import { type BeanDetail, SPECIALTY_TAG_COLOR } from "../../_lib/coffeeBeanApi";
 import LinkWithLoading from "../LinkWithLoading/linkWithLoading";
 import styles from "./beanDetailModal.module.css";
 
-interface BeanDetailModalProps {
+type BeanDetailModalProps = {
   bean: BeanDetail;
   onClose: () => void;
-  selectHref: string;
-}
+} & ({ selectHref: string; onSelect?: never } | { onSelect: (bean: BeanDetail) => void; selectHref?: never });
 
 export default function BeanDetailModal({
   bean,
   onClose,
   selectHref,
-}: BeanDetailModalProps) {
+  onSelect,
+}: BeanDetailModalProps & { selectHref?: string; onSelect?: (bean: BeanDetail) => void }) {
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -132,10 +132,21 @@ export default function BeanDetailModal({
         </div>
 
         <div className={styles.footer}>
-          <LinkWithLoading href={selectHref} className={styles.selectBtn}>
-            この豆を選ぶ
-            <LuPlus size={18} />
-          </LinkWithLoading>
+          {onSelect ? (
+            <button
+              type="button"
+              className={styles.selectBtn}
+              onClick={() => onSelect(bean)}
+            >
+              この豆を選ぶ
+              <LuPlus size={18} />
+            </button>
+          ) : (
+            <LinkWithLoading href={selectHref!} className={styles.selectBtn}>
+              この豆を選ぶ
+              <LuPlus size={18} />
+            </LinkWithLoading>
+          )}
         </div>
       </div>
     </div>
