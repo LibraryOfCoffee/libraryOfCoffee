@@ -15,7 +15,10 @@ export function moveToCoffeeBeanListPage(planId?: string, beanIds?: string[]) {
   window.location.href = url.toString();
 }
 
-export function getPlanPagePath(beanId?: string) {
-  const params = beanId ? `?beanId=${beanId}` : "";
-  return `/lp/plan${params}`;
+export function getPlanPagePath(beanId?: string, planId?: string) {
+  const params = new URLSearchParams();
+  if (beanId) params.set("beanId", beanId);
+  if (planId) params.set("planId", planId);
+  const qs = params.toString();
+  return `/lp/catalog${qs ? `?${qs}` : ""}`;
 }

@@ -9,9 +9,100 @@ servers:
 - url: /
   description: Current Server
 tags:
+- name: Plan
+  description: プランAPI
+- name: Shop
+  description: 店舗API
 - name: CoffeeBean
   description: 珈琲豆API
 paths:
+  /api/shops:
+    get:
+      tags:
+      - Shop
+      summary: 店舗一覧取得
+      description: 店舗の一覧をページネーション付きで取得します。
+      operationId: listShops
+      parameters:
+      - name: page
+        in: query
+        description: ページ番号（0始まり）
+        required: true
+        schema:
+          type: integer
+          format: int32
+        example: 0
+      - name: size
+        in: query
+        description: 1ページあたりの件数
+        required: true
+        schema:
+          type: integer
+          format: int32
+        example: 20
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ShopListResponse"
+              examples:
+                success:
+                  summary: 取得成功例
+                  description: success
+                  value:
+                    items:
+                    - id: 00000000-0000-4000-8000-000000000031
+                      name: 珈琲工房 まめとしょ
+                      introduction: 東京都渋谷区にある自家焙煎珈琲店。厳選されたスペシャルティコーヒーをお届けします。
+                      shopUrl: https://mametosho.example.com
+                      prefecture: TOKYO
+                      logoImageUrl: https://placehold.jp/100x100.png
+                    - id: 00000000-0000-4000-8000-000000000032
+                      name: CAFÉ LUMIÈRE
+                      introduction: 京都の町家を改装した珈琲専門店。フレンチローストからライトローストまで幅広い焙煎度をご用意。
+                      shopUrl: https://cafe-lumiere.example.com
+                      prefecture: KYOTO
+                      logoImageUrl: https://placehold.jp/100x100.png
+                    totalCount: 3
+                    page: 0
+                    size: 20
+  /api/plans:
+    get:
+      tags:
+      - Plan
+      summary: プラン一覧取得
+      description: プランの一覧を取得します。
+      operationId: listPlans
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PlanListResponse"
+              examples:
+                success:
+                  summary: 取得成功例
+                  description: success
+                  value:
+                  - id: 00000000-0000-4000-8000-000000000024
+                    label: 定番
+                    gramWeight: 30
+                    beanQuantity: 4
+                    price: 1950
+                    type: SUBSCRIPTION
+                    isRecommended: true
+                  - id: 00000000-0000-4000-8000-00000000002d
+                    label: 定番
+                    gramWeight: 30
+                    beanQuantity: 4
+                    price: 2150
+                    type: SINGLE
+                    isRecommended: true
   /api/coffeeBeans:
     get:
       tags:
@@ -113,7 +204,9 @@ paths:
         "200":
           description: 取得成功
           content:
-            '*/*':
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PagedResponseCoffeeBeanListResponse"
               examples:
                 success:
                   summary: 取得成功例
@@ -126,7 +219,85 @@ paths:
                       roastLevel: LIGHT
                       processingMethod: WASHED
                       isSpecialty: true
+                      description: 花のような華やかなフレーバーと、柑橘系の明るい酸味が特徴。
+                      imageUrl: https://example.com/images/ethiopia.jpg
+                      shopName: 珈琲工房 まめとしょ
+                      tasteProfiles:
+                      - name: 酸味
+                        value: 5
+                      - name: 苦味
+                        value: 1
+                      - name: 甘味
+                        value: 3
+                      - name: コク
+                        value: 3
+                      - name: 香り
+                        value: 5
                     totalCount: 1
                     page: 0
                     size: 20
-components: {}
+components:
+  schemas:
+    ShopListResponse:
+      type: object
+      description: 店舗一覧アイテム
+      properties:
+        id:
+          type: string
+          description: 店舗ID
+          example: 00000000-0000-4000-8000-000000000031
+        name:
+          type: string
+          description: 店舗名
+          example: 珈琲工房 まめとしょ
+        introduction:
+          type: string
+          description: 店舗紹介文
+          example: 東京都渋谷区にある自家焙煎珈琲店。厳選されたスペシャルティコーヒーをお届けします。
+        shopUrl:
+          type: string
+          description: 店舗URL
+          example: https://mametosho.example.com
+        prefecture:
+          type: string
+          description: 都道府県
+          example: TOKYO
+        logoImageUrl:
+          type: string
+          description: ロゴ画像URL
+          example: https://placehold.jp/100x100.png
+    PlanListResponse:
+      type: object
+      description: プラン一覧アイテム
+      properties:
+        isRecommended:
+          type: boolean
+          description: おすすめバッジ
+          example: true
+        id:
+          type: string
+          description: プランID
+          example: 00000000-0000-4000-8000-000000000024
+        label:
+          type: string
+          description: プラン表示名
+          example: 定番
+        gramWeight:
+          type: integer
+          format: int32
+          description: 1種あたりのグラム数
+          example: 60
+        beanQuantity:
+          type: integer
+          format: int32
+          description: 豆の種類数
+          example: 4
+        price:
+          type: integer
+          format: int32
+          description: 価格
+          example: 3800
+        type:
+          type: string
+          description: プラン種別（SUBSCRIPTION / SINGLE）
+          example: SUBSCRIPTION

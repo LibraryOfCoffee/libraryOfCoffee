@@ -30,6 +30,7 @@ class GlobalExceptionHandler {
                 timestamp = OffsetDateTime.now(),
                 status = status.value(),
                 error = status.reasonPhrase,
+                message = ex.message,
                 path = request.requestURI,
             ),
         )
@@ -47,6 +48,7 @@ class GlobalExceptionHandler {
                 timestamp = OffsetDateTime.now(),
                 status = status.value(),
                 error = status.reasonPhrase,
+                message = ex.message,
                 path = request.requestURI,
             ),
         )
@@ -64,6 +66,7 @@ class GlobalExceptionHandler {
                 timestamp = OffsetDateTime.now(),
                 status = status.value(),
                 error = status.reasonPhrase,
+                message = ex.message,
                 path = request.requestURI,
             ),
         )
@@ -81,6 +84,7 @@ class GlobalExceptionHandler {
                 timestamp = OffsetDateTime.now(),
                 status = status.value(),
                 error = status.reasonPhrase,
+                message = ex.message,
                 path = request.requestURI,
             ),
         )
@@ -98,6 +102,7 @@ class GlobalExceptionHandler {
                 timestamp = OffsetDateTime.now(),
                 status = status.value(),
                 error = status.reasonPhrase,
+                message = ex.message,
                 path = request.requestURI,
             ),
         )
@@ -115,6 +120,7 @@ class GlobalExceptionHandler {
                 timestamp = OffsetDateTime.now(),
                 status = status.value(),
                 error = status.reasonPhrase,
+                message = "予期しないエラーが発生しました",
                 path = request.requestURI,
             ),
         )

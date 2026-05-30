@@ -6,7 +6,7 @@
 |------|------|
 | [Administrator](domains/administrator.md) | 管理画面にログインする管理者 |
 | [Customer](domains/customer.md) | 顧客とそのサブスクリプション契約 |
-| [SubscriptionPlan](domains/subscriptionPlan.md) | サブスクリプションのプラン |
+| [Plan](domains/plan.md) | 購入プラン（定期便・単品購入） |
 | [MonthlySubscriptionDetail](domains/monthlySubscriptionDetail.md) | 月次の配送内容と発送ステータス |
 | [Shop](domains/shop.md) | 珈琲豆を提供する店舗 |
 | [CoffeeBean](domains/coffeeBean.md) | 店舗が提供する珈琲豆 |
@@ -51,7 +51,7 @@ classDiagram
     class CustomerSubscription {
       <<Entity>>
       id: CustomerSubscriptionId
-      subscriptionPlanId: SubscriptionPlanId
+      planId: PlanId
       status: SubscriptionStatus
       contractPeriod: ContractPeriod
     }
@@ -74,17 +74,28 @@ classDiagram
   CustomerSubscription --> SubscriptionStatus
   CustomerSubscription --> ContractPeriod
 
-  namespace SubscriptionPlan集約 {
-    class SubscriptionPlan {
+  namespace Plan集約 {
+    class Plan {
       <<Aggregate Root>>
-      id: SubscriptionPlanId
-      shopifySubscriptionId: ShopifySubscriptionId
-      price: Int
+      id: PlanId
+      shopifyPlanId: ShopifyPlanId
+      label: String
+      gramWeight: Int
       beanQuantity: Int
+      price: Int
+      type: PlanType
+      isRecommended: Boolean
+    }
+
+    class PlanType {
+      <<Enum>>
+      SUBSCRIPTION
+      SINGLE
     }
   }
 
-  CustomerSubscription o-- SubscriptionPlan : subscriptionPlanId
+  Plan --> PlanType
+  CustomerSubscription o-- Plan : planId
 
   namespace MonthlySubscriptionDetail集約 {
     class MonthlySubscriptionDetail {
@@ -213,7 +224,7 @@ classDiagram
   CoffeeBean o-- Shop : shopId
   CoffeeBeanImage --> CoffeeBeanImageType
   CoffeeBean *-- CoffeeBeanImage
-  CoffeeBean *-- CoffeeBeanTaste
+  CoffeeBean "1" *-- "1..*" CoffeeBeanTaste : 必須（全テイスト種別）
 
   namespace Taste集約 {
     class Taste {

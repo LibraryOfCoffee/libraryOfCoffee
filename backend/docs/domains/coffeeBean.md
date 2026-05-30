@@ -39,6 +39,8 @@ Shopifyの商品と1対1で紐づく。産地、焙煎度、精製方法、テ�
 - roastLevelは必須
 - processingMethodは必須
 - shopIdは存在するShopを参照しなければならない
+- **images は必須**。少なくとも1枚の画像を持たなければならない
+- **tastes は必須**。全テイスト種別（酸味・苦味・甘味・コク・香り）の評価値を持たなければならない
 
 ## CoffeeBeanImage（エンティティ）
 

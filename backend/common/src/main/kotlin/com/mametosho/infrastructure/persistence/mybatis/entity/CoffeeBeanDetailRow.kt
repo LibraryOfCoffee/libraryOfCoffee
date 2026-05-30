@@ -15,6 +15,7 @@ data class CoffeeBeanDetailRow(
     val imageType: String?,
     val imageUrl: String?,
     val tasteEvalId: String?,
+    val tasteId: String?,
     val tasteName: String?,
     val evaluationValue: Int?,
 )

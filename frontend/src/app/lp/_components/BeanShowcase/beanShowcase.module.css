@@ -1,0 +1,225 @@
+.section {
+  padding: 20px 22px 8px;
+}
+
+.eyebrow {
+  font-family: var(--mt-font-en);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: var(--mt-accent);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.headline {
+  font-family: var(--mt-font-jp-serif);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--mt-ink);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.subtext {
+  font-size: 11px;
+  color: var(--mt-ink-3);
+  margin-top: 4px;
+  line-height: 1.6;
+  font-family: var(--mt-font-jp-sans);
+}
+
+.purchaseMethods {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.methodCard {
+  padding: 12px;
+  background: var(--mt-surface);
+  border-radius: 4px;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.methodCardPrimary {
+  border: 0.5px solid var(--mt-accent);
+}
+
+.methodCardSecondary {
+  border: 0.5px solid var(--mt-line);
+}
+
+.methodEn {
+  font-family: var(--mt-font-en);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  color: var(--mt-accent);
+  text-transform: uppercase;
+}
+
+.methodJa {
+  font-family: var(--mt-font-jp-serif);
+  font-size: 15px;
+  color: var(--mt-ink);
+  margin-top: 3px;
+  letter-spacing: 0.04em;
+}
+
+.methodSub {
+  font-size: 10px;
+  color: var(--mt-ink-3);
+  margin-top: 4px;
+  line-height: 1.45;
+  font-family: var(--mt-font-jp-sans);
+}
+
+.methodPrice {
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 0.5px dashed var(--mt-line);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.methodPriceNum {
+  font-family: var(--mt-font-en);
+  font-size: 13px;
+  color: var(--mt-ink);
+}
+
+.methodPriceUnit {
+  font-size: 9px;
+  color: var(--mt-ink-3);
+}
+
+.methodCta {
+  font-family: var(--mt-font-en);
+  font-size: 10px;
+  color: var(--mt-accent-deep);
+  letter-spacing: 0.05em;
+}
+
+.previewLabel {
+  margin-top: 14px;
+  font-family: var(--mt-font-en);
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  color: var(--mt-ink-3);
+  text-transform: uppercase;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.clearBtn {
+  font-family: var(--mt-font-jp-serif);
+  font-size: 10px;
+  color: var(--mt-ink-3);
+  letter-spacing: 0.04em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-transform: none;
+}
+
+.filters {
+  margin-top: 8px;
+  display: flex;
+  gap: 6px;
+}
+
+.filterWrap {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  background: var(--mt-surface);
+  border-radius: 999px;
+}
+
+.filterWrapActive {
+  border: 0.5px solid var(--mt-accent);
+}
+
+.filterWrapInactive {
+  border: 0.5px solid var(--mt-line);
+}
+
+.filterSelect {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 7px 22px 7px 11px;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--mt-font-jp-serif);
+  font-size: 11.5px;
+  cursor: pointer;
+}
+
+.filterSelectActive {
+  color: var(--mt-ink);
+}
+
+.filterSelectInactive {
+  color: var(--mt-ink-3);
+}
+
+.filterArrow {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 9px;
+  color: var(--mt-ink-3);
+  pointer-events: none;
+}
+
+.beanList {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.empty {
+  padding: 24px 16px;
+  text-align: center;
+  background: var(--mt-surface);
+  border: 0.5px dashed var(--mt-line);
+  border-radius: 4px;
+}
+
+.emptyTitle {
+  font-family: var(--mt-font-jp-serif);
+  font-size: 13px;
+  color: var(--mt-ink);
+  margin: 0;
+}
+
+.emptyDesc {
+  font-size: 10.5px;
+  color: var(--mt-ink-3);
+  margin-top: 4px;
+  font-family: var(--mt-font-jp-sans);
+}
+
+.andMore {
+  margin-top: 12px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mt-ink-3);
+  font-family: var(--mt-font-en);
+  font-style: italic;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}

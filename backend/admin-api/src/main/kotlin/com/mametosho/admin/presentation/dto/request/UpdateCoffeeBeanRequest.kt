@@ -39,7 +39,7 @@ data class UpdateCoffeeBeanRequest(
         @Schema(description = "テイストID", example = "00000000-0000-4000-8000-000000000041")
         val tasteId: String,
 
-        @Schema(description = "評価値", example = "3")
+        @Schema(description = "評価値（0-5）", example = "3")
         val evaluationValue: Int,
     )
 }

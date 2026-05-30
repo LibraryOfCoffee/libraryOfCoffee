@@ -1,55 +1,29 @@
 .header {
-  background: var(--color-white);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  background: var(--mt-bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .inner {
   max-width: 480px;
   margin: 0 auto;
-  height: 56px;
+  padding: 14px 22px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
 }
 
 .logo {
-  height: 26px;
+  height: 28px;
   width: auto;
   object-fit: contain;
-}
-
-.actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  display: block;
 }
 
 .login {
-  background: none;
-  border: none;
-  color: var(--color-text);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: var(--font-base);
+  font-size: 12px;
+  color: var(--mt-ink-3);
+  font-family: var(--mt-font-jp-sans);
   text-decoration: none;
-}
-
-.cta {
-  background: var(--color-brown);
-  color: var(--color-white);
-  border: none;
-  border-radius: 100px;
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: var(--font-base);
-  transition: opacity 0.3s;
-  text-decoration: none;
-}
-
-.cta:hover {
-  opacity: 0.9;
 }

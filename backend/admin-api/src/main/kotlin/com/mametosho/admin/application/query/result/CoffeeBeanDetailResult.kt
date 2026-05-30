@@ -22,6 +22,7 @@ data class CoffeeBeanDetailResult(
 
     data class TasteResult(
         val id: String,
+        val tasteId: String,
         val tasteName: String,
         val evaluationValue: Int,
     )

@@ -1,6 +1,4 @@
-import { LuChevronRight } from "react-icons/lu";
 import { getPlanPagePath } from "../../_lib/purchaseLinkUtil";
-import sharedStyles from "../../shared.module.css";
 import LinkWithLoading from "../LinkWithLoading/linkWithLoading";
 import styles from "./ctaSection.module.css";
 
@@ -13,12 +11,9 @@ export default function CtaSection() {
         始めませんか？
       </h2>
       <p className={styles.subtitle}>いつでも解約OK</p>
-      <LinkWithLoading
-        href={getPlanPagePath()}
-        className={`${sharedStyles.btnPrimary} ${styles.ctaBtn}`}
-      >
+      <LinkWithLoading href={getPlanPagePath()} className={styles.ctaBtn}>
         豆を選ぶ
-        <LuChevronRight className={styles.ctaArrow} size={22} />
+        <span className={styles.ctaArrow}>→</span>
       </LinkWithLoading>
     </section>
   );

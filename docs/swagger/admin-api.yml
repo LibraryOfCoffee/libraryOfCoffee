@@ -747,7 +747,7 @@ components:
         evaluationValue:
           type: integer
           format: int32
-          description: 評価値
+          description: 評価値（0-5）
           example: 3
     UpdateCoffeeBeanRequest:
       type: object

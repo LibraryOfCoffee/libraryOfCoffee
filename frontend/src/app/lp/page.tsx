@@ -1,8 +1,10 @@
+export const dynamic = "force-dynamic";
+
 import type { Metadata } from "next";
-import { LuCrown } from "react-icons/lu";
 import BeanShowcase from "./_components/BeanShowcase/beanShowcase";
 import ConceptSection from "./_components/ConceptSection/conceptSection";
 import CtaSection from "./_components/CtaSection/ctaSection";
+import ExperienceSection from "./_components/ExperienceSection/experienceSection";
 import FloatingCta from "./_components/FloatingCta/floatingCta";
 import Footer from "./_components/Footer/footer";
 import Header from "./_components/Header/header";
@@ -11,10 +13,11 @@ import HowItWorks from "./_components/HowItWorks/howItWorks";
 import PartnerShops from "./_components/PartnerShops/partnerShops";
 import PricingSection from "./_components/PricingSection/pricingSection";
 import TestimonialsCarousel from "./_components/TestimonialsCarousel/testimonialsCarousel";
-import { beans, SPECIALTY_TAG_COLOR } from "./_lib/beanData";
+import { fetchCoffeeBeans } from "./_lib/coffeeBeanApi";
 import { JsonLd } from "./_lib/jsonLd";
+import { fetchPlans } from "./_lib/planApi";
 import "./globals.css";
-import styles from "./shared.module.css";
+import pageStyles from "./page.module.css";
 
 export const metadata: Metadata = {
   title: "色々な珈琲と出会える定額サブスク",
@@ -86,77 +89,46 @@ const testimonials = [
   },
   {
     quote:
-      "「定期的に届く豆が生活の楽しみになりました。毎回違う味に出会えて、自分の\u201C好き\u201Dが少しずつ見えてきます。」",
+      "「定期的に届く豆が生活の楽しみになりました。毎回違う味に出会えて、自分の“好き”が少しずつ見えてきます。」",
     name: "T.Aさん",
     meta: "50代・会社員",
     avatarSrc: "/lpUsers/Woman.png",
   },
   {
     quote:
-      "「珈琲豆の情報が分かりやすくまとまっているおかげで、さらに自分で調べて\u201Cディグる\u201D楽しさに出会えました。」",
+      "「珈琲豆の情報が分かりやすくまとまっているおかげで、さらに自分で調べて“ディグる”楽しさに出会えました。」",
     name: "F.Aさん",
     meta: "20代・学生",
     avatarSrc: "/lpUsers/Student.png",
   },
 ];
 
-export default function LP2() {
+export default async function LpPage() {
+  const [beans, planGroups] = await Promise.all([
+    fetchCoffeeBeans(),
+    fetchPlans(),
+  ]);
+
   return (
     <>
       <JsonLd data={organizationJsonLd} />
       <JsonLd data={webSiteJsonLd} />
       <JsonLd data={productJsonLd} />
       <Header />
-      <div className={styles.container}>
+      <main className={pageStyles.pageMain}>
         <HeroSection />
-
         <ConceptSection />
-
-        {/* Bean Selection */}
-        <section
-          id="beans"
-          className={styles.section}
-          style={{ background: "var(--color-bg)" }}
-        >
-          <h2 className={styles.sectionTitle}>初回のラインナップ</h2>
-          <p className={styles.sectionSubtitle}>
-            毎月6種類の珈琲豆からお好みの豆を選べます
-          </p>
-          <p className={styles.crownNote}>
-            <LuCrown size={14} color={SPECIALTY_TAG_COLOR} />
-            王冠マークはスペシャリティコーヒーを示します
-          </p>
-          <BeanShowcase beans={beans} />
-        </section>
-
+        <ExperienceSection />
+        <BeanShowcase beans={beans} plans={planGroups} />
         <HowItWorks />
-
-        <PricingSection />
-
-        {/* Testimonials */}
-        <section
-          id="testimonials"
-          className={styles.section}
-          style={{
-            background: "var(--color-white)",
-            paddingLeft: 0,
-            paddingRight: 0,
-            overflow: "hidden",
-          }}
-        >
-          <h2 className={styles.sectionTitle} style={{ padding: "0 24px" }}>
-            お客様の声
-          </h2>
-          <TestimonialsCarousel
-            testimonials={testimonials}
-            className={styles.testimonialsSwiper}
-          />
-        </section>
-
+        <PricingSection planGroups={planGroups} />
+        <TestimonialsCarousel testimonials={testimonials} />
         <PartnerShops />
         <CtaSection />
+      </main>
+      <div className={pageStyles.pageFooterWrap}>
+        <Footer />
       </div>
-      <Footer />
       <FloatingCta />
     </>
   );

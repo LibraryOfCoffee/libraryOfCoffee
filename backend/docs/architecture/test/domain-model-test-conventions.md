@@ -49,32 +49,36 @@ common/src/test/kotlin/com/mametosho/domain/model/
 以下は集約ルートのテストを実装する際のテンプレートとなるコード例。
 
 ```kotlin
-package com.mametosho.domain.model.subscriptionplan
+package com.mametosho.domain.model.plan
 
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class SubscriptionPlanTest {
+class PlanTest {
 
-    private fun createSubscriptionPlan(
-        price: Int = 3000,
-        beanQuantity: Int = 3,
-    ): SubscriptionPlan = SubscriptionPlan(
-        id = SubscriptionPlanId("00000000-0000-4000-8000-000000000001"),
-        shopifySubscriptionId = ShopifySubscriptionId("shopify-sub-1"),
-        price = price,
+    private fun createPlan(
+        price: Int = 3800,
+        beanQuantity: Int = 4,
+    ): Plan = Plan(
+        id = PlanId("00000000-0000-4000-8000-00000000000d"),
+        shopifyPlanId = ShopifyPlanId("shopify-plan-1"),
+        label = "定番",
+        gramWeight = 60,
         beanQuantity = beanQuantity,
+        price = price,
+        type = PlanType.SUBSCRIPTION,
+        isRecommended = true,
     )
 
     @Nested
     inner class 生成テスト {
         @Test
-        fun `正常にSubscriptionPlanを生成できる`() {
-            val plan = createSubscriptionPlan()
-            assertEquals(3000, plan.price)
-            assertEquals(3, plan.beanQuantity)
+        fun `正常にPlanを生成できる`() {
+            val plan = createPlan()
+            assertEquals(3800, plan.price)
+            assertEquals(4, plan.beanQuantity)
         }
     }
 
@@ -82,27 +86,27 @@ class SubscriptionPlanTest {
     inner class バリデーション {
         @Test
         fun `priceが0の場合は生成できる`() {
-            val plan = createSubscriptionPlan(price = 0)
+            val plan = createPlan(price = 0)
             assertEquals(0, plan.price)
         }
 
         @Test
         fun `priceが負の値の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                createSubscriptionPlan(price = -1)
+                createPlan(price = -1)
             }
         }
 
         @Test
         fun `beanQuantityが1の場合は生成できる`() {
-            val plan = createSubscriptionPlan(beanQuantity = 1)
+            val plan = createPlan(beanQuantity = 1)
             assertEquals(1, plan.beanQuantity)
         }
 
         @Test
         fun `beanQuantityが0の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                createSubscriptionPlan(beanQuantity = 0)
+                createPlan(beanQuantity = 0)
             }
         }
     }

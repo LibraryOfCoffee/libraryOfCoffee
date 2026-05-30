@@ -7,4 +7,11 @@ data class CoffeeBeanListRow(
     val roastLevel: String,
     val processingMethod: String,
     val isSpecialty: Boolean,
+    val description: String,
+    val imageUrl: String,
+    val shopName: String,
+    val shopPrefecture: String,
+    val shopUrl: String,
+    val tasteName: String,
+    val evaluationValue: Int,
 )

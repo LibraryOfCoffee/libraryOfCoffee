@@ -1,5 +1,4 @@
 import Image from "next/image";
-import sharedStyles from "../../shared.module.css";
 import styles from "./partnerShops.module.css";
 
 const shops = [
@@ -52,11 +51,10 @@ const shops = [
 
 export default function PartnerShops() {
   return (
-    <section className={`${styles.shops} ${sharedStyles.section}`}>
-      <h2 className={sharedStyles.sectionTitle}>参加店舗</h2>
-      <p className={sharedStyles.sectionSubtitle}>
-        様々な自家焙煎店舗が参加しています
-      </p>
+    <section className={styles.section}>
+      <p className={styles.eyebrow}>— ROASTERS</p>
+      <h2 className={styles.headline}>参加店舗</h2>
+      <p className={styles.subtext}>様々な自家焙煎店舗が参加しています</p>
       <div className={styles.grid}>
         {shops.map((shop) => (
           <a
@@ -76,7 +74,6 @@ export default function PartnerShops() {
           </a>
         ))}
       </div>
-      <p className={styles.more}>新しい店舗が続々追加予定。</p>
     </section>
   );
 }

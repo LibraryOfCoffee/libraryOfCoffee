@@ -56,6 +56,7 @@ class UpdateShopUsecaseTest {
             return if (id.value == existingShopId) existingShop else null
         }
 
+        override fun findAll(page: Int, size: Int, name: String?): Pair<List<Shop>, Long> = Pair(emptyList(), 0L)
         override fun deleteById(id: ShopId) = Unit
     }
 

@@ -23,6 +23,13 @@ class CoffeeBeanQueryServiceImplTest {
         roastLevel = "LIGHT",
         processingMethod = "WASHED",
         isSpecialty = true,
+        description = "テスト用の説明文です。",
+        imageUrl = "https://example.com/images/test.jpg",
+        shopName = "テスト珈琲焙煎所",
+        shopPrefecture = "TOKYO",
+        shopUrl = "https://example.com/shop/test",
+        tasteName = "酸味",
+        evaluationValue = 60,
     )
 
     private fun createService(
@@ -81,6 +88,12 @@ class CoffeeBeanQueryServiceImplTest {
             assertEquals("LIGHT", item.roastLevel)
             assertEquals("WASHED", item.processingMethod)
             assertEquals(true, item.isSpecialty)
+            assertEquals("テスト用の説明文です。", item.description)
+            assertEquals("https://example.com/images/test.jpg", item.imageUrl)
+            assertEquals("テスト珈琲焙煎所", item.shopName)
+            assertEquals(1, item.tasteProfiles.size)
+            assertEquals("酸味", item.tasteProfiles[0].name)
+            assertEquals(60, item.tasteProfiles[0].value)
         }
 
         @Test
@@ -118,6 +131,20 @@ class CoffeeBeanQueryServiceImplTest {
 
             assertEquals(0, result.items.size)
             assertEquals(0L, result.totalCount)
+        }
+
+        @Test
+        fun `複数テイストを持つ豆は1つのResultにグルーピングされる`() {
+            val rows = listOf(
+                sampleRow.copy(tasteName = "酸味", evaluationValue = 60),
+                sampleRow.copy(tasteName = "苦味", evaluationValue = 20),
+            )
+            val service = createService(rows = rows, count = 1L)
+
+            val result = service.findList(page = 0, size = 20, origin = null, roastLevel = null, prefecture = null)
+
+            assertEquals(1, result.items.size)
+            assertEquals(2, result.items[0].tasteProfiles.size)
         }
     }
 }

@@ -8,7 +8,9 @@ import {
   useRef,
 } from "react";
 import type { CoffeeBeanDetail } from "@/api/coffee-beans";
+import type { TasteListItem } from "@/api/tastes";
 import { searchShopsAction } from "@/app/(admin)/coffee-beans/_components/searchShopsAction";
+import { TasteProfileField } from "@/app/(admin)/coffee-beans/_components/TasteProfileField";
 import {
   PROCESSING_METHOD_LABELS,
   ROAST_LEVEL_LABELS,
@@ -26,11 +28,13 @@ const initialState: EditCoffeeBeanState = {};
 export function EditCoffeeBeanModal({
   coffeeBean,
   initialShops,
+  tastes,
   open,
   onClose,
 }: {
   coffeeBean: CoffeeBeanDetail;
   initialShops: { id: string; name: string }[];
+  tastes: TasteListItem[];
   open: boolean;
   onClose: () => void;
 }) {
@@ -65,12 +69,6 @@ export function EditCoffeeBeanModal({
     }
   }, [state.success, onClose]);
 
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDialogElement>) => {
-    if (e.target === dialogRef.current) {
-      onClose();
-    }
-  };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     startTransition(() => formAction(new FormData(e.currentTarget)));
@@ -81,7 +79,6 @@ export function EditCoffeeBeanModal({
       ref={dialogRef}
       className={modalStyles.dialog}
       onClose={onClose}
-      onClick={handleBackdropClick}
       onKeyDown={(e) => {
         if (e.key === "Escape") onClose();
       }}
@@ -100,11 +97,6 @@ export function EditCoffeeBeanModal({
 
       <form onSubmit={handleSubmit} className={modalStyles.form}>
         <input type="hidden" name="id" value={coffeeBean.id} />
-        <input
-          type="hidden"
-          name="currentTastes"
-          value={JSON.stringify(coffeeBean.tastes ?? [])}
-        />
 
         {state.error && <div className={modalStyles.error}>{state.error}</div>}
 
@@ -288,6 +280,14 @@ export function EditCoffeeBeanModal({
             </span>
           ))}
         </div>
+
+        <TasteProfileField
+          tastes={tastes}
+          getDefaultValue={(taste) =>
+            coffeeBean.tastes.find((t) => t.tasteId === taste.id)
+              ?.evaluationValue ?? 0
+          }
+        />
 
         <ImageUploadField
           imageTypes={[{ value: "MAIN", label: "メイン" }]}

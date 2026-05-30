@@ -1,6 +1,6 @@
 package com.mametosho.domain.model.customer
 
-import com.mametosho.domain.model.subscriptionplan.SubscriptionPlanId
+import com.mametosho.domain.model.plan.PlanId
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
 import java.time.LocalDate
@@ -15,7 +15,7 @@ class CustomerSubscriptionTest {
         contractPeriod: ContractPeriod = ContractPeriod(from = LocalDate.of(2025, 1, 1), to = null),
     ): CustomerSubscription = CustomerSubscription(
         id = CustomerSubscriptionId("00000000-0000-4000-8000-00000000000b"),
-        subscriptionPlanId = SubscriptionPlanId("00000000-0000-4000-8000-00000000000d"),
+        planId = PlanId("00000000-0000-4000-8000-00000000000d"),
         status = status,
         contractPeriod = contractPeriod,
     )

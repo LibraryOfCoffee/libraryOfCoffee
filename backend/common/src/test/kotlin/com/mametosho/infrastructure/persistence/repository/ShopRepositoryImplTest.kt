@@ -171,6 +171,65 @@ class ShopRepositoryImplTest {
     }
 
     @Nested
+    inner class findAll {
+        @Test
+        fun `ページング付きで店舗一覧を取得できる`() {
+            shopRepositoryImpl.save(createShop(id = "00000000-0000-4000-8000-000000000001", shopifyShopId = "shop-001"))
+            shopRepositoryImpl.save(
+                createShop(
+                    id = "00000000-0000-4000-8000-000000000002",
+                    shopifyShopId = "shop-002",
+                    images = listOf(
+                        ShopImage(
+                            id = ShopImageId("00000000-0000-4000-8000-000000000021"),
+                            type = ShopImageType.MAIN,
+                            imageUrl = ImageUrl("https://example.com/shop.png"),
+                        ),
+                        ShopImage(
+                            id = ShopImageId("00000000-0000-4000-8000-000000000022"),
+                            type = ShopImageType.LOGO,
+                            imageUrl = ImageUrl("https://example.com/logo.png"),
+                        ),
+                    ),
+                ),
+            )
+
+            val result = shopRepositoryImpl.findAll(page = 0, size = 1)
+
+            assertEquals(1, result.first.size)
+            assertEquals(2L, result.second)
+        }
+
+        @Test
+        fun `nameで部分一致検索できる`() {
+            shopRepositoryImpl.save(createShop(id = "00000000-0000-4000-8000-000000000001", shopifyShopId = "shop-001"))
+
+            val result = shopRepositoryImpl.findAll(page = 0, size = 20, name = "テスト")
+
+            assertEquals(1, result.first.size)
+            assertEquals("テスト店舗", result.first[0].name)
+        }
+
+        @Test
+        fun `店舗の画像も含めて取得できる`() {
+            shopRepositoryImpl.save(createShop())
+
+            val result = shopRepositoryImpl.findAll(page = 0, size = 20)
+
+            assertEquals(1, result.first.size)
+            assertEquals(2, result.first[0].images.size)
+        }
+
+        @Test
+        fun `件数が0件の場合は空リストを返す`() {
+            val result = shopRepositoryImpl.findAll(page = 0, size = 20)
+
+            assertEquals(0, result.first.size)
+            assertEquals(0L, result.second)
+        }
+    }
+
+    @Nested
     inner class 複数行INSERT {
         @Test
         fun `複数の画像を保存できる`() {

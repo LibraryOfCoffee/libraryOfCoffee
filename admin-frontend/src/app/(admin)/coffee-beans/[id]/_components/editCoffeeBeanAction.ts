@@ -7,6 +7,7 @@ import {
   type CoffeeBeanFormState,
   coffeeBeanFieldsSchema,
 } from "@/app/(admin)/coffee-beans/_lib/coffeeBeanFormSchema";
+import { parseTastesFromFormData } from "@/app/(admin)/coffee-beans/_lib/parseTastes";
 
 const editCoffeeBeanSchema = coffeeBeanFieldsSchema.extend({
   id: z.string(),
@@ -41,23 +42,14 @@ export async function editCoffeeBeanAction(
 
   const { id, ...fields } = result.data;
 
-  const currentTastesRaw = formData.get("currentTastes") as string;
-  let tastes: { tasteId: string; evaluationValue: number }[] = [];
-  try {
-    tastes = JSON.parse(currentTastesRaw || "[]");
-  } catch {
-    tastes = [];
-  }
+  const tastes = parseTastesFromFormData(formData);
 
   const response = await multipartRequest(
     `/api/admin/coffee-beans/${id}`,
     "PUT",
     {
       ...fields,
-      tastes: tastes.map((t) => ({
-        tasteId: t.tasteId,
-        evaluationValue: t.evaluationValue,
-      })),
+      tastes,
     },
     formData,
   );
@@ -69,7 +61,9 @@ export async function editCoffeeBeanAction(
         values,
       };
     }
-    return { error: "コーヒー豆の更新に失敗しました。", values };
+    const body = await response.json().catch(() => null);
+    const message = body?.message ?? "コーヒー豆の更新に失敗しました。";
+    return { error: message, values };
   }
 
   revalidatePath(`/coffee-beans/${id}`);

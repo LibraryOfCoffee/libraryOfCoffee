@@ -1,6 +1,6 @@
 package com.mametosho.domain.model.customer
 
-import com.mametosho.domain.model.subscriptionplan.SubscriptionPlanId
+import com.mametosho.domain.model.plan.PlanId
 import java.time.LocalDate
 
 /**
@@ -10,13 +10,13 @@ import java.time.LocalDate
  * canceledになった契約は変更できない。
  *
  * @property id 契約ID
- * @property subscriptionPlanId 契約しているプランのID
+ * @property planId 契約しているプランのID
  * @property status 契約ステータス
  * @property contractPeriod 契約期間
  */
 data class CustomerSubscription(
     val id: CustomerSubscriptionId,
-    val subscriptionPlanId: SubscriptionPlanId,
+    val planId: PlanId,
     val status: SubscriptionStatus,
     val contractPeriod: ContractPeriod,
 ) {

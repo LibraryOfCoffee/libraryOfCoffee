@@ -1,23 +1,49 @@
-.shops {
-  background: var(--color-bg);
+.section {
+  padding: 20px 22px 8px;
+}
+
+.eyebrow {
+  font-family: var(--mt-font-en);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: var(--mt-accent);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.headline {
+  font-family: var(--mt-font-jp-serif);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--mt-ink);
+  margin: 0;
+}
+
+.subtext {
+  font-size: 11px;
+  color: var(--mt-ink-3);
+  margin-top: 4px;
+  font-family: var(--mt-font-jp-sans);
 }
 
 .grid {
+  margin-top: 12px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  justify-content: center;
+  gap: 6px;
 }
 
 .item {
-  background: var(--color-white);
-  border-radius: 16px;
+  padding: 14px 6px;
+  background: var(--mt-surface);
+  border: 0.5px solid var(--mt-line-soft);
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
   text-decoration: none;
-  transition: opacity 0.3s;
+  min-height: 50px;
+  transition: opacity 0.2s;
 }
 
 .item:hover {
@@ -28,11 +54,4 @@
   width: 70px;
   height: 70px;
   object-fit: contain;
-}
-
-.more {
-  font-size: 13px;
-  color: var(--color-text-secondary);
-  text-align: center;
-  margin: 24px 0 0;
 }

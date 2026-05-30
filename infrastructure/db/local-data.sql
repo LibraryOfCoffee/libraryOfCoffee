@@ -23,11 +23,29 @@ INSERT IGNORE INTO customers (id, shopify_customer_id, status) VALUES
 ('00000000-0000-4000-8000-000000000013', 'gid://shopify/Customer/100003', 'withdrawn');
 
 -- ------------------------------------------------------------
--- subscription_plans（サブスクリプションプラン）
+-- plans（プラン）
 -- ------------------------------------------------------------
-INSERT IGNORE INTO subscription_plans (id, shopify_subscription_id, price, bean_quantity) VALUES
-('00000000-0000-4000-8000-000000000021', 'gid://shopify/SellingPlan/200001', 1980, 2),
-('00000000-0000-4000-8000-000000000022', 'gid://shopify/SellingPlan/200002', 2980, 3);
+INSERT IGNORE INTO plans (id, shopify_plan_id, label, gram_weight, bean_quantity, price, type, is_recommended) VALUES
+-- 定期便プラン（SUBSCRIPTION）
+('00000000-0000-4000-8000-000000000021', 'gid://shopify/SellingPlan/200001', 'はじめて', 30, 3, 1500, 'SUBSCRIPTION', FALSE),
+('00000000-0000-4000-8000-000000000022', 'gid://shopify/SellingPlan/200002', 'はじめて', 60, 3, 2900, 'SUBSCRIPTION', FALSE),
+('00000000-0000-4000-8000-000000000023', 'gid://shopify/SellingPlan/200003', 'はじめて', 90, 3, 4200, 'SUBSCRIPTION', FALSE),
+('00000000-0000-4000-8000-000000000024', 'gid://shopify/SellingPlan/200004', '定番',     30, 4, 1950, 'SUBSCRIPTION', TRUE),
+('00000000-0000-4000-8000-000000000025', 'gid://shopify/SellingPlan/200005', '定番',     60, 4, 3800, 'SUBSCRIPTION', TRUE),
+('00000000-0000-4000-8000-000000000026', 'gid://shopify/SellingPlan/200006', '定番',     90, 4, 5550, 'SUBSCRIPTION', TRUE),
+('00000000-0000-4000-8000-000000000027', 'gid://shopify/SellingPlan/200007', 'たっぷり', 30, 5, 2350, 'SUBSCRIPTION', FALSE),
+('00000000-0000-4000-8000-000000000028', 'gid://shopify/SellingPlan/200008', 'たっぷり', 60, 5, 4600, 'SUBSCRIPTION', FALSE),
+('00000000-0000-4000-8000-000000000029', 'gid://shopify/SellingPlan/200009', 'たっぷり', 90, 5, 6750, 'SUBSCRIPTION', FALSE),
+-- 単品プラン（SINGLE）
+('00000000-0000-4000-8000-00000000002a', 'gid://shopify/SellingPlan/200010', 'はじめて', 30, 3, 1650, 'SINGLE', FALSE),
+('00000000-0000-4000-8000-00000000002b', 'gid://shopify/SellingPlan/200011', 'はじめて', 60, 3, 3200, 'SINGLE', FALSE),
+('00000000-0000-4000-8000-00000000002c', 'gid://shopify/SellingPlan/200012', 'はじめて', 90, 3, 4650, 'SINGLE', FALSE),
+('00000000-0000-4000-8000-00000000002d', 'gid://shopify/SellingPlan/200013', '定番',     30, 4, 2150, 'SINGLE', TRUE),
+('00000000-0000-4000-8000-00000000002e', 'gid://shopify/SellingPlan/200014', '定番',     60, 4, 4200, 'SINGLE', TRUE),
+('00000000-0000-4000-8000-00000000002f', 'gid://shopify/SellingPlan/200015', '定番',     90, 4, 6100, 'SINGLE', TRUE),
+('00000000-0000-4000-8000-000000000030', 'gid://shopify/SellingPlan/200016', 'たっぷり', 30, 5, 2600, 'SINGLE', FALSE),
+('00000000-0000-4000-8000-000000000031', 'gid://shopify/SellingPlan/200017', 'たっぷり', 60, 5, 5050, 'SINGLE', FALSE),
+('00000000-0000-4000-8000-000000000032', 'gid://shopify/SellingPlan/200018', 'たっぷり', 90, 5, 7450, 'SINGLE', FALSE);
 
 -- ------------------------------------------------------------
 -- shops（店舗）
@@ -50,7 +68,7 @@ INSERT IGNORE INTO tastes (id, name) VALUES
 -- ------------------------------------------------------------
 -- customer_subscriptions（サブスクリプション契約）
 -- ------------------------------------------------------------
-INSERT IGNORE INTO customer_subscriptions (id, customer_id, subscription_plan_id, status, contracted_from, contracted_to) VALUES
+INSERT IGNORE INTO customer_subscriptions (id, customer_id, plan_id, status, contracted_from, contracted_to) VALUES
 ('00000000-0000-4000-8000-000000000061', '00000000-0000-4000-8000-000000000011', '00000000-0000-4000-8000-000000000021', 'active',   '2025-10-01', NULL),
 ('00000000-0000-4000-8000-000000000062', '00000000-0000-4000-8000-000000000012', '00000000-0000-4000-8000-000000000022', 'active',   '2025-11-01', NULL),
 ('00000000-0000-4000-8000-000000000063', '00000000-0000-4000-8000-000000000013', '00000000-0000-4000-8000-000000000021', 'canceled', '2025-08-01', '2025-12-31');

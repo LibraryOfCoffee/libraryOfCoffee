@@ -1,13 +1,14 @@
 package com.mametosho.admin.application.usecase
 
 import com.mametosho.admin.presentation.dto.request.CreateCoffeeBeanRequest
+import com.mametosho.admin.test.FakeImageStorageService
 import com.mametosho.domain.model.coffeebean.CoffeeBean
 import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import com.mametosho.domain.model.coffeebean.RoastLevel
 import com.mametosho.domain.repository.CoffeeBeanRepository
-import com.mametosho.admin.test.FakeImageStorageService
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
+import org.springframework.mock.web.MockMultipartFile
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -28,6 +29,8 @@ class CreateCoffeeBeanUsecaseTest {
 
     private val usecase = CreateCoffeeBeanUsecase(fakeRepository, FakeImageStorageService)
 
+    private val imageFile = MockMultipartFile("images", "bean.jpg", "image/jpeg", byteArrayOf(1))
+
     private fun createRequest(
         shopId: String = "00000000-0000-4000-8000-000000000001",
         shopifyBeanId: String = "test-bean-001",
@@ -40,7 +43,7 @@ class CreateCoffeeBeanUsecaseTest {
         isSpecialty: Boolean = true,
         tastes: List<CreateCoffeeBeanRequest.TasteRequest> = listOf(
             CreateCoffeeBeanRequest.TasteRequest(
-                tasteId = "00000000-0000-4000-8000-000000000002",
+                tasteId = "00000000-0000-4000-8000-000000000041",
                 evaluationValue = 3,
             ),
         ),
@@ -62,7 +65,7 @@ class CreateCoffeeBeanUsecaseTest {
         @Test
         fun `正常にCoffeeBeanを作成できる`() {
             val request = createRequest()
-            val bean = usecase.execute(request, emptyList(), emptyList())
+            val bean = usecase.execute(request, listOf(imageFile), listOf("MAIN"))
 
             assertEquals("00000000-0000-4000-8000-000000000001", bean.shopId.value)
             assertEquals("test-bean-001", bean.shopifyBeanId.value)
@@ -74,7 +77,7 @@ class CreateCoffeeBeanUsecaseTest {
             assertEquals(ProcessingMethod.WASHED, bean.processingMethod)
             assertTrue(bean.isSpecialty)
             assertEquals(1, bean.tastes.size)
-            assertEquals("00000000-0000-4000-8000-000000000002", bean.tastes[0].tasteId.value)
+            assertEquals("00000000-0000-4000-8000-000000000041", bean.tastes[0].tasteId.value)
             assertEquals(3, bean.tastes[0].evaluationValue)
         }
     }
@@ -83,14 +86,14 @@ class CreateCoffeeBeanUsecaseTest {
     inner class UUID自動生成 {
         @Test
         fun `CoffeeBeanIdがUUID形式で自動生成される`() {
-            val bean = usecase.execute(createRequest(), emptyList(), emptyList())
+            val bean = usecase.execute(createRequest(), listOf(imageFile), listOf("MAIN"))
             val uuidRegex = Regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             assertTrue(uuidRegex.matches(bean.id.value))
         }
 
         @Test
         fun `CoffeeBeanTasteIdがUUID形式で自動生成される`() {
-            val bean = usecase.execute(createRequest(), emptyList(), emptyList())
+            val bean = usecase.execute(createRequest(), listOf(imageFile), listOf("MAIN"))
             val uuidRegex = Regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             assertTrue(uuidRegex.matches(bean.tastes[0].id.value))
         }
@@ -100,7 +103,7 @@ class CreateCoffeeBeanUsecaseTest {
     inner class nullable項目 {
         @Test
         fun `farmがnullでもCoffeeBeanを作成できる`() {
-            val bean = usecase.execute(createRequest(farm = null), emptyList(), emptyList())
+            val bean = usecase.execute(createRequest(farm = null), listOf(imageFile), listOf("MAIN"))
             assertNull(bean.farm)
         }
     }
@@ -108,15 +111,17 @@ class CreateCoffeeBeanUsecaseTest {
     @Nested
     inner class 空コレクション {
         @Test
-        fun `画像なしでもCoffeeBeanを作成できる`() {
-            val bean = usecase.execute(createRequest(), emptyList(), emptyList())
-            assertEquals(0, bean.images.size)
+        fun `画像なしではCoffeeBeanを作成できない`() {
+            assertThrows<IllegalArgumentException> {
+                usecase.execute(createRequest(), emptyList(), emptyList())
+            }
         }
 
         @Test
-        fun `テイストなしでもCoffeeBeanを作成できる`() {
-            val bean = usecase.execute(createRequest(tastes = emptyList()), emptyList(), emptyList())
-            assertEquals(0, bean.tastes.size)
+        fun `テイストなしではCoffeeBeanを作成できない`() {
+            assertThrows<IllegalArgumentException> {
+                usecase.execute(createRequest(tastes = emptyList()), listOf(imageFile), listOf("MAIN"))
+            }
         }
     }
 
@@ -125,7 +130,7 @@ class CreateCoffeeBeanUsecaseTest {
         @Test
         fun `作成したCoffeeBeanがリポジトリに保存される`() {
             savedBeans.clear()
-            usecase.execute(createRequest(), emptyList(), emptyList())
+            usecase.execute(createRequest(), listOf(imageFile), listOf("MAIN"))
             assertEquals(1, savedBeans.size)
             assertEquals("テストコーヒー豆", savedBeans[0].name)
         }
@@ -136,21 +141,39 @@ class CreateCoffeeBeanUsecaseTest {
         @Test
         fun `nameが空白の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                usecase.execute(createRequest(name = ""), emptyList(), emptyList())
+                usecase.execute(createRequest(name = ""), listOf(imageFile), listOf("MAIN"))
             }
         }
 
         @Test
         fun `不正な焙煎度の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                usecase.execute(createRequest(roastLevel = "INVALID"), emptyList(), emptyList())
+                usecase.execute(createRequest(roastLevel = "INVALID"), listOf(imageFile), listOf("MAIN"))
             }
         }
 
         @Test
         fun `不正な精製方法の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                usecase.execute(createRequest(processingMethod = "INVALID"), emptyList(), emptyList())
+                usecase.execute(createRequest(processingMethod = "INVALID"), listOf(imageFile), listOf("MAIN"))
+            }
+        }
+
+        @Test
+        fun `不正なテイストIDの場合は例外が発生する`() {
+            assertThrows<IllegalArgumentException> {
+                usecase.execute(
+                    createRequest(
+                        tastes = listOf(
+                            CreateCoffeeBeanRequest.TasteRequest(
+                                tasteId = "invalid-uuid",
+                                evaluationValue = 3,
+                            ),
+                        ),
+                    ),
+                    listOf(imageFile),
+                    listOf("MAIN"),
+                )
             }
         }
     }
