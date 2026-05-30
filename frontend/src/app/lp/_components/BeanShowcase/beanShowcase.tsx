@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import type { BeanDetail } from "../../_lib/coffeeBeanApi";
+import type { PlanGroup } from "../../_lib/planApi";
 import { getPlanPagePath } from "../../_lib/purchaseLinkUtil";
 import BeanCard from "../BeanCard/beanCard";
 import BeanDetailModal from "../BeanDetailModal/beanDetailModal";
 import LinkWithLoading from "../LinkWithLoading/linkWithLoading";
-import LoadingOverlay from "../LoadingOverlay/loadingOverlay";
 import styles from "./beanShowcase.module.css";
 
 const KANTO_PREFECTURES = new Set([
@@ -23,14 +23,14 @@ const PREVIEW_COUNT = 6;
 
 interface BeanShowcaseProps {
   beans: BeanDetail[];
+  plans: PlanGroup[];
 }
 
-export default function BeanShowcase({ beans }: BeanShowcaseProps) {
+export default function BeanShowcase({ beans, plans }: BeanShowcaseProps) {
   const [prefFilter, setPrefFilter] = useState("");
   const [countryFilter, setCountryFilter] = useState("");
   const [roastFilter, setRoastFilter] = useState("");
   const [selectedBean, setSelectedBean] = useState<BeanDetail | null>(null);
-  const [loading, setLoading] = useState(false);
 
   const prefectures = Array.from(
     new Set(
@@ -61,9 +61,35 @@ export default function BeanShowcase({ beans }: BeanShowcaseProps) {
     setRoastFilter("");
   };
 
+  const minSubPrice =
+    plans.length > 0
+      ? Math.min(...plans.map((p) => p.subscriptionPrice))
+      : null;
+  const minSinglePrice =
+    plans.length > 0 ? Math.min(...plans.map((p) => p.singlePrice)) : null;
+
+  const purchaseMethods = [
+    {
+      en: "MONTHLY",
+      ja: "定期便",
+      sub: "毎月・送料無料・いつでも解約OK",
+      price: minSubPrice != null ? `¥${minSubPrice.toLocaleString()}〜` : "",
+      unit: "/月",
+      primary: true,
+    },
+    {
+      en: "ONE-TIME",
+      ja: "単品購入",
+      sub: "1回だけのお試しにも",
+      price:
+        minSinglePrice != null ? `¥${minSinglePrice.toLocaleString()}〜` : "",
+      unit: "",
+      primary: false,
+    },
+  ];
+
   return (
     <section id="beans" className={styles.section}>
-      {loading && <LoadingOverlay />}
       <p className={styles.eyebrow}>— LINEUP</p>
       <h2 className={styles.headline}>好きな豆を、自由に選ぶ。</h2>
       <p className={styles.subtext}>
@@ -73,24 +99,7 @@ export default function BeanShowcase({ beans }: BeanShowcaseProps) {
       </p>
 
       <div className={styles.purchaseMethods}>
-        {[
-          {
-            en: "MONTHLY",
-            ja: "定期便",
-            sub: "毎月・送料無料・いつでも解約OK",
-            price: "¥1,500〜",
-            unit: "/月",
-            primary: true,
-          },
-          {
-            en: "ONE-TIME",
-            ja: "単品購入",
-            sub: "1回だけのお試しにも",
-            price: "¥1,650〜",
-            unit: "",
-            primary: false,
-          },
-        ].map((m) => (
+        {purchaseMethods.map((m) => (
           <LinkWithLoading
             key={m.en}
             href={getPlanPagePath()}
@@ -196,10 +205,7 @@ export default function BeanShowcase({ beans }: BeanShowcaseProps) {
         <BeanDetailModal
           bean={selectedBean}
           onClose={() => setSelectedBean(null)}
-          onSelect={(bean) => {
-            setLoading(true);
-            window.location.href = getPlanPagePath(bean.id);
-          }}
+          selectHref={getPlanPagePath(selectedBean.id)}
         />
       )}
     </section>

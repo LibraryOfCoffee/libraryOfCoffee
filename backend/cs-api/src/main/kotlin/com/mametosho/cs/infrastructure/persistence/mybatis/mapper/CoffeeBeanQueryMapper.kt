@@ -11,7 +11,7 @@ interface CoffeeBeanQueryMapper {
     @Select("""
         <script>
         SELECT cb.id, cb.name, cb.origin, cb.roast_level, cb.processing_method, cb.is_specialty,
-               cb.description, cbi.image_url, s.name AS shop_name, s.prefecture AS shop_prefecture,
+               cb.description, cbi.image_url, s.name AS shop_name, s.prefecture AS shop_prefecture, s.shop_url,
                t.name AS taste_name, cbt.evaluation_value
         FROM (
             SELECT cb_inner.id

@@ -119,7 +119,7 @@ export default async function LpPage() {
         <HeroSection />
         <ConceptSection />
         <ExperienceSection />
-        <BeanShowcase beans={beans} />
+        <BeanShowcase beans={beans} plans={planGroups} />
         <HowItWorks />
         <PricingSection planGroups={planGroups} />
         <TestimonialsCarousel testimonials={testimonials} />

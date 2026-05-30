@@ -42,6 +42,7 @@ type CoffeeBeanApiItem = {
   imageUrl: string;
   shopName: string;
   shopPrefecture: string;
+  shopUrl: string;
   tasteProfiles: TasteProfileApiItem[];
 };
 
@@ -84,7 +85,7 @@ function toBeanDetail(item: CoffeeBeanApiItem): BeanDetail {
     roastLevel: roastJP,
     processing: item.processingMethod,
     roaster: item.shopName,
-    roasterLink: "",
+    roasterLink: item.shopUrl,
     prefecture: item.shopPrefecture,
     tasteProfile: item.tasteProfiles.map((t) => ({
       label: t.name,

@@ -4,18 +4,19 @@ import Image from "next/image";
 import { useEffect } from "react";
 import { LuCrown, LuPlus, LuX } from "react-icons/lu";
 import { type BeanDetail, SPECIALTY_TAG_COLOR } from "../../_lib/coffeeBeanApi";
+import LinkWithLoading from "../LinkWithLoading/linkWithLoading";
 import styles from "./beanDetailModal.module.css";
 
 interface BeanDetailModalProps {
   bean: BeanDetail;
   onClose: () => void;
-  onSelect?: (bean: BeanDetail) => void;
+  selectHref: string;
 }
 
 export default function BeanDetailModal({
   bean,
   onClose,
-  onSelect,
+  selectHref,
 }: BeanDetailModalProps) {
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -100,18 +101,14 @@ export default function BeanDetailModal({
             <div className={styles.infoRow}>
               <span className={styles.infoLabel}>提供ロースター</span>
               <span className={styles.infoValue}>
-                {bean.roasterLink ? (
-                  <a
-                    href={bean.roasterLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.roasterLink}
-                  >
-                    {bean.roaster}
-                  </a>
-                ) : (
-                  bean.roaster
-                )}
+                <a
+                  href={bean.roasterLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.roasterLink}
+                >
+                  {bean.roaster}
+                </a>
               </span>
             </div>
           </div>
@@ -135,14 +132,10 @@ export default function BeanDetailModal({
         </div>
 
         <div className={styles.footer}>
-          <button
-            type="button"
-            className={styles.selectBtn}
-            onClick={() => onSelect?.(bean)}
-          >
+          <LinkWithLoading href={selectHref} className={styles.selectBtn}>
             この豆を選ぶ
             <LuPlus size={18} />
-          </button>
+          </LinkWithLoading>
         </div>
       </div>
     </div>
