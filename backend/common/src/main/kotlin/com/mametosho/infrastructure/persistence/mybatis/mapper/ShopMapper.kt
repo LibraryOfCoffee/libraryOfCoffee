@@ -37,11 +37,16 @@ interface ShopMapper {
     )
     fun insertShopImage(entity: ShopImageEntity)
 
-    @Select("SELECT id, shopify_shop_id, name, introduction, particular, shop_url, prefecture FROM shops WHERE id = #{id}")
-    fun findShopById(id: String): ShopEntity?
-
-    @Select("SELECT id, shop_id, type, image_url FROM shop_images WHERE shop_id = #{shopId}")
-    fun findShopImagesByShopId(shopId: String): List<ShopImageEntity>
+    @Select(
+        """
+        SELECT s.id, s.shopify_shop_id, s.name, s.introduction, s.particular, s.shop_url, s.prefecture,
+               si.id AS image_id, si.type AS image_type, si.image_url
+        FROM shops s
+        LEFT JOIN shop_images si ON si.shop_id = s.id
+        WHERE s.id = #{id}
+        """,
+    )
+    fun findShopById(id: String): List<ShopListRow>
 
     @Delete("DELETE FROM shops WHERE id = #{id}")
     fun deleteShopById(id: String)

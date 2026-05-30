@@ -79,23 +79,26 @@ class ShopRepositoryImpl(
     }
 
     override fun findById(id: ShopId): Shop? {
-        val shopEntity = shopMapper.findShopById(id.value) ?: return null
-        val imageEntities = shopMapper.findShopImagesByShopId(id.value)
+        val rows = shopMapper.findShopById(id.value)
+        if (rows.isEmpty()) return null
+        val first = rows.first()
         return Shop(
-            id = ShopId(shopEntity.id),
-            shopifyShopId = ShopifyShopId(shopEntity.shopifyShopId),
-            name = shopEntity.name,
-            introduction = shopEntity.introduction,
-            particular = shopEntity.particular,
-            shopUrl = shopEntity.shopUrl,
-            prefecture = Prefecture.valueOf(shopEntity.prefecture),
-            images = imageEntities.map { img ->
-                ShopImage(
-                    id = ShopImageId(img.id),
-                    type = ShopImageType.valueOf(img.type),
-                    imageUrl = ImageUrl(img.imageUrl),
-                )
-            },
+            id = ShopId(first.id),
+            shopifyShopId = ShopifyShopId(first.shopifyShopId),
+            name = first.name,
+            introduction = first.introduction,
+            particular = first.particular,
+            shopUrl = first.shopUrl,
+            prefecture = Prefecture.valueOf(first.prefecture),
+            images = rows
+                .filter { it.imageId != null }
+                .map { row ->
+                    ShopImage(
+                        id = ShopImageId(checkNotNull(row.imageId)),
+                        type = ShopImageType.valueOf(checkNotNull(row.imageType)),
+                        imageUrl = ImageUrl(checkNotNull(row.imageUrl)),
+                    )
+                },
         )
     }
 }
