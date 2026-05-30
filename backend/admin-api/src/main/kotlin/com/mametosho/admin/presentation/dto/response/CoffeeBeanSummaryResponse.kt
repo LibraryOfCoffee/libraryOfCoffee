@@ -25,6 +25,12 @@ data class CoffeeBeanSummaryResponse(
     val processingMethod: String,
     @Schema(description = "スペシャルティコーヒーかどうか", example = "true")
     val isSpecialty: Boolean,
+    @Schema(
+        description = "公開状態（DRAFT: 下書き / PUBLISHED: 公開）",
+        example = "PUBLISHED",
+        requiredMode = Schema.RequiredMode.REQUIRED,
+    )
+    val publishStatus: String,
 ) {
     companion object {
         fun from(result: CoffeeBeanSummaryResult): CoffeeBeanSummaryResponse = CoffeeBeanSummaryResponse(
@@ -38,6 +44,7 @@ data class CoffeeBeanSummaryResponse(
             roastLevel = result.roastLevel,
             processingMethod = result.processingMethod,
             isSpecialty = result.isSpecialty,
+            publishStatus = result.publishStatus,
         )
     }
 }

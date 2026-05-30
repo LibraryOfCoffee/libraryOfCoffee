@@ -71,6 +71,7 @@ class CoffeeBeanControllerTest {
         tasteId: String = "00000000-0000-4000-8000-000000000041",
         tasteName: String = "酸味",
         tasteEvalId: String = "00000000-0000-4000-8000-0000000000c1",
+        publishStatus: String = "PUBLISHED",
     ) {
         jdbcTemplate.execute(
             "INSERT INTO shops (id, shopify_shop_id, name, shop_url, prefecture) " +
@@ -79,11 +80,13 @@ class CoffeeBeanControllerTest {
         jdbcTemplate.execute(
             "INSERT INTO tastes (id, name) VALUES ('$tasteId', '$tasteName')",
         )
-        val cols = "id, shop_id, shopify_bean_id, name, description, origin, farm, roast_level, processing_method, is_specialty"
+        val cols = "id, shop_id, shopify_bean_id, name, description, origin, farm, " +
+            "roast_level, processing_method, is_specialty, publish_status"
         val desc = "フルーティーな香りと明るい酸味が特徴の豆です。"
         jdbcTemplate.execute(
             "INSERT INTO coffee_beans ($cols) " +
-                "VALUES ('$beanId', '$shopId', '$shopifyBeanId', '$beanName', '$desc', '$origin', '農園', '$roastLevel', 'WASHED', TRUE)",
+                "VALUES ('$beanId', '$shopId', '$shopifyBeanId', '$beanName', '$desc', '$origin', '農園', " +
+                "'$roastLevel', 'WASHED', TRUE, '$publishStatus')",
         )
         jdbcTemplate.execute(
             "INSERT INTO coffee_bean_images (id, coffee_bean_id, type, image_url) " +
@@ -205,6 +208,38 @@ class CoffeeBeanControllerTest {
             assertEquals(HttpStatus.OK, response.statusCode)
             assertEquals(1, response.body?.items?.size)
             assertEquals("エチオピア イルガチェフェ G1", response.body?.items?.first()?.name)
+        }
+
+        @Test
+        fun `下書き状態の珈琲豆は一覧に含まれない`() {
+            insertBeanWithDependencies(
+                shopId = "00000000-0000-4000-8000-000000000031", shopifyShopId = "shop-001",
+                beanId = "00000000-0000-4000-8000-000000000071", shopifyBeanId = "bean-001",
+                beanName = "エチオピア イルガチェフェ G1",
+                imageId = "00000000-0000-4000-8000-0000000000b1",
+                tasteId = "00000000-0000-4000-8000-000000000041", tasteName = "酸味",
+                tasteEvalId = "00000000-0000-4000-8000-0000000000c1",
+                publishStatus = "PUBLISHED",
+            )
+            insertBeanWithDependencies(
+                shopId = "00000000-0000-4000-8000-000000000032", shopifyShopId = "shop-002",
+                shopName = "下書き珈琲店",
+                beanId = "00000000-0000-4000-8000-000000000072", shopifyBeanId = "bean-002",
+                beanName = "下書きブラジル サントス",
+                imageId = "00000000-0000-4000-8000-0000000000b2",
+                tasteId = "00000000-0000-4000-8000-000000000042", tasteName = "苦味",
+                tasteEvalId = "00000000-0000-4000-8000-0000000000c2",
+                publishStatus = "DRAFT",
+            )
+
+            val response = coffeeBeanController.listCoffeeBeans(
+                page = 0, size = 20, origin = null, roastLevel = null, prefecture = null,
+            )
+
+            assertEquals(HttpStatus.OK, response.statusCode)
+            assertEquals(1, response.body?.items?.size)
+            assertEquals(1L, response.body?.totalCount)
+            assertEquals("00000000-0000-4000-8000-000000000071", response.body?.items?.first()?.id)
         }
 
         @Test

@@ -3,6 +3,7 @@ import type { CoffeeBeanListItem } from "@/api/coffee-beans";
 import type { PagedResponse } from "@/api/types";
 import styles from "@/components/list-page.module.css";
 import { Pagination } from "@/components/Pagination";
+import { PublishStatusBadge } from "@/components/PublishStatusBadge";
 import {
   getProcessingMethodLabel,
   getRoastLevelLabel,
@@ -37,6 +38,7 @@ export function CoffeeBeanListTable({
               <th>焙煎度</th>
               <th>精製方法</th>
               <th>スペシャルティ</th>
+              <th>公開状態</th>
             </tr>
           </thead>
           <tbody>
@@ -88,6 +90,14 @@ export function CoffeeBeanListTable({
                     className={styles.rowLink}
                   >
                     {bean.isSpecialty ? "あり" : "なし"}
+                  </Link>
+                </td>
+                <td>
+                  <Link
+                    href={`/coffee-beans/${bean.id}`}
+                    className={styles.rowLink}
+                  >
+                    <PublishStatusBadge status={bean.publishStatus} />
                   </Link>
                 </td>
               </tr>

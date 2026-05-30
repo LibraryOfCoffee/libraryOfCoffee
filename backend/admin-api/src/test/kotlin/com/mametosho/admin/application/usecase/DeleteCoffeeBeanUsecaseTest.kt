@@ -24,6 +24,7 @@ class DeleteCoffeeBeanUsecaseTest {
         roastLevel = "MEDIUM",
         processingMethod = "WASHED",
         isSpecialty = true,
+        publishStatus = "PUBLISHED",
         images = listOf("MAIN" to "https://example.com/bean.jpg"),
         tastes = listOf("00000000-0000-4000-8000-000000000041" to 3),
     )

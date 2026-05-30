@@ -40,6 +40,7 @@ class CreateCoffeeBeanUsecase(
             roastLevel = request.roastLevel,
             processingMethod = request.processingMethod,
             isSpecialty = request.isSpecialty,
+            publishStatus = request.publishStatus,
             images = images,
             tastes = request.tastes.map { it.tasteId to it.evaluationValue },
             id = coffeeBeanId,

@@ -73,7 +73,8 @@ class CoffeeBeanController(
                                           "farm": "イルガチェフェ農園",
                                           "roastLevel": "MEDIUM",
                                           "processingMethod": "WASHED",
-                                          "isSpecialty": true
+                                          "isSpecialty": true,
+                                          "publishStatus": "PUBLISHED"
                                         }
                                       ],
                                       "totalCount": 1,
@@ -127,6 +128,7 @@ class CoffeeBeanController(
                                       "roastLevel": "MEDIUM",
                                       "processingMethod": "WASHED",
                                       "isSpecialty": true,
+                                      "publishStatus": "PUBLISHED",
                                       "images": [
                                         {
                                           "id": "00000000-0000-4000-8000-000000000010",

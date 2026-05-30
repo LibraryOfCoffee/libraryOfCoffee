@@ -89,9 +89,9 @@ module "rds" {
   vpc_id             = module.vpc.vpc_id
   private_subnet_ids = module.vpc.private_subnet_ids
 
-  allowed_security_group_ids = [
-    module.bastion.security_group_id,
-  ]
+  allowed_security_group_ids = {
+    bastion = module.bastion.security_group_id
+  }
 
   instance_class          = "db.t4g.micro"
   db_name                 = "mametosho"

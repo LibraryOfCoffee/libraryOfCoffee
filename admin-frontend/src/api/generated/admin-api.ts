@@ -228,6 +228,11 @@ export interface components {
        * @example TOKYO
        */
       prefecture?: string;
+      /**
+       * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
+       * @example PUBLISHED
+       */
+      publishStatus: string;
     };
     /** @description 店舗登録レスポンス */
     ShopResponse: {
@@ -368,6 +373,11 @@ export interface components {
        * @example WASHED
        */
       processingMethod?: string;
+      /**
+       * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
+       * @example PUBLISHED
+       */
+      publishStatus: string;
       /** @description テイスト評価一覧 */
       tastes?: components["schemas"]["TasteRequest"][];
       specialty?: boolean;
@@ -412,6 +422,11 @@ export interface components {
        * @example TOKYO
        */
       prefecture?: string;
+      /**
+       * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
+       * @example DRAFT
+       */
+      publishStatus: string;
     };
     /** @description コーヒー豆登録リクエスト */
     CreateCoffeeBeanRequest: {
@@ -455,6 +470,11 @@ export interface components {
        * @example WASHED
        */
       processingMethod?: string;
+      /**
+       * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
+       * @example DRAFT
+       */
+      publishStatus: string;
       /** @description テイスト評価一覧 */
       tastes?: components["schemas"]["TasteRequest"][];
       specialty?: boolean;
@@ -546,6 +566,11 @@ export interface components {
        * @example TOKYO
        */
       prefecture?: string;
+      /**
+       * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
+       * @example PUBLISHED
+       */
+      publishStatus: string;
       /** @description 画像一覧 */
       images?: components["schemas"]["ImageDetail"][];
     };
@@ -638,6 +663,11 @@ export interface components {
        * @example WASHED
        */
       processingMethod?: string;
+      /**
+       * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
+       * @example PUBLISHED
+       */
+      publishStatus: string;
       /** @description 画像一覧 */
       images?: components["schemas"]["ImageDetail"][];
       /** @description テイスト評価一覧 */

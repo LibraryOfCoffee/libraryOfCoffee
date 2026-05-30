@@ -19,8 +19,8 @@ variable "private_subnet_ids" {
 }
 
 variable "allowed_security_group_ids" {
-  type        = list(string)
-  description = "Security group IDs allowed to access RDS"
+  type        = map(string)
+  description = "Security group IDs allowed to access RDS (key is a static label, value is the SG ID)"
 }
 
 variable "instance_class" {

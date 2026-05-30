@@ -2,6 +2,7 @@ package com.mametosho.admin.application.usecase
 
 import com.mametosho.admin.presentation.dto.request.UpdateShopRequest
 import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.PublishStatus
 import com.mametosho.domain.model.shop.Shop
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.shop.ShopImage
@@ -31,6 +32,7 @@ class UpdateShopUsecaseTest {
         particular = "既存こだわり",
         shopUrl = "https://existing.example.com",
         prefecture = Prefecture.TOKYO,
+        publishStatus = PublishStatus.PUBLISHED,
         images = listOf(
             ShopImage(
                 id = ShopImageId("00000000-0000-4000-8000-000000000011"),
@@ -56,7 +58,12 @@ class UpdateShopUsecaseTest {
             return if (id.value == existingShopId) existingShop else null
         }
 
-        override fun findAll(page: Int, size: Int, name: String?): Pair<List<Shop>, Long> = Pair(emptyList(), 0L)
+        override fun findAll(
+            page: Int,
+            size: Int,
+            name: String?,
+            publishStatus: PublishStatus?,
+        ): Pair<List<Shop>, Long> = Pair(emptyList(), 0L)
         override fun deleteById(id: ShopId) = Unit
     }
 
@@ -69,6 +76,7 @@ class UpdateShopUsecaseTest {
         particular: String? = "更新こだわり",
         shopUrl: String = "https://updated.example.com",
         prefecture: String = "OSAKA",
+        publishStatus: String = "PUBLISHED",
     ): UpdateShopRequest = UpdateShopRequest(
         shopifyShopId = shopifyShopId,
         name = name,
@@ -76,6 +84,7 @@ class UpdateShopUsecaseTest {
         particular = particular,
         shopUrl = shopUrl,
         prefecture = prefecture,
+        publishStatus = publishStatus,
     )
 
     @Nested

@@ -12,7 +12,7 @@ resource "aws_security_group" "main" {
 }
 
 resource "aws_security_group_rule" "ingress_allowed" {
-  for_each = toset(var.allowed_security_group_ids)
+  for_each = var.allowed_security_group_ids
 
   type                     = "ingress"
   from_port                = 3306

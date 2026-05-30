@@ -55,6 +55,8 @@ paths:
                     introduction: こだわりの珈琲をお届けします。
                     particular: 厳選された豆のみを使用しています。
                     shopUrl: https://example.com
+                    prefecture: TOKYO
+                    publishStatus: PUBLISHED
                     images:
                     - id: 00000000-0000-4000-8000-000000000010
                       type: MAIN
@@ -373,6 +375,7 @@ paths:
                     roastLevel: MEDIUM
                     processingMethod: WASHED
                     isSpecialty: true
+                    publishStatus: PUBLISHED
                     images:
                     - id: 00000000-0000-4000-8000-000000000010
                       type: MAIN
@@ -566,6 +569,8 @@ paths:
                       introduction: こだわりの珈琲をお届けします。
                       particular: 厳選された豆のみを使用しています。
                       shopUrl: https://example.com
+                      prefecture: TOKYO
+                      publishStatus: PUBLISHED
                     totalCount: 1
                     page: 0
                     size: 20
@@ -688,6 +693,7 @@ paths:
                       roastLevel: MEDIUM
                       processingMethod: WASHED
                       isSpecialty: true
+                      publishStatus: PUBLISHED
                     totalCount: 1
                     page: 0
                     size: 20
@@ -916,6 +922,12 @@ components:
           type: string
           description: 都道府県
           example: TOKYO
+        publishStatus:
+          type: string
+          description: "公開状態（DRAFT: 下書き / PUBLISHED: 公開）"
+          example: PUBLISHED
+      required:
+      - publishStatus
     ShopResponse:
       type: object
       description: 店舗登録レスポンス
@@ -1040,6 +1052,10 @@ components:
           type: string
           description: 精製方法
           example: WASHED
+        publishStatus:
+          type: string
+          description: "公開状態（DRAFT: 下書き / PUBLISHED: 公開）"
+          example: PUBLISHED
         tastes:
           type: array
           description: テイスト評価一覧
@@ -1047,6 +1063,8 @@ components:
             $ref: "#/components/schemas/TasteRequest"
         specialty:
           type: boolean
+      required:
+      - publishStatus
     CoffeeBeanResponse:
       type: object
       description: コーヒー豆登録レスポンス
@@ -1083,6 +1101,12 @@ components:
           type: string
           description: 都道府県
           example: TOKYO
+        publishStatus:
+          type: string
+          description: "公開状態（DRAFT: 下書き / PUBLISHED: 公開）"
+          example: DRAFT
+      required:
+      - publishStatus
     CreateCoffeeBeanRequest:
       type: object
       description: コーヒー豆登録リクエスト
@@ -1119,6 +1143,10 @@ components:
           type: string
           description: 精製方法
           example: WASHED
+        publishStatus:
+          type: string
+          description: "公開状態（DRAFT: 下書き / PUBLISHED: 公開）"
+          example: DRAFT
         tastes:
           type: array
           description: テイスト評価一覧
@@ -1126,6 +1154,8 @@ components:
             $ref: "#/components/schemas/TasteRequest"
         specialty:
           type: boolean
+      required:
+      - publishStatus
     LoginRequest:
       type: object
       description: ログインリクエスト
@@ -1203,11 +1233,17 @@ components:
           type: string
           description: 都道府県
           example: TOKYO
+        publishStatus:
+          type: string
+          description: "公開状態（DRAFT: 下書き / PUBLISHED: 公開）"
+          example: PUBLISHED
         images:
           type: array
           description: 画像一覧
           items:
             $ref: "#/components/schemas/ImageDetail"
+      required:
+      - publishStatus
     PlanDetailResponse:
       type: object
       description: プラン詳細レスポンス
@@ -1285,6 +1321,10 @@ components:
           type: string
           description: 精製方法
           example: WASHED
+        publishStatus:
+          type: string
+          description: "公開状態（DRAFT: 下書き / PUBLISHED: 公開）"
+          example: PUBLISHED
         images:
           type: array
           description: 画像一覧
@@ -1297,6 +1337,8 @@ components:
             $ref: "#/components/schemas/TasteDetail"
         specialty:
           type: boolean
+      required:
+      - publishStatus
     TasteDetail:
       type: object
       description: テイスト評価詳細

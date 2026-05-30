@@ -21,4 +21,11 @@ data class CreateShopRequest(
 
     @Schema(description = "都道府県", example = "TOKYO")
     val prefecture: String,
+
+    @Schema(
+        description = "公開状態（DRAFT: 下書き / PUBLISHED: 公開）",
+        example = "DRAFT",
+        requiredMode = Schema.RequiredMode.REQUIRED,
+    )
+    val publishStatus: String,
 )

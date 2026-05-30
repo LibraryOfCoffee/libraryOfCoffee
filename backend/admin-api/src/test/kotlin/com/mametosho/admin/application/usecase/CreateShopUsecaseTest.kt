@@ -1,6 +1,7 @@
 package com.mametosho.admin.application.usecase
 
 import com.mametosho.admin.presentation.dto.request.CreateShopRequest
+import com.mametosho.domain.model.shared.PublishStatus
 import com.mametosho.domain.model.shop.Shop
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.repository.ShopRepository
@@ -23,7 +24,12 @@ class CreateShopUsecaseTest {
         }
 
         override fun findById(id: ShopId): Shop? = null
-        override fun findAll(page: Int, size: Int, name: String?): Pair<List<Shop>, Long> = Pair(emptyList(), 0L)
+        override fun findAll(
+            page: Int,
+            size: Int,
+            name: String?,
+            publishStatus: PublishStatus?,
+        ): Pair<List<Shop>, Long> = Pair(emptyList(), 0L)
         override fun deleteById(id: ShopId) = Unit
     }
 
@@ -38,6 +44,7 @@ class CreateShopUsecaseTest {
         particular: String? = "テストこだわり",
         shopUrl: String = "https://example.com",
         prefecture: String = "TOKYO",
+        publishStatus: String = "PUBLISHED",
     ): CreateShopRequest = CreateShopRequest(
         shopifyShopId = shopifyShopId,
         name = name,
@@ -45,6 +52,7 @@ class CreateShopUsecaseTest {
         particular = particular,
         shopUrl = shopUrl,
         prefecture = prefecture,
+        publishStatus = publishStatus,
     )
 
     @Nested
