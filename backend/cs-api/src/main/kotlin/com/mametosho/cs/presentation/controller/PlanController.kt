@@ -1,6 +1,6 @@
 package com.mametosho.cs.presentation.controller
 
-import com.mametosho.cs.application.usecase.ListPlansUsecase
+import com.mametosho.cs.application.usecase.FindPlansUsecase
 import com.mametosho.cs.presentation.dto.response.PlanResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/plans")
 @Tag(name = "Plan", description = "プランAPI")
 class PlanController(
-    private val listPlansUsecase: ListPlansUsecase,
+    private val findPlansUsecase: FindPlansUsecase,
 ) {
     @GetMapping
     @Operation(
@@ -69,7 +69,7 @@ class PlanController(
         ],
     )
     fun listPlans(): ResponseEntity<List<PlanResponse>> {
-        val results = listPlansUsecase.execute()
+        val results = findPlansUsecase.execute()
         return ResponseEntity.ok(results.map { PlanResponse.from(it) })
     }
 }

@@ -14,18 +14,6 @@ import { moveToCoffeeBeanListPage } from "../_lib/purchaseLinkUtil";
 import "../globals.css";
 import styles from "./catalog.module.css";
 
-const ROASTER_PREFECTURES: Record<string, string> = {
-  "+ninth coffee": "東京都",
-  "LUSH-COFFEE": "神奈川県",
-  "MOSHIMOSHI COFFEE": "東京都",
-  marucacoffee: "大阪府",
-  "Tama Coffee Roaster": "東京都",
-  "NORTH NODE COFFEE": "北海道",
-  ゆるり珈琲: "京都府",
-  "Black Sloth Coffee": "福岡県",
-  "FIVE COFFEE STAND&ROASTERY": "愛知県",
-};
-
 const ROAST_PILL_CLASS: Record<string, string> = {
   浅煎り: styles.pillLight,
   中煎り: styles.pillMedium,
@@ -60,11 +48,7 @@ function CatalogContent({
   planGroups: PlanGroup[];
 }) {
   const prefectures = Array.from(
-    new Set(
-      beans
-        .map((b) => ROASTER_PREFECTURES[b.roaster])
-        .filter((p): p is string => !!p),
-    ),
+    new Set(beans.map((b) => b.prefecture).filter((p): p is string => !!p)),
   );
   const countries = Array.from(new Set(beans.map((b) => b.name)));
   const roastLevels = Array.from(new Set(beans.map((b) => b.tag)));
@@ -105,8 +89,7 @@ function CatalogContent({
     : 0;
 
   const filtered = beans.filter((b) => {
-    if (prefFilter && ROASTER_PREFECTURES[b.roaster] !== prefFilter)
-      return false;
+    if (prefFilter && b.prefecture !== prefFilter) return false;
     if (countryFilter && b.name !== countryFilter) return false;
     if (roastFilter && b.tag !== roastFilter) return false;
     return true;

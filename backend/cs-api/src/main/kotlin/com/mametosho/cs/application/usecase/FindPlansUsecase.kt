@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class ListPlansUsecase(
+class FindPlansUsecase(
     private val planRepository: PlanRepository,
 ) {
     @Transactional(readOnly = true)
