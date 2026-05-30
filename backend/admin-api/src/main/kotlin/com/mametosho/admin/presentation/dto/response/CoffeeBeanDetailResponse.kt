@@ -65,7 +65,9 @@ data class CoffeeBeanDetailResponse(
             processingMethod = result.processingMethod,
             isSpecialty = result.isSpecialty,
             images = result.images.map { ImageDetail(id = it.id, type = it.type, imageUrl = it.imageUrl) },
-            tastes = result.tastes.map { TasteDetail(id = it.id, tasteId = it.tasteId, tasteName = it.tasteName, evaluationValue = it.evaluationValue) },
+            tastes = result.tastes.map {
+                TasteDetail(id = it.id, tasteId = it.tasteId, tasteName = it.tasteName, evaluationValue = it.evaluationValue)
+            },
         )
     }
 }
