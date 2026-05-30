@@ -10,17 +10,6 @@ import java.util.UUID
  *
  * ショップに属するコーヒー豆の情報を管理する。Shopifyの商品と1対1で紐づく。
  *
- * @property id コーヒー豆ID
- * @property shopId 所属するショップのID
- * @property shopifyBeanId Shopifyの商品ID
- * @property name 豆の名前
- * @property description 説明
- * @property origin 産地
- * @property farm 農園名。不明な場合はnull
- * @property roastLevel 焙煎度
- * @property processingMethod 精製方法
- * @property isSpecialty スペシャルティコーヒーかどうか
- * @property images 画像一覧
  * @property tastes テイスト評価一覧。同一TasteIdの重複は不可
  */
 @Suppress("MagicNumber")
@@ -62,19 +51,6 @@ data class CoffeeBean(
      *
      * コーヒー豆ID([id])は変更せず、所属ショップを含むそれ以外の情報を更新した新しい[CoffeeBean]を返す。
      * 画像・テイスト評価は全件置換され、子エンティティのIDは新たに自動生成される。
-     *
-     * @param shopId 所属するショップのID
-     * @param shopifyBeanId Shopifyの商品ID
-     * @param name 豆の名前
-     * @param description 説明
-     * @param origin 産地
-     * @param farm 農園名
-     * @param roastLevel 焙煎度
-     * @param processingMethod 精製方法
-     * @param isSpecialty スペシャルティコーヒーかどうか
-     * @param images 画像情報（種別とURL）のリスト
-     * @param tastes テイスト評価情報（テイストIDと評価値）のリスト
-     * @return 更新された[CoffeeBean]
      */
     fun update(
         shopId: String,
@@ -120,19 +96,6 @@ data class CoffeeBean(
          * 新しいコーヒー豆を生成する。
          *
          * IDはサーバー側でUUIDv4を自動生成する。
-         *
-         * @param shopId 所属するショップのID
-         * @param shopifyBeanId Shopifyの商品ID
-         * @param name 豆の名前
-         * @param description 説明
-         * @param origin 産地
-         * @param farm 農園名
-         * @param roastLevel 焙煎度
-         * @param processingMethod 精製方法
-         * @param isSpecialty スペシャルティコーヒーかどうか
-         * @param images 画像情報（種別とURL）のリスト
-         * @param tastes テイスト評価情報（テイストIDと評価値）のリスト
-         * @return 生成された[CoffeeBean]
          */
         fun create(
             shopId: String,

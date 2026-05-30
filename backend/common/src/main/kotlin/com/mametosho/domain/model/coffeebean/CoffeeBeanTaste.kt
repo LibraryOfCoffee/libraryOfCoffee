@@ -5,8 +5,6 @@ import com.mametosho.domain.model.taste.TasteId
 /**
  * コーヒー豆のテイスト評価を表すエンティティ。
  *
- * @property id テイスト評価ID
- * @property tasteId テイスト種別のID
  * @property evaluationValue 評価値。0以上でなければならない
  */
 @Suppress("MagicNumber")

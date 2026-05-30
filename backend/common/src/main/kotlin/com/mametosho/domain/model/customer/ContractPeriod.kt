@@ -5,8 +5,8 @@ import java.time.LocalDate
 /**
  * サブスクリプションの契約期間を表す値オブジェクト。
  *
- * @property from 契約開始日。引き落とし完了日
- * @property to 契約終了日。解約時にのみ設定される。設定される場合は[from]より前であってはならない
+ * @property from 引き落とし完了日
+ * @property to 解約時にのみ設定される。設定される場合は[from]より前であってはならない
  */
 data class ContractPeriod(
     val from: LocalDate,
