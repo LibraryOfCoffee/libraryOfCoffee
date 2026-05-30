@@ -11,6 +11,7 @@ import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import com.mametosho.domain.model.coffeebean.RoastLevel
 import com.mametosho.domain.model.coffeebean.ShopifyBeanId
 import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.PublishStatus
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.taste.TasteId
 import org.junit.jupiter.api.Nested
@@ -30,6 +31,7 @@ class CoffeeBeanResponseTest {
         roastLevel = RoastLevel.MEDIUM,
         processingMethod = ProcessingMethod.WASHED,
         isSpecialty = true,
+        publishStatus = PublishStatus.PUBLISHED,
         images = listOf(
             CoffeeBeanImage(
                 id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000010"),

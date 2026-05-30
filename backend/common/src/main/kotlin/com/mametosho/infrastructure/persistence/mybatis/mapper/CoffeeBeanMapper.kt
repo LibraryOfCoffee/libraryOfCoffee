@@ -14,7 +14,7 @@ import org.apache.ibatis.annotations.Select
 interface CoffeeBeanMapper {
     @Select(
         """
-        SELECT id, shop_id, shopify_bean_id, name, description, origin, farm, roast_level, processing_method, is_specialty
+        SELECT id, shop_id, shopify_bean_id, name, description, origin, farm, roast_level, processing_method, is_specialty, publish_status
         FROM coffee_beans WHERE id = #{id}
         """,
     )
@@ -30,7 +30,7 @@ interface CoffeeBeanMapper {
         """
         SELECT
             cb.id AS bean_id, cb.shop_id, cb.shopify_bean_id, cb.name AS bean_name,
-            cb.description, cb.origin, cb.farm, cb.roast_level, cb.processing_method, cb.is_specialty,
+            cb.description, cb.origin, cb.farm, cb.roast_level, cb.processing_method, cb.is_specialty, cb.publish_status,
             cbi.id AS image_id, cbi.type AS image_type, cbi.image_url,
             cbt.id AS taste_eval_id, cbt.tastes_id AS taste_id, t.name AS taste_name, cbt.evaluation_value
         FROM coffee_beans cb
@@ -45,7 +45,7 @@ interface CoffeeBeanMapper {
 
     @Select(
         """
-        SELECT id, shop_id, shopify_bean_id, name, description, origin, farm, roast_level, processing_method, is_specialty
+        SELECT id, shop_id, shopify_bean_id, name, description, origin, farm, roast_level, processing_method, is_specialty, publish_status
         FROM coffee_beans
         ORDER BY created_at DESC
         LIMIT #{size} OFFSET #{offset}
@@ -58,8 +58,8 @@ interface CoffeeBeanMapper {
 
     @Insert(
         """
-        INSERT INTO coffee_beans (id, shop_id, shopify_bean_id, name, description, origin, farm, roast_level, processing_method, is_specialty)
-        VALUES (#{id}, #{shopId}, #{shopifyBeanId}, #{name}, #{description}, #{origin}, #{farm}, #{roastLevel}, #{processingMethod}, #{isSpecialty})
+        INSERT INTO coffee_beans (id, shop_id, shopify_bean_id, name, description, origin, farm, roast_level, processing_method, is_specialty, publish_status)
+        VALUES (#{id}, #{shopId}, #{shopifyBeanId}, #{name}, #{description}, #{origin}, #{farm}, #{roastLevel}, #{processingMethod}, #{isSpecialty}, #{publishStatus})
         ON DUPLICATE KEY UPDATE
             shop_id = VALUES(shop_id),
             shopify_bean_id = VALUES(shopify_bean_id),
@@ -69,7 +69,8 @@ interface CoffeeBeanMapper {
             farm = VALUES(farm),
             roast_level = VALUES(roast_level),
             processing_method = VALUES(processing_method),
-            is_specialty = VALUES(is_specialty)
+            is_specialty = VALUES(is_specialty),
+            publish_status = VALUES(publish_status)
         """,
     )
     fun upsertCoffeeBean(entity: CoffeeBeanEntity)

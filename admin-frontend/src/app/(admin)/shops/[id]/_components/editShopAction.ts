@@ -25,6 +25,7 @@ export async function editShopAction(
     particular: (formData.get("particular") as string) ?? "",
     shopUrl: (formData.get("shopUrl") as string) ?? "",
     prefecture: (formData.get("prefecture") as string) ?? "",
+    publishStatus: (formData.get("publishStatus") as string) ?? "DRAFT",
   };
 
   const result = editShopSchema.safeParse({
@@ -56,12 +57,21 @@ export async function editShopAction(
     particular,
     shopUrl,
     prefecture,
+    publishStatus,
   } = result.data;
 
   const response = await multipartRequest(
     `/api/admin/shops/${id}`,
     "PUT",
-    { shopifyShopId, name, introduction, particular, shopUrl, prefecture },
+    {
+      shopifyShopId,
+      name,
+      introduction,
+      particular,
+      shopUrl,
+      prefecture,
+      publishStatus,
+    },
     formData,
   );
 

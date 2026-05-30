@@ -25,6 +25,8 @@ data class CoffeeBeanDetailResponse(
     val processingMethod: String,
     @Schema(description = "スペシャルティコーヒーかどうか", example = "true")
     val isSpecialty: Boolean,
+    @Schema(description = "公開状態（DRAFT: 下書き / PUBLISHED: 公開）", example = "PUBLISHED")
+    val publishStatus: String,
     @Schema(description = "画像一覧")
     val images: List<ImageDetail>,
     @Schema(description = "テイスト評価一覧")
@@ -64,6 +66,7 @@ data class CoffeeBeanDetailResponse(
             roastLevel = result.roastLevel,
             processingMethod = result.processingMethod,
             isSpecialty = result.isSpecialty,
+            publishStatus = result.publishStatus,
             images = result.images.map { ImageDetail(id = it.id, type = it.type, imageUrl = it.imageUrl) },
             tastes = result.tastes.map {
                 TasteDetail(id = it.id, tasteId = it.tasteId, tasteName = it.tasteName, evaluationValue = it.evaluationValue)

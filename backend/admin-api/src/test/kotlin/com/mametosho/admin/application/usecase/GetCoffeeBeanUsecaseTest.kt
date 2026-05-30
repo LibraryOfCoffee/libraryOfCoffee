@@ -22,6 +22,7 @@ class GetCoffeeBeanUsecaseTest {
         roastLevel = "MEDIUM",
         processingMethod = "WASHED",
         isSpecialty = true,
+        publishStatus = "PUBLISHED",
         images = emptyList(),
         tastes = emptyList(),
     )

@@ -44,9 +44,9 @@ paths:
         "200":
           description: 取得成功
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: "#/components/schemas/ShopListResponse"
+                $ref: "#/components/schemas/PagedResponseShopResponse"
               examples:
                 success:
                   summary: 取得成功例
@@ -83,7 +83,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/PlanListResponse"
+                  $ref: "#/components/schemas/PlanResponse"
               examples:
                 success:
                   summary: 取得成功例
@@ -206,7 +206,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PagedResponseCoffeeBeanListResponse"
+                $ref: "#/components/schemas/PagedResponseCoffeeBeanResponse"
               examples:
                 success:
                   summary: 取得成功例
@@ -222,6 +222,8 @@ paths:
                       description: 花のような華やかなフレーバーと、柑橘系の明るい酸味が特徴。
                       imageUrl: https://example.com/images/ethiopia.jpg
                       shopName: 珈琲工房 まめとしょ
+                      shopPrefecture: TOKYO
+                      shopUrl: https://mametosho.example.com
                       tasteProfiles:
                       - name: 酸味
                         value: 5
@@ -238,42 +240,10 @@ paths:
                     size: 20
 components:
   schemas:
-    ShopListResponse:
-      type: object
-      description: 店舗一覧アイテム
-      properties:
-        id:
-          type: string
-          description: 店舗ID
-          example: 00000000-0000-4000-8000-000000000031
-        name:
-          type: string
-          description: 店舗名
-          example: 珈琲工房 まめとしょ
-        introduction:
-          type: string
-          description: 店舗紹介文
-          example: 東京都渋谷区にある自家焙煎珈琲店。厳選されたスペシャルティコーヒーをお届けします。
-        shopUrl:
-          type: string
-          description: 店舗URL
-          example: https://mametosho.example.com
-        prefecture:
-          type: string
-          description: 都道府県
-          example: TOKYO
-        logoImageUrl:
-          type: string
-          description: ロゴ画像URL
-          example: https://placehold.jp/100x100.png
-    PlanListResponse:
+    PlanResponse:
       type: object
       description: プラン一覧アイテム
       properties:
-        isRecommended:
-          type: boolean
-          description: おすすめバッジ
-          example: true
         id:
           type: string
           description: プランID
@@ -301,3 +271,5 @@ components:
           type: string
           description: プラン種別（SUBSCRIPTION / SINGLE）
           example: SUBSCRIPTION
+        recommended:
+          type: boolean

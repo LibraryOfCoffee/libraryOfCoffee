@@ -31,6 +31,9 @@ data class UpdateCoffeeBeanRequest(
     @Schema(description = "スペシャルティコーヒーかどうか", example = "true")
     val isSpecialty: Boolean,
 
+    @Schema(description = "公開状態（DRAFT: 下書き / PUBLISHED: 公開）", example = "PUBLISHED")
+    val publishStatus: String,
+
     @Schema(description = "テイスト評価一覧")
     val tastes: List<TasteRequest>,
 ) {

@@ -11,6 +11,7 @@ data class CoffeeBeanDetailResult(
     val roastLevel: String,
     val processingMethod: String,
     val isSpecialty: Boolean,
+    val publishStatus: String,
     val images: List<ImageResult>,
     val tastes: List<TasteResult>,
 ) {

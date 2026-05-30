@@ -17,6 +17,7 @@ import {
 } from "@/app/(admin)/coffee-beans/_lib/coffeeBeanLabels";
 import { ImageUploadField } from "@/components/ImageUploadField";
 import modalStyles from "@/components/modal.module.css";
+import { PUBLISH_STATUS_OPTIONS } from "@/components/publishStatus";
 import { ShopSearchSelect } from "@/components/ShopSearchSelect";
 import {
   type EditCoffeeBeanState,
@@ -52,6 +53,7 @@ export function EditCoffeeBeanModal({
   const roastLevelId = useId();
   const processingMethodId = useId();
   const isSpecialtyId = useId();
+  const publishStatusId = useId();
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -275,6 +277,32 @@ export function EditCoffeeBeanModal({
             <option value="false">なし</option>
           </select>
           {state.fieldErrors?.isSpecialty?.map((msg) => (
+            <span key={msg} className={modalStyles.fieldError}>
+              {msg}
+            </span>
+          ))}
+        </div>
+
+        <div className={modalStyles.field}>
+          <label htmlFor={publishStatusId} className={modalStyles.label}>
+            公開状態
+            <span className={modalStyles.required}>*</span>
+          </label>
+          <select
+            id={publishStatusId}
+            name="publishStatus"
+            defaultValue={
+              state.values?.publishStatus ?? coffeeBean.publishStatus
+            }
+            className={modalStyles.select}
+          >
+            {PUBLISH_STATUS_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          {state.fieldErrors?.publishStatus?.map((msg) => (
             <span key={msg} className={modalStyles.fieldError}>
               {msg}
             </span>

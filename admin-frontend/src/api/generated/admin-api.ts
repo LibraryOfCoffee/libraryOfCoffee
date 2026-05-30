@@ -128,6 +128,26 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/admin/tastes": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * テイスト一覧取得
+     * @description テイスト（酸味・苦味・甘味・コク・香りなど）の一覧を取得します。
+     */
+    get: operations["listTastes"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -164,6 +184,11 @@ export interface components {
        * @example TOKYO
        */
       prefecture?: string;
+      /**
+       * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
+       * @example PUBLISHED
+       */
+      publishStatus?: string;
     };
     /** @description 店舗登録レスポンス */
     ShopResponse: {
@@ -193,6 +218,11 @@ export interface components {
        */
       error?: string;
       /**
+       * @description エラーメッセージ
+       * @example tastes must not be empty
+       */
+      message?: string;
+      /**
        * @description リクエストパス
        * @example /api/admin/resources/00000000-0000-4000-8000-000000000099
        */
@@ -207,7 +237,7 @@ export interface components {
       tasteId?: string;
       /**
        * Format: int32
-       * @description 評価値
+       * @description 評価値（0-5）
        * @example 3
        */
       evaluationValue?: number;
@@ -254,6 +284,11 @@ export interface components {
        * @example WASHED
        */
       processingMethod?: string;
+      /**
+       * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
+       * @example PUBLISHED
+       */
+      publishStatus?: string;
       /** @description テイスト評価一覧 */
       tastes?: components["schemas"]["TasteRequest"][];
       specialty?: boolean;
@@ -298,6 +333,11 @@ export interface components {
        * @example TOKYO
        */
       prefecture?: string;
+      /**
+       * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
+       * @example DRAFT
+       */
+      publishStatus?: string;
     };
     /** @description コーヒー豆登録リクエスト */
     CreateCoffeeBeanRequest: {
@@ -341,6 +381,11 @@ export interface components {
        * @example WASHED
        */
       processingMethod?: string;
+      /**
+       * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
+       * @example DRAFT
+       */
+      publishStatus?: string;
       /** @description テイスト評価一覧 */
       tastes?: components["schemas"]["TasteRequest"][];
       specialty?: boolean;
@@ -432,6 +477,11 @@ export interface components {
        * @example TOKYO
        */
       prefecture?: string;
+      /**
+       * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
+       * @example PUBLISHED
+       */
+      publishStatus?: string;
       /** @description 画像一覧 */
       images?: components["schemas"]["ImageDetail"][];
     };
@@ -482,6 +532,11 @@ export interface components {
        * @example WASHED
        */
       processingMethod?: string;
+      /**
+       * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
+       * @example PUBLISHED
+       */
+      publishStatus?: string;
       /** @description 画像一覧 */
       images?: components["schemas"]["ImageDetail"][];
       /** @description テイスト評価一覧 */
@@ -495,6 +550,11 @@ export interface components {
        * @example 00000000-0000-4000-8000-000000000020
        */
       id?: string;
+      /**
+       * @description テイストマスタID
+       * @example 00000000-0000-4000-8000-000000000041
+       */
+      tasteId?: string;
       /**
        * @description テイスト名
        * @example 酸味
@@ -970,6 +1030,26 @@ export interface operations {
       };
       /** @description 認証失敗 */
       401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": unknown;
+        };
+      };
+    };
+  };
+  listTastes: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 取得成功 */
+      200: {
         headers: {
           [name: string]: unknown;
         };

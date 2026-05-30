@@ -50,10 +50,10 @@ INSERT IGNORE INTO plans (id, shopify_plan_id, label, gram_weight, bean_quantity
 -- ------------------------------------------------------------
 -- shops（店舗）
 -- ------------------------------------------------------------
-INSERT IGNORE INTO shops (id, shopify_shop_id, name, introduction, particular, shop_url, prefecture) VALUES
-('00000000-0000-4000-8000-000000000031', 'gid://shopify/Shop/300001', '珈琲工房 まめとしょ', '東京都渋谷区にある自家焙煎珈琲店。厳選されたスペシャルティコーヒーをお届けします。', 'シングルオリジンの豆を、注文後に焙煎してお届けします。', 'https://mametosho.example.com', 'TOKYO'),
-('00000000-0000-4000-8000-000000000032', 'gid://shopify/Shop/300002', 'CAFÉ LUMIÈRE', '京都の町家を改装した珈琲専門店。フレンチローストからライトローストまで幅広い焙煎度をご用意。', '契約農園から直接仕入れた高品質な生豆のみを使用しています。', 'https://cafe-lumiere.example.com', 'KYOTO'),
-('00000000-0000-4000-8000-000000000033', 'gid://shopify/Shop/300003', '豆蔵珈琲', '福岡の老舗珈琲焙煎所。創業以来変わらない焙煎技術で深みのある一杯を。', '炭火焙煎による独自の香ばしさが特徴です。', 'https://mamezou-coffee.example.com', 'FUKUOKA');
+INSERT IGNORE INTO shops (id, shopify_shop_id, name, introduction, particular, shop_url, prefecture, publish_status) VALUES
+('00000000-0000-4000-8000-000000000031', 'gid://shopify/Shop/300001', '珈琲工房 まめとしょ', '東京都渋谷区にある自家焙煎珈琲店。厳選されたスペシャルティコーヒーをお届けします。', 'シングルオリジンの豆を、注文後に焙煎してお届けします。', 'https://mametosho.example.com', 'TOKYO', 'PUBLISHED'),
+('00000000-0000-4000-8000-000000000032', 'gid://shopify/Shop/300002', 'CAFÉ LUMIÈRE', '京都の町家を改装した珈琲専門店。フレンチローストからライトローストまで幅広い焙煎度をご用意。', '契約農園から直接仕入れた高品質な生豆のみを使用しています。', 'https://cafe-lumiere.example.com', 'KYOTO', 'PUBLISHED'),
+('00000000-0000-4000-8000-000000000033', 'gid://shopify/Shop/300003', '豆蔵珈琲', '福岡の老舗珈琲焙煎所。創業以来変わらない焙煎技術で深みのある一杯を。', '炭火焙煎による独自の香ばしさが特徴です。', 'https://mamezou-coffee.example.com', 'FUKUOKA', 'DRAFT');
 
 -- ------------------------------------------------------------
 -- tastes（テイスト）
@@ -76,25 +76,25 @@ INSERT IGNORE INTO customer_subscriptions (id, customer_id, plan_id, status, con
 -- ------------------------------------------------------------
 -- coffee_beans（珈琲豆）各店舗2種ずつ
 -- ------------------------------------------------------------
-INSERT IGNORE INTO coffee_beans (id, shop_id, shopify_bean_id, name, description, origin, farm, roast_level, processing_method, is_specialty) VALUES
+INSERT IGNORE INTO coffee_beans (id, shop_id, shopify_bean_id, name, description, origin, farm, roast_level, processing_method, is_specialty, publish_status) VALUES
 ('00000000-0000-4000-8000-000000000071', '00000000-0000-4000-8000-000000000031', 'gid://shopify/Product/400001', 'エチオピア イルガチェフェ G1',
  '花のような華やかなフレーバーと、柑橘系の明るい酸味が特徴。クリーンカップで後味もすっきり。',
- 'エチオピア', 'イルガチェフェ コチャレ地区', 'LIGHT', 'WASHED', TRUE),
+ 'エチオピア', 'イルガチェフェ コチャレ地区', 'LIGHT', 'WASHED', TRUE, 'PUBLISHED'),
 ('00000000-0000-4000-8000-000000000072', '00000000-0000-4000-8000-000000000031', 'gid://shopify/Product/400002', 'グアテマラ アンティグア',
  'チョコレートのような甘いコクと、スパイシーな余韻。バランスの良い味わいが楽しめます。',
- 'グアテマラ', 'アンティグア農園', 'CITY', 'FULLY_WASHED', FALSE),
+ 'グアテマラ', 'アンティグア農園', 'CITY', 'FULLY_WASHED', FALSE, 'DRAFT'),
 ('00000000-0000-4000-8000-000000000073', '00000000-0000-4000-8000-000000000032', 'gid://shopify/Product/400003', 'ケニア AA ニエリ',
  'ブラックカラントのような濃厚な果実感と、しっかりとしたボディ。力強い味わいの一杯。',
- 'ケニア', 'ニエリ地区', 'MEDIUM', 'FULLY_WASHED', TRUE),
+ 'ケニア', 'ニエリ地区', 'MEDIUM', 'FULLY_WASHED', TRUE, 'PUBLISHED'),
 ('00000000-0000-4000-8000-000000000074', '00000000-0000-4000-8000-000000000032', 'gid://shopify/Product/400004', 'コスタリカ ハニー',
  'はちみつのような甘みとトロピカルフルーツのフレーバー。ハニープロセスならではの複雑な味わい。',
- 'コスタリカ', 'タラス地区 ラ・ミニータ農園', 'MEDIUM', 'HONEY', TRUE),
+ 'コスタリカ', 'タラス地区 ラ・ミニータ農園', 'MEDIUM', 'HONEY', TRUE, 'PUBLISHED'),
 ('00000000-0000-4000-8000-000000000075', '00000000-0000-4000-8000-000000000033', 'gid://shopify/Product/400005', 'ブラジル サントス No.2',
  '定番のブラジル豆。ナッツのような香ばしさと、まろやかなコク。どなたでも飲みやすい一杯。',
- 'ブラジル', 'サントス地区', 'CITY', 'NATURAL', FALSE),
+ 'ブラジル', 'サントス地区', 'CITY', 'NATURAL', FALSE, 'PUBLISHED'),
 ('00000000-0000-4000-8000-000000000076', '00000000-0000-4000-8000-000000000033', 'gid://shopify/Product/400006', 'インドネシア マンデリン G1',
  '大地を思わせる深いコクと、ハーブのような独特の風味。深煎り好きにおすすめの個性派。',
- 'インドネシア', 'リントン地区', 'FRENCH', 'WET_HULLING', FALSE);
+ 'インドネシア', 'リントン地区', 'FRENCH', 'WET_HULLING', FALSE, 'DRAFT');
 
 -- ------------------------------------------------------------
 -- monthly_subscription_details（月次サブスクリプション詳細）

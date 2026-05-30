@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CoffeeBeanDetail as CoffeeBeanDetailType } from "@/api/coffee-beans";
 import type { TasteListItem } from "@/api/tastes";
+import { PublishStatusBadge } from "@/components/PublishStatusBadge";
 import {
   getProcessingMethodLabel,
   getRoastLevelLabel,
@@ -36,6 +37,13 @@ export function CoffeeBeanDetail({
 
       <div className={styles.content}>
         <dl className={styles.fieldList}>
+          <div className={styles.field}>
+            <dt className={styles.fieldLabel}>公開状態</dt>
+            <dd className={styles.fieldValue}>
+              <PublishStatusBadge status={coffeeBean.publishStatus} />
+            </dd>
+          </div>
+
           <div className={styles.field}>
             <dt className={styles.fieldLabel}>Shopify Bean ID</dt>
             <dd className={styles.fieldValue}>{coffeeBean.shopifyBeanId}</dd>

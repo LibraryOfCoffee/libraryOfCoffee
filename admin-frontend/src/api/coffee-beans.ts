@@ -15,6 +15,7 @@ export type CoffeeBeanListItem = {
   roastLevel: string;
   processingMethod: string;
   isSpecialty: boolean;
+  publishStatus: "DRAFT" | "PUBLISHED";
 };
 
 export type CoffeeBeanDetail = CoffeeBeanListItem & {

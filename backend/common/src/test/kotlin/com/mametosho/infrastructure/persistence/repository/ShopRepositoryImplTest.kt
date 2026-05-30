@@ -1,6 +1,7 @@
 package com.mametosho.infrastructure.persistence.repository
 
 import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.PublishStatus
 import com.mametosho.domain.model.shop.Shop
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.shop.ShopImage
@@ -87,6 +88,7 @@ class ShopRepositoryImplTest {
         particular = particular,
         shopUrl = shopUrl,
         prefecture = Prefecture.TOKYO,
+        publishStatus = PublishStatus.PUBLISHED,
         images = images,
     )
 

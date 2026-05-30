@@ -41,6 +41,7 @@ class CreateCoffeeBeanUsecaseTest {
         roastLevel: String = "MEDIUM",
         processingMethod: String = "WASHED",
         isSpecialty: Boolean = true,
+        publishStatus: String = "PUBLISHED",
         tastes: List<CreateCoffeeBeanRequest.TasteRequest> = listOf(
             CreateCoffeeBeanRequest.TasteRequest(
                 tasteId = "00000000-0000-4000-8000-000000000041",
@@ -57,6 +58,7 @@ class CreateCoffeeBeanUsecaseTest {
         roastLevel = roastLevel,
         processingMethod = processingMethod,
         isSpecialty = isSpecialty,
+        publishStatus = publishStatus,
         tastes = tastes,
     )
 

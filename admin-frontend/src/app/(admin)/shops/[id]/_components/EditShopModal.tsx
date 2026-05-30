@@ -11,6 +11,7 @@ import type { ShopDetail } from "@/api/shops";
 import { PREFECTURE_OPTIONS } from "@/app/(admin)/shops/_lib/prefecture";
 import { ImageUploadField } from "@/components/ImageUploadField";
 import modalStyles from "@/components/modal.module.css";
+import { PUBLISH_STATUS_OPTIONS } from "@/components/publishStatus";
 import { type EditShopState, editShopAction } from "./editShopAction";
 
 const initialState: EditShopState = {};
@@ -36,6 +37,7 @@ export function EditShopModal({
   const particularId = useId();
   const shopUrlId = useId();
   const prefectureId = useId();
+  const publishStatusId = useId();
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -199,6 +201,30 @@ export function EditShopModal({
             ))}
           </select>
           {state.fieldErrors?.prefecture?.map((msg) => (
+            <span key={msg} className={modalStyles.fieldError}>
+              {msg}
+            </span>
+          ))}
+        </div>
+
+        <div className={modalStyles.field}>
+          <label htmlFor={publishStatusId} className={modalStyles.label}>
+            公開状態
+            <span className={modalStyles.required}>*</span>
+          </label>
+          <select
+            id={publishStatusId}
+            name="publishStatus"
+            defaultValue={state.values?.publishStatus ?? shop.publishStatus}
+            className={modalStyles.input}
+          >
+            {PUBLISH_STATUS_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          {state.fieldErrors?.publishStatus?.map((msg) => (
             <span key={msg} className={modalStyles.fieldError}>
               {msg}
             </span>

@@ -1,6 +1,7 @@
 package com.mametosho.infrastructure.persistence.repository
 
 import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.PublishStatus
 import com.mametosho.domain.model.shop.Shop
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.shop.ShopImage
@@ -28,6 +29,7 @@ class ShopRepositoryImpl(
                 particular = shop.particular,
                 shopUrl = shop.shopUrl,
                 prefecture = shop.prefecture.name,
+                publishStatus = shop.publishStatus.name,
             ),
         )
         shopMapper.deleteShopImagesByShopId(shop.id.value)
@@ -48,10 +50,16 @@ class ShopRepositoryImpl(
         shopMapper.deleteShopById(id.value)
     }
 
-    override fun findAll(page: Int, size: Int, name: String?): Pair<List<Shop>, Long> {
+    override fun findAll(
+        page: Int,
+        size: Int,
+        name: String?,
+        publishStatus: PublishStatus?,
+    ): Pair<List<Shop>, Long> {
         val offset = page * size
-        val rows = shopMapper.findListRows(size, offset, name)
-        val totalCount = shopMapper.countByCondition(name)
+        val publishStatusName = publishStatus?.name
+        val rows = shopMapper.findListRows(size, offset, name, publishStatusName)
+        val totalCount = shopMapper.countByCondition(name, publishStatusName)
         if (rows.isEmpty()) return Pair(emptyList(), totalCount)
         val shops = rows.groupBy { it.id }.map { (_, shopRows) -> mapRowsToShop(shopRows) }
         return Pair(shops, totalCount)
@@ -73,6 +81,7 @@ class ShopRepositoryImpl(
             particular = first.particular,
             shopUrl = first.shopUrl,
             prefecture = Prefecture.valueOf(first.prefecture),
+            publishStatus = PublishStatus.valueOf(first.publishStatus),
             images = rows
                 .filter { it.imageId != null }
                 .map { row ->

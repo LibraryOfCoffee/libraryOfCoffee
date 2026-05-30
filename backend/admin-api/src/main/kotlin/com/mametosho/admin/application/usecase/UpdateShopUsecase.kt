@@ -46,6 +46,7 @@ class UpdateShopUsecase(
             particular = request.particular,
             shopUrl = request.shopUrl,
             prefecture = Prefecture.valueOf(request.prefecture),
+            publishStatus = request.publishStatus,
             images = images,
         )
         shopRepository.save(updatedShop)

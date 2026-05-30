@@ -62,10 +62,11 @@ class ShopControllerTest {
         shopUrl: String = "https://mametosho.example.com",
         prefecture: String = "TOKYO",
         logoImageUrl: String = "https://example.com/logo.png",
+        publishStatus: String = "PUBLISHED",
     ) {
         jdbcTemplate.execute(
-            "INSERT INTO shops (id, shopify_shop_id, name, introduction, shop_url, prefecture) " +
-                "VALUES ('$id', '$shopifyShopId', '$name', '$introduction', '$shopUrl', '$prefecture')",
+            "INSERT INTO shops (id, shopify_shop_id, name, introduction, shop_url, prefecture, publish_status) " +
+                "VALUES ('$id', '$shopifyShopId', '$name', '$introduction', '$shopUrl', '$prefecture', '$publishStatus')",
         )
         val imageId = id.take(24) + "9" + id.drop(25)
         jdbcTemplate.execute(
@@ -111,6 +112,28 @@ class ShopControllerTest {
             assertEquals(HttpStatus.OK, response.statusCode)
             assertEquals(0, response.body?.items?.size)
             assertEquals(0L, response.body?.totalCount)
+        }
+
+        @Test
+        fun `下書き状態の店舗は一覧に含まれない`() {
+            insertShopWithLogo(
+                id = "00000000-0000-4000-8000-000000000031",
+                shopifyShopId = "published-shop",
+                publishStatus = "PUBLISHED",
+            )
+            insertShopWithLogo(
+                id = "00000000-0000-4000-8000-000000000032",
+                shopifyShopId = "draft-shop",
+                publishStatus = "DRAFT",
+            )
+
+            val response = shopController.listShops(page = 0, size = 20)
+
+            assertEquals(HttpStatus.OK, response.statusCode)
+            assertEquals(1, response.body?.items?.size)
+            assertEquals(1L, response.body?.totalCount)
+            val ids = response.body?.items?.map { it.id }
+            assertEquals(listOf("00000000-0000-4000-8000-000000000031"), ids)
         }
 
         @Test

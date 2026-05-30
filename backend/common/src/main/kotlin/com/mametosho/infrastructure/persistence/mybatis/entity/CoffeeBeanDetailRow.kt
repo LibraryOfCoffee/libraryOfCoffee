@@ -11,6 +11,7 @@ data class CoffeeBeanDetailRow(
     val roastLevel: String,
     val processingMethod: String,
     val isSpecialty: Boolean,
+    val publishStatus: String,
     val imageId: String?,
     val imageType: String?,
     val imageUrl: String?,

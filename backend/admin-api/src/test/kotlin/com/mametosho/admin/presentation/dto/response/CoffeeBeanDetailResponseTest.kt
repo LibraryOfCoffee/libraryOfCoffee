@@ -23,6 +23,7 @@ class CoffeeBeanDetailResponseTest {
         roastLevel = "MEDIUM",
         processingMethod = "WASHED",
         isSpecialty = true,
+        publishStatus = "PUBLISHED",
         images = images,
         tastes = tastes,
     )
@@ -56,6 +57,7 @@ class CoffeeBeanDetailResponseTest {
             assertEquals("MEDIUM", response.roastLevel)
             assertEquals("WASHED", response.processingMethod)
             assertEquals(true, response.isSpecialty)
+            assertEquals("PUBLISHED", response.publishStatus)
             assertEquals(1, response.images.size)
             assertEquals("00000000-0000-4000-8000-000000000010", response.images[0].id)
             assertEquals("MAIN", response.images[0].type)
