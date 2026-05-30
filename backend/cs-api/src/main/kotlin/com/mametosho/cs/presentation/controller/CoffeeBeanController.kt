@@ -56,6 +56,8 @@ class CoffeeBeanController(
                                           "description": "花のような華やかなフレーバーと、柑橘系の明るい酸味が特徴。",
                                           "imageUrl": "https://example.com/images/ethiopia.jpg",
                                           "shopName": "珈琲工房 まめとしょ",
+                                          "shopPrefecture": "TOKYO",
+                                          "shopUrl": "https://mametosho.example.com",
                                           "tasteProfiles": [
                                             { "name": "酸味", "value": 5 },
                                             { "name": "苦味", "value": 1 },
