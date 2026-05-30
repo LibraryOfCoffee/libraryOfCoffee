@@ -8,6 +8,7 @@ import com.mametosho.domain.model.shop.ShopImage
 import com.mametosho.domain.model.shop.ShopImageId
 import com.mametosho.domain.model.shop.ShopImageType
 import com.mametosho.domain.model.shop.ShopifyShopId
+import com.mametosho.domain.model.PagedResult
 import com.mametosho.domain.repository.ShopRepository
 import org.junit.jupiter.api.Nested
 import kotlin.test.Test
@@ -43,10 +44,10 @@ class FindShopsUsecaseTest {
             override fun save(shop: Shop) = Unit
             override fun findById(id: ShopId) = null
             override fun deleteById(id: ShopId) = Unit
-            override fun findAll(page: Int, size: Int, name: String?): Pair<List<Shop>, Long> {
+            override fun findAll(page: Int, size: Int, name: String?): PagedResult<Shop> {
                 capturedPage = page
                 capturedSize = size
-                return Pair(shops, totalCount)
+                return PagedResult(shops, totalCount, page, size)
             }
         }
         return FindShopsUsecase(fakeRepository)

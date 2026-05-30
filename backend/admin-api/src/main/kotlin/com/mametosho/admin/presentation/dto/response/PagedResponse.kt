@@ -1,6 +1,6 @@
 package com.mametosho.admin.presentation.dto.response
 
-import com.mametosho.admin.application.query.result.PagedResult
+import com.mametosho.domain.model.PagedResult
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "ページネーション付きレスポンス")

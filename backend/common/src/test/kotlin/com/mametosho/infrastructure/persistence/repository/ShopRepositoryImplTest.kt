@@ -177,38 +177,38 @@ class ShopRepositoryImplTest {
             shopRepositoryImpl.save(createShop(id = "00000000-0000-4000-8000-000000000001", shopifyShopId = "shop-001"))
             shopRepositoryImpl.save(createShop(id = "00000000-0000-4000-8000-000000000002", shopifyShopId = "shop-002"))
 
-            val (shops, totalCount) = shopRepositoryImpl.findAll(page = 0, size = 1)
+            val result = shopRepositoryImpl.findAll(page = 0, size = 1)
 
-            assertEquals(1, shops.size)
-            assertEquals(2L, totalCount)
+            assertEquals(1, result.items.size)
+            assertEquals(2L, result.totalCount)
         }
 
         @Test
         fun `nameで部分一致検索できる`() {
             shopRepositoryImpl.save(createShop(id = "00000000-0000-4000-8000-000000000001", shopifyShopId = "shop-001"))
 
-            val (shops, _) = shopRepositoryImpl.findAll(page = 0, size = 20, name = "テスト")
+            val result = shopRepositoryImpl.findAll(page = 0, size = 20, name = "テスト")
 
-            assertEquals(1, shops.size)
-            assertEquals("テスト店舗", shops[0].name)
+            assertEquals(1, result.items.size)
+            assertEquals("テスト店舗", result.items[0].name)
         }
 
         @Test
         fun `店舗の画像も含めて取得できる`() {
             shopRepositoryImpl.save(createShop())
 
-            val (shops, _) = shopRepositoryImpl.findAll(page = 0, size = 20)
+            val result = shopRepositoryImpl.findAll(page = 0, size = 20)
 
-            assertEquals(1, shops.size)
-            assertEquals(2, shops[0].images.size)
+            assertEquals(1, result.items.size)
+            assertEquals(2, result.items[0].images.size)
         }
 
         @Test
         fun `件数が0件の場合は空リストを返す`() {
-            val (shops, totalCount) = shopRepositoryImpl.findAll(page = 0, size = 20)
+            val result = shopRepositoryImpl.findAll(page = 0, size = 20)
 
-            assertEquals(0, shops.size)
-            assertEquals(0L, totalCount)
+            assertEquals(0, result.items.size)
+            assertEquals(0L, result.totalCount)
         }
     }
 

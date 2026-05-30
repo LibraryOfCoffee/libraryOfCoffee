@@ -1,7 +1,7 @@
 package com.mametosho.admin.presentation.controller
 
 import com.mametosho.admin.application.usecase.ListTastesUsecase
-import com.mametosho.admin.presentation.dto.response.TasteListResponse
+import com.mametosho.admin.presentation.dto.response.TasteResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.ExampleObject
@@ -66,8 +66,8 @@ class TasteController(
             ),
         ],
     )
-    fun listTastes(): ResponseEntity<List<TasteListResponse>> {
+    fun listTastes(): ResponseEntity<List<TasteResponse>> {
         val results = listTastesUsecase.execute()
-        return ResponseEntity.ok(results.map { TasteListResponse.from(it) })
+        return ResponseEntity.ok(results.map { TasteResponse.from(it) })
     }
 }

@@ -37,10 +37,6 @@ class UpdateCoffeeBeanUsecase(
             existingBean.images.map { it.type.name to it.imageUrl.value }
         }
 
-        val tastes = request.tastes.map { tasteRequest ->
-            tasteRequest.tasteId to tasteRequest.evaluationValue
-        }
-
         val updatedBean = existingBean.update(
             shopId = request.shopId,
             shopifyBeanId = request.shopifyBeanId,
@@ -52,7 +48,7 @@ class UpdateCoffeeBeanUsecase(
             processingMethod = request.processingMethod,
             isSpecialty = request.isSpecialty,
             images = images,
-            tastes = tastes,
+            tastes = request.tastes.map { it.tasteId to it.evaluationValue },
         )
         coffeeBeanRepository.save(updatedBean)
 

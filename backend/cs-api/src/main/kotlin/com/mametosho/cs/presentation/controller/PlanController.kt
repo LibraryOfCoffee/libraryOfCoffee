@@ -1,7 +1,7 @@
 package com.mametosho.cs.presentation.controller
 
 import com.mametosho.cs.application.usecase.ListPlansUsecase
-import com.mametosho.cs.presentation.dto.response.PlanListResponse
+import com.mametosho.cs.presentation.dto.response.PlanResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
@@ -34,7 +34,7 @@ class PlanController(
                 content = [
                     Content(
                         mediaType = "application/json",
-                        array = ArraySchema(schema = Schema(implementation = PlanListResponse::class)),
+                        array = ArraySchema(schema = Schema(implementation = PlanResponse::class)),
                         examples = [
                             ExampleObject(
                                 name = "success",
@@ -68,8 +68,8 @@ class PlanController(
             ),
         ],
     )
-    fun listPlans(): ResponseEntity<List<PlanListResponse>> {
+    fun listPlans(): ResponseEntity<List<PlanResponse>> {
         val results = listPlansUsecase.execute()
-        return ResponseEntity.ok(results.map { PlanListResponse.from(it) })
+        return ResponseEntity.ok(results.map { PlanResponse.from(it) })
     }
 }

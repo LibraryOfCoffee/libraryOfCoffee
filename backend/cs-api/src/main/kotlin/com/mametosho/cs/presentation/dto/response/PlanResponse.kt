@@ -4,7 +4,7 @@ import com.mametosho.domain.model.plan.Plan
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "プラン一覧アイテム")
-data class PlanListResponse(
+data class PlanResponse(
     @Schema(description = "プランID", example = "00000000-0000-4000-8000-000000000024")
     val id: String,
     @Schema(description = "プラン表示名", example = "定番")
@@ -21,7 +21,7 @@ data class PlanListResponse(
     val isRecommended: Boolean,
 ) {
     companion object {
-        fun from(plan: Plan): PlanListResponse = PlanListResponse(
+        fun from(plan: Plan): PlanResponse = PlanResponse(
             id = plan.id.value,
             label = plan.label,
             gramWeight = plan.gramWeight,

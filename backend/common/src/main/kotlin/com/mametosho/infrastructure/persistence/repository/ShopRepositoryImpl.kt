@@ -1,5 +1,6 @@
 package com.mametosho.infrastructure.persistence.repository
 
+import com.mametosho.domain.model.PagedResult
 import com.mametosho.domain.model.shared.ImageUrl
 import com.mametosho.domain.model.shop.Shop
 import com.mametosho.domain.model.shop.ShopId
@@ -48,10 +49,10 @@ class ShopRepositoryImpl(
         shopMapper.deleteShopById(id.value)
     }
 
-    override fun findAll(page: Int, size: Int, name: String?): Pair<List<Shop>, Long> {
+    override fun findAll(page: Int, size: Int, name: String?): PagedResult<Shop> {
         val offset = page * size
         val shopEntities = shopMapper.findListRows(size, offset, name)
-        if (shopEntities.isEmpty()) return Pair(emptyList(), 0L)
+        if (shopEntities.isEmpty()) return PagedResult(emptyList(), 0L, page, size)
 
         val totalCount = shopMapper.countByCondition(name)
         val imagesByShopId = shopMapper.findShopImagesByShopIds(shopEntities.map { it.id })
@@ -76,7 +77,7 @@ class ShopRepositoryImpl(
                 },
             )
         }
-        return Pair(shops, totalCount)
+        return PagedResult(shops, totalCount, page, size)
     }
 
     override fun findById(id: ShopId): Shop? {
