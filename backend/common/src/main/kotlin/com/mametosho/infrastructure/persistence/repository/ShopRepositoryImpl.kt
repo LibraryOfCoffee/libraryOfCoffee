@@ -52,9 +52,8 @@ class ShopRepositoryImpl(
     override fun findAll(page: Int, size: Int, name: String?): PagedResult<Shop> {
         val offset = page * size
         val shopEntities = shopMapper.findListRows(size, offset, name)
-        if (shopEntities.isEmpty()) return PagedResult(emptyList(), 0L, page, size)
-
         val totalCount = shopMapper.countByCondition(name)
+        if (shopEntities.isEmpty()) return PagedResult(emptyList(), totalCount, page, size)
         val imagesByShopId = shopMapper.findShopImagesByShopIds(shopEntities.map { it.id })
             .groupBy { it.shopId }
 
