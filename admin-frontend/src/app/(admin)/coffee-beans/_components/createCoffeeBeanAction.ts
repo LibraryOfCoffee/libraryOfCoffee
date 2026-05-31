@@ -7,6 +7,7 @@ import {
   coffeeBeanFieldsSchema,
 } from "@/app/(admin)/coffee-beans/_lib/coffeeBeanFormSchema";
 import { parseTastesFromFormData } from "@/app/(admin)/coffee-beans/_lib/parseTastes";
+import { isChecked } from "@/lib/formData";
 
 export type CreateCoffeeBeanState = CoffeeBeanFormState;
 
@@ -23,8 +24,8 @@ export async function createCoffeeBeanAction(
     farm: (formData.get("farm") as string) ?? "",
     roastLevel: (formData.get("roastLevel") as string) ?? "",
     processingMethod: (formData.get("processingMethod") as string) ?? "",
-    isSpecialty: (formData.get("isSpecialty") as string) ?? "false",
-    publishStatus: (formData.get("publishStatus") as string) ?? "",
+    isSpecialty: isChecked(formData, "isSpecialty") ? "true" : "false",
+    publishStatus: isChecked(formData, "publishStatus") ? "PUBLISHED" : "DRAFT",
   };
 
   const result = coffeeBeanFieldsSchema.safeParse(values);

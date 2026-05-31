@@ -1,6 +1,5 @@
 import Link from "next/link";
-import type { CoffeeBeanListItem } from "@/api/coffee-beans";
-import type { PagedResponse } from "@/api/types";
+import type { CoffeeBeanListResponse } from "@/api/coffee-beans";
 import styles from "@/components/list-page.module.css";
 import { Pagination } from "@/components/Pagination";
 import { PublishStatusBadge } from "@/components/PublishStatusBadge";
@@ -14,7 +13,7 @@ export function CoffeeBeanListTable({
   coffeeBeans,
   currentPage,
 }: {
-  coffeeBeans: PagedResponse<CoffeeBeanListItem>;
+  coffeeBeans: CoffeeBeanListResponse;
   currentPage: number;
 }) {
   const totalPages = Math.ceil(coffeeBeans.totalCount / coffeeBeans.size);

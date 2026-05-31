@@ -8,8 +8,8 @@ import com.mametosho.admin.application.usecase.UpdateShopUsecase
 import com.mametosho.admin.presentation.dto.request.CreateShopRequest
 import com.mametosho.admin.presentation.dto.request.UpdateShopRequest
 import com.mametosho.admin.presentation.dto.response.ErrorResponse
-import com.mametosho.admin.presentation.dto.response.PagedResponse
 import com.mametosho.admin.presentation.dto.response.ShopDetailResponse
+import com.mametosho.admin.presentation.dto.response.ShopListResponse
 import com.mametosho.admin.presentation.dto.response.ShopSummaryResponse
 import com.mametosho.admin.presentation.dto.response.ShopResponse
 import io.swagger.v3.oas.annotations.Operation
@@ -56,6 +56,7 @@ class ShopController(
                 description = "取得成功",
                 content = [
                     Content(
+                        schema = Schema(implementation = ShopListResponse::class),
                         examples = [
                             ExampleObject(
                                 name = "success",
@@ -93,9 +94,9 @@ class ShopController(
         @RequestParam(defaultValue = "20") size: Int,
         @Parameter(description = "店名（部分一致検索）", example = "珈琲", required = false)
         @RequestParam(required = false) name: String?,
-    ): ResponseEntity<PagedResponse<ShopSummaryResponse>> {
+    ): ResponseEntity<ShopListResponse> {
         val result = findShopsUsecase.execute(page, size, name)
-        return ResponseEntity.ok(PagedResponse.from(result) { ShopSummaryResponse.from(it) })
+        return ResponseEntity.ok(ShopListResponse.from(result))
     }
 
     @GetMapping("/{id}")

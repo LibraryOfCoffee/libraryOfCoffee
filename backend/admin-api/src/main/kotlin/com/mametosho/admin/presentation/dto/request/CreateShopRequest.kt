@@ -4,10 +4,10 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "店舗登録リクエスト")
 data class CreateShopRequest(
-    @Schema(description = "ShopifyのショップID", example = "test-shop-001")
+    @Schema(description = "ShopifyのショップID", example = "test-shop-001", requiredMode = Schema.RequiredMode.REQUIRED)
     val shopifyShopId: String,
 
-    @Schema(description = "店舗名", example = "テスト店舗")
+    @Schema(description = "店舗名", example = "テスト店舗", requiredMode = Schema.RequiredMode.REQUIRED)
     val name: String,
 
     @Schema(description = "店舗紹介", example = "テスト紹介文", nullable = true)
@@ -16,10 +16,10 @@ data class CreateShopRequest(
     @Schema(description = "こだわり", example = "テストこだわり", nullable = true)
     val particular: String?,
 
-    @Schema(description = "店舗URL", example = "https://example.com")
+    @Schema(description = "店舗URL", example = "https://example.com", requiredMode = Schema.RequiredMode.REQUIRED)
     val shopUrl: String,
 
-    @Schema(description = "都道府県", example = "TOKYO")
+    @Schema(description = "都道府県", example = "TOKYO", requiredMode = Schema.RequiredMode.REQUIRED)
     val prefecture: String,
 
     @Schema(

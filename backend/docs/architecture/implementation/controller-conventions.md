@@ -121,6 +121,8 @@ class SampleController(
 - [ ] `@Parameter` に `example` があるか
 - [ ] ExampleObjectのJSONは複数行でインデントが揃っているか
 - [ ] 末尾カンマのスタイルが統一されているか
+- [ ] DTO の non-null フィールドに `requiredMode = Schema.RequiredMode.REQUIRED` があるか（ないと TypeScript 型が `?` になる）
+- [ ] `is` プレフィックス Boolean を `@get:JsonProperty` で公開している場合、`@Schema` も `@get:Schema` にしているか
 
 ## エラーハンドリング
 
@@ -155,8 +157,20 @@ class SampleController(
 ### Schemaアノテーション
 
 - クラスレベル: `@Schema(description = "...")`
-- 各プロパティ: `@Schema(description = "...", example = "...")`
+- 各プロパティ（non-null）: `@Schema(description = "...", example = "...", requiredMode = Schema.RequiredMode.REQUIRED)`
 - nullableなフィールド: `@Schema(description = "...", example = "...", nullable = true)`
+- `is` プレフィックス付きの Boolean プロパティ（`@get:JsonProperty` を併用する場合）: `@get:Schema(...)` で getter に直接アノテーションすること
+
+```kotlin
+// 通常の non-null フィールド
+@Schema(description = "店舗ID", example = "...", requiredMode = Schema.RequiredMode.REQUIRED)
+val id: String,
+
+// is-Boolean フィールド（@get:JsonProperty と併用する場合は @get:Schema で揃える）
+@get:Schema(description = "おすすめバッジ", example = "true", requiredMode = Schema.RequiredMode.REQUIRED)
+@get:JsonProperty("isRecommended")
+val isRecommended: Boolean,
+```
 
 ### ネスト構造
 

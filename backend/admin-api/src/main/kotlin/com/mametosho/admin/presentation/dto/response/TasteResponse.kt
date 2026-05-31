@@ -5,9 +5,9 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "テイスト一覧アイテム")
 data class TasteResponse(
-    @Schema(description = "テイストID", example = "00000000-0000-4000-8000-000000000041")
+    @Schema(description = "テイストID", example = "00000000-0000-4000-8000-000000000041", requiredMode = Schema.RequiredMode.REQUIRED)
     val id: String,
-    @Schema(description = "テイスト名", example = "酸味")
+    @Schema(description = "テイスト名", example = "酸味", requiredMode = Schema.RequiredMode.REQUIRED)
     val name: String,
 ) {
     companion object {

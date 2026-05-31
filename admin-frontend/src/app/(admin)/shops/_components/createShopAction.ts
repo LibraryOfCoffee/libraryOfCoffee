@@ -6,6 +6,7 @@ import {
   type ShopFormState,
   shopFieldsSchema,
 } from "@/app/(admin)/shops/_lib/shopFormSchema";
+import { isChecked } from "@/lib/formData";
 
 export type CreateShopState = ShopFormState;
 
@@ -20,7 +21,7 @@ export async function createShopAction(
     particular: (formData.get("particular") as string) ?? "",
     shopUrl: (formData.get("shopUrl") as string) ?? "",
     prefecture: (formData.get("prefecture") as string) ?? "",
-    publishStatus: (formData.get("publishStatus") as string) ?? "",
+    publishStatus: isChecked(formData, "publishStatus") ? "PUBLISHED" : "DRAFT",
   };
 
   const result = shopFieldsSchema.safeParse(values);

@@ -7,6 +7,7 @@ import {
   type ShopFormState,
   shopFieldsSchema,
 } from "@/app/(admin)/shops/_lib/shopFormSchema";
+import { isChecked } from "@/lib/formData";
 
 const editShopSchema = shopFieldsSchema.extend({
   id: z.string(),
@@ -25,7 +26,7 @@ export async function editShopAction(
     particular: (formData.get("particular") as string) ?? "",
     shopUrl: (formData.get("shopUrl") as string) ?? "",
     prefecture: (formData.get("prefecture") as string) ?? "",
-    publishStatus: (formData.get("publishStatus") as string) ?? "",
+    publishStatus: isChecked(formData, "publishStatus") ? "PUBLISHED" : "DRAFT",
   };
 
   const result = editShopSchema.safeParse({

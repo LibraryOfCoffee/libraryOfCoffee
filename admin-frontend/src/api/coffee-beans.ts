@@ -2,36 +2,19 @@ import "server-only";
 
 import { notFound } from "next/navigation";
 import { createAuthenticatedApiClient } from "@/api/client";
-import type { PagedResponse } from "@/api/types";
+import type { components } from "@/api/generated/admin-api";
 
-export type CoffeeBeanListItem = {
-  id: string;
-  shopId: string;
-  shopifyBeanId: string;
-  name: string;
-  description: string;
-  origin: string;
-  farm: string | null;
-  roastLevel: string;
-  processingMethod: string;
-  isSpecialty: boolean;
-  publishStatus: "DRAFT" | "PUBLISHED";
-};
-
-export type CoffeeBeanDetail = CoffeeBeanListItem & {
-  images: { id: string; type: string; imageUrl: string }[];
-  tastes: {
-    id: string;
-    tasteId: string;
-    tasteName: string;
-    evaluationValue: number;
-  }[];
-};
+export type CoffeeBeanListItem =
+  components["schemas"]["CoffeeBeanSummaryResponse"];
+export type CoffeeBeanDetail =
+  components["schemas"]["CoffeeBeanDetailResponse"];
+export type CoffeeBeanListResponse =
+  components["schemas"]["CoffeeBeanListResponse"];
 
 export async function fetchCoffeeBeans(
   page = 0,
   size = 20,
-): Promise<PagedResponse<CoffeeBeanListItem>> {
+): Promise<CoffeeBeanListResponse> {
   const client = await createAuthenticatedApiClient();
   const { data, error } = await client.GET("/api/admin/coffee-beans", {
     params: { query: { page, size } },
@@ -41,7 +24,7 @@ export async function fetchCoffeeBeans(
     throw new Error("コーヒー豆一覧の取得に失敗しました");
   }
 
-  return data as PagedResponse<CoffeeBeanListItem>;
+  return data;
 }
 
 export async function fetchCoffeeBean(id: string): Promise<CoffeeBeanDetail> {
@@ -58,5 +41,5 @@ export async function fetchCoffeeBean(id: string): Promise<CoffeeBeanDetail> {
     throw new Error("コーヒー豆の取得に失敗しました");
   }
 
-  return data as CoffeeBeanDetail;
+  return data;
 }

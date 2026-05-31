@@ -2,36 +2,19 @@ import "server-only";
 
 import { notFound } from "next/navigation";
 import { createAuthenticatedApiClient } from "@/api/client";
-import type { PagedResponse } from "@/api/types";
+import type { components } from "@/api/generated/admin-api";
 
-export type { PagedResponse } from "@/api/types";
+export type ShopListItem = components["schemas"]["ShopSummaryResponse"];
+export type ShopDetail = components["schemas"]["ShopDetailResponse"];
+export type ShopListResponse = components["schemas"]["ShopListResponse"];
 
-export type ShopListItem = {
-  id: string;
-  shopifyShopId: string;
-  name: string;
-  introduction: string | null;
-  particular: string | null;
-  shopUrl: string;
-  prefecture: string;
-  publishStatus: "DRAFT" | "PUBLISHED";
-};
-
-export type ImageDetail = {
-  id: string;
-  type: "MAIN" | "LOGO";
-  imageUrl: string;
-};
-
-export type ShopDetail = ShopListItem & {
-  images: ImageDetail[];
-};
+export type ImageDetail = NonNullable<ShopDetail["images"]>[number];
 
 export async function fetchShops(
   page = 0,
   size = 20,
   name?: string,
-): Promise<PagedResponse<ShopListItem>> {
+): Promise<ShopListResponse> {
   const client = await createAuthenticatedApiClient();
   const { data, error } = await client.GET("/api/admin/shops", {
     params: { query: { page, size, name } },
@@ -41,7 +24,7 @@ export async function fetchShops(
     throw new Error("店舗一覧の取得に失敗しました");
   }
 
-  return data as PagedResponse<ShopListItem>;
+  return data;
 }
 
 export async function fetchShop(id: string): Promise<ShopDetail> {
@@ -58,5 +41,5 @@ export async function fetchShop(id: string): Promise<ShopDetail> {
     throw new Error("店舗の取得に失敗しました");
   }
 
-  return data as ShopDetail;
+  return data;
 }

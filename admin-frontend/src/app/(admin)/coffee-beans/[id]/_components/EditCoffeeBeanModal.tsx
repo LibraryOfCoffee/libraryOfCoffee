@@ -17,8 +17,8 @@ import {
 } from "@/app/(admin)/coffee-beans/_lib/coffeeBeanLabels";
 import { ImageUploadField } from "@/components/ImageUploadField";
 import modalStyles from "@/components/modal.module.css";
-import { PUBLISH_STATUS_OPTIONS } from "@/components/publishStatus";
 import { ShopSearchSelect } from "@/components/ShopSearchSelect";
+import { ToggleField } from "@/components/ToggleField";
 import {
   type EditCoffeeBeanState,
   editCoffeeBeanAction,
@@ -259,55 +259,29 @@ export function EditCoffeeBeanModal({
           ))}
         </div>
 
-        <div className={modalStyles.field}>
-          <label htmlFor={isSpecialtyId} className={modalStyles.label}>
-            スペシャルティ
-            <span className={modalStyles.required}>*</span>
-          </label>
-          <select
-            id={isSpecialtyId}
-            name="isSpecialty"
-            defaultValue={
-              state.values?.isSpecialty ??
-              (coffeeBean.isSpecialty ? "true" : "false")
-            }
-            className={modalStyles.select}
-          >
-            <option value="true">あり</option>
-            <option value="false">なし</option>
-          </select>
-          {state.fieldErrors?.isSpecialty?.map((msg) => (
-            <span key={msg} className={modalStyles.fieldError}>
-              {msg}
-            </span>
-          ))}
-        </div>
+        <ToggleField
+          id={isSpecialtyId}
+          name="isSpecialty"
+          label="スペシャルティ"
+          required
+          defaultChecked={
+            (state.values?.isSpecialty ??
+              (coffeeBean.isSpecialty ? "true" : "false")) === "true"
+          }
+          errors={state.fieldErrors?.isSpecialty}
+        />
 
-        <div className={modalStyles.field}>
-          <label htmlFor={publishStatusId} className={modalStyles.label}>
-            公開状態
-            <span className={modalStyles.required}>*</span>
-          </label>
-          <select
-            id={publishStatusId}
-            name="publishStatus"
-            defaultValue={
-              state.values?.publishStatus ?? coffeeBean.publishStatus
-            }
-            className={modalStyles.select}
-          >
-            {PUBLISH_STATUS_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-          {state.fieldErrors?.publishStatus?.map((msg) => (
-            <span key={msg} className={modalStyles.fieldError}>
-              {msg}
-            </span>
-          ))}
-        </div>
+        <ToggleField
+          id={publishStatusId}
+          name="publishStatus"
+          label="公開状態"
+          required
+          defaultChecked={
+            (state.values?.publishStatus ?? coffeeBean.publishStatus) ===
+            "PUBLISHED"
+          }
+          errors={state.fieldErrors?.publishStatus}
+        />
 
         <TasteProfileField
           tastes={tastes}

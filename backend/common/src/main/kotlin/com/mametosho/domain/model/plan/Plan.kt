@@ -30,6 +30,39 @@ data class Plan(
         require(price >= 0) { "price must be non-negative" }
     }
 
+    /**
+     * プラン情報を更新する。
+     *
+     * PlanIdは変更せず、それ以外の項目を置換する。
+     *
+     * @param shopifyPlanId ShopifyのプランID
+     * @param label プラン表示名
+     * @param gramWeight 1種あたりのグラム数
+     * @param beanQuantity 豆の種類数
+     * @param price 価格
+     * @param type プラン種別
+     * @param isRecommended おすすめバッジ
+     * @return 更新された[Plan]
+     */
+    fun update(
+        shopifyPlanId: String,
+        label: String,
+        gramWeight: Int,
+        beanQuantity: Int,
+        price: Int,
+        type: PlanType,
+        isRecommended: Boolean,
+    ): Plan = Plan(
+        id = this.id,
+        shopifyPlanId = ShopifyPlanId(shopifyPlanId),
+        label = label,
+        gramWeight = gramWeight,
+        beanQuantity = beanQuantity,
+        price = price,
+        type = type,
+        isRecommended = isRecommended,
+    )
+
     companion object {
         @Suppress("MagicNumber")
         val VALID_GRAM_WEIGHTS = setOf(30, 60, 90)
