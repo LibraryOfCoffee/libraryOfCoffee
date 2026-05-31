@@ -43,6 +43,7 @@ async function PlanListContent({
         currentPage={page}
         totalPages={totalPages}
         basePath="/plans"
+        query={{ keyword }}
       />
     </>
   );

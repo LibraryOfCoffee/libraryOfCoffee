@@ -49,34 +49,39 @@ export function PlanListTable({
         </button>
       </form>
 
-      <table className={listStyles.table}>
-        <thead>
-          <tr>
-            <th>プラン表示名</th>
-            <th>種別</th>
-            <th>グラム数</th>
-            <th>種類数</th>
-            <th>価格</th>
-            <th>おすすめ</th>
-          </tr>
-        </thead>
-        <tbody>
-          {plans.map((plan) => (
-            <tr key={plan.id} className={listStyles.row}>
-              <td>
-                <Link href={`/plans/${plan.id}`} className={listStyles.link}>
-                  {plan.label}
-                </Link>
-              </td>
-              <td>{PLAN_TYPE_LABELS[plan.type] ?? plan.type}</td>
-              <td>{plan.gramWeight}g</td>
-              <td>{plan.beanQuantity}種</td>
-              <td>¥{plan.price.toLocaleString()}</td>
-              <td>{plan.isRecommended ? "★" : "-"}</td>
+      <div className={listStyles.tableWrapper}>
+        <table className={listStyles.table}>
+          <thead>
+            <tr>
+              <th>プラン表示名</th>
+              <th>種別</th>
+              <th>グラム数</th>
+              <th>種類数</th>
+              <th>価格</th>
+              <th>おすすめ</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {plans.map((plan) => (
+              <tr key={plan.id} className={listStyles.clickableRow}>
+                <td>
+                  <Link
+                    href={`/plans/${plan.id}`}
+                    className={listStyles.rowLink}
+                  >
+                    {plan.label}
+                  </Link>
+                </td>
+                <td>{PLAN_TYPE_LABELS[plan.type] ?? plan.type}</td>
+                <td>{plan.gramWeight}g</td>
+                <td>{plan.beanQuantity}種</td>
+                <td>¥{plan.price.toLocaleString()}</td>
+                <td>{plan.isRecommended ? "★" : "-"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

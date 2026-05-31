@@ -5,10 +5,12 @@ export function Pagination({
   currentPage,
   totalPages,
   basePath,
+  query,
 }: {
   currentPage: number;
   totalPages: number;
   basePath: string;
+  query?: Record<string, string | undefined>;
 }) {
   if (totalPages <= 1) return null;
 
@@ -20,13 +22,19 @@ export function Pagination({
   );
   const end = Math.min(totalPages, start + maxVisible);
 
+  const hrefForPage = (page: number) => {
+    const params = new URLSearchParams();
+    params.set("page", String(page));
+    for (const [key, value] of Object.entries(query ?? {})) {
+      if (value) params.set(key, value);
+    }
+    return `${basePath}?${params.toString()}`;
+  };
+
   return (
     <div className={styles.pagination}>
       {currentPage > 0 && (
-        <Link
-          href={`${basePath}?page=${currentPage - 1}`}
-          className={styles.pageLink}
-        >
+        <Link href={hrefForPage(currentPage - 1)} className={styles.pageLink}>
           &lt; 前へ
         </Link>
       )}
@@ -35,7 +43,7 @@ export function Pagination({
         return (
           <Link
             key={`page-${page}`}
-            href={`${basePath}?page=${page}`}
+            href={hrefForPage(page)}
             className={
               page === currentPage
                 ? `${styles.pageLink} ${styles.pageLinkActive}`
@@ -47,10 +55,7 @@ export function Pagination({
         );
       })}
       {currentPage < totalPages - 1 && (
-        <Link
-          href={`${basePath}?page=${currentPage + 1}`}
-          className={styles.pageLink}
-        >
+        <Link href={hrefForPage(currentPage + 1)} className={styles.pageLink}>
           次へ &gt;
         </Link>
       )}
