@@ -18,6 +18,7 @@ import {
 import { ImageUploadField } from "@/components/ImageUploadField";
 import modalStyles from "@/components/modal.module.css";
 import { ShopSearchSelect } from "@/components/ShopSearchSelect";
+import { ToggleField } from "@/components/ToggleField";
 import {
   type EditCoffeeBeanState,
   editCoffeeBeanAction,
@@ -258,53 +259,29 @@ export function EditCoffeeBeanModal({
           ))}
         </div>
 
-        <div className={modalStyles.toggleField}>
-          <label htmlFor={isSpecialtyId} className={modalStyles.label}>
-            スペシャルティ
-            <span className={modalStyles.required}>*</span>
-          </label>
-          <label className={modalStyles.toggleSwitch}>
-            <input
-              id={isSpecialtyId}
-              name="isSpecialty"
-              type="checkbox"
-              defaultChecked={
-                (state.values?.isSpecialty ??
-                  (coffeeBean.isSpecialty ? "true" : "false")) === "true"
-              }
-            />
-            <span className={modalStyles.toggleSlider} />
-          </label>
-          {state.fieldErrors?.isSpecialty?.map((msg) => (
-            <span key={msg} className={modalStyles.fieldError}>
-              {msg}
-            </span>
-          ))}
-        </div>
+        <ToggleField
+          id={isSpecialtyId}
+          name="isSpecialty"
+          label="スペシャルティ"
+          required
+          defaultChecked={
+            (state.values?.isSpecialty ??
+              (coffeeBean.isSpecialty ? "true" : "false")) === "true"
+          }
+          errors={state.fieldErrors?.isSpecialty}
+        />
 
-        <div className={modalStyles.toggleField}>
-          <label htmlFor={publishStatusId} className={modalStyles.label}>
-            公開状態
-            <span className={modalStyles.required}>*</span>
-          </label>
-          <label className={modalStyles.toggleSwitch}>
-            <input
-              id={publishStatusId}
-              name="publishStatus"
-              type="checkbox"
-              defaultChecked={
-                (state.values?.publishStatus ?? coffeeBean.publishStatus) ===
-                "PUBLISHED"
-              }
-            />
-            <span className={modalStyles.toggleSlider} />
-          </label>
-          {state.fieldErrors?.publishStatus?.map((msg) => (
-            <span key={msg} className={modalStyles.fieldError}>
-              {msg}
-            </span>
-          ))}
-        </div>
+        <ToggleField
+          id={publishStatusId}
+          name="publishStatus"
+          label="公開状態"
+          required
+          defaultChecked={
+            (state.values?.publishStatus ?? coffeeBean.publishStatus) ===
+            "PUBLISHED"
+          }
+          errors={state.fieldErrors?.publishStatus}
+        />
 
         <TasteProfileField
           tastes={tastes}

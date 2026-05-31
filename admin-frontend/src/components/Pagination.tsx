@@ -22,14 +22,12 @@ export function Pagination({
   );
   const end = Math.min(totalPages, start + maxVisible);
 
-  const hrefForPage = (page: number) => {
-    const params = new URLSearchParams();
-    params.set("page", String(page));
-    for (const [key, value] of Object.entries(query ?? {})) {
-      if (value) params.set(key, value);
-    }
-    return `${basePath}?${params.toString()}`;
-  };
+  // 全ページリンクで共通のクエリ部分は一度だけ組み立てる。
+  const extraQuery = Object.entries(query ?? {})
+    .filter(([, value]) => value)
+    .map(([key, value]) => `&${key}=${encodeURIComponent(value as string)}`)
+    .join("");
+  const hrefForPage = (page: number) => `${basePath}?page=${page}${extraQuery}`;
 
   return (
     <div className={styles.pagination}>

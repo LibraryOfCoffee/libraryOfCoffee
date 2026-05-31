@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useId, useRef } from "react";
 import type { PlanDetail } from "@/api/plans";
 import modalStyles from "@/components/modal.module.css";
+import { ToggleField } from "@/components/ToggleField";
 import {
   BEAN_QUANTITY_OPTIONS,
   GRAM_WEIGHT_OPTIONS,
@@ -189,20 +190,12 @@ export function EditPlanModal({
           ))}
         </div>
 
-        <div className={modalStyles.toggleField}>
-          <label htmlFor={isRecommendedId} className={modalStyles.label}>
-            おすすめバッジ
-          </label>
-          <label className={modalStyles.toggleSwitch}>
-            <input
-              id={isRecommendedId}
-              name="isRecommended"
-              type="checkbox"
-              defaultChecked={plan.isRecommended}
-            />
-            <span className={modalStyles.toggleSlider} />
-          </label>
-        </div>
+        <ToggleField
+          id={isRecommendedId}
+          name="isRecommended"
+          label="おすすめバッジ"
+          defaultChecked={plan.isRecommended}
+        />
 
         <div className={modalStyles.actions}>
           <button
