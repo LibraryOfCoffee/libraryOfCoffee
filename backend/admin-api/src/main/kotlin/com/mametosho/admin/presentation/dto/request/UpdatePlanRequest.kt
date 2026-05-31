@@ -1,5 +1,6 @@
 package com.mametosho.admin.presentation.dto.request
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "プラン編集リクエスト")
@@ -23,5 +24,6 @@ data class UpdatePlanRequest(
     val type: String,
 
     @Schema(description = "おすすめバッジ", example = "true")
+    @get:JsonProperty("isRecommended")
     val isRecommended: Boolean,
 )

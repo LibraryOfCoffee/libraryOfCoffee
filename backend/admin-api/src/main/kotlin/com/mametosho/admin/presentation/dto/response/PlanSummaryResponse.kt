@@ -1,5 +1,6 @@
 package com.mametosho.admin.presentation.dto.response
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.mametosho.domain.model.plan.Plan
 import io.swagger.v3.oas.annotations.media.Schema
 
@@ -20,6 +21,7 @@ data class PlanSummaryResponse(
     @Schema(description = "プラン種別（SUBSCRIPTION / SINGLE）", example = "SUBSCRIPTION")
     val type: String,
     @Schema(description = "おすすめバッジ", example = "true")
+    @get:JsonProperty("isRecommended")
     val isRecommended: Boolean,
 ) {
     companion object {
