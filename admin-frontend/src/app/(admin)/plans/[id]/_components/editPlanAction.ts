@@ -5,10 +5,21 @@ import { createAuthenticatedApiClient } from "@/api/client";
 import { planFormSchema } from "@/app/(admin)/plans/_lib/planFormSchema";
 import { isChecked } from "@/lib/formData";
 
+export type EditPlanValues = {
+  shopifyPlanId?: string;
+  label?: string;
+  gramWeight?: string;
+  beanQuantity?: string;
+  price?: string;
+  type?: string;
+  isRecommended?: boolean;
+};
+
 export type EditPlanState = {
   success?: boolean;
   error?: string;
   fieldErrors?: Record<string, string[]>;
+  values?: EditPlanValues;
 };
 
 export async function editPlanAction(
@@ -30,6 +41,7 @@ export async function editPlanAction(
   if (!parsed.success) {
     return {
       fieldErrors: parsed.error.flatten().fieldErrors,
+      values: rawData,
     };
   }
 
@@ -43,7 +55,7 @@ export async function editPlanAction(
   });
 
   if (error) {
-    return { error: "プランの更新に失敗しました" };
+    return { error: "プランの更新に失敗しました", values: rawData };
   }
 
   revalidatePath(`/plans/${id}`);

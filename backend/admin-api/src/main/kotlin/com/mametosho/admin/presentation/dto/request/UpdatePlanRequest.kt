@@ -24,6 +24,6 @@ data class UpdatePlanRequest(
     val type: String,
 
     @Schema(description = "おすすめバッジ", example = "true")
-    @param:JsonProperty("isRecommended")
+    @JsonProperty("isRecommended")
     val isRecommended: Boolean,
 )

@@ -30,7 +30,7 @@ data class UpdateCoffeeBeanRequest(
     val processingMethod: String,
 
     @Schema(description = "スペシャルティコーヒーかどうか", example = "true")
-    @param:JsonProperty("isSpecialty")
+    @JsonProperty("isSpecialty")
     val isSpecialty: Boolean,
 
     @Schema(

@@ -1025,6 +1025,11 @@ components:
       type: object
       description: コーヒー豆更新リクエスト
       properties:
+        isSpecialty:
+          type: boolean
+          description: スペシャルティコーヒーかどうか
+          example: true
+          writeOnly: true
         shopId:
           type: string
           description: 店舗ID
@@ -1116,6 +1121,11 @@ components:
       type: object
       description: コーヒー豆登録リクエスト
       properties:
+        isSpecialty:
+          type: boolean
+          description: スペシャルティコーヒーかどうか
+          example: true
+          writeOnly: true
         shopId:
           type: string
           description: 店舗ID

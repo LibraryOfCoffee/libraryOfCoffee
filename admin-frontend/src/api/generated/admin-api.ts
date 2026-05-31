@@ -339,6 +339,11 @@ export interface components {
     /** @description コーヒー豆更新リクエスト */
     UpdateCoffeeBeanRequest: {
       /**
+       * @description スペシャルティコーヒーかどうか
+       * @example true
+       */
+      isSpecialty?: boolean;
+      /**
        * @description 店舗ID
        * @example 00000000-0000-4000-8000-000000000001
        */
@@ -435,6 +440,11 @@ export interface components {
     };
     /** @description コーヒー豆登録リクエスト */
     CreateCoffeeBeanRequest: {
+      /**
+       * @description スペシャルティコーヒーかどうか
+       * @example true
+       */
+      isSpecialty?: boolean;
       /**
        * @description 店舗ID
        * @example 00000000-0000-4000-8000-000000000031

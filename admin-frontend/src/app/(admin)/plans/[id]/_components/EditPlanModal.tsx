@@ -73,7 +73,7 @@ export function EditPlanModal({
             name="shopifyPlanId"
             type="text"
             maxLength={255}
-            defaultValue={plan.shopifyPlanId}
+            defaultValue={state.values?.shopifyPlanId ?? plan.shopifyPlanId}
             className={modalStyles.input}
           />
           {state.fieldErrors?.shopifyPlanId?.map((msg) => (
@@ -92,7 +92,7 @@ export function EditPlanModal({
             name="label"
             type="text"
             maxLength={50}
-            defaultValue={plan.label}
+            defaultValue={state.values?.label ?? plan.label}
             className={modalStyles.input}
           />
           {state.fieldErrors?.label?.map((msg) => (
@@ -109,7 +109,7 @@ export function EditPlanModal({
           <select
             id={typeId}
             name="type"
-            defaultValue={plan.type}
+            defaultValue={state.values?.type ?? plan.type}
             className={modalStyles.select}
           >
             {PLAN_TYPE_OPTIONS.map((option) => (
@@ -132,7 +132,7 @@ export function EditPlanModal({
           <select
             id={gramWeightId}
             name="gramWeight"
-            defaultValue={plan.gramWeight}
+            defaultValue={state.values?.gramWeight ?? plan.gramWeight}
             className={modalStyles.select}
           >
             {GRAM_WEIGHT_OPTIONS.map((gram) => (
@@ -155,7 +155,7 @@ export function EditPlanModal({
           <select
             id={beanQuantityId}
             name="beanQuantity"
-            defaultValue={plan.beanQuantity}
+            defaultValue={state.values?.beanQuantity ?? plan.beanQuantity}
             className={modalStyles.select}
           >
             {BEAN_QUANTITY_OPTIONS.map((quantity) => (
@@ -180,7 +180,7 @@ export function EditPlanModal({
             name="price"
             type="number"
             min="0"
-            defaultValue={plan.price}
+            defaultValue={state.values?.price ?? plan.price}
             className={modalStyles.input}
           />
           {state.fieldErrors?.price?.map((msg) => (
@@ -194,7 +194,7 @@ export function EditPlanModal({
           id={isRecommendedId}
           name="isRecommended"
           label="おすすめバッジ"
-          defaultChecked={plan.isRecommended}
+          defaultChecked={state.values?.isRecommended ?? plan.isRecommended}
         />
 
         <div className={modalStyles.actions}>
