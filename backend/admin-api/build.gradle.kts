@@ -38,12 +38,6 @@ openApi {
 	}
 }
 
-afterEvaluate {
-	tasks.named("forkedSpringBootRun") {
-		dependsOn(":common:jar")
-	}
-}
-
 dependencies {
 	implementation(project(":common"))
 
