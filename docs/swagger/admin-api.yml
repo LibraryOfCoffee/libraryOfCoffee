@@ -966,6 +966,10 @@ components:
       type: object
       description: プラン編集リクエスト
       properties:
+        isRecommended:
+          type: boolean
+          description: おすすめバッジ
+          example: true
         shopifyPlanId:
           type: string
           description: ShopifyのプランID
@@ -993,8 +997,6 @@ components:
           type: string
           description: プラン種別（SUBSCRIPTION / SINGLE）
           example: SUBSCRIPTION
-        recommended:
-          type: boolean
     PlanResponse:
       type: object
       description: プラン編集レスポンス
@@ -1248,6 +1250,10 @@ components:
       type: object
       description: プラン詳細レスポンス
       properties:
+        isRecommended:
+          type: boolean
+          description: おすすめバッジ
+          example: true
         id:
           type: string
           description: プランID
@@ -1279,8 +1285,6 @@ components:
           type: string
           description: プラン種別（SUBSCRIPTION / SINGLE）
           example: SUBSCRIPTION
-        recommended:
-          type: boolean
     CoffeeBeanDetailResponse:
       type: object
       description: コーヒー豆詳細レスポンス

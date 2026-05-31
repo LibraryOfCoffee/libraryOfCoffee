@@ -21,7 +21,6 @@ data class PlanDetailResponse(
     @Schema(description = "プラン種別（SUBSCRIPTION / SINGLE）", example = "SUBSCRIPTION")
     val type: String,
     @Schema(description = "おすすめバッジ", example = "true")
-    @param:JsonProperty("isRecommended")
     @get:JsonProperty("isRecommended")
     val isRecommended: Boolean,
 ) {
