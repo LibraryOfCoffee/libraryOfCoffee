@@ -189,16 +189,19 @@ export function EditPlanModal({
           ))}
         </div>
 
-        <div className={modalStyles.field}>
+        <div className={modalStyles.toggleField}>
           <label htmlFor={isRecommendedId} className={modalStyles.label}>
             おすすめバッジ
           </label>
-          <input
-            id={isRecommendedId}
-            name="isRecommended"
-            type="checkbox"
-            defaultChecked={plan.isRecommended}
-          />
+          <label className={modalStyles.toggleSwitch}>
+            <input
+              id={isRecommendedId}
+              name="isRecommended"
+              type="checkbox"
+              defaultChecked={plan.isRecommended}
+            />
+            <span className={modalStyles.toggleSlider} />
+          </label>
         </div>
 
         <div className={modalStyles.actions}>
