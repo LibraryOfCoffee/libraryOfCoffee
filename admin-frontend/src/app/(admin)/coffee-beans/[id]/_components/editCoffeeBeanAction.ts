@@ -7,8 +7,8 @@ import {
   type CoffeeBeanFormState,
   coffeeBeanFieldsSchema,
 } from "@/app/(admin)/coffee-beans/_lib/coffeeBeanFormSchema";
-import { isChecked } from "@/lib/formData";
 import { parseTastesFromFormData } from "@/app/(admin)/coffee-beans/_lib/parseTastes";
+import { isChecked } from "@/lib/formData";
 
 const editCoffeeBeanSchema = coffeeBeanFieldsSchema.extend({
   id: z.string(),

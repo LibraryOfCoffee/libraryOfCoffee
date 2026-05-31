@@ -22,7 +22,7 @@ export async function editPlanAction(
     beanQuantity: formData.get("beanQuantity") as string,
     price: formData.get("price") as string,
     type: formData.get("type") as string,
-    isRecommended: formData.get("isRecommended") === "on",
+    isRecommended: isChecked(formData, "isRecommended"),
   };
 
   const parsed = planFormSchema.safeParse(rawData);
