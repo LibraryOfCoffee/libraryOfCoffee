@@ -312,6 +312,7 @@ export interface components {
        * @example SUBSCRIPTION
        */
       type?: string;
+      recommended?: boolean;
     };
     /** @description プラン編集レスポンス */
     PlanResponse: {
@@ -581,11 +582,6 @@ export interface components {
     /** @description プラン詳細レスポンス */
     PlanDetailResponse: {
       /**
-       * @description おすすめバッジ
-       * @example true
-       */
-      isRecommended?: boolean;
-      /**
        * @description プランID
        * @example 00000000-0000-4000-8000-000000000024
        */
@@ -623,6 +619,7 @@ export interface components {
        * @example SUBSCRIPTION
        */
       type?: string;
+      isRecommended?: boolean;
     };
     /** @description コーヒー豆詳細レスポンス */
     CoffeeBeanDetailResponse: {

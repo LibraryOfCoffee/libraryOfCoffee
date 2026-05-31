@@ -1,5 +1,6 @@
 package com.mametosho.admin.presentation.dto.response
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.mametosho.admin.application.query.result.CoffeeBeanDetailResult
 import io.swagger.v3.oas.annotations.media.Schema
 
@@ -24,6 +25,7 @@ data class CoffeeBeanDetailResponse(
     @Schema(description = "精製方法", example = "WASHED")
     val processingMethod: String,
     @Schema(description = "スペシャルティコーヒーかどうか", example = "true")
+    @get:JsonProperty("isSpecialty")
     val isSpecialty: Boolean,
     @Schema(
         description = "公開状態（DRAFT: 下書き / PUBLISHED: 公開）",
