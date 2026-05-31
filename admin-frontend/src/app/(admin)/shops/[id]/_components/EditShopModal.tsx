@@ -11,7 +11,6 @@ import type { ShopDetail } from "@/api/shops";
 import { PREFECTURE_OPTIONS } from "@/app/(admin)/shops/_lib/prefecture";
 import { ImageUploadField } from "@/components/ImageUploadField";
 import modalStyles from "@/components/modal.module.css";
-import { PUBLISH_STATUS_OPTIONS } from "@/components/publishStatus";
 import { type EditShopState, editShopAction } from "./editShopAction";
 
 const initialState: EditShopState = {};
@@ -207,23 +206,23 @@ export function EditShopModal({
           ))}
         </div>
 
-        <div className={modalStyles.field}>
+        <div className={modalStyles.toggleField}>
           <label htmlFor={publishStatusId} className={modalStyles.label}>
             公開状態
             <span className={modalStyles.required}>*</span>
           </label>
-          <select
-            id={publishStatusId}
-            name="publishStatus"
-            defaultValue={state.values?.publishStatus ?? shop.publishStatus}
-            className={modalStyles.input}
-          >
-            {PUBLISH_STATUS_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+          <label className={modalStyles.toggleSwitch}>
+            <input
+              id={publishStatusId}
+              name="publishStatus"
+              type="checkbox"
+              defaultChecked={
+                (state.values?.publishStatus ?? shop.publishStatus) ===
+                "PUBLISHED"
+              }
+            />
+            <span className={modalStyles.toggleSlider} />
+          </label>
           {state.fieldErrors?.publishStatus?.map((msg) => (
             <span key={msg} className={modalStyles.fieldError}>
               {msg}

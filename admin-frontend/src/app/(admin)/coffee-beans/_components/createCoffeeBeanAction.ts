@@ -23,8 +23,9 @@ export async function createCoffeeBeanAction(
     farm: (formData.get("farm") as string) ?? "",
     roastLevel: (formData.get("roastLevel") as string) ?? "",
     processingMethod: (formData.get("processingMethod") as string) ?? "",
-    isSpecialty: (formData.get("isSpecialty") as string) ?? "false",
-    publishStatus: (formData.get("publishStatus") as string) ?? "",
+    isSpecialty: formData.get("isSpecialty") === "on" ? "true" : "false",
+    publishStatus:
+      formData.get("publishStatus") === "on" ? "PUBLISHED" : "DRAFT",
   };
 
   const result = coffeeBeanFieldsSchema.safeParse(values);

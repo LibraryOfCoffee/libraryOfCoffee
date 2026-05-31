@@ -10,7 +10,6 @@ import {
 import { PREFECTURE_OPTIONS } from "@/app/(admin)/shops/_lib/prefecture";
 import { ImageUploadField } from "@/components/ImageUploadField";
 import styles from "@/components/modal.module.css";
-import { PUBLISH_STATUS_OPTIONS } from "@/components/publishStatus";
 import { type CreateShopState, createShopAction } from "./createShopAction";
 
 const initialState: CreateShopState = {};
@@ -205,23 +204,22 @@ export function CreateShopModal({
           ))}
         </div>
 
-        <div className={styles.field}>
+        <div className={styles.toggleField}>
           <label htmlFor={publishStatusId} className={styles.label}>
             公開状態
             <span className={styles.required}>*</span>
           </label>
-          <select
-            id={publishStatusId}
-            name="publishStatus"
-            defaultValue={state.values?.publishStatus ?? "DRAFT"}
-            className={styles.input}
-          >
-            {PUBLISH_STATUS_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+          <label className={styles.toggleSwitch}>
+            <input
+              id={publishStatusId}
+              name="publishStatus"
+              type="checkbox"
+              defaultChecked={
+                (state.values?.publishStatus ?? "DRAFT") === "PUBLISHED"
+              }
+            />
+            <span className={styles.toggleSlider} />
+          </label>
           {state.fieldErrors?.publishStatus?.map((msg) => (
             <span key={msg} className={styles.fieldError}>
               {msg}

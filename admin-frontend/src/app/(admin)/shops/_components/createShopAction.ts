@@ -20,7 +20,8 @@ export async function createShopAction(
     particular: (formData.get("particular") as string) ?? "",
     shopUrl: (formData.get("shopUrl") as string) ?? "",
     prefecture: (formData.get("prefecture") as string) ?? "",
-    publishStatus: (formData.get("publishStatus") as string) ?? "",
+    publishStatus:
+      formData.get("publishStatus") === "on" ? "PUBLISHED" : "DRAFT",
   };
 
   const result = shopFieldsSchema.safeParse(values);
