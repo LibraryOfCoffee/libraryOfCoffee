@@ -7,6 +7,7 @@ import {
   type ShopFormState,
   shopFieldsSchema,
 } from "@/app/(admin)/shops/_lib/shopFormSchema";
+import { isChecked } from "@/lib/formData";
 
 const editShopSchema = shopFieldsSchema.extend({
   id: z.string(),

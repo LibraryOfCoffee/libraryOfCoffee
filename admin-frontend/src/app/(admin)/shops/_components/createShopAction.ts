@@ -6,6 +6,7 @@ import {
   type ShopFormState,
   shopFieldsSchema,
 } from "@/app/(admin)/shops/_lib/shopFormSchema";
+import { isChecked } from "@/lib/formData";
 
 export type CreateShopState = ShopFormState;
 
