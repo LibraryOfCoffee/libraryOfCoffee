@@ -6,25 +6,25 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "コーヒー豆一覧アイテム")
 data class CoffeeBeanSummaryResponse(
-    @Schema(description = "コーヒー豆ID", example = "00000000-0000-4000-8000-000000000001")
+    @Schema(description = "コーヒー豆ID", example = "00000000-0000-4000-8000-000000000001", requiredMode = Schema.RequiredMode.REQUIRED)
     val id: String,
-    @Schema(description = "ショップID", example = "00000000-0000-4000-8000-000000000002")
+    @Schema(description = "ショップID", example = "00000000-0000-4000-8000-000000000002", requiredMode = Schema.RequiredMode.REQUIRED)
     val shopId: String,
-    @Schema(description = "Shopify商品ID", example = "test-bean-001")
+    @Schema(description = "Shopify商品ID", example = "test-bean-001", requiredMode = Schema.RequiredMode.REQUIRED)
     val shopifyBeanId: String,
-    @Schema(description = "豆の名前", example = "エチオピア イルガチェフェ")
+    @Schema(description = "豆の名前", example = "エチオピア イルガチェフェ", requiredMode = Schema.RequiredMode.REQUIRED)
     val name: String,
-    @Schema(description = "説明", example = "フルーティーな香りが特徴的なコーヒー豆です。")
+    @Schema(description = "説明", example = "フルーティーな香りが特徴的なコーヒー豆です。", requiredMode = Schema.RequiredMode.REQUIRED)
     val description: String,
-    @Schema(description = "産地", example = "エチオピア")
+    @Schema(description = "産地", example = "エチオピア", requiredMode = Schema.RequiredMode.REQUIRED)
     val origin: String,
     @Schema(description = "農園名", nullable = true, example = "イルガチェフェ農園")
     val farm: String?,
-    @Schema(description = "焙煎度", example = "MEDIUM")
+    @Schema(description = "焙煎度", example = "MEDIUM", requiredMode = Schema.RequiredMode.REQUIRED)
     val roastLevel: String,
-    @Schema(description = "精製方法", example = "WASHED")
+    @Schema(description = "精製方法", example = "WASHED", requiredMode = Schema.RequiredMode.REQUIRED)
     val processingMethod: String,
-    @Schema(description = "スペシャルティコーヒーかどうか", example = "true")
+    @get:Schema(description = "スペシャルティコーヒーかどうか", example = "true", requiredMode = Schema.RequiredMode.REQUIRED)
     @get:JsonProperty("isSpecialty")
     val isSpecialty: Boolean,
     @Schema(

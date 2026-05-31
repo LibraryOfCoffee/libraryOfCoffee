@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { PagedResponse, ShopListItem } from "@/api/shops";
+import type { ShopListResponse } from "@/api/shops";
 import styles from "@/components/list-page.module.css";
 import { Pagination } from "@/components/Pagination";
 import { PublishStatusBadge } from "@/components/PublishStatusBadge";
@@ -9,7 +9,7 @@ export function ShopListTable({
   shops,
   currentPage,
 }: {
-  shops: PagedResponse<ShopListItem>;
+  shops: ShopListResponse;
   currentPage: number;
 }) {
   const totalPages = Math.ceil(shops.totalCount / shops.size);

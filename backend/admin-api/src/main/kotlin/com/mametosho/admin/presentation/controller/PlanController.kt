@@ -5,10 +5,9 @@ import com.mametosho.admin.application.usecase.GetPlanUsecase
 import com.mametosho.admin.application.usecase.UpdatePlanUsecase
 import com.mametosho.admin.presentation.dto.request.UpdatePlanRequest
 import com.mametosho.admin.presentation.dto.response.ErrorResponse
-import com.mametosho.admin.presentation.dto.response.PagedResponse
 import com.mametosho.admin.presentation.dto.response.PlanDetailResponse
+import com.mametosho.admin.presentation.dto.response.PlanListResponse
 import com.mametosho.admin.presentation.dto.response.PlanResponse
-import com.mametosho.admin.presentation.dto.response.PlanSummaryResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.media.Content
@@ -46,6 +45,7 @@ class PlanController(
                 description = "取得成功",
                 content = [
                     Content(
+                        schema = Schema(implementation = PlanListResponse::class),
                         examples = [
                             ExampleObject(
                                 name = "success",
@@ -83,9 +83,9 @@ class PlanController(
         @RequestParam(defaultValue = "20") size: Int,
         @Parameter(description = "プラン表示名（部分一致検索）", example = "定番", required = false)
         @RequestParam(required = false) keyword: String?,
-    ): ResponseEntity<PagedResponse<PlanSummaryResponse>> {
+    ): ResponseEntity<PlanListResponse> {
         val result = findPlansUsecase.execute(page, size, keyword)
-        return ResponseEntity.ok(PagedResponse.from(result) { PlanSummaryResponse.from(it) })
+        return ResponseEntity.ok(PlanListResponse.from(result))
     }
 
     @GetMapping("/{id}")

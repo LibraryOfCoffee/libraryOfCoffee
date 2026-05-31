@@ -557,6 +557,8 @@ paths:
           description: 取得成功
           content:
             '*/*':
+              schema:
+                $ref: "#/components/schemas/ShopListResponse"
               examples:
                 success:
                   summary: 取得成功例
@@ -677,6 +679,8 @@ paths:
           description: 取得成功
           content:
             '*/*':
+              schema:
+                $ref: "#/components/schemas/CoffeeBeanListResponse"
               examples:
                 success:
                   summary: 取得成功例
@@ -875,6 +879,8 @@ paths:
           description: 取得成功
           content:
             '*/*':
+              schema:
+                $ref: "#/components/schemas/PlanListResponse"
               examples:
                 success:
                   summary: 取得成功例
@@ -927,7 +933,11 @@ components:
           description: "公開状態（DRAFT: 下書き / PUBLISHED: 公開）"
           example: PUBLISHED
       required:
+      - name
+      - prefecture
       - publishStatus
+      - shopUrl
+      - shopifyShopId
     ShopResponse:
       type: object
       description: 店舗登録レスポンス
@@ -936,6 +946,8 @@ components:
           type: string
           description: 店舗ID
           example: 00000000-0000-4000-8000-000000000001
+      required:
+      - id
     ErrorResponse:
       type: object
       description: エラーレスポンス
@@ -962,15 +974,15 @@ components:
           type: string
           description: リクエストパス
           example: /api/admin/resources/00000000-0000-4000-8000-000000000099
+      required:
+      - error
+      - path
+      - status
+      - timestamp
     UpdatePlanRequest:
       type: object
       description: プラン編集リクエスト
       properties:
-        isRecommended:
-          type: boolean
-          description: おすすめバッジ
-          example: true
-          writeOnly: true
         shopifyPlanId:
           type: string
           description: ShopifyのプランID
@@ -998,8 +1010,18 @@ components:
           type: string
           description: プラン種別（SUBSCRIPTION / SINGLE）
           example: SUBSCRIPTION
-        recommended:
+        isRecommended:
           type: boolean
+          description: おすすめバッジ
+          example: true
+      required:
+      - beanQuantity
+      - gramWeight
+      - isRecommended
+      - label
+      - price
+      - shopifyPlanId
+      - type
     PlanResponse:
       type: object
       description: プラン編集レスポンス
@@ -1008,6 +1030,8 @@ components:
           type: string
           description: プランID
           example: 00000000-0000-4000-8000-000000000024
+      required:
+      - id
     TasteRequest:
       type: object
       description: テイスト評価リクエスト
@@ -1021,15 +1045,13 @@ components:
           format: int32
           description: 評価値（0-5）
           example: 3
+      required:
+      - evaluationValue
+      - tasteId
     UpdateCoffeeBeanRequest:
       type: object
       description: コーヒー豆更新リクエスト
       properties:
-        isSpecialty:
-          type: boolean
-          description: スペシャルティコーヒーかどうか
-          example: true
-          writeOnly: true
         shopId:
           type: string
           description: 店舗ID
@@ -1071,10 +1093,21 @@ components:
           description: テイスト評価一覧
           items:
             $ref: "#/components/schemas/TasteRequest"
-        specialty:
+        isSpecialty:
           type: boolean
+          description: スペシャルティコーヒーかどうか
+          example: true
       required:
+      - description
+      - isSpecialty
+      - name
+      - origin
+      - processingMethod
       - publishStatus
+      - roastLevel
+      - shopId
+      - shopifyBeanId
+      - tastes
     CoffeeBeanResponse:
       type: object
       description: コーヒー豆登録レスポンス
@@ -1083,6 +1116,8 @@ components:
           type: string
           description: コーヒー豆ID
           example: 00000000-0000-4000-8000-000000000001
+      required:
+      - id
     CreateShopRequest:
       type: object
       description: 店舗登録リクエスト
@@ -1116,16 +1151,15 @@ components:
           description: "公開状態（DRAFT: 下書き / PUBLISHED: 公開）"
           example: DRAFT
       required:
+      - name
+      - prefecture
       - publishStatus
+      - shopUrl
+      - shopifyShopId
     CreateCoffeeBeanRequest:
       type: object
       description: コーヒー豆登録リクエスト
       properties:
-        isSpecialty:
-          type: boolean
-          description: スペシャルティコーヒーかどうか
-          example: true
-          writeOnly: true
         shopId:
           type: string
           description: 店舗ID
@@ -1167,10 +1201,21 @@ components:
           description: テイスト評価一覧
           items:
             $ref: "#/components/schemas/TasteRequest"
-        specialty:
+        isSpecialty:
           type: boolean
+          description: スペシャルティコーヒーかどうか
+          example: true
       required:
+      - description
+      - isSpecialty
+      - name
+      - origin
+      - processingMethod
       - publishStatus
+      - roastLevel
+      - shopId
+      - shopifyBeanId
+      - tastes
     LoginRequest:
       type: object
       description: ログインリクエスト
@@ -1200,6 +1245,82 @@ components:
           format: int64
           description: 有効期限（秒）
           example: 3600
+      required:
+      - accessToken
+      - expiresIn
+      - tokenType
+    ShopListResponse:
+      type: object
+      description: 店舗一覧レスポンス
+      properties:
+        items:
+          type: array
+          description: アイテム一覧
+          items:
+            $ref: "#/components/schemas/ShopSummaryResponse"
+        totalCount:
+          type: integer
+          format: int64
+          description: 全件数
+          example: 42
+        page:
+          type: integer
+          format: int32
+          description: 現在のページ番号（0始まり）
+          example: 0
+        size:
+          type: integer
+          format: int32
+          description: 1ページあたりの件数
+          example: 20
+      required:
+      - items
+      - page
+      - size
+      - totalCount
+    ShopSummaryResponse:
+      type: object
+      description: 店舗一覧アイテム
+      properties:
+        id:
+          type: string
+          description: 店舗ID
+          example: 00000000-0000-4000-8000-000000000001
+        shopifyShopId:
+          type: string
+          description: ShopifyショップID
+          example: test-shop-001
+        name:
+          type: string
+          description: 店舗名
+          example: テスト珈琲店
+        introduction:
+          type: string
+          description: 紹介文
+          example: こだわりの珈琲をお届けします。
+        particular:
+          type: string
+          description: こだわり
+          example: 厳選された豆のみを使用しています。
+        shopUrl:
+          type: string
+          description: 店舗URL
+          example: https://example.com
+        prefecture:
+          type: string
+          description: 都道府県
+          example: TOKYO
+        publishStatus:
+          type: string
+          description: "公開状態（DRAFT: 下書き / PUBLISHED: 公開）"
+          example: PUBLISHED
+      required:
+      - id
+      - name
+      - prefecture
+      - publishStatus
+      - shopUrl
+      - shopifyShopId
     ImageDetail:
       type: object
       description: 画像詳細
@@ -1216,6 +1337,10 @@ components:
           type: string
           description: 画像URL
           example: https://example.com/image.jpg
+      required:
+      - id
+      - imageUrl
+      - type
     ShopDetailResponse:
       type: object
       description: 店舗詳細レスポンス
@@ -1258,7 +1383,90 @@ components:
           items:
             $ref: "#/components/schemas/ImageDetail"
       required:
+      - id
+      - images
+      - name
+      - prefecture
       - publishStatus
+      - shopUrl
+      - shopifyShopId
+    PlanListResponse:
+      type: object
+      description: プラン一覧レスポンス
+      properties:
+        items:
+          type: array
+          description: アイテム一覧
+          items:
+            $ref: "#/components/schemas/PlanSummaryResponse"
+        totalCount:
+          type: integer
+          format: int64
+          description: 全件数
+          example: 42
+        page:
+          type: integer
+          format: int32
+          description: 現在のページ番号（0始まり）
+          example: 0
+        size:
+          type: integer
+          format: int32
+          description: 1ページあたりの件数
+          example: 20
+      required:
+      - items
+      - page
+      - size
+      - totalCount
+    PlanSummaryResponse:
+      type: object
+      description: プラン一覧アイテム
+      properties:
+        id:
+          type: string
+          description: プランID
+          example: 00000000-0000-4000-8000-000000000024
+        shopifyPlanId:
+          type: string
+          description: ShopifyのプランID
+          example: test-plan-001
+        label:
+          type: string
+          description: プラン表示名
+          example: 定番
+        gramWeight:
+          type: integer
+          format: int32
+          description: 1種あたりのグラム数
+          example: 60
+        beanQuantity:
+          type: integer
+          format: int32
+          description: 豆の種類数
+          example: 4
+        price:
+          type: integer
+          format: int32
+          description: 価格
+          example: 3800
+        type:
+          type: string
+          description: プラン種別（SUBSCRIPTION / SINGLE）
+          example: SUBSCRIPTION
+        isRecommended:
+          type: boolean
+          description: おすすめバッジ
+          example: true
+      required:
+      - beanQuantity
+      - gramWeight
+      - id
+      - isRecommended
+      - label
+      - price
+      - shopifyPlanId
+      - type
     PlanDetailResponse:
       type: object
       description: プラン詳細レスポンス
@@ -1296,6 +1504,105 @@ components:
           example: SUBSCRIPTION
         isRecommended:
           type: boolean
+          description: おすすめバッジ
+          example: true
+      required:
+      - beanQuantity
+      - gramWeight
+      - id
+      - isRecommended
+      - label
+      - price
+      - shopifyPlanId
+      - type
+    CoffeeBeanListResponse:
+      type: object
+      description: コーヒー豆一覧レスポンス
+      properties:
+        items:
+          type: array
+          description: アイテム一覧
+          items:
+            $ref: "#/components/schemas/CoffeeBeanSummaryResponse"
+        totalCount:
+          type: integer
+          format: int64
+          description: 全件数
+          example: 42
+        page:
+          type: integer
+          format: int32
+          description: 現在のページ番号（0始まり）
+          example: 0
+        size:
+          type: integer
+          format: int32
+          description: 1ページあたりの件数
+          example: 20
+      required:
+      - items
+      - page
+      - size
+      - totalCount
+    CoffeeBeanSummaryResponse:
+      type: object
+      description: コーヒー豆一覧アイテム
+      properties:
+        id:
+          type: string
+          description: コーヒー豆ID
+          example: 00000000-0000-4000-8000-000000000001
+        shopId:
+          type: string
+          description: ショップID
+          example: 00000000-0000-4000-8000-000000000002
+        shopifyBeanId:
+          type: string
+          description: Shopify商品ID
+          example: test-bean-001
+        name:
+          type: string
+          description: 豆の名前
+          example: エチオピア イルガチェフェ
+        description:
+          type: string
+          description: 説明
+          example: フルーティーな香りが特徴的なコーヒー豆です。
+        origin:
+          type: string
+          description: 産地
+          example: エチオピア
+        farm:
+          type: string
+          description: 農園名
+          example: イルガチェフェ農園
+        roastLevel:
+          type: string
+          description: 焙煎度
+          example: MEDIUM
+        processingMethod:
+          type: string
+          description: 精製方法
+          example: WASHED
+        publishStatus:
+          type: string
+          description: "公開状態（DRAFT: 下書き / PUBLISHED: 公開）"
+          example: PUBLISHED
+        isSpecialty:
+          type: boolean
+          description: スペシャルティコーヒーかどうか
+          example: true
+      required:
+      - description
+      - id
+      - isSpecialty
+      - name
+      - origin
+      - processingMethod
+      - publishStatus
+      - roastLevel
+      - shopId
+      - shopifyBeanId
     CoffeeBeanDetailResponse:
       type: object
       description: コーヒー豆詳細レスポンス
@@ -1352,8 +1659,21 @@ components:
             $ref: "#/components/schemas/TasteDetail"
         isSpecialty:
           type: boolean
+          description: スペシャルティコーヒーかどうか
+          example: true
       required:
+      - description
+      - id
+      - images
+      - isSpecialty
+      - name
+      - origin
+      - processingMethod
       - publishStatus
+      - roastLevel
+      - shopId
+      - shopifyBeanId
+      - tastes
     TasteDetail:
       type: object
       description: テイスト評価詳細
@@ -1375,6 +1695,11 @@ components:
           format: int32
           description: 評価値（0-5）
           example: 4
+      required:
+      - evaluationValue
+      - id
+      - tasteId
+      - tasteName
   securitySchemes:
     Bearer:
       type: http
