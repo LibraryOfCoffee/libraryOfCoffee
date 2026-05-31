@@ -17,6 +17,10 @@ data class ErrorResponse(
     @Schema(description = "エラーメッセージ", example = "tastes must not be empty", nullable = true)
     val message: String?,
 
-    @Schema(description = "リクエストパス", example = "/api/admin/resources/00000000-0000-4000-8000-000000000099", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(
+        description = "リクエストパス",
+        example = "/api/admin/resources/00000000-0000-4000-8000-000000000099",
+        requiredMode = Schema.RequiredMode.REQUIRED,
+    )
     val path: String,
 )
