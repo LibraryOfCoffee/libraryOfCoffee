@@ -1,5 +1,6 @@
 package com.mametosho.admin.presentation.dto.request
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "コーヒー豆登録リクエスト")
@@ -29,6 +30,7 @@ data class CreateCoffeeBeanRequest(
     val processingMethod: String,
 
     @Schema(description = "スペシャルティコーヒーかどうか", example = "true")
+    @param:JsonProperty("isSpecialty")
     val isSpecialty: Boolean,
 
     @Schema(

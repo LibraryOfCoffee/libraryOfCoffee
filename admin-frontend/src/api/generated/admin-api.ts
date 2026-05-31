@@ -677,7 +677,7 @@ export interface components {
       images?: components["schemas"]["ImageDetail"][];
       /** @description テイスト評価一覧 */
       tastes?: components["schemas"]["TasteDetail"][];
-      specialty?: boolean;
+      isSpecialty?: boolean;
     };
     /** @description テイスト評価詳細 */
     TasteDetail: {

@@ -1340,7 +1340,7 @@ components:
           description: テイスト評価一覧
           items:
             $ref: "#/components/schemas/TasteDetail"
-        specialty:
+        isSpecialty:
           type: boolean
       required:
       - publishStatus
