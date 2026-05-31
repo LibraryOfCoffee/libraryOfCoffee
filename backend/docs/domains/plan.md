@@ -35,3 +35,12 @@
 ## PlanType
 
 | 値 | 説明 |
+|----|------|
+| SUBSCRIPTION | 定期便プラン（毎月お届け） |
+| SINGLE | 単品購入プラン（1回のみ） |
+
+## 関連する集約
+
+| 集約 | 関連 | 説明 |
+|------|------|------|
+| [Customer](./customer.md) | 被参照 | CustomerSubscription がこのプランを参照する |
