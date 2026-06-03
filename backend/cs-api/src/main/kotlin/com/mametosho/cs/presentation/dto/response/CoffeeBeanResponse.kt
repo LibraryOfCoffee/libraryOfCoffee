@@ -1,5 +1,6 @@
 package com.mametosho.cs.presentation.dto.response
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.mametosho.cs.application.query.result.CoffeeBeanSummaryResult
 import io.swagger.v3.oas.annotations.media.Schema
 
@@ -15,7 +16,8 @@ data class CoffeeBeanResponse(
     val roastLevel: String,
     @Schema(description = "精製方法", example = "WASHED")
     val processingMethod: String,
-    @Schema(description = "スペシャルティ珈琲かどうか", example = "true")
+    @get:Schema(description = "スペシャルティ珈琲かどうか", example = "true")
+    @get:JsonProperty("isSpecialty")
     val isSpecialty: Boolean,
     @Schema(description = "説明文", example = "フルーティーな香りと明るい酸味が特徴の豆です。")
     val description: String,

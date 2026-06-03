@@ -1,8 +1,7 @@
 package com.mametosho.cs.presentation.controller
 
 import com.mametosho.cs.application.usecase.FindShopsUsecase
-import com.mametosho.cs.presentation.dto.response.PagedResponse
-import com.mametosho.cs.presentation.dto.response.ShopResponse
+import com.mametosho.cs.presentation.dto.response.ShopListResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.media.Content
@@ -36,7 +35,7 @@ class ShopController(
                 content = [
                     Content(
                         mediaType = "application/json",
-                        schema = Schema(ref = "#/components/schemas/PagedResponseShopResponse"),
+                        schema = Schema(implementation = ShopListResponse::class),
                         examples = [
                             ExampleObject(
                                 name = "success",
@@ -78,8 +77,8 @@ class ShopController(
         @RequestParam page: Int,
         @Parameter(description = "1ページあたりの件数", required = true, example = "20")
         @RequestParam size: Int,
-    ): ResponseEntity<PagedResponse<ShopResponse>> {
+    ): ResponseEntity<ShopListResponse> {
         val result = findShopsUsecase.execute(page, size)
-        return ResponseEntity.ok(PagedResponse.from(result) { ShopResponse.from(it) })
+        return ResponseEntity.ok(ShopListResponse.from(result))
     }
 }
