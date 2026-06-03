@@ -48,6 +48,16 @@ const shops = [
     logoUrl: "/shopLogos/fiveCoffeeStandAndRoastery.png",
     websiteUrl: "https://www.fivecoffee.jp/",
   },
+  {
+    name: "Calm Coffee ROASTERS",
+    logoUrl: "/shopLogos/calmCoffeeRoasters.jpg",
+    websiteUrl: "https://www.calmcoffee-roasters.com/",
+  },
+  {
+    name: "Tavie Coffee Roaster",
+    logoUrl: "/shopLogos/tavieCoffeeRoaster.jpg",
+    websiteUrl: "https://coffeetavie.base.shop/about",
+  },
 ];
 
 export default function PartnerShops() {
