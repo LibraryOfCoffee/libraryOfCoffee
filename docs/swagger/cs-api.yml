@@ -46,7 +46,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PagedResponseShopResponse"
+                $ref: "#/components/schemas/ShopListResponse"
               examples:
                 success:
                   summary: 取得成功例
@@ -206,7 +206,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PagedResponseCoffeeBeanResponse"
+                $ref: "#/components/schemas/CoffeeBeanListResponse"
               examples:
                 success:
                   summary: 取得成功例
@@ -240,6 +240,63 @@ paths:
                     size: 20
 components:
   schemas:
+    ShopListResponse:
+      type: object
+      description: 店舗一覧レスポンス
+      properties:
+        items:
+          type: array
+          description: アイテム一覧
+          items:
+            $ref: "#/components/schemas/ShopResponse"
+        totalCount:
+          type: integer
+          format: int64
+          description: 全件数
+          example: 3
+        page:
+          type: integer
+          format: int32
+          description: 現在のページ番号（0始まり）
+          example: 0
+        size:
+          type: integer
+          format: int32
+          description: 1ページあたりの件数
+          example: 20
+      required:
+      - items
+      - page
+      - size
+      - totalCount
+    ShopResponse:
+      type: object
+      description: 店舗一覧アイテム
+      properties:
+        id:
+          type: string
+          description: 店舗ID
+          example: 00000000-0000-4000-8000-000000000031
+        name:
+          type: string
+          description: 店舗名
+          example: 珈琲工房 まめとしょ
+        introduction:
+          type: string
+          description: 店舗紹介文
+          example: 東京都渋谷区にある自家焙煎珈琲店。厳選されたスペシャルティコーヒーをお届けします。
+        shopUrl:
+          type: string
+          description: 店舗URL
+          example: https://mametosho.example.com
+        prefecture:
+          type: string
+          description: 都道府県
+          example: TOKYO
+        logoImageUrl:
+          type: string
+          description: ロゴ画像URL
+          example: https://placehold.jp/100x100.png
     PlanResponse:
       type: object
       description: プラン一覧アイテム
@@ -271,5 +328,102 @@ components:
           type: string
           description: プラン種別（SUBSCRIPTION / SINGLE）
           example: SUBSCRIPTION
-        recommended:
+        isRecommended:
           type: boolean
+          description: おすすめバッジ
+          example: true
+    CoffeeBeanListResponse:
+      type: object
+      description: 珈琲豆一覧レスポンス
+      properties:
+        items:
+          type: array
+          description: アイテム一覧
+          items:
+            $ref: "#/components/schemas/CoffeeBeanResponse"
+        totalCount:
+          type: integer
+          format: int64
+          description: 全件数
+          example: 1
+        page:
+          type: integer
+          format: int32
+          description: 現在のページ番号（0始まり）
+          example: 0
+        size:
+          type: integer
+          format: int32
+          description: 1ページあたりの件数
+          example: 20
+      required:
+      - items
+      - page
+      - size
+      - totalCount
+    CoffeeBeanResponse:
+      type: object
+      description: 珈琲豆一覧アイテム
+      properties:
+        id:
+          type: string
+          description: 珈琲豆ID
+          example: 00000000-0000-4000-8000-000000000071
+        name:
+          type: string
+          description: 珈琲豆名
+          example: エチオピア イルガチェフェ G1
+        origin:
+          type: string
+          description: 産地
+          example: エチオピア
+        roastLevel:
+          type: string
+          description: 焙煎度
+          example: LIGHT
+        processingMethod:
+          type: string
+          description: 精製方法
+          example: WASHED
+        description:
+          type: string
+          description: 説明文
+          example: フルーティーな香りと明るい酸味が特徴の豆です。
+        imageUrl:
+          type: string
+          description: メイン画像URL
+          example: https://example.com/images/coffee.jpg
+        shopName:
+          type: string
+          description: ロースター名
+          example: 山田珈琲焙煎所
+        shopPrefecture:
+          type: string
+          description: ロースターの都道府県
+          example: TOKYO
+        shopUrl:
+          type: string
+          description: ロースターのURL
+          example: https://mametosho.example.com
+        tasteProfiles:
+          type: array
+          description: テイストプロファイル一覧
+          items:
+            $ref: "#/components/schemas/TasteProfileResponse"
+        isSpecialty:
+          type: boolean
+          description: スペシャルティ珈琲かどうか
+          example: true
+    TasteProfileResponse:
+      type: object
+      description: テイストプロファイル
+      properties:
+        name:
+          type: string
+          description: テイスト名
+          example: 酸味
+        value:
+          type: integer
+          format: int32
+          description: 評価値
+          example: 60
