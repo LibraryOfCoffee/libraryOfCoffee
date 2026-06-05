@@ -14,6 +14,7 @@ import modalStyles from "@/components/modal.module.css";
 import {
   PARTICIPATION_STATUS_LABELS,
   PARTICIPATION_STATUS_OPTIONS,
+  PARTICIPATION_STATUS_OPTIONS_WITH_DROPPED,
 } from "@/components/participationStatus";
 import { type EditShopState, editShopAction } from "./editShopAction";
 
@@ -245,13 +246,7 @@ export function EditShopModal({
               className={modalStyles.input}
             >
               {(shop.participationStatus === "PARTICIPATING"
-                ? [
-                    ...PARTICIPATION_STATUS_OPTIONS,
-                    {
-                      value: "DROPPED" as const,
-                      label: PARTICIPATION_STATUS_LABELS.DROPPED,
-                    },
-                  ]
+                ? PARTICIPATION_STATUS_OPTIONS_WITH_DROPPED
                 : PARTICIPATION_STATUS_OPTIONS
               ).map((opt) => (
                 <option key={opt.value} value={opt.value}>

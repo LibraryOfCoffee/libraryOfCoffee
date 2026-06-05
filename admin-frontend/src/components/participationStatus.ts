@@ -26,6 +26,14 @@ export const PARTICIPATION_STATUS_OPTIONS: {
   },
 ];
 
+export const PARTICIPATION_STATUS_OPTIONS_WITH_DROPPED: {
+  value: ParticipationStatus;
+  label: string;
+}[] = [
+  ...PARTICIPATION_STATUS_OPTIONS,
+  { value: "DROPPED", label: PARTICIPATION_STATUS_LABELS.DROPPED },
+];
+
 export function getParticipationStatusLabel(value: string): string {
   return PARTICIPATION_STATUS_LABELS[value as ParticipationStatus] ?? value;
 }
