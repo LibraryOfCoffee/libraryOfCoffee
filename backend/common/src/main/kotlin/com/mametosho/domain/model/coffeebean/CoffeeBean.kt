@@ -53,6 +53,9 @@ data class CoffeeBean(
             require(it.length <= 255) { "farm must be at most 255 characters, but was ${it.length}" }
         }
         require(images.isNotEmpty()) { "images must not be empty" }
+        require(images.count { it.type == CoffeeBeanImageType.MAIN } == 1) {
+            "images must contain exactly one MAIN image"
+        }
         require(tastes.isNotEmpty()) { "tastes must not be empty" }
         val duplicateTasteIds = tastes.groupBy { it.tasteId }.filter { it.value.size > 1 }.keys
         require(duplicateTasteIds.isEmpty()) {

@@ -193,6 +193,7 @@ classDiagram
     class CoffeeBeanImageType {
       <<Enum>>
       main
+      （将来追加予定）
     }
 
     class CoffeeBeanTaste {
@@ -225,7 +226,7 @@ classDiagram
   CoffeeBean --> ProcessingMethod
   CoffeeBean o-- Shop : shopId
   CoffeeBeanImage --> CoffeeBeanImageType
-  CoffeeBean *-- CoffeeBeanImage
+  CoffeeBean "1" *-- "1..*" CoffeeBeanImage : MAINはちょうど1枚必須
   CoffeeBean "1" *-- "1..*" CoffeeBeanTaste : 必須（全テイスト種別）
 
   namespace Taste集約 {
