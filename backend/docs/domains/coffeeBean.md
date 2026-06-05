@@ -7,9 +7,10 @@ Shopifyの商品と1対1で紐づく。産地、焙煎度、精製方法、テ�
 
 ## ライフサイクル
 
-- **登録**: 管理者が管理画面から登録する。初期状態は任意に選択でき、デフォルトは下書き（draft）
+- **登録**: 管理者が管理画面から登録する。初期状態は任意に選択でき、デフォルトは下書き（DRAFT）
 - **更新**: 珈琲豆情報・画像・テイスト評価の変更
-- **公開状態の切り替え**: 管理者が draft ⇄ published を双方向に切り替えられる。draft の珈琲豆はCS（一般ユーザー向け）には公開されない
+- **公開状態の切り替え**: 管理者が DRAFT ⇄ PUBLISHED を双方向に切り替えられる。DRAFT の珈琲豆はCS（一般ユーザー向け）には公開されない
+- **自動無効化**: 提供元の店舗が参画落ち（DROPPED）になると、その店舗に属する全珈琲豆が INVALIDATED に自動設定される。INVALIDATED になると以降の更新は不可
 
 ## CoffeeBean
 
@@ -27,7 +28,7 @@ Shopifyの商品と1対1で紐づく。産地、焙煎度、精製方法、テ�
 | roastLevel | RoastLevel | 焙煎度（light / medium / city / french） |
 | processingMethod | ProcessingMethod | 精製方法（fully_washed / washed / thermal_shock_natural / natural / wet_hulling / honey） |
 | isSpecialty | Boolean | スペシャルティコーヒーかどうか |
-| publishStatus | PublishStatus | 公開状態（draft / published） |
+| publishStatus | PublishStatus | 公開状態（DRAFT / PUBLISHED / INVALIDATED） |
 | images | List\<CoffeeBeanImage\> | 珈琲豆画像一覧 |
 | tastes | List\<CoffeeBeanTaste\> | テイスト評価一覧 |
 
@@ -43,13 +44,18 @@ Shopifyの商品と1対1で紐づく。産地、焙煎度、精製方法、テ�
 - shopIdは存在するShopを参照しなければならない
 - **images は必須**。少なくとも1枚の画像を持たなければならない
 - **tastes は必須**。全テイスト種別（酸味・苦味・甘味・コク・香り）の評価値を持たなければならない
+- INVALIDATED 状態の珈琲豆は更新できない
 
 ## PublishStatus（Enum）
 
-公開状態を表すEnum。draft（下書き・非公開）と published（公開）の双方向の遷移が可能。
-draft の珈琲豆はCS（一般ユーザー向けAPI）には公開されない。Shop集約と共有する値オブジェクト。
+公開状態を表すEnum。INVALIDATED は店舗が参画落ち（DROPPED）になった際にシステムが自動設定する終端状態。
+PUBLISHED 以外の珈琲豆はCS（一般ユーザー向けAPI）には公開されない。
 
-`DRAFT`, `PUBLISHED`
+| 値 | 意味 | 設定者 |
+|---|---|---|
+| `DRAFT` | 下書き・非公開 | 管理者 |
+| `PUBLISHED` | 公開 | 管理者 |
+| `INVALIDATED` | 無効化（終端・変更不可） | システム自動設定（店舗DROPPED時） |
 
 ## CoffeeBeanImage（エンティティ）
 
