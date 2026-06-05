@@ -136,9 +136,9 @@ export default function BeansContent({ beans, planGroups }: BeansContentProps) {
         }
         ctaText="購入に進む"
         onCtaClick={() => {
-          const shopifyBeanIds = selectedIds.map(
-            (id) => beans.find((b) => b.id === id)?.shopifyBeanId ?? id,
-          );
+          const shopifyBeanIds = selectedIds
+            .map((id) => beans.find((b) => b.id === id)?.shopifyBeanId)
+            .filter((id): id is string => id !== undefined);
           moveToCoffeeBeanListPage(planId ?? undefined, shopifyBeanIds);
         }}
         showIcon={false}

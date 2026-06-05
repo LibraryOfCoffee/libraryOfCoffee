@@ -126,9 +126,9 @@ function CatalogContent({
     const planId = mode === "sub" ? plan.subscriptionId : plan.singleId;
     const shopifyBeanIds = omakase
       ? []
-      : [...selected].map(
-          (id) => beans.find((b) => b.id === id)?.shopifyBeanId ?? id,
-        );
+      : [...selected]
+          .map((id) => beans.find((b) => b.id === id)?.shopifyBeanId)
+          .filter((id): id is string => id !== undefined);
     moveToCoffeeBeanListPage(planId, shopifyBeanIds);
   };
 
