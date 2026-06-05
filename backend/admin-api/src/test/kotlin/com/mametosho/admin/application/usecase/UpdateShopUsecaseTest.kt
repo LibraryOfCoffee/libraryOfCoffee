@@ -2,7 +2,7 @@ package com.mametosho.admin.application.usecase
 
 import com.mametosho.admin.presentation.dto.request.UpdateShopRequest
 import com.mametosho.domain.model.shared.ImageUrl
-import com.mametosho.domain.model.shared.PublishStatus
+import com.mametosho.domain.model.shared.ParticipationStatus
 import com.mametosho.domain.model.shop.Shop
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.shop.ShopImage
@@ -10,7 +10,12 @@ import com.mametosho.domain.model.shop.ShopImageId
 import com.mametosho.domain.model.shop.ShopImageType
 import com.mametosho.domain.model.shop.Prefecture
 import com.mametosho.domain.model.shop.ShopifyShopId
+import com.mametosho.domain.model.shop.ShopId as ShopIdModel
+import com.mametosho.domain.repository.CoffeeBeanRepository
+import com.mametosho.domain.model.coffeebean.CoffeeBean
+import com.mametosho.domain.model.coffeebean.CoffeeBeanId
 import com.mametosho.domain.repository.ShopRepository
+import com.mametosho.domain.service.ShopDropDomainService
 import com.mametosho.admin.test.FakeImageStorageService
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
@@ -32,7 +37,7 @@ class UpdateShopUsecaseTest {
         particular = "既存こだわり",
         shopUrl = "https://existing.example.com",
         prefecture = Prefecture.TOKYO,
-        publishStatus = PublishStatus.PUBLISHED,
+        participationStatus = ParticipationStatus.PARTICIPATING,
         images = listOf(
             ShopImage(
                 id = ShopImageId("00000000-0000-4000-8000-000000000011"),
@@ -47,27 +52,43 @@ class UpdateShopUsecaseTest {
         ),
     )
 
+    private val droppedShop = existingShop.copy(participationStatus = ParticipationStatus.DROPPED)
+
     private val savedShops = mutableListOf<Shop>()
 
     private val fakeRepository = object : ShopRepository {
+        var shopToReturn: Shop? = existingShop
+
         override fun save(shop: Shop) {
             savedShops.add(shop)
         }
 
         override fun findById(id: ShopId): Shop? {
-            return if (id.value == existingShopId) existingShop else null
+            return when (id.value) {
+                existingShopId -> shopToReturn
+                else -> null
+            }
         }
 
         override fun findAll(
             page: Int,
             size: Int,
             name: String?,
-            publishStatus: PublishStatus?,
+            participationStatus: ParticipationStatus?,
         ): Pair<List<Shop>, Long> = Pair(emptyList(), 0L)
         override fun deleteById(id: ShopId) = Unit
     }
 
-    private val usecase = UpdateShopUsecase(fakeRepository, FakeImageStorageService)
+    private val fakeCoffeeBeanRepository = object : CoffeeBeanRepository {
+        override fun save(coffeeBean: CoffeeBean) = Unit
+        override fun findById(id: CoffeeBeanId): CoffeeBean? = null
+        override fun deleteById(id: CoffeeBeanId) = Unit
+        override fun invalidateByShopId(shopId: ShopIdModel) = Unit
+    }
+
+    private val fakeShopDropDomainService = ShopDropDomainService(fakeCoffeeBeanRepository)
+
+    private val usecase = UpdateShopUsecase(fakeRepository, fakeShopDropDomainService, FakeImageStorageService)
 
     private fun createRequest(
         shopifyShopId: String = "updated-shop-001",
@@ -76,7 +97,7 @@ class UpdateShopUsecaseTest {
         particular: String? = "更新こだわり",
         shopUrl: String = "https://updated.example.com",
         prefecture: String = "OSAKA",
-        publishStatus: String = "PUBLISHED",
+        participationStatus: String = "PARTICIPATING",
     ): UpdateShopRequest = UpdateShopRequest(
         shopifyShopId = shopifyShopId,
         name = name,
@@ -84,7 +105,7 @@ class UpdateShopUsecaseTest {
         particular = particular,
         shopUrl = shopUrl,
         prefecture = prefecture,
-        publishStatus = publishStatus,
+        participationStatus = participationStatus,
     )
 
     @Nested
@@ -183,6 +204,22 @@ class UpdateShopUsecaseTest {
         fun `不正なUUID形式のIDの場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
                 usecase.execute("invalid-id", createRequest(), emptyList(), emptyList())
+            }
+        }
+
+        @Test
+        fun `DROPPED状態の店舗を更新しようとすると例外が発生する`() {
+            fakeRepository.shopToReturn = droppedShop
+            assertThrows<IllegalArgumentException> {
+                usecase.execute(existingShopId, createRequest(participationStatus = "DROPPED"), emptyList(), emptyList())
+            }
+        }
+
+        @Test
+        fun `BEFORE_PARTICIPATIONからDROPPEDへの直接遷移は例外が発生する`() {
+            fakeRepository.shopToReturn = existingShop.copy(participationStatus = ParticipationStatus.BEFORE_PARTICIPATION)
+            assertThrows<IllegalArgumentException> {
+                usecase.execute(existingShopId, createRequest(participationStatus = "DROPPED"), emptyList(), emptyList())
             }
         }
     }

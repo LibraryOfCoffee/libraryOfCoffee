@@ -1,7 +1,7 @@
 package com.mametosho.domain.model.shop
 
 import com.mametosho.domain.model.shared.ImageUrl
-import com.mametosho.domain.model.shared.PublishStatus
+import com.mametosho.domain.model.shared.ParticipationStatus
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
@@ -20,6 +20,7 @@ class ShopTest {
     private fun createShop(
         images: List<ShopImage> = listOf(defaultLogoImage),
         shopUrl: String = "https://example.com",
+        participationStatus: ParticipationStatus = ParticipationStatus.PARTICIPATING,
     ): Shop = Shop(
         id = ShopId("00000000-0000-4000-8000-000000000003"),
         shopifyShopId = ShopifyShopId("shopify-shop-1"),
@@ -28,7 +29,7 @@ class ShopTest {
         particular = "産地直送の豆を使用",
         shopUrl = shopUrl,
         prefecture = Prefecture.TOKYO,
-        publishStatus = PublishStatus.PUBLISHED,
+        participationStatus = participationStatus,
         images = images,
     )
 
@@ -74,7 +75,7 @@ class ShopTest {
 
         @Test
         fun `正常に店舗情報を更新できる`() {
-            val shop = createShop()
+            val shop = createShop(participationStatus = ParticipationStatus.BEFORE_PARTICIPATION)
             val updated = shop.update(
                 shopifyShopId = "updated-shop-id",
                 name = "更新店舗",
@@ -82,7 +83,7 @@ class ShopTest {
                 particular = "更新こだわり",
                 shopUrl = "https://updated.example.com",
                 prefecture = Prefecture.OSAKA,
-                publishStatus = "PUBLISHED",
+                participationStatus = "PARTICIPATING",
                 images = listOf("LOGO" to "https://example.com/logo.png", "MAIN" to "https://example.com/new.png"),
             )
 
@@ -105,7 +106,7 @@ class ShopTest {
                 particular = null,
                 shopUrl = "https://example.com",
                 prefecture = Prefecture.TOKYO,
-                publishStatus = "PUBLISHED",
+                participationStatus = "PARTICIPATING",
                 images = listOf("LOGO" to "https://example.com/logo.png"),
             )
 
@@ -122,12 +123,112 @@ class ShopTest {
                 particular = null,
                 shopUrl = "https://example.com",
                 prefecture = Prefecture.TOKYO,
-                publishStatus = "PUBLISHED",
+                participationStatus = "PARTICIPATING",
                 images = listOf("LOGO" to "https://example.com/logo.png", "MAIN" to "https://example.com/image.png"),
             )
 
             val uuidRegex = Regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             assertTrue(uuidRegex.matches(updated.images[0].id.value))
+        }
+
+        @Test
+        fun `BEFORE_PARTICIPATIONからPARTICIPATINGへの遷移ができる`() {
+            val shop = createShop(participationStatus = ParticipationStatus.BEFORE_PARTICIPATION)
+            val updated = shop.update(
+                shopifyShopId = "shopify-shop-1",
+                name = "珈琲工房まめ図書",
+                introduction = null,
+                particular = null,
+                shopUrl = "https://example.com",
+                prefecture = Prefecture.TOKYO,
+                participationStatus = "PARTICIPATING",
+                images = listOf("LOGO" to "https://example.com/logo.png"),
+            )
+            assertEquals(ParticipationStatus.PARTICIPATING, updated.participationStatus)
+        }
+
+        @Test
+        fun `PARTICIPATINGからDROPPEDへの遷移ができる`() {
+            val shop = createShop(participationStatus = ParticipationStatus.PARTICIPATING)
+            val updated = shop.update(
+                shopifyShopId = "shopify-shop-1",
+                name = "珈琲工房まめ図書",
+                introduction = null,
+                particular = null,
+                shopUrl = "https://example.com",
+                prefecture = Prefecture.TOKYO,
+                participationStatus = "DROPPED",
+                images = listOf("LOGO" to "https://example.com/logo.png"),
+            )
+            assertEquals(ParticipationStatus.DROPPED, updated.participationStatus)
+        }
+
+        @Test
+        fun `DROPPED状態からの変更は例外が発生する`() {
+            val shop = createShop(participationStatus = ParticipationStatus.DROPPED)
+            assertThrows<IllegalArgumentException> {
+                shop.update(
+                    shopifyShopId = "shopify-shop-1",
+                    name = "珈琲工房まめ図書",
+                    introduction = null,
+                    particular = null,
+                    shopUrl = "https://example.com",
+                    prefecture = Prefecture.TOKYO,
+                    participationStatus = "PARTICIPATING",
+                    images = listOf("LOGO" to "https://example.com/logo.png"),
+                )
+            }
+        }
+
+        @Test
+        fun `BEFORE_PARTICIPATIONからDROPPEDへの直接遷移は例外が発生する`() {
+            val shop = createShop(participationStatus = ParticipationStatus.BEFORE_PARTICIPATION)
+            assertThrows<IllegalArgumentException> {
+                shop.update(
+                    shopifyShopId = "shopify-shop-1",
+                    name = "珈琲工房まめ図書",
+                    introduction = null,
+                    particular = null,
+                    shopUrl = "https://example.com",
+                    prefecture = Prefecture.TOKYO,
+                    participationStatus = "DROPPED",
+                    images = listOf("LOGO" to "https://example.com/logo.png"),
+                )
+            }
+        }
+
+        @Test
+        fun `PARTICIPATINGからBEFORE_PARTICIPATIONへの逆遷移は例外が発生する`() {
+            val shop = createShop(participationStatus = ParticipationStatus.PARTICIPATING)
+            assertThrows<IllegalArgumentException> {
+                shop.update(
+                    shopifyShopId = "shopify-shop-1",
+                    name = "珈琲工房まめ図書",
+                    introduction = null,
+                    particular = null,
+                    shopUrl = "https://example.com",
+                    prefecture = Prefecture.TOKYO,
+                    participationStatus = "BEFORE_PARTICIPATION",
+                    images = listOf("LOGO" to "https://example.com/logo.png"),
+                )
+            }
+        }
+
+        @Test
+        fun `DROPPED状態でステータス変更なしでも例外が発生する`() {
+            val shop = createShop(participationStatus = ParticipationStatus.DROPPED)
+            assertThrows<IllegalArgumentException> {
+                shop.update(
+                    shopifyShopId = "shopify-shop-1",
+                    name = "珈琲工房まめ図書",
+                    introduction = null,
+                    particular = null,
+                    shopUrl = "https://example.com",
+                    prefecture = Prefecture.TOKYO,
+                    participationStatus = "DROPPED",
+                    images = listOf("LOGO" to "https://example.com/logo.png"),
+                )
+            }
         }
     }
 

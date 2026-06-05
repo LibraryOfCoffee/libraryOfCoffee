@@ -10,7 +10,7 @@ import {
 import { PREFECTURE_OPTIONS } from "@/app/(admin)/shops/_lib/prefecture";
 import { ImageUploadField } from "@/components/ImageUploadField";
 import styles from "@/components/modal.module.css";
-import { ToggleField } from "@/components/ToggleField";
+import { PARTICIPATION_STATUS_OPTIONS } from "@/components/participationStatus";
 import { type CreateShopState, createShopAction } from "./createShopAction";
 
 const initialState: CreateShopState = {};
@@ -34,7 +34,7 @@ export function CreateShopModal({
   const particularId = useId();
   const shopUrlId = useId();
   const prefectureId = useId();
-  const publishStatusId = useId();
+  const participationStatusId = useId();
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -205,16 +205,31 @@ export function CreateShopModal({
           ))}
         </div>
 
-        <ToggleField
-          id={publishStatusId}
-          name="publishStatus"
-          label="公開状態"
-          required
-          defaultChecked={
-            (state.values?.publishStatus ?? "DRAFT") === "PUBLISHED"
-          }
-          errors={state.fieldErrors?.publishStatus}
-        />
+        <div className={styles.field}>
+          <label htmlFor={participationStatusId} className={styles.label}>
+            参画ステータス
+            <span className={styles.required}>*</span>
+          </label>
+          <select
+            id={participationStatusId}
+            name="participationStatus"
+            defaultValue={
+              state.values?.participationStatus ?? "BEFORE_PARTICIPATION"
+            }
+            className={styles.input}
+          >
+            {PARTICIPATION_STATUS_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+          {state.fieldErrors?.participationStatus?.map((msg) => (
+            <span key={msg} className={styles.fieldError}>
+              {msg}
+            </span>
+          ))}
+        </div>
 
         <ImageUploadField imageTypes={[{ value: "MAIN", label: "メイン" }]} />
         <ImageUploadField

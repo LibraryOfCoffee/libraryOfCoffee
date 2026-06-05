@@ -63,6 +63,12 @@ export async function editCoffeeBeanAction(
         values,
       };
     }
+    if (response.status === 422) {
+      return {
+        error: "無効化されたコーヒー豆は更新できません。",
+        values,
+      };
+    }
     const body = await response.json().catch(() => null);
     const message = body?.message ?? "コーヒー豆の更新に失敗しました。";
     return { error: message, values };

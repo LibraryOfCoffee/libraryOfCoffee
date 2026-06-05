@@ -54,6 +54,24 @@ class GlobalExceptionHandler {
         )
     }
 
+    @ExceptionHandler(IllegalStateException::class)
+    fun handleIllegalState(
+        ex: IllegalStateException,
+        request: HttpServletRequest,
+    ): ResponseEntity<ErrorResponse> {
+        log.warn("{} {}: {}", request.method, request.requestURI, ex.message)
+        val status = HttpStatus.UNPROCESSABLE_ENTITY
+        return ResponseEntity.status(status).body(
+            ErrorResponse(
+                timestamp = OffsetDateTime.now(),
+                status = status.value(),
+                error = status.reasonPhrase,
+                message = ex.message,
+                path = request.requestURI,
+            ),
+        )
+    }
+
     @ExceptionHandler(DuplicateKeyException::class)
     fun handleDuplicateKey(
         ex: DuplicateKeyException,

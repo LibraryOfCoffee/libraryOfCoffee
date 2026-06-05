@@ -2,6 +2,7 @@ package com.mametosho.admin.application.usecase
 
 import com.mametosho.domain.model.coffeebean.CoffeeBean
 import com.mametosho.domain.model.coffeebean.CoffeeBeanId
+import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.repository.CoffeeBeanRepository
 import com.mametosho.admin.test.FakeImageStorageService
 import org.junit.jupiter.api.Nested
@@ -39,6 +40,7 @@ class DeleteCoffeeBeanUsecaseTest {
         override fun deleteById(id: CoffeeBeanId) {
             deletedIds.add(id)
         }
+        override fun invalidateByShopId(shopId: ShopId) = Unit
     }
 
     private val usecase = DeleteCoffeeBeanUsecase(fakeRepository, FakeImageStorageService)

@@ -72,7 +72,7 @@ class ShopController(
                                           "particular": "厳選された豆のみを使用しています。",
                                           "shopUrl": "https://example.com",
                                           "prefecture": "TOKYO",
-                                          "publishStatus": "PUBLISHED"
+                                          "participationStatus": "PARTICIPATING"
                                         }
                                       ],
                                       "totalCount": 1,

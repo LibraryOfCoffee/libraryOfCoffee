@@ -1,7 +1,7 @@
 package com.mametosho.infrastructure.persistence.repository
 
 import com.mametosho.domain.model.shared.ImageUrl
-import com.mametosho.domain.model.shared.PublishStatus
+import com.mametosho.domain.model.shared.ParticipationStatus
 import com.mametosho.domain.model.shop.Shop
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.shop.ShopImage
@@ -12,6 +12,7 @@ import com.mametosho.domain.model.shop.ShopifyShopId
 import com.mametosho.domain.repository.ShopRepository
 import com.mametosho.infrastructure.persistence.mybatis.entity.ShopEntity
 import com.mametosho.infrastructure.persistence.mybatis.entity.ShopImageEntity
+import com.mametosho.infrastructure.persistence.mybatis.entity.ShopListRow
 import com.mametosho.infrastructure.persistence.mybatis.mapper.ShopMapper
 import org.springframework.stereotype.Repository
 
@@ -29,7 +30,7 @@ class ShopRepositoryImpl(
                 particular = shop.particular,
                 shopUrl = shop.shopUrl,
                 prefecture = shop.prefecture.name,
-                publishStatus = shop.publishStatus.name,
+                participationStatus = shop.participationStatus.name,
             ),
         )
         shopMapper.deleteShopImagesByShopId(shop.id.value)
@@ -54,12 +55,12 @@ class ShopRepositoryImpl(
         page: Int,
         size: Int,
         name: String?,
-        publishStatus: PublishStatus?,
+        participationStatus: ParticipationStatus?,
     ): Pair<List<Shop>, Long> {
         val offset = page * size
-        val publishStatusName = publishStatus?.name
-        val rows = shopMapper.findListRows(size, offset, name, publishStatusName)
-        val totalCount = shopMapper.countByCondition(name, publishStatusName)
+        val participationStatusName = participationStatus?.name
+        val rows = shopMapper.findListRows(size, offset, name, participationStatusName)
+        val totalCount = shopMapper.countByCondition(name, participationStatusName)
         if (rows.isEmpty()) return Pair(emptyList(), totalCount)
         val shops = rows.groupBy { it.id }.map { (_, shopRows) -> mapRowsToShop(shopRows) }
         return Pair(shops, totalCount)
@@ -71,7 +72,7 @@ class ShopRepositoryImpl(
         return mapRowsToShop(rows)
     }
 
-    private fun mapRowsToShop(rows: List<com.mametosho.infrastructure.persistence.mybatis.entity.ShopListRow>): Shop {
+    private fun mapRowsToShop(rows: List<ShopListRow>): Shop {
         val first = rows.first()
         return Shop(
             id = ShopId(first.id),
@@ -81,7 +82,7 @@ class ShopRepositoryImpl(
             particular = first.particular,
             shopUrl = first.shopUrl,
             prefecture = Prefecture.valueOf(first.prefecture),
-            publishStatus = PublishStatus.valueOf(first.publishStatus),
+            participationStatus = ParticipationStatus.valueOf(first.participationStatus),
             images = rows
                 .filter { it.imageId != null }
                 .map { row ->

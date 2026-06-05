@@ -38,7 +38,7 @@ class CreateShopUsecase(
             particular = request.particular,
             shopUrl = request.shopUrl,
             prefecture = Prefecture.valueOf(request.prefecture),
-            publishStatus = request.publishStatus,
+            participationStatus = request.participationStatus,
             images = images,
             id = shopId,
         )

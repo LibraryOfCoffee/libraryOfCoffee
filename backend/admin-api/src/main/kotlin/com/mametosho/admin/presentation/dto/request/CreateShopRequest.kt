@@ -23,9 +23,9 @@ data class CreateShopRequest(
     val prefecture: String,
 
     @Schema(
-        description = "公開状態（DRAFT: 下書き / PUBLISHED: 公開）",
-        example = "DRAFT",
+        description = "参画ステータス（BEFORE_PARTICIPATION: 参画前 / PARTICIPATING: 参画中）",
+        example = "BEFORE_PARTICIPATION",
         requiredMode = Schema.RequiredMode.REQUIRED,
     )
-    val publishStatus: String,
+    val participationStatus: String,
 )

@@ -1,7 +1,7 @@
 package com.mametosho.infrastructure.persistence.repository
 
 import com.mametosho.domain.model.shared.ImageUrl
-import com.mametosho.domain.model.shared.PublishStatus
+import com.mametosho.domain.model.shared.ParticipationStatus
 import com.mametosho.domain.model.shop.Shop
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.shop.ShopImage
@@ -68,6 +68,7 @@ class ShopRepositoryImplTest {
         introduction: String? = "テスト紹介文",
         particular: String? = "テストこだわり",
         shopUrl: String = "https://example.com",
+        participationStatus: ParticipationStatus = ParticipationStatus.PARTICIPATING,
         images: List<ShopImage> = listOf(
             ShopImage(
                 id = ShopImageId("00000000-0000-4000-8000-000000000011"),
@@ -88,7 +89,7 @@ class ShopRepositoryImplTest {
         particular = particular,
         shopUrl = shopUrl,
         prefecture = Prefecture.TOKYO,
-        publishStatus = PublishStatus.PUBLISHED,
+        participationStatus = participationStatus,
         images = images,
     )
 

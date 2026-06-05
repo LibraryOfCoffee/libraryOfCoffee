@@ -93,33 +93,38 @@ data class CoffeeBean(
         publishStatus: String,
         images: List<Pair<String, String>>,
         tastes: List<Pair<String, Int>>,
-    ): CoffeeBean = CoffeeBean(
-        id = this.id,
-        shopId = ShopId(shopId),
-        shopifyBeanId = ShopifyBeanId(shopifyBeanId),
-        name = name,
-        description = description,
-        origin = origin,
-        farm = farm,
-        roastLevel = RoastLevel.valueOf(roastLevel),
-        processingMethod = ProcessingMethod.valueOf(processingMethod),
-        isSpecialty = isSpecialty,
-        publishStatus = PublishStatus.valueOf(publishStatus),
-        images = images.map { (type, imageUrl) ->
-            CoffeeBeanImage(
-                id = CoffeeBeanImageId(UUID.randomUUID().toString()),
-                type = CoffeeBeanImageType.valueOf(type),
-                imageUrl = ImageUrl(imageUrl),
-            )
-        },
-        tastes = tastes.map { (tasteId, evaluationValue) ->
-            CoffeeBeanTaste(
-                id = CoffeeBeanTasteId(UUID.randomUUID().toString()),
-                tasteId = TasteId(tasteId),
-                evaluationValue = evaluationValue,
-            )
-        },
-    )
+    ): CoffeeBean {
+        require(this.publishStatus != PublishStatus.INVALIDATED) {
+            "無効化されたコーヒー豆は更新できません"
+        }
+        return CoffeeBean(
+            id = this.id,
+            shopId = ShopId(shopId),
+            shopifyBeanId = ShopifyBeanId(shopifyBeanId),
+            name = name,
+            description = description,
+            origin = origin,
+            farm = farm,
+            roastLevel = RoastLevel.valueOf(roastLevel),
+            processingMethod = ProcessingMethod.valueOf(processingMethod),
+            isSpecialty = isSpecialty,
+            publishStatus = PublishStatus.valueOf(publishStatus),
+            images = images.map { (type, imageUrl) ->
+                CoffeeBeanImage(
+                    id = CoffeeBeanImageId(UUID.randomUUID().toString()),
+                    type = CoffeeBeanImageType.valueOf(type),
+                    imageUrl = ImageUrl(imageUrl),
+                )
+            },
+            tastes = tastes.map { (tasteId, evaluationValue) ->
+                CoffeeBeanTaste(
+                    id = CoffeeBeanTasteId(UUID.randomUUID().toString()),
+                    tasteId = TasteId(tasteId),
+                    evaluationValue = evaluationValue,
+                )
+            },
+        )
+    }
 
     companion object {
         /**

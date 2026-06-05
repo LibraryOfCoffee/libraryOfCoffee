@@ -136,7 +136,7 @@ classDiagram
       particular: String?
       shopUrl: String
       prefecture: Prefecture
-      publishStatus: PublishStatus
+      participationStatus: ParticipationStatus
       images: List~ShopImage~
     }
 

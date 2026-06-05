@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ShopDetail as ShopDetailType } from "@/api/shops";
 import { getPrefectureLabel } from "@/app/(admin)/shops/_lib/prefecture";
-import { PublishStatusBadge } from "@/components/PublishStatusBadge";
+import { ParticipationStatusBadge } from "@/components/ParticipationStatusBadge";
 import { ShopActions } from "./ShopActions";
 import styles from "./ShopDetail.module.css";
 
@@ -22,9 +22,9 @@ export function ShopDetail({ shop }: { shop: ShopDetailType }) {
       <div className={styles.content}>
         <dl className={styles.fieldList}>
           <div className={styles.field}>
-            <dt className={styles.fieldLabel}>公開状態</dt>
+            <dt className={styles.fieldLabel}>参画ステータス</dt>
             <dd className={styles.fieldValue}>
-              <PublishStatusBadge status={shop.publishStatus} />
+              <ParticipationStatusBadge status={shop.participationStatus} />
             </dd>
           </div>
 

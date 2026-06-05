@@ -11,7 +11,10 @@ import type { ShopDetail } from "@/api/shops";
 import { PREFECTURE_OPTIONS } from "@/app/(admin)/shops/_lib/prefecture";
 import { ImageUploadField } from "@/components/ImageUploadField";
 import modalStyles from "@/components/modal.module.css";
-import { ToggleField } from "@/components/ToggleField";
+import {
+  PARTICIPATION_STATUS_LABELS,
+  PARTICIPATION_STATUS_OPTIONS,
+} from "@/components/participationStatus";
 import { type EditShopState, editShopAction } from "./editShopAction";
 
 const initialState: EditShopState = {};
@@ -37,7 +40,7 @@ export function EditShopModal({
   const particularId = useId();
   const shopUrlId = useId();
   const prefectureId = useId();
-  const publishStatusId = useId();
+  const participationStatusId = useId();
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -57,7 +60,15 @@ export function EditShopModal({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    startTransition(() => formAction(new FormData(e.currentTarget)));
+    const formData = new FormData(e.currentTarget);
+    const nextStatus = formData.get("participationStatus");
+    if (nextStatus === "DROPPED") {
+      const confirmed = window.confirm(
+        "店舗を「参画落ち」にすると、この店舗の全コーヒー豆が無効化され、元に戻すことができません。\n\n本当に参画落ちにしますか？",
+      );
+      if (!confirmed) return;
+    }
+    startTransition(() => formAction(formData));
   };
 
   return (
@@ -207,16 +218,54 @@ export function EditShopModal({
           ))}
         </div>
 
-        <ToggleField
-          id={publishStatusId}
-          name="publishStatus"
-          label="公開状態"
-          required
-          defaultChecked={
-            (state.values?.publishStatus ?? shop.publishStatus) === "PUBLISHED"
-          }
-          errors={state.fieldErrors?.publishStatus}
-        />
+        <div className={modalStyles.field}>
+          <label htmlFor={participationStatusId} className={modalStyles.label}>
+            参画ステータス
+            <span className={modalStyles.required}>*</span>
+          </label>
+          {shop.participationStatus === "DROPPED" ? (
+            <>
+              <input type="hidden" name="participationStatus" value="DROPPED" />
+              <input
+                id={participationStatusId}
+                type="text"
+                value={PARTICIPATION_STATUS_LABELS.DROPPED}
+                className={modalStyles.input}
+                disabled
+                readOnly
+              />
+            </>
+          ) : (
+            <select
+              id={participationStatusId}
+              name="participationStatus"
+              defaultValue={
+                state.values?.participationStatus ?? shop.participationStatus
+              }
+              className={modalStyles.input}
+            >
+              {(shop.participationStatus === "PARTICIPATING"
+                ? [
+                    ...PARTICIPATION_STATUS_OPTIONS,
+                    {
+                      value: "DROPPED" as const,
+                      label: PARTICIPATION_STATUS_LABELS.DROPPED,
+                    },
+                  ]
+                : PARTICIPATION_STATUS_OPTIONS
+              ).map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+          )}
+          {state.fieldErrors?.participationStatus?.map((msg) => (
+            <span key={msg} className={modalStyles.fieldError}>
+              {msg}
+            </span>
+          ))}
+        </div>
 
         <ImageUploadField
           imageTypes={[{ value: "MAIN", label: "メイン" }]}

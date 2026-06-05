@@ -6,6 +6,7 @@ import com.mametosho.domain.model.coffeebean.CoffeeBean
 import com.mametosho.domain.model.coffeebean.CoffeeBeanId
 import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import com.mametosho.domain.model.coffeebean.RoastLevel
+import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.repository.CoffeeBeanRepository
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
@@ -44,6 +45,7 @@ class UpdateCoffeeBeanUsecaseTest {
         }
 
         override fun deleteById(id: CoffeeBeanId) = Unit
+        override fun invalidateByShopId(shopId: ShopId) = Unit
     }
 
     private val usecase = UpdateCoffeeBeanUsecase(fakeRepository, FakeImageStorageService)

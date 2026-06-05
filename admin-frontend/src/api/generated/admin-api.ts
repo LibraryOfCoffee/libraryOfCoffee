@@ -229,10 +229,10 @@ export interface components {
        */
       prefecture: string;
       /**
-       * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
-       * @example PUBLISHED
+       * @description 参画ステータス（BEFORE_PARTICIPATION: 参画前 / PARTICIPATING: 参画中 / DROPPED: 参画落ち）
+       * @example PARTICIPATING
        */
-      publishStatus: string;
+      participationStatus: string;
     };
     /** @description 店舗登録レスポンス */
     ShopResponse: {
@@ -431,10 +431,10 @@ export interface components {
        */
       prefecture: string;
       /**
-       * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
-       * @example DRAFT
+       * @description 参画ステータス（BEFORE_PARTICIPATION: 参画前 / PARTICIPATING: 参画中）
+       * @example BEFORE_PARTICIPATION
        */
-      publishStatus: string;
+      participationStatus: string;
     };
     /** @description コーヒー豆登録リクエスト */
     CreateCoffeeBeanRequest: {
@@ -584,10 +584,10 @@ export interface components {
        */
       prefecture: string;
       /**
-       * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
-       * @example PUBLISHED
+       * @description 参画ステータス（BEFORE_PARTICIPATION: 参画前 / PARTICIPATING: 参画中 / DROPPED: 参画落ち）
+       * @example PARTICIPATING
        */
-      publishStatus: string;
+      participationStatus: string;
     };
     /** @description 画像詳細 */
     ImageDetail: {
@@ -645,10 +645,10 @@ export interface components {
        */
       prefecture: string;
       /**
-       * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
-       * @example PUBLISHED
+       * @description 参画ステータス（BEFORE_PARTICIPATION: 参画前 / PARTICIPATING: 参画中 / DROPPED: 参画落ち）
+       * @example PARTICIPATING
        */
-      publishStatus: string;
+      participationStatus: string;
       /** @description 画像一覧 */
       images: components["schemas"]["ImageDetail"][];
     };
