@@ -62,6 +62,7 @@ export default function BeanDetailModal({
                 alt={bean.name}
                 fill
                 sizes="(max-width: 440px) 100vw, 400px"
+                unoptimized
                 className={styles.hero}
               />
               {bean.isSpecialty && (
