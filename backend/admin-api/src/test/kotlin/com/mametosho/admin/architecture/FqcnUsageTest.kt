@@ -32,12 +32,9 @@ class FqcnUsageTest {
 
                 sourceFile.readLines().forEachIndexed { lineIndex, line ->
                     val trimmed = line.trim()
-                    if (trimmed.startsWith("package ") ||
-                        trimmed.startsWith("import ") ||
-                        trimmed.startsWith("//") ||
-                        trimmed.startsWith("/*") ||
-                        trimmed.startsWith("*")
-                    ) return@forEachIndexed
+                    val isSkippable = listOf("package ", "import ", "//", "/*", "*")
+                        .any { trimmed.startsWith(it) }
+                    if (isSkippable) return@forEachIndexed
 
                     fqcnPattern.findAll(trimmed).forEach { match ->
                         events.add(
