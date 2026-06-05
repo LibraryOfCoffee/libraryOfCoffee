@@ -14,6 +14,7 @@ export type PlanGroup = {
 
 type PlanApiItem = {
   id: string;
+  shopifyPlanId: string;
   label: string;
   gramWeight: number;
   beanQuantity: number;
@@ -56,8 +57,8 @@ export async function fetchPlans(): Promise<PlanGroup[]> {
     const single = singleMap.get(key);
     if (!single) continue;
     groups.push({
-      subscriptionId: sub.id,
-      singleId: single.id,
+      subscriptionId: sub.shopifyPlanId,
+      singleId: single.shopifyPlanId,
       label: sub.label,
       gramWeight: sub.gramWeight as WeightGrams,
       beanQuantity: sub.beanQuantity,

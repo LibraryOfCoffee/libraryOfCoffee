@@ -124,7 +124,12 @@ function CatalogContent({
   const handlePurchase = () => {
     if (!plan) return;
     const planId = mode === "sub" ? plan.subscriptionId : plan.singleId;
-    moveToCoffeeBeanListPage(planId, omakase ? [] : [...selected]);
+    const shopifyBeanIds = omakase
+      ? []
+      : [...selected].map(
+          (id) => beans.find((b) => b.id === id)?.shopifyBeanId ?? id,
+        );
+    moveToCoffeeBeanListPage(planId, shopifyBeanIds);
   };
 
   const handleSelectPlan = (p: PlanGroup) => {

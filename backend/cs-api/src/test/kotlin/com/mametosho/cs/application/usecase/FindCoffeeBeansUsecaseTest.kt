@@ -21,6 +21,7 @@ class FindCoffeeBeansUsecaseTest {
         items = listOf(
             CoffeeBeanSummaryResult(
                 id = "00000000-0000-4000-8000-000000000001",
+                shopifyBeanId = "gid://shopify/Product/400001",
                 name = "テストコーヒー豆",
                 origin = "エチオピア",
                 roastLevel = "LIGHT",

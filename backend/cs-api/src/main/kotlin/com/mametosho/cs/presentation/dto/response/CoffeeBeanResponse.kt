@@ -8,6 +8,11 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class CoffeeBeanResponse(
     @Schema(description = "珈琲豆ID", example = "00000000-0000-4000-8000-000000000071")
     val id: String,
+    @Schema(
+        description = "ShopifyのID（Shopify遷移時に使用する）",
+        example = "gid://shopify/Product/400001",
+    )
+    val shopifyBeanId: String,
     @Schema(description = "珈琲豆名", example = "エチオピア イルガチェフェ G1")
     val name: String,
     @Schema(description = "産地", example = "エチオピア")
@@ -43,6 +48,7 @@ data class CoffeeBeanResponse(
     companion object {
         fun from(result: CoffeeBeanSummaryResult): CoffeeBeanResponse = CoffeeBeanResponse(
             id = result.id,
+            shopifyBeanId = result.shopifyBeanId,
             name = result.name,
             origin = result.origin,
             roastLevel = result.roastLevel,

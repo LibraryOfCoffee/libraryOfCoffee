@@ -135,9 +135,12 @@ export default function BeansContent({ beans, planGroups }: BeansContentProps) {
           </>
         }
         ctaText="購入に進む"
-        onCtaClick={() =>
-          moveToCoffeeBeanListPage(planId ?? undefined, selectedIds)
-        }
+        onCtaClick={() => {
+          const shopifyBeanIds = selectedIds.map(
+            (id) => beans.find((b) => b.id === id)?.shopifyBeanId ?? id,
+          );
+          moveToCoffeeBeanListPage(planId ?? undefined, shopifyBeanIds);
+        }}
         showIcon={false}
         disabled={selectedIds.length === 0}
       />
