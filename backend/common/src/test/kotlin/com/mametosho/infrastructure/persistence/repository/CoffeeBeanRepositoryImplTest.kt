@@ -206,32 +206,30 @@ class CoffeeBeanRepositoryImplTest {
                 createCoffeeBean(tastes = emptyList())
             }
         }
+
+        @Test
+        fun `MAIN画像が2枚の場合はIllegalArgumentExceptionが発生する`() {
+            assertThrows<IllegalArgumentException> {
+                createCoffeeBean(
+                    images = listOf(
+                        CoffeeBeanImage(
+                            id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000011"),
+                            type = CoffeeBeanImageType.MAIN,
+                            imageUrl = ImageUrl("https://example.com/bean1.png"),
+                        ),
+                        CoffeeBeanImage(
+                            id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000012"),
+                            type = CoffeeBeanImageType.MAIN,
+                            imageUrl = ImageUrl("https://example.com/bean2.png"),
+                        ),
+                    ),
+                )
+            }
+        }
     }
 
     @Nested
     inner class 複数行INSERT {
-        @Test
-        fun `複数の画像を保存できる`() {
-            val coffeeBean = createCoffeeBean(
-                images = listOf(
-                    CoffeeBeanImage(
-                        id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000011"),
-                        type = CoffeeBeanImageType.MAIN,
-                        imageUrl = ImageUrl("https://example.com/bean1.png"),
-                    ),
-                    CoffeeBeanImage(
-                        id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000012"),
-                        type = CoffeeBeanImageType.MAIN,
-                        imageUrl = ImageUrl("https://example.com/bean2.png"),
-                    ),
-                ),
-            )
-
-            coffeeBeanRepositoryImpl.save(coffeeBean)
-
-            val images = jdbcTemplate.queryForList("SELECT * FROM coffee_bean_images ORDER BY id")
-            assertEquals(2, images.size)
-        }
 
         @Test
         fun `複数のテイスト評価を保存できる`() {

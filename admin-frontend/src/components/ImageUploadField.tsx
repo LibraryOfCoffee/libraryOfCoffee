@@ -17,7 +17,11 @@ type ExistingImage = {
 
 type ImageEntry = {
   key: number;
+  type: string;
 };
+
+/** 同一typeは1枚のみ許可する種別 */
+const SINGLE_ONLY_TYPES = new Set(["MAIN"]);
 
 export function ImageUploadField({
   imageTypes,
@@ -31,13 +35,30 @@ export function ImageUploadField({
   const [entries, setEntries] = useState<ImageEntry[]>([]);
   const nextKey = useRef(0);
 
+  const usedTypes = new Set([
+    ...(existingImages ?? []).map((img) => img.type),
+    ...entries.map((e) => e.type),
+  ]);
+
+  const availableTypes = imageTypes.filter(
+    (t) => !SINGLE_ONLY_TYPES.has(t.value) || !usedTypes.has(t.value),
+  );
+
   const addEntry = () => {
+    if (availableTypes.length === 0) return;
     nextKey.current += 1;
-    setEntries((prev) => [...prev, { key: nextKey.current }]);
+    setEntries((prev) => [
+      ...prev,
+      { key: nextKey.current, type: availableTypes[0].value },
+    ]);
   };
 
   const removeEntry = (key: number) => {
     setEntries((prev) => prev.filter((e) => e.key !== key));
+  };
+
+  const updateEntryType = (key: number, type: string) => {
+    setEntries((prev) => prev.map((e) => (e.key === key ? { ...e, type } : e)));
   };
 
   return (
@@ -65,42 +86,53 @@ export function ImageUploadField({
         </div>
       )}
 
-      {entries.map((entry) => (
-        <div key={entry.key} className={styles.imageEntry}>
-          <input
-            name="images"
-            type="file"
-            accept="image/jpeg,image/png,image/webp"
-            className={styles.fileInput}
-          />
-          <select
-            name="imageTypes"
-            defaultValue={imageTypes[0]?.value}
-            className={styles.typeSelect}
-          >
-            {imageTypes.map((t) => (
-              <option key={t.value} value={t.value}>
-                {t.label}
-              </option>
-            ))}
-          </select>
-          <button
-            type="button"
-            className={styles.removeButton}
-            onClick={() => removeEntry(entry.key)}
-          >
-            &times;
-          </button>
-        </div>
-      ))}
+      {entries.map((entry) => {
+        const selectableTypes = imageTypes.filter(
+          (t) =>
+            !SINGLE_ONLY_TYPES.has(t.value) ||
+            !usedTypes.has(t.value) ||
+            t.value === entry.type,
+        );
+        return (
+          <div key={entry.key} className={styles.imageEntry}>
+            <input
+              name="images"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              className={styles.fileInput}
+            />
+            <select
+              name="imageTypes"
+              value={entry.type}
+              onChange={(e) => updateEntryType(entry.key, e.target.value)}
+              className={styles.typeSelect}
+            >
+              {selectableTypes.map((t) => (
+                <option key={t.value} value={t.value}>
+                  {t.label}
+                </option>
+              ))}
+            </select>
+            <button
+              type="button"
+              className={styles.removeButton}
+              onClick={() => removeEntry(entry.key)}
+            >
+              &times;
+            </button>
+          </div>
+        );
+      })}
 
-      <button
-        type="button"
-        className={styles.addImageButton}
-        onClick={addEntry}
-      >
-        + 画像を追加
-      </button>
+      {availableTypes.length > 0 && (
+        <button
+          type="button"
+          className={styles.addImageButton}
+          onClick={addEntry}
+        >
+          + 画像を追加
+        </button>
+      )}
     </div>
   );
 }
