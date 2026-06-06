@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS shops (
     particular      TEXT                                                       COMMENT 'こだわり',
     shop_url        VARCHAR(2048)  NOT NULL                                     COMMENT '店舗URL',
     prefecture      VARCHAR(255)  NOT NULL                                       COMMENT '都道府県',
-    publish_status  ENUM('DRAFT', 'PUBLISHED') NOT NULL DEFAULT 'DRAFT'          COMMENT '公開状態',
+    participation_status ENUM('BEFORE_PARTICIPATION', 'PARTICIPATING', 'DROPPED') NOT NULL DEFAULT 'BEFORE_PARTICIPATION' COMMENT '参画ステータス',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                             COMMENT '作成日時',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='店舗マスタテーブル';
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS coffee_beans (
     roast_level       ENUM('LIGHT', 'MEDIUM', 'CITY', 'FRENCH') NOT NULL       COMMENT '焙煎度',
     processing_method ENUM('FULLY_WASHED', 'WASHED', 'THERMAL_SHOCK_NATURAL', 'NATURAL', 'WET_HULLING', 'HONEY') NOT NULL COMMENT '精製方法',
     is_specialty      BOOLEAN       NOT NULL DEFAULT FALSE                     COMMENT 'スペシャルティコーヒーかどうか',
-    publish_status    ENUM('DRAFT', 'PUBLISHED') NOT NULL DEFAULT 'DRAFT'       COMMENT '公開状態',
+    publish_status    ENUM('DRAFT', 'PUBLISHED', 'INVALIDATED') NOT NULL DEFAULT 'DRAFT' COMMENT '公開状態',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                             COMMENT '作成日時',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時',
     FOREIGN KEY (shop_id) REFERENCES shops (id)

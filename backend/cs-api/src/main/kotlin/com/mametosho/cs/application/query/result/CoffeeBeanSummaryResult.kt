@@ -2,6 +2,7 @@ package com.mametosho.cs.application.query.result
 
 data class CoffeeBeanSummaryResult(
     val id: String,
+    val shopifyBeanId: String,
     val name: String,
     val origin: String,
     val roastLevel: String,

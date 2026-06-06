@@ -7,9 +7,9 @@ Shopifyのショップと1対1で紐づく。
 
 ## ライフサイクル
 
-- **登録**: 管理者が管理画面から登録する。初期状態は任意に選択でき、デフォルトは下書き（draft）
+- **登録**: 管理者が管理画面から登録する。初期状態は参画前（BEFORE_PARTICIPATION）または参画中（PARTICIPATING）を選択できる
 - **更新**: 店舗情報・画像の変更
-- **公開状態の切り替え**: 管理者が draft ⇄ published を双方向に切り替えられる。draft の店舗はCS（一般ユーザー向け）には公開されない
+- **参画ステータスの遷移**: 管理者が BEFORE_PARTICIPATION → PARTICIPATING → DROPPED の直線遷移のみ可能。DROPPED になると以降の変更は不可。PARTICIPATING の店舗のみ CS（一般ユーザー向け）に公開される
 
 ## Shop
 
@@ -24,7 +24,7 @@ Shopifyのショップと1対1で紐づく。
 | particular | String? | こだわり |
 | shopUrl | String | 店舗URL |
 | prefecture | Prefecture | 都道府県 |
-| publishStatus | PublishStatus | 公開状態（draft / published） |
+| participationStatus | ParticipationStatus | 参画ステータス |
 | images | List\<ShopImage\> | 店舗画像一覧 |
 
 ### 不変条件
@@ -37,12 +37,16 @@ Shopifyのショップと1対1で紐づく。
 - prefectureは必須
 - LOGO画像はちょうど1枚（必須）
 
-## PublishStatus（Enum）
+## ParticipationStatus（Enum）
 
-公開状態を表すEnum。draft（下書き・非公開）と published（公開）の双方向の遷移が可能。
-draft の店舗はCS（一般ユーザー向けAPI）には公開されない。
+参画ステータスを表すEnum。BEFORE_PARTICIPATION → PARTICIPATING → DROPPED の直線遷移のみ許可。
+DROPPED の店舗はステータス変更不可（終端状態）。PARTICIPATING の店舗のみ CS（一般ユーザー向けAPI）に公開される。
 
-`DRAFT`, `PUBLISHED`
+| 値 | ラベル | 説明 |
+|---|---|---|
+| `BEFORE_PARTICIPATION` | 参画前 | 登録済みだがまだ参画していない状態 |
+| `PARTICIPATING` | 参画中 | 参画中。CS APIに公開される |
+| `DROPPED` | 参画落ち | 参画から外れた終端状態。以降の変更不可 |
 
 ## Prefecture（Enum）
 

@@ -1,7 +1,7 @@
 package com.mametosho.admin.application.usecase
 
 import com.mametosho.admin.presentation.dto.request.CreateShopRequest
-import com.mametosho.domain.model.shared.PublishStatus
+import com.mametosho.domain.model.shared.ParticipationStatus
 import com.mametosho.domain.model.shop.Shop
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.repository.ShopRepository
@@ -28,7 +28,7 @@ class CreateShopUsecaseTest {
             page: Int,
             size: Int,
             name: String?,
-            publishStatus: PublishStatus?,
+            participationStatus: ParticipationStatus?,
         ): Pair<List<Shop>, Long> = Pair(emptyList(), 0L)
         override fun deleteById(id: ShopId) = Unit
     }
@@ -44,7 +44,7 @@ class CreateShopUsecaseTest {
         particular: String? = "テストこだわり",
         shopUrl: String = "https://example.com",
         prefecture: String = "TOKYO",
-        publishStatus: String = "PUBLISHED",
+        participationStatus: String = "BEFORE_PARTICIPATION",
     ): CreateShopRequest = CreateShopRequest(
         shopifyShopId = shopifyShopId,
         name = name,
@@ -52,7 +52,7 @@ class CreateShopUsecaseTest {
         particular = particular,
         shopUrl = shopUrl,
         prefecture = prefecture,
-        publishStatus = publishStatus,
+        participationStatus = participationStatus,
     )
 
     @Nested
@@ -118,6 +118,13 @@ class CreateShopUsecaseTest {
         fun `LOGO画像なしの場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
                 usecase.execute(createRequest(), emptyList(), emptyList())
+            }
+        }
+
+        @Test
+        fun `初期ステータスにDROPPEDを指定すると例外が発生する`() {
+            assertThrows<IllegalArgumentException> {
+                usecase.execute(createRequest(participationStatus = "DROPPED"), listOf(logoFile), listOf("LOGO"))
             }
         }
     }

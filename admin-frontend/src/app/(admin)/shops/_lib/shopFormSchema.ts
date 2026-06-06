@@ -33,9 +33,12 @@ export const shopFieldsSchema = z.object({
   prefecture: z.enum(prefectureValues, {
     error: "都道府県を選択してください。",
   }),
-  publishStatus: z.enum(["DRAFT", "PUBLISHED"], {
-    error: "公開状態を選択してください。",
-  }),
+  participationStatus: z.enum(
+    ["BEFORE_PARTICIPATION", "PARTICIPATING", "DROPPED"],
+    {
+      error: "参画ステータスを選択してください。",
+    },
+  ),
 });
 
 export type ShopFormValues = {
@@ -45,7 +48,7 @@ export type ShopFormValues = {
   particular?: string;
   shopUrl?: string;
   prefecture?: string;
-  publishStatus?: string;
+  participationStatus?: string;
 };
 
 export type ShopFormState = {
@@ -58,7 +61,7 @@ export type ShopFormState = {
     particular?: string[];
     shopUrl?: string[];
     prefecture?: string[];
-    publishStatus?: string[];
+    participationStatus?: string[];
   };
   values?: ShopFormValues;
 };

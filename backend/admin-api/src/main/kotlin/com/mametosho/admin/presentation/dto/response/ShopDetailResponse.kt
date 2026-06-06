@@ -21,11 +21,11 @@ data class ShopDetailResponse(
     @Schema(description = "都道府県", example = "TOKYO", requiredMode = Schema.RequiredMode.REQUIRED)
     val prefecture: String,
     @Schema(
-        description = "公開状態（DRAFT: 下書き / PUBLISHED: 公開）",
-        example = "PUBLISHED",
+        description = "参画ステータス（BEFORE_PARTICIPATION: 参画前 / PARTICIPATING: 参画中 / DROPPED: 参画落ち）",
+        example = "PARTICIPATING",
         requiredMode = Schema.RequiredMode.REQUIRED,
     )
-    val publishStatus: String,
+    val participationStatus: String,
     @Schema(description = "画像一覧", requiredMode = Schema.RequiredMode.REQUIRED)
     val images: List<ImageDetail>,
 ) {
@@ -56,7 +56,7 @@ data class ShopDetailResponse(
             particular = shop.particular,
             shopUrl = shop.shopUrl,
             prefecture = shop.prefecture.name,
-            publishStatus = shop.publishStatus.name,
+            participationStatus = shop.participationStatus.name,
             images = shop.images.map { ImageDetail.from(it) },
         )
     }

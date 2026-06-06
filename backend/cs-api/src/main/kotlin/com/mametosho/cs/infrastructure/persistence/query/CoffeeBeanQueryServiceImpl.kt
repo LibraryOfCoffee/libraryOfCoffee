@@ -30,6 +30,7 @@ class CoffeeBeanQueryServiceImpl(
                 val first = beanRows.first()
                 CoffeeBeanSummaryResult(
                     id = first.id,
+                    shopifyBeanId = first.shopifyBeanId,
                     name = first.name,
                     origin = first.origin,
                     roastLevel = first.roastLevel,

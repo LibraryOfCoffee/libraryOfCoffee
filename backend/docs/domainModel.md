@@ -136,7 +136,7 @@ classDiagram
       particular: String?
       shopUrl: String
       prefecture: Prefecture
-      publishStatus: PublishStatus
+      participationStatus: ParticipationStatus
       images: List~ShopImage~
     }
 
@@ -159,10 +159,18 @@ classDiagram
       ...
       OKINAWA
     }
+
+    class ParticipationStatus {
+      <<Enum>>
+      BEFORE_PARTICIPATION
+      PARTICIPATING
+      DROPPED
+    }
   }
 
   Shop *-- ShopImage
   Shop --> Prefecture
+  Shop --> ParticipationStatus
   ShopImage --> ShopImageType
 
   namespace CoffeeBean集約 {
@@ -219,10 +227,18 @@ classDiagram
       wet_hulling
       honey
     }
+
+    class PublishStatus {
+      <<Enum>>
+      DRAFT
+      PUBLISHED
+      INVALIDATED
+    }
   }
 
   CoffeeBean --> RoastLevel
   CoffeeBean --> ProcessingMethod
+  CoffeeBean --> PublishStatus
   CoffeeBean o-- Shop : shopId
   CoffeeBeanImage --> CoffeeBeanImageType
   CoffeeBean *-- CoffeeBeanImage

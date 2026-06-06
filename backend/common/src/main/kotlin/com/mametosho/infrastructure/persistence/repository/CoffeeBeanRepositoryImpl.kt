@@ -13,6 +13,7 @@ import com.mametosho.domain.model.coffeebean.ShopifyBeanId
 import com.mametosho.domain.model.shared.ImageUrl
 import com.mametosho.domain.model.shared.PublishStatus
 import com.mametosho.domain.model.shop.ShopId
+import org.springframework.transaction.annotation.Transactional
 import com.mametosho.domain.model.taste.TasteId
 import com.mametosho.domain.repository.CoffeeBeanRepository
 import com.mametosho.infrastructure.persistence.mybatis.entity.CoffeeBeanEntity
@@ -102,5 +103,10 @@ class CoffeeBeanRepositoryImpl(
         coffeeBeanMapper.deleteCoffeeBeanImagesByCoffeeBeanId(id.value)
         coffeeBeanMapper.deleteCoffeeBeanTastesByCoffeeBeanId(id.value)
         coffeeBeanMapper.deleteCoffeeBeanById(id.value)
+    }
+
+    @Transactional
+    override fun invalidateByShopId(shopId: ShopId) {
+        coffeeBeanMapper.invalidateByShopId(shopId.value)
     }
 }

@@ -572,7 +572,7 @@ paths:
                       particular: 厳選された豆のみを使用しています。
                       shopUrl: https://example.com
                       prefecture: TOKYO
-                      publishStatus: PUBLISHED
+                      participationStatus: PARTICIPATING
                     totalCount: 1
                     page: 0
                     size: 20
@@ -928,14 +928,15 @@ components:
           type: string
           description: 都道府県
           example: TOKYO
-        publishStatus:
+        participationStatus:
           type: string
-          description: "公開状態（DRAFT: 下書き / PUBLISHED: 公開）"
-          example: PUBLISHED
+          description: "参画ステータス（BEFORE_PARTICIPATION: 参画前 / PARTICIPATING: 参画中 / DROPPED:\
+            \ 参画落ち）"
+          example: PARTICIPATING
       required:
       - name
+      - participationStatus
       - prefecture
-      - publishStatus
       - shopUrl
       - shopifyShopId
     ShopResponse:
@@ -1146,14 +1147,14 @@ components:
           type: string
           description: 都道府県
           example: TOKYO
-        publishStatus:
+        participationStatus:
           type: string
-          description: "公開状態（DRAFT: 下書き / PUBLISHED: 公開）"
-          example: DRAFT
+          description: "参画ステータス（BEFORE_PARTICIPATION: 参画前 / PARTICIPATING: 参画中）"
+          example: BEFORE_PARTICIPATION
       required:
       - name
+      - participationStatus
       - prefecture
-      - publishStatus
       - shopUrl
       - shopifyShopId
     CreateCoffeeBeanRequest:
@@ -1310,15 +1311,16 @@ components:
           type: string
           description: 都道府県
           example: TOKYO
-        publishStatus:
+        participationStatus:
           type: string
-          description: "公開状態（DRAFT: 下書き / PUBLISHED: 公開）"
-          example: PUBLISHED
+          description: "参画ステータス（BEFORE_PARTICIPATION: 参画前 / PARTICIPATING: 参画中 / DROPPED:\
+            \ 参画落ち）"
+          example: PARTICIPATING
       required:
       - id
       - name
+      - participationStatus
       - prefecture
-      - publishStatus
       - shopUrl
       - shopifyShopId
     ImageDetail:
@@ -1373,10 +1375,11 @@ components:
           type: string
           description: 都道府県
           example: TOKYO
-        publishStatus:
+        participationStatus:
           type: string
-          description: "公開状態（DRAFT: 下書き / PUBLISHED: 公開）"
-          example: PUBLISHED
+          description: "参画ステータス（BEFORE_PARTICIPATION: 参画前 / PARTICIPATING: 参画中 / DROPPED:\
+            \ 参画落ち）"
+          example: PARTICIPATING
         images:
           type: array
           description: 画像一覧
@@ -1386,8 +1389,8 @@ components:
       - id
       - images
       - name
+      - participationStatus
       - prefecture
-      - publishStatus
       - shopUrl
       - shopifyShopId
     PlanListResponse:

@@ -74,8 +74,8 @@ class CoffeeBeanControllerTest {
         publishStatus: String = "PUBLISHED",
     ) {
         jdbcTemplate.execute(
-            "INSERT INTO shops (id, shopify_shop_id, name, shop_url, prefecture) " +
-                "VALUES ('$shopId', '$shopifyShopId', '$shopName', 'https://example.com', '$prefecture')",
+            "INSERT INTO shops (id, shopify_shop_id, name, shop_url, prefecture, participation_status) " +
+                "VALUES ('$shopId', '$shopifyShopId', '$shopName', 'https://example.com', '$prefecture', 'PARTICIPATING')",
         )
         jdbcTemplate.execute(
             "INSERT INTO tastes (id, name) VALUES ('$tasteId', '$tasteName')",

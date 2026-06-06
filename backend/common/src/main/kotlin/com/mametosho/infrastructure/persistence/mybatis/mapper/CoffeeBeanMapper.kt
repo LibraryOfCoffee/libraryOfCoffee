@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Param
 import org.apache.ibatis.annotations.Select
+import org.apache.ibatis.annotations.Update
 
 @Mapper
 interface CoffeeBeanMapper {
@@ -91,6 +92,9 @@ interface CoffeeBeanMapper {
 
     @Delete("DELETE FROM coffee_beans WHERE id = #{id}")
     fun deleteCoffeeBeanById(id: String)
+
+    @Update("UPDATE coffee_beans SET publish_status = 'INVALIDATED' WHERE shop_id = #{shopId}")
+    fun invalidateByShopId(@Param("shopId") shopId: String)
 
     @Insert(
         """

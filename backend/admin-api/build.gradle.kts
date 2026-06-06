@@ -54,6 +54,7 @@ dependencies {
 	testImplementation(libs.kotlin.test.junit5)
 	testImplementation(libs.testcontainers.mysql)
 	testImplementation(libs.testcontainers.junit.jupiter)
+	testImplementation(libs.archunit.junit5)
 	testRuntimeOnly(libs.junit.platform.launcher)
 }
 

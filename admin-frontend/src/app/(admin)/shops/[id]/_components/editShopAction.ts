@@ -7,7 +7,6 @@ import {
   type ShopFormState,
   shopFieldsSchema,
 } from "@/app/(admin)/shops/_lib/shopFormSchema";
-import { isChecked } from "@/lib/formData";
 
 const editShopSchema = shopFieldsSchema.extend({
   id: z.string(),
@@ -26,7 +25,7 @@ export async function editShopAction(
     particular: (formData.get("particular") as string) ?? "",
     shopUrl: (formData.get("shopUrl") as string) ?? "",
     prefecture: (formData.get("prefecture") as string) ?? "",
-    publishStatus: isChecked(formData, "publishStatus") ? "PUBLISHED" : "DRAFT",
+    participationStatus: (formData.get("participationStatus") as string) ?? "",
   };
 
   const result = editShopSchema.safeParse({
@@ -58,7 +57,7 @@ export async function editShopAction(
     particular,
     shopUrl,
     prefecture,
-    publishStatus,
+    participationStatus,
   } = result.data;
 
   const response = await multipartRequest(
@@ -71,7 +70,7 @@ export async function editShopAction(
       particular,
       shopUrl,
       prefecture,
-      publishStatus,
+      participationStatus,
     },
     formData,
   );
@@ -80,6 +79,12 @@ export async function editShopAction(
     if (response.status === 409) {
       return {
         error: "このShopify Shop IDは既に登録されています。",
+        values,
+      };
+    }
+    if (response.status === 422) {
+      return {
+        error: "この店舗のステータスを変更することはできません。",
         values,
       };
     }

@@ -13,8 +13,8 @@ import org.apache.ibatis.annotations.Select
 interface ShopMapper {
     @Insert(
         """
-        INSERT INTO shops (id, shopify_shop_id, name, introduction, particular, shop_url, prefecture, publish_status)
-        VALUES (#{id}, #{shopifyShopId}, #{name}, #{introduction}, #{particular}, #{shopUrl}, #{prefecture}, #{publishStatus})
+        INSERT INTO shops (id, shopify_shop_id, name, introduction, particular, shop_url, prefecture, participation_status)
+        VALUES (#{id}, #{shopifyShopId}, #{name}, #{introduction}, #{particular}, #{shopUrl}, #{prefecture}, #{participationStatus})
         ON DUPLICATE KEY UPDATE
             shopify_shop_id = VALUES(shopify_shop_id),
             name = VALUES(name),
@@ -22,7 +22,7 @@ interface ShopMapper {
             particular = VALUES(particular),
             shop_url = VALUES(shop_url),
             prefecture = VALUES(prefecture),
-            publish_status = VALUES(publish_status)
+            participation_status = VALUES(participation_status)
         """,
     )
     fun upsertShop(entity: ShopEntity)
@@ -40,7 +40,7 @@ interface ShopMapper {
 
     @Select(
         """
-        SELECT s.id, s.shopify_shop_id, s.name, s.introduction, s.particular, s.shop_url, s.prefecture, s.publish_status,
+        SELECT s.id, s.shopify_shop_id, s.name, s.introduction, s.particular, s.shop_url, s.prefecture, s.participation_status,
                si.id AS image_id, si.type AS image_type, si.image_url
         FROM shops s
         LEFT JOIN shop_images si ON si.shop_id = s.id
@@ -55,7 +55,7 @@ interface ShopMapper {
     @Select(
         """
         <script>
-        SELECT s.id, s.shopify_shop_id, s.name, s.introduction, s.particular, s.shop_url, s.prefecture, s.publish_status,
+        SELECT s.id, s.shopify_shop_id, s.name, s.introduction, s.particular, s.shop_url, s.prefecture, s.participation_status,
                si.id AS image_id, si.type AS image_type, si.image_url
         FROM (
             SELECT id FROM shops
@@ -63,8 +63,8 @@ interface ShopMapper {
                 <if test="name != null">
                     AND name LIKE CONCAT('%', #{name}, '%')
                 </if>
-                <if test="publishStatus != null">
-                    AND publish_status = #{publishStatus}
+                <if test="participationStatus != null">
+                    AND participation_status = #{participationStatus}
                 </if>
             </where>
             ORDER BY created_at DESC
@@ -80,7 +80,7 @@ interface ShopMapper {
         @Param("size") size: Int,
         @Param("offset") offset: Int,
         @Param("name") name: String?,
-        @Param("publishStatus") publishStatus: String?,
+        @Param("participationStatus") participationStatus: String?,
     ): List<ShopListRow>
 
     @Select(
@@ -91,8 +91,8 @@ interface ShopMapper {
             <if test="name != null">
                 AND name LIKE CONCAT('%', #{name}, '%')
             </if>
-            <if test="publishStatus != null">
-                AND publish_status = #{publishStatus}
+            <if test="participationStatus != null">
+                AND participation_status = #{participationStatus}
             </if>
         </where>
         </script>
@@ -100,6 +100,6 @@ interface ShopMapper {
     )
     fun countByCondition(
         @Param("name") name: String?,
-        @Param("publishStatus") publishStatus: String?,
+        @Param("participationStatus") participationStatus: String?,
     ): Long
 }

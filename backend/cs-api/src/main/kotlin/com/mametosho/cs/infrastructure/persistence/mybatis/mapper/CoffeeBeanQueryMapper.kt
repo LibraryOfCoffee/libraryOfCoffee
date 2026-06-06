@@ -10,7 +10,7 @@ interface CoffeeBeanQueryMapper {
 
     @Select("""
         <script>
-        SELECT cb.id, cb.name, cb.origin, cb.roast_level, cb.processing_method, cb.is_specialty,
+        SELECT cb.id, cb.shopify_bean_id, cb.name, cb.origin, cb.roast_level, cb.processing_method, cb.is_specialty,
                cb.description, cbi.image_url, s.name AS shop_name, s.prefecture AS shop_prefecture, s.shop_url,
                t.name AS taste_name, cbt.evaluation_value
         FROM (
@@ -21,6 +21,7 @@ interface CoffeeBeanQueryMapper {
                 ON cbi_inner.coffee_bean_id = cb_inner.id AND cbi_inner.type = 'MAIN'
             <where>
                 AND cb_inner.publish_status = 'PUBLISHED'
+                AND s_inner.participation_status = 'PARTICIPATING'
                 <if test="origin != null">AND cb_inner.origin LIKE CONCAT('%', #{origin}, '%')</if>
                 <if test="roastLevel != null">AND cb_inner.roast_level = #{roastLevel}</if>
                 <if test="prefecture != null">AND s_inner.prefecture = #{prefecture}</if>
@@ -52,6 +53,7 @@ interface CoffeeBeanQueryMapper {
         INNER JOIN coffee_bean_images cbi ON cbi.coffee_bean_id = cb.id AND cbi.type = 'MAIN'
         <where>
             AND cb.publish_status = 'PUBLISHED'
+            AND s.participation_status = 'PARTICIPATING'
             <if test="origin != null">AND cb.origin LIKE CONCAT('%', #{origin}, '%')</if>
             <if test="roastLevel != null">AND cb.roast_level = #{roastLevel}</if>
             <if test="prefecture != null">AND s.prefecture = #{prefecture}</if>

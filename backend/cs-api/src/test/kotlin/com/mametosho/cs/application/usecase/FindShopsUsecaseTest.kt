@@ -1,7 +1,7 @@
 package com.mametosho.cs.application.usecase
 
 import com.mametosho.domain.model.shared.ImageUrl
-import com.mametosho.domain.model.shared.PublishStatus
+import com.mametosho.domain.model.shared.ParticipationStatus
 import com.mametosho.domain.model.shop.Prefecture
 import com.mametosho.domain.model.shop.Shop
 import com.mametosho.domain.model.shop.ShopId
@@ -18,7 +18,7 @@ class FindShopsUsecaseTest {
 
     private var capturedPage: Int? = null
     private var capturedSize: Int? = null
-    private var capturedPublishStatus: PublishStatus? = null
+    private var capturedParticipationStatus: ParticipationStatus? = null
 
     private val sampleShop = Shop(
         id = ShopId("00000000-0000-4000-8000-000000000031"),
@@ -28,7 +28,7 @@ class FindShopsUsecaseTest {
         particular = null,
         shopUrl = "https://mametosho.example.com",
         prefecture = Prefecture.TOKYO,
-        publishStatus = PublishStatus.PUBLISHED,
+        participationStatus = ParticipationStatus.PARTICIPATING,
         images = listOf(
             ShopImage(
                 id = ShopImageId("00000000-0000-4000-8000-000000000091"),
@@ -50,11 +50,11 @@ class FindShopsUsecaseTest {
                 page: Int,
                 size: Int,
                 name: String?,
-                publishStatus: PublishStatus?,
+                participationStatus: ParticipationStatus?,
             ): Pair<List<Shop>, Long> {
                 capturedPage = page
                 capturedSize = size
-                capturedPublishStatus = publishStatus
+                capturedParticipationStatus = participationStatus
                 return Pair(shops, totalCount)
             }
         }
@@ -75,12 +75,12 @@ class FindShopsUsecaseTest {
         }
 
         @Test
-        fun `公開済みのみを取得するようpublishStatusがPUBLISHEDで渡される`() {
+        fun `参画中の店舗のみを取得するようparticipationStatusがPARTICIPATINGで渡される`() {
             val usecase = createUsecase()
 
             usecase.execute(page = 0, size = 20)
 
-            assertEquals(PublishStatus.PUBLISHED, capturedPublishStatus)
+            assertEquals(ParticipationStatus.PARTICIPATING, capturedParticipationStatus)
         }
 
         @Test

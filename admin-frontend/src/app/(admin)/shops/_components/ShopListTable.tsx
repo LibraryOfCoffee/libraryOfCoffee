@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ShopListResponse } from "@/api/shops";
 import styles from "@/components/list-page.module.css";
 import { Pagination } from "@/components/Pagination";
-import { PublishStatusBadge } from "@/components/PublishStatusBadge";
+import { ParticipationStatusBadge } from "@/components/ParticipationStatusBadge";
 import { CreateShopButton } from "./CreateShopButton";
 
 export function ShopListTable({
@@ -32,7 +32,7 @@ export function ShopListTable({
               <th>紹介文</th>
               <th>こだわり</th>
               <th>店舗URL</th>
-              <th>公開状態</th>
+              <th>参画ステータス</th>
             </tr>
           </thead>
           <tbody>
@@ -74,7 +74,9 @@ export function ShopListTable({
                 </td>
                 <td>
                   <Link href={`/shops/${shop.id}`} className={styles.rowLink}>
-                    <PublishStatusBadge status={shop.publishStatus} />
+                    <ParticipationStatusBadge
+                      status={shop.participationStatus}
+                    />
                   </Link>
                 </td>
               </tr>

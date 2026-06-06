@@ -1,7 +1,7 @@
 package com.mametosho.admin.application.usecase
 
 import com.mametosho.domain.model.shared.ImageUrl
-import com.mametosho.domain.model.shared.PublishStatus
+import com.mametosho.domain.model.shared.ParticipationStatus
 import com.mametosho.domain.model.shop.Shop
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.shop.ShopImage
@@ -30,7 +30,7 @@ class DeleteShopUsecaseTest {
         particular = "テストこだわり",
         shopUrl = "https://example.com",
         prefecture = Prefecture.TOKYO,
-        publishStatus = PublishStatus.PUBLISHED,
+        participationStatus = ParticipationStatus.PARTICIPATING,
         images = listOf(
             ShopImage(
                 id = ShopImageId("00000000-0000-4000-8000-000000000011"),
@@ -58,7 +58,7 @@ class DeleteShopUsecaseTest {
             page: Int,
             size: Int,
             name: String?,
-            publishStatus: PublishStatus?,
+            participationStatus: ParticipationStatus?,
         ): Pair<List<Shop>, Long> = Pair(emptyList(), 0L)
         override fun deleteById(id: ShopId) {
             deletedIds.add(id)

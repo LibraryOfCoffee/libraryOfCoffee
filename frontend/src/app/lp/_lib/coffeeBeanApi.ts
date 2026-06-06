@@ -5,6 +5,7 @@ export type TasteProfile = {
 
 export interface BeanDetail {
   id: string;
+  shopifyBeanId: string;
   imageSrc: string;
   tag: string;
   tagColor: string;
@@ -33,6 +34,7 @@ type TasteProfileApiItem = {
 
 type CoffeeBeanApiItem = {
   id: string;
+  shopifyBeanId: string;
   name: string;
   origin: string;
   roastLevel: "LIGHT" | "MEDIUM" | "CITY" | "FRENCH";
@@ -121,6 +123,7 @@ function toBeanDetail(item: CoffeeBeanApiItem): BeanDetail {
   const tagColor = ROAST_TAG_COLOR[item.roastLevel] ?? "#A6683D";
   return {
     id: item.id,
+    shopifyBeanId: item.shopifyBeanId,
     imageSrc: item.imageUrl,
     tag: roastJP,
     tagColor,

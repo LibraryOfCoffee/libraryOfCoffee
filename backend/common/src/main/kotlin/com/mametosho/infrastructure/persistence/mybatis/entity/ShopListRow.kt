@@ -8,7 +8,7 @@ data class ShopListRow(
     val particular: String?,
     val shopUrl: String,
     val prefecture: String,
-    val publishStatus: String,
+    val participationStatus: String,
     val imageId: String?,
     val imageType: String?,
     val imageUrl: String?,

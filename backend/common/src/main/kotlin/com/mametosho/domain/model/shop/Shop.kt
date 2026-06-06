@@ -1,7 +1,7 @@
 package com.mametosho.domain.model.shop
 
 import com.mametosho.domain.model.shared.ImageUrl
-import com.mametosho.domain.model.shared.PublishStatus
+import com.mametosho.domain.model.shared.ParticipationStatus
 import java.util.UUID
 
 /**
@@ -16,7 +16,7 @@ import java.util.UUID
  * @property particular こだわり
  * @property shopUrl 店舗URL
  * @property prefecture 都道府県
- * @property publishStatus 公開状態（draft/published）
+ * @property participationStatus 参画ステータス（参画前/参画中/参画落ち）
  * @property images 店舗画像一覧
  */
 @Suppress("MagicNumber")
@@ -28,7 +28,7 @@ data class Shop(
     val particular: String?,
     val shopUrl: String,
     val prefecture: Prefecture,
-    val publishStatus: PublishStatus,
+    val participationStatus: ParticipationStatus,
     val images: List<ShopImage>,
 ) {
     init {
@@ -54,13 +54,15 @@ data class Shop(
      * 店舗情報を更新する。
      *
      * ShopIdは変更せず、それ以外の項目を置換する。ShopImageIdはUUIDv4を自動再生成する。
+     * 参画ステータスの遷移は BEFORE_PARTICIPATION → PARTICIPATING → DROPPED の直線遷移のみ許可。
+     * DROPPED 状態からはいかなる変更も不可。
      *
      * @param shopifyShopId ShopifyのショップID
      * @param name 店舗名
      * @param introduction 店舗紹介
      * @param particular こだわり
      * @param shopUrl 店舗URL
-     * @param publishStatus 公開状態（draft/published）
+     * @param participationStatus 参画ステータス
      * @param images 画像情報（種別とURL）のリスト
      * @return 更新された[Shop]
      */
@@ -71,38 +73,54 @@ data class Shop(
         particular: String?,
         shopUrl: String,
         prefecture: Prefecture,
-        publishStatus: String,
+        participationStatus: String,
         images: List<Pair<String, String>>,
-    ): Shop = Shop(
-        id = this.id,
-        shopifyShopId = ShopifyShopId(shopifyShopId),
-        name = name,
-        introduction = introduction,
-        particular = particular,
-        shopUrl = shopUrl,
-        prefecture = prefecture,
-        publishStatus = PublishStatus.valueOf(publishStatus),
-        images = images.map { (type, imageUrl) ->
-            ShopImage(
-                id = ShopImageId(UUID.randomUUID().toString()),
-                type = ShopImageType.valueOf(type),
-                imageUrl = ImageUrl(imageUrl),
+    ): Shop {
+        require(this.participationStatus != ParticipationStatus.DROPPED) {
+            "参画落ちの店舗は更新できません"
+        }
+        val newStatus = ParticipationStatus.valueOf(participationStatus)
+        if (newStatus != this.participationStatus) {
+            val validNext = mapOf(
+                ParticipationStatus.BEFORE_PARTICIPATION to ParticipationStatus.PARTICIPATING,
+                ParticipationStatus.PARTICIPATING to ParticipationStatus.DROPPED,
             )
-        },
-    )
+            require(validNext[this.participationStatus] == newStatus) {
+                "${this.participationStatus} から $newStatus への遷移は無効です"
+            }
+        }
+        return Shop(
+            id = this.id,
+            shopifyShopId = ShopifyShopId(shopifyShopId),
+            name = name,
+            introduction = introduction,
+            particular = particular,
+            shopUrl = shopUrl,
+            prefecture = prefecture,
+            participationStatus = newStatus,
+            images = images.map { (type, imageUrl) ->
+                ShopImage(
+                    id = ShopImageId(UUID.randomUUID().toString()),
+                    type = ShopImageType.valueOf(type),
+                    imageUrl = ImageUrl(imageUrl),
+                )
+            },
+        )
+    }
 
     companion object {
         /**
          * 新しい店舗を生成する。
          *
          * IDはサーバー側でUUIDv4を自動生成する。
+         * 初期ステータスに DROPPED は指定不可。
          *
          * @param shopifyShopId ShopifyのショップID
          * @param name 店舗名
          * @param introduction 店舗紹介
          * @param particular こだわり
          * @param shopUrl 店舗URL
-         * @param publishStatus 公開状態（draft/published）
+         * @param participationStatus 参画ステータス
          * @param images 画像情報（種別とURL）のリスト
          * @return 生成された[Shop]
          */
@@ -113,25 +131,31 @@ data class Shop(
             particular: String?,
             shopUrl: String,
             prefecture: Prefecture,
-            publishStatus: String,
+            participationStatus: String,
             images: List<Pair<String, String>>,
             id: String = UUID.randomUUID().toString(),
-        ): Shop = Shop(
-            id = ShopId(id),
-            shopifyShopId = ShopifyShopId(shopifyShopId),
-            name = name,
-            introduction = introduction,
-            particular = particular,
-            shopUrl = shopUrl,
-            prefecture = prefecture,
-            publishStatus = PublishStatus.valueOf(publishStatus),
-            images = images.map { (type, imageUrl) ->
-                ShopImage(
-                    id = ShopImageId(UUID.randomUUID().toString()),
-                    type = ShopImageType.valueOf(type),
-                    imageUrl = ImageUrl(imageUrl),
-                )
-            },
-        )
+        ): Shop {
+            val status = ParticipationStatus.valueOf(participationStatus)
+            require(status != ParticipationStatus.DROPPED) {
+                "初期ステータスに DROPPED は指定できません"
+            }
+            return Shop(
+                id = ShopId(id),
+                shopifyShopId = ShopifyShopId(shopifyShopId),
+                name = name,
+                introduction = introduction,
+                particular = particular,
+                shopUrl = shopUrl,
+                prefecture = prefecture,
+                participationStatus = status,
+                images = images.map { (type, imageUrl) ->
+                    ShopImage(
+                        id = ShopImageId(UUID.randomUUID().toString()),
+                        type = ShopImageType.valueOf(type),
+                        imageUrl = ImageUrl(imageUrl),
+                    )
+                },
+            )
+        }
     }
 }

@@ -62,11 +62,11 @@ class ShopControllerTest {
         shopUrl: String = "https://mametosho.example.com",
         prefecture: String = "TOKYO",
         logoImageUrl: String = "https://example.com/logo.png",
-        publishStatus: String = "PUBLISHED",
+        participationStatus: String = "PARTICIPATING",
     ) {
         jdbcTemplate.execute(
-            "INSERT INTO shops (id, shopify_shop_id, name, introduction, shop_url, prefecture, publish_status) " +
-                "VALUES ('$id', '$shopifyShopId', '$name', '$introduction', '$shopUrl', '$prefecture', '$publishStatus')",
+            "INSERT INTO shops (id, shopify_shop_id, name, introduction, shop_url, prefecture, participation_status) " +
+                "VALUES ('$id', '$shopifyShopId', '$name', '$introduction', '$shopUrl', '$prefecture', '$participationStatus')",
         )
         val imageId = id.take(24) + "9" + id.drop(25)
         jdbcTemplate.execute(
@@ -115,16 +115,16 @@ class ShopControllerTest {
         }
 
         @Test
-        fun `下書き状態の店舗は一覧に含まれない`() {
+        fun `参画前・参画落ちの店舗は一覧に含まれない`() {
             insertShopWithLogo(
                 id = "00000000-0000-4000-8000-000000000031",
-                shopifyShopId = "published-shop",
-                publishStatus = "PUBLISHED",
+                shopifyShopId = "participating-shop",
+                participationStatus = "PARTICIPATING",
             )
             insertShopWithLogo(
                 id = "00000000-0000-4000-8000-000000000032",
-                shopifyShopId = "draft-shop",
-                publishStatus = "DRAFT",
+                shopifyShopId = "before-shop",
+                participationStatus = "BEFORE_PARTICIPATION",
             )
 
             val response = shopController.listShops(page = 0, size = 20)

@@ -3,8 +3,10 @@ package com.mametosho.admin.application.usecase
 import com.mametosho.admin.presentation.dto.request.CreateCoffeeBeanRequest
 import com.mametosho.admin.test.FakeImageStorageService
 import com.mametosho.domain.model.coffeebean.CoffeeBean
+import com.mametosho.domain.model.coffeebean.CoffeeBeanId
 import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import com.mametosho.domain.model.coffeebean.RoastLevel
+import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.repository.CoffeeBeanRepository
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
@@ -23,8 +25,9 @@ class CreateCoffeeBeanUsecaseTest {
             savedBeans.add(coffeeBean)
         }
 
-        override fun findById(id: com.mametosho.domain.model.coffeebean.CoffeeBeanId): CoffeeBean? = null
-        override fun deleteById(id: com.mametosho.domain.model.coffeebean.CoffeeBeanId) = Unit
+        override fun findById(id: CoffeeBeanId): CoffeeBean? = null
+        override fun deleteById(id: CoffeeBeanId) = Unit
+        override fun invalidateByShopId(shopId: ShopId) = Unit
     }
 
     private val usecase = CreateCoffeeBeanUsecase(fakeRepository, FakeImageStorageService)

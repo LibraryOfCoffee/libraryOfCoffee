@@ -74,6 +74,7 @@ class PlanControllerTest {
 
             val item = response.body?.get(0)
             assertEquals("00000000-0000-4000-8000-000000000024", item?.id)
+            assertEquals("shopify-plan-1", item?.shopifyPlanId)
             assertEquals("定番", item?.label)
             assertEquals(30, item?.gramWeight)
             assertEquals(4, item?.beanQuantity)

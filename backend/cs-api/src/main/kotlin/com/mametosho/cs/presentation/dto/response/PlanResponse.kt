@@ -8,6 +8,11 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class PlanResponse(
     @Schema(description = "プランID", example = "00000000-0000-4000-8000-000000000024")
     val id: String,
+    @Schema(
+        description = "ShopifyのプランID（Shopify遷移時に使用する）",
+        example = "gid://shopify/SellingPlan/200004",
+    )
+    val shopifyPlanId: String,
     @Schema(description = "プラン表示名", example = "定番")
     val label: String,
     @Schema(description = "1種あたりのグラム数", example = "60")
@@ -25,6 +30,7 @@ data class PlanResponse(
     companion object {
         fun from(plan: Plan): PlanResponse = PlanResponse(
             id = plan.id.value,
+            shopifyPlanId = plan.shopifyPlanId.value,
             label = plan.label,
             gramWeight = plan.gramWeight,
             beanQuantity = plan.beanQuantity,

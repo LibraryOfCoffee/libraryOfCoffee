@@ -6,7 +6,6 @@ import {
   type ShopFormState,
   shopFieldsSchema,
 } from "@/app/(admin)/shops/_lib/shopFormSchema";
-import { isChecked } from "@/lib/formData";
 
 export type CreateShopState = ShopFormState;
 
@@ -21,7 +20,7 @@ export async function createShopAction(
     particular: (formData.get("particular") as string) ?? "",
     shopUrl: (formData.get("shopUrl") as string) ?? "",
     prefecture: (formData.get("prefecture") as string) ?? "",
-    publishStatus: isChecked(formData, "publishStatus") ? "PUBLISHED" : "DRAFT",
+    participationStatus: (formData.get("participationStatus") as string) ?? "",
   };
 
   const result = shopFieldsSchema.safeParse(values);
@@ -46,7 +45,7 @@ export async function createShopAction(
     particular,
     shopUrl,
     prefecture,
-    publishStatus,
+    participationStatus,
   } = result.data;
 
   const response = await multipartRequest(
@@ -59,7 +58,7 @@ export async function createShopAction(
       particular,
       shopUrl,
       prefecture,
-      publishStatus,
+      participationStatus,
     },
     formData,
   );

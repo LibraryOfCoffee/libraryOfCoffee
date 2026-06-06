@@ -138,7 +138,7 @@ class ShopControllerTest {
                 particular = "テストこだわり",
                 shopUrl = "https://example.com",
                 prefecture = "TOKYO",
-                publishStatus = "PUBLISHED",
+                participationStatus = "PARTICIPATING",
             )
 
             val response = shopController.createShop(request, listOf(logoFile), listOf("LOGO"))
@@ -162,7 +162,7 @@ class ShopControllerTest {
                 particular = "更新こだわり",
                 shopUrl = "https://updated.example.com",
                 prefecture = "OSAKA",
-                publishStatus = "PUBLISHED",
+                participationStatus = "PARTICIPATING",
             )
 
             val response = shopController.updateShop("00000000-0000-4000-8000-000000000001", request, listOf(logoFile), listOf("LOGO"))
@@ -180,7 +180,7 @@ class ShopControllerTest {
                 particular = null,
                 shopUrl = "https://example.com",
                 prefecture = "TOKYO",
-                publishStatus = "PUBLISHED",
+                participationStatus = "PARTICIPATING",
             )
 
             val response = shopController.updateShop("00000000-0000-4000-8000-999999999999", request, listOf(logoFile), listOf("LOGO"))
