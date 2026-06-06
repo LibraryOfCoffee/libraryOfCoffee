@@ -130,7 +130,7 @@ export default function BeanDetailModal({
                 <div className={styles.tasteBarBg}>
                   <div
                     className={styles.tasteBarFill}
-                    style={{ width: `${t.value}%` }}
+                    style={{ width: `${(t.value / 5) * 100}%` }}
                   />
                 </div>
               </div>
