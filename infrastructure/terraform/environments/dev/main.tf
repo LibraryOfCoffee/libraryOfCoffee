@@ -216,8 +216,8 @@ module "ecs_cs_api" {
   ingress_from_sg_id    = module.alb_admin.alb_security_group_id
   ingress_description   = "Allow access from ALB"
   container_port        = 8080
-  cpu                   = 512
-  memory                = 1024
+  cpu                   = 256
+  memory                = 512
   image_url             = "${module.ecr_cs_api.repository_url}:latest"
   target_group_arn      = module.alb_attachment_cs.target_group_arn
   service_registry_arn  = module.service_discovery.service_arns["cs-api"]
@@ -279,8 +279,8 @@ module "ecs_admin_api" {
   ingress_from_sg_id    = module.ecs_admin_frontend.ecs_sg_id
   ingress_description   = "Allow access from admin-frontend"
   container_port        = 8080
-  cpu                   = 512
-  memory                = 1024
+  cpu                   = 256
+  memory                = 512
   image_url             = "${module.ecr_admin_api.repository_url}:latest"
   service_registry_arn  = module.service_discovery.service_arns["admin-api"]
   enable_rds_access     = true

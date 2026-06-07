@@ -120,10 +120,22 @@ resource "aws_ecs_service" "this" {
   task_definition = aws_ecs_task_definition.this.arn
   desired_count   = 1
 
-  capacity_provider_strategy {
-    capacity_provider = "FARGATE_SPOT"
-    weight            = 100
-    base              = 0
+  dynamic "capacity_provider_strategy" {
+    for_each = var.use_spot ? [1] : []
+    content {
+      capacity_provider = "FARGATE_SPOT"
+      weight            = 100
+      base              = 0
+    }
+  }
+
+  dynamic "capacity_provider_strategy" {
+    for_each = var.use_spot ? [] : [1]
+    content {
+      capacity_provider = "FARGATE"
+      weight            = 100
+      base              = 0
+    }
   }
 
   network_configuration {
