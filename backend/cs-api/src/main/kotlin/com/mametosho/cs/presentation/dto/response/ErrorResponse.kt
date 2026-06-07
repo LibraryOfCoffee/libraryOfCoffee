@@ -14,6 +14,10 @@ data class ErrorResponse(
     @Schema(description = "エラー概要", example = "Not Found", requiredMode = Schema.RequiredMode.REQUIRED)
     val error: String,
 
-    @Schema(description = "リクエストパス", example = "/api/coffee-beans/00000000-0000-4000-8000-000000000099", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(
+        description = "リクエストパス",
+        example = "/api/coffee-beans/00000000-0000-4000-8000-000000000099",
+        requiredMode = Schema.RequiredMode.REQUIRED,
+    )
     val path: String,
 )
