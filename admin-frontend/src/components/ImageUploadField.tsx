@@ -1,8 +1,11 @@
 "use client";
 
 import Image from "next/image";
+import type { ChangeEvent } from "react";
 import { useRef, useState } from "react";
 import styles from "@/components/modal.module.css";
+
+const MAX_IMAGE_FILE_SIZE = 1 * 1024 * 1024;
 
 type ImageTypeOption = {
   value: string;
@@ -34,6 +37,7 @@ export function ImageUploadField({
   required?: boolean;
 }) {
   const [entries, setEntries] = useState<ImageEntry[]>([]);
+  const [sizeErrors, setSizeErrors] = useState<Record<number, string>>({});
   const nextKey = useRef(0);
 
   const replacingImageIds = new Set(
@@ -63,8 +67,30 @@ export function ImageUploadField({
     ]);
   };
 
+  const handleFileChange = (key: number, e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && file.size > MAX_IMAGE_FILE_SIZE) {
+      setSizeErrors((prev) => ({
+        ...prev,
+        [key]: "1MB以下の画像を選択してください",
+      }));
+      e.target.value = "";
+    } else {
+      setSizeErrors((prev) => {
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
+    }
+  };
+
   const removeEntry = (key: number) => {
     setEntries((prev) => prev.filter((e) => e.key !== key));
+    setSizeErrors((prev) => {
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
   };
 
   const updateEntryType = (key: number, type: string) => {
@@ -129,36 +155,42 @@ export function ImageUploadField({
             t.value === entry.type,
         );
         return (
-          <div key={entry.key} className={styles.imageEntry}>
-            <input
-              name="images"
-              type="file"
-              accept="image/jpeg,image/png,image/webp"
-              className={styles.fileInput}
-            />
-            {entry.replacingImageId ? (
-              <input type="hidden" name="imageTypes" value={entry.type} />
-            ) : (
-              <select
-                name="imageTypes"
-                value={entry.type}
-                onChange={(e) => updateEntryType(entry.key, e.target.value)}
-                className={styles.typeSelect}
+          <div key={entry.key}>
+            <div className={styles.imageEntry}>
+              <input
+                name="images"
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                className={styles.fileInput}
+                onChange={(e) => handleFileChange(entry.key, e)}
+              />
+              {entry.replacingImageId ? (
+                <input type="hidden" name="imageTypes" value={entry.type} />
+              ) : (
+                <select
+                  name="imageTypes"
+                  value={entry.type}
+                  onChange={(e) => updateEntryType(entry.key, e.target.value)}
+                  className={styles.typeSelect}
+                >
+                  {selectableTypes.map((t) => (
+                    <option key={t.value} value={t.value}>
+                      {t.label}
+                    </option>
+                  ))}
+                </select>
+              )}
+              <button
+                type="button"
+                className={styles.removeButton}
+                onClick={() => removeEntry(entry.key)}
               >
-                {selectableTypes.map((t) => (
-                  <option key={t.value} value={t.value}>
-                    {t.label}
-                  </option>
-                ))}
-              </select>
+                &times;
+              </button>
+            </div>
+            {sizeErrors[entry.key] && (
+              <span className={styles.fieldError}>{sizeErrors[entry.key]}</span>
             )}
-            <button
-              type="button"
-              className={styles.removeButton}
-              onClick={() => removeEntry(entry.key)}
-            >
-              &times;
-            </button>
           </div>
         );
       })}

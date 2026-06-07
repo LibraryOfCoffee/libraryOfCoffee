@@ -271,6 +271,17 @@ class UpdateCoffeeBeanUsecaseTest {
     }
 
     @Nested
+    inner class ファイルサイズバリデーション {
+        @Test
+        fun `1MBを超える画像は例外が発生する`() {
+            val largeFile = MockMultipartFile("images", "large.jpg", "image/jpeg", ByteArray(1024 * 1024 + 1))
+            assertThrows<IllegalArgumentException> {
+                usecase.execute(existingBean.id.value, createRequest(), listOf(largeFile), listOf("MAIN"), emptyList())
+            }
+        }
+    }
+
+    @Nested
     inner class S3削除 {
         private fun trackingUsecase(): Pair<UpdateCoffeeBeanUsecase, MutableList<String>> {
             val deletedKeys = mutableListOf<String>()

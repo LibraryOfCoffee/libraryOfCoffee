@@ -1,5 +1,6 @@
 package com.mametosho.admin.application.service
 
+import com.mametosho.domain.model.shared.ImagePolicy
 import com.mametosho.domain.service.ImageStorageService
 import org.springframework.web.multipart.MultipartFile
 import java.util.UUID
@@ -12,6 +13,9 @@ fun ImageStorageService.uploadImages(
 ): List<Pair<String, String>> {
     require(imageTypes.size == imageFiles.size) {
         "imageTypes size must match imageFiles size"
+    }
+    require(imageFiles.all { it.size <= ImagePolicy.MAX_FILE_SIZE_BYTES }) {
+        "画像ファイルは1MB以下にしてください"
     }
     return imageFiles.mapIndexed { index, file ->
         val extension = file.originalFilename?.substringAfterLast('.', "") ?: ""
