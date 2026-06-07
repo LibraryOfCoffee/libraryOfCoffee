@@ -1,0 +1,121 @@
+name: Deploy CS Frontend
+run-name: "Deploy to ${{ inputs.environment }} @${{ github.ref_name }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'デプロイ先環境'
+        required: true
+        type: choice
+        options:
+          - dev
+          - prod
+      image_tag:
+        description: 'イメージタグ (空の場合はコミットSHA)'
+        required: false
+        type: string
+
+env:
+  AWS_REGION: ap-northeast-1
+  AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  approve:
+    name: Approve Deployment
+    runs-on: ubuntu-latest
+    environment: approve
+
+    steps:
+      - run: echo "Deployment to ${{ inputs.environment }} approved"
+
+  build:
+    name: Build and Push
+    needs: approve
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.set-tag.outputs.tag }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set image tag
+        id: set-tag
+        run: |
+          if [ -n "${{ inputs.image_tag }}" ]; then
+            echo "tag=${{ inputs.image_tag }}" >> $GITHUB_OUTPUT
+          else
+            echo "tag=${{ github.sha }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/${{ env.AWS_ACCOUNT_ID }}-${{ inputs.environment }}-gha-runner
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and Push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./frontend
+          push: true
+          tags: |
+            ${{ steps.login-ecr.outputs.registry }}/cs-frontend-${{ inputs.environment }}:${{ steps.set-tag.outputs.tag }}
+            ${{ steps.login-ecr.outputs.registry }}/cs-frontend-${{ inputs.environment }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    name: Deploy to ${{ inputs.environment }}
+    needs: build
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/${{ env.AWS_ACCOUNT_ID }}-${{ inputs.environment }}-gha-runner
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Set deployment parameters
+        id: params
+        run: |
+          ENV="${{ inputs.environment }}"
+          if [ "$ENV" = "prod" ]; then
+            echo "cs_api_base_url=https://api.mametosho.com" >> $GITHUB_OUTPUT
+            echo "site_url=https://mametosho.com" >> $GITHUB_OUTPUT
+          else
+            echo "cs_api_base_url=https://${ENV}.api.mametosho.com" >> $GITHUB_OUTPUT
+            echo "site_url=https://${ENV}.mametosho.com" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Install ecspresso
+        uses: kayac/ecspresso@v2
+        with:
+          version: v2.4.5
+
+      - name: Deploy to ECS
+        env:
+          ENV: ${{ inputs.environment }}
+          IMAGE_TAG: ${{ needs.build.outputs.image_tag }}
+          CS_API_BASE_URL: ${{ steps.params.outputs.cs_api_base_url }}
+          SITE_URL: ${{ steps.params.outputs.site_url }}
+        run: |
+          ecspresso deploy \
+            --config infrastructure/ecspresso/cs-frontend/ecspresso.yml

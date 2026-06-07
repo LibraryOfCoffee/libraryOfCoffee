@@ -1,0 +1,5 @@
+region: ap-northeast-1
+cluster: '{{ must_env "AWS_ACCOUNT_ID" }}-{{ must_env "ENV" }}-cs-frontend'
+service: '{{ must_env "AWS_ACCOUNT_ID" }}-{{ must_env "ENV" }}-cs-frontend'
+task_definition: ecs-task-def.json
+timeout: "10m0s"

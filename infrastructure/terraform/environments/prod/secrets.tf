@@ -56,18 +56,3 @@ resource "aws_ssm_parameter" "cs_api_rds_endpoint" {
   type  = "String"
   value = module.rds.endpoint
 }
-
-# ============================================
-# Secrets - CS Frontend
-# ============================================
-
-resource "aws_secretsmanager_secret" "cs_frontend_basic_auth" {
-  name                    = "${local.account_id}-${local.env}-cs-frontend-basic-auth"
-  recovery_window_in_days = 0
-}
-
-resource "aws_ssm_parameter" "cs_frontend_basic_auth_secret_arn" {
-  name  = "/${local.env}/cs-frontend/basic-auth-secret-arn"
-  type  = "String"
-  value = aws_secretsmanager_secret.cs_frontend_basic_auth.arn
-}

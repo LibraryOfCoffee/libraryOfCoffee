@@ -194,17 +194,9 @@ module "ecs_cs_frontend" {
   memory              = 512
   image_url           = "${module.ecr_cs_frontend.repository_url}:latest"
   target_group_arn    = module.alb_attachment_cs_frontend.target_group_arn
-  secret_arns = [
-    aws_secretsmanager_secret.cs_frontend_basic_auth.arn,
-  ]
-
   environment = [
     { name = "CS_API_BASE_URL", value = "https://${local.env}.api.mametosho.com" },
     { name = "URL", value = "https://${local.env}.mametosho.com" },
-  ]
-
-  secrets = [
-    { name = "BASIC_AUTH_CREDENTIALS", valueFrom = aws_secretsmanager_secret.cs_frontend_basic_auth.arn },
   ]
 }
 
