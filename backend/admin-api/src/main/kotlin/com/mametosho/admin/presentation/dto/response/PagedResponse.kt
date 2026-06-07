@@ -5,13 +5,13 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "ページネーション付きレスポンス")
 data class PagedResponse<T>(
-    @Schema(description = "アイテム一覧")
+    @Schema(description = "アイテム一覧", requiredMode = Schema.RequiredMode.REQUIRED)
     val items: List<T>,
-    @Schema(description = "全件数", example = "42")
+    @Schema(description = "全件数", example = "42", requiredMode = Schema.RequiredMode.REQUIRED)
     val totalCount: Long,
-    @Schema(description = "現在のページ番号（0始まり）", example = "0")
+    @Schema(description = "現在のページ番号（0始まり）", example = "0", requiredMode = Schema.RequiredMode.REQUIRED)
     val page: Int,
-    @Schema(description = "1ページあたりの件数", example = "20")
+    @Schema(description = "1ページあたりの件数", example = "20", requiredMode = Schema.RequiredMode.REQUIRED)
     val size: Int,
 ) {
     companion object {

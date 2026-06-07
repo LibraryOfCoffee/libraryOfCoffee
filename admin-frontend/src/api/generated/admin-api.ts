@@ -555,6 +555,19 @@ export interface components {
        */
       expiresIn: number;
     };
+    /** @description テイスト一覧アイテム */
+    TasteResponse: {
+      /**
+       * @description テイストID
+       * @example 00000000-0000-4000-8000-000000000041
+       */
+      id: string;
+      /**
+       * @description テイスト名
+       * @example 酸味
+       */
+      name: string;
+    };
     /** @description 店舗一覧レスポンス */
     ShopListResponse: {
       /** @description アイテム一覧 */
@@ -1537,7 +1550,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "*/*": unknown;
+          "application/json": components["schemas"]["TasteResponse"][];
         };
       };
     };

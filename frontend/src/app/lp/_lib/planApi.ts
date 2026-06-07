@@ -1,3 +1,5 @@
+import type { components } from "@/api/generated/cs-api";
+
 export type WeightGrams = 30 | 60 | 90;
 
 export type PlanGroup = {
@@ -12,16 +14,7 @@ export type PlanGroup = {
   isRecommended: boolean;
 };
 
-type PlanApiItem = {
-  id: string;
-  shopifyPlanId: string;
-  label: string;
-  gramWeight: number;
-  beanQuantity: number;
-  price: number;
-  type: "SUBSCRIPTION" | "SINGLE";
-  isRecommended: boolean;
-};
+type PlanApiItem = components["schemas"]["PlanResponse"];
 
 export function groupPlansByGram(
   groups: PlanGroup[],

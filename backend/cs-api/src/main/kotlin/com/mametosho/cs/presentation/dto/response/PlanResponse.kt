@@ -6,24 +6,25 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "プラン一覧アイテム")
 data class PlanResponse(
-    @Schema(description = "プランID", example = "00000000-0000-4000-8000-000000000024")
+    @Schema(description = "プランID", example = "00000000-0000-4000-8000-000000000024", requiredMode = Schema.RequiredMode.REQUIRED)
     val id: String,
     @Schema(
         description = "ShopifyのプランID（Shopify遷移時に使用する）",
         example = "gid://shopify/SellingPlan/200004",
+        requiredMode = Schema.RequiredMode.REQUIRED,
     )
     val shopifyPlanId: String,
-    @Schema(description = "プラン表示名", example = "定番")
+    @Schema(description = "プラン表示名", example = "定番", requiredMode = Schema.RequiredMode.REQUIRED)
     val label: String,
-    @Schema(description = "1種あたりのグラム数", example = "60")
+    @Schema(description = "1種あたりのグラム数", example = "60", requiredMode = Schema.RequiredMode.REQUIRED)
     val gramWeight: Int,
-    @Schema(description = "豆の種類数", example = "4")
+    @Schema(description = "豆の種類数", example = "4", requiredMode = Schema.RequiredMode.REQUIRED)
     val beanQuantity: Int,
-    @Schema(description = "価格", example = "3800")
+    @Schema(description = "価格", example = "3800", requiredMode = Schema.RequiredMode.REQUIRED)
     val price: Int,
-    @Schema(description = "プラン種別（SUBSCRIPTION / SINGLE）", example = "SUBSCRIPTION")
+    @Schema(description = "プラン種別（SUBSCRIPTION / SINGLE）", example = "SUBSCRIPTION", requiredMode = Schema.RequiredMode.REQUIRED)
     val type: String,
-    @get:Schema(description = "おすすめバッジ", example = "true")
+    @get:Schema(description = "おすすめバッジ", example = "true", requiredMode = Schema.RequiredMode.REQUIRED)
     @get:JsonProperty("isRecommended")
     val isRecommended: Boolean,
 ) {

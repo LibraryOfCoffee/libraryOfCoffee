@@ -16,6 +16,7 @@ import TestimonialsCarousel from "./_components/TestimonialsCarousel/testimonial
 import { fetchCoffeeBeans } from "./_lib/coffeeBeanApi";
 import { JsonLd } from "./_lib/jsonLd";
 import { fetchPlans } from "./_lib/planApi";
+import { fetchShops } from "./_lib/shopApi";
 import "./globals.css";
 import pageStyles from "./page.module.css";
 
@@ -104,9 +105,10 @@ const testimonials = [
 ];
 
 export default async function LpPage() {
-  const [beans, planGroups] = await Promise.all([
+  const [beans, planGroups, shops] = await Promise.all([
     fetchCoffeeBeans(),
     fetchPlans(),
+    fetchShops(),
   ]);
 
   return (
@@ -123,7 +125,7 @@ export default async function LpPage() {
         <HowItWorks />
         <PricingSection planGroups={planGroups} />
         <TestimonialsCarousel testimonials={testimonials} />
-        <PartnerShops />
+        <PartnerShops shops={shops} />
         <CtaSection />
       </main>
       <div className={pageStyles.pageFooterWrap}>
