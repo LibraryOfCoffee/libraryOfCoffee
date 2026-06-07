@@ -183,6 +183,16 @@ module "service_discovery" {
 }
 
 # ============================================
+# ECS サービス群
+# ----------------------------------------------------------------------------
+# 各サービスの cpu/memory は「初期タスク定義(seed)」の値にすぎず、実効スペックではない。
+# 実行中のスペックは ecspresso(infrastructure/ecspresso/<svc>/ecs-task-def.json)が
+# deploy のたびに新リビジョンを登録して決定し、Terraform は ignore_changes により上書きしない。
+# 混乱防止のため本ファイルの値は全サービス 256/512 に統一している。
+# 実効スペックを変えたい場合は ecs-task-def.json を編集して deploy すること。
+# ============================================
+
+# ============================================
 # ECS - CS Frontend
 # ============================================
 
@@ -198,8 +208,8 @@ module "ecs_cs_frontend" {
   ingress_from_sg_id  = module.alb_admin.alb_security_group_id
   ingress_description = "Allow access from ALB"
   container_port      = 3000
-  cpu                 = 512
-  memory              = 1024
+  cpu                 = 256
+  memory              = 512
   image_url           = "${module.ecr_cs_frontend.repository_url}:latest"
   target_group_arn    = module.alb_attachment_cs_frontend.target_group_arn
   use_spot            = false
@@ -225,8 +235,8 @@ module "ecs_cs_api" {
   ingress_from_sg_id    = module.alb_admin.alb_security_group_id
   ingress_description   = "Allow access from ALB"
   container_port        = 8080
-  cpu                   = 512
-  memory                = 1024
+  cpu                   = 256
+  memory                = 512
   image_url             = "${module.ecr_cs_api.repository_url}:latest"
   target_group_arn      = module.alb_attachment_cs.target_group_arn
   service_registry_arn  = module.service_discovery.service_arns["cs-api"]

@@ -160,6 +160,10 @@ resource "aws_ecs_service" "this" {
     }
   }
 
+  # 実行中のタスク定義(cpu/memory含む)は ecspresso(infrastructure/ecspresso/<svc>/ecs-task-def.json)が
+  # deploy のたびに新リビジョンを登録して張り替える。Terraform はそれを上書きしないよう task_definition を
+  # ignore する。したがって本モジュールの cpu/memory 変数は「最初の1リビジョンのseed値」にすぎず、
+  # 実効スペックは ecspresso 側が決定する。スペックを実際に変えるには ecs-task-def.json を編集して deploy する。
   lifecycle {
     ignore_changes = [task_definition, desired_count]
   }

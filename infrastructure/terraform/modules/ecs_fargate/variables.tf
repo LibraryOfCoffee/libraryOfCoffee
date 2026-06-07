@@ -40,6 +40,9 @@ variable "container_port" {
   type = number
 }
 
+# cpu/memory は ECSサービス作成時の「初期タスク定義(seed)」にのみ使われる。
+# 実行中のスペックは ecspresso(ecs-task-def.json)が deploy 時に上書きするため、
+# ここの値は実効スペックではない（aws_ecs_service の ignore_changes = task_definition を参照）。
 variable "cpu" {
   type = number
 }
