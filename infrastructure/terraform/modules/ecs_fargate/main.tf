@@ -160,5 +160,7 @@ resource "aws_ecs_service" "this" {
     }
   }
 
+  force_new_deployment = true
+
   depends_on = [aws_iam_role_policy_attachment.execution]
 }
