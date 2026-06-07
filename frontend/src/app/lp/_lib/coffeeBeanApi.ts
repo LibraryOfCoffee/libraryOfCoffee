@@ -1,9 +1,7 @@
 import type { components } from "@/api/generated/cs-api";
 
-export type TasteProfile = {
-  label: string;
-  value: number;
-};
+export type TasteProfile =
+  components["schemas"]["CoffeeBeanResponse"]["tasteProfiles"][number];
 
 export interface BeanDetail {
   id: string;
@@ -115,10 +113,7 @@ function toBeanDetail(item: CoffeeBeanApiItem): BeanDetail {
     roaster: item.shopName,
     roasterLink: item.shopUrl,
     prefecture: PREFECTURE_JP[item.shopPrefecture] ?? item.shopPrefecture,
-    tasteProfile: item.tasteProfiles.map((t) => ({
-      label: t.name,
-      value: t.value,
-    })),
+    tasteProfile: item.tasteProfiles,
     isSpecialty: item.isSpecialty,
   };
 }

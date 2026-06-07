@@ -125,8 +125,8 @@ export default function BeanDetailModal({
           <h4 className={styles.tasteTitle}>テイストプロファイル</h4>
           <div className={styles.tasteGrid}>
             {bean.tasteProfile.map((t) => (
-              <div key={t.label} className={styles.tasteItem}>
-                <span className={styles.tasteLabel}>{t.label}</span>
+              <div key={t.name} className={styles.tasteItem}>
+                <span className={styles.tasteLabel}>{t.name}</span>
                 <div className={styles.tasteBarBg}>
                   <div
                     className={styles.tasteBarFill}
