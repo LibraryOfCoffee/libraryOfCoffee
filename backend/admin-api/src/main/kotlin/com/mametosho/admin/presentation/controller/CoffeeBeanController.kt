@@ -372,8 +372,9 @@ class CoffeeBeanController(
         @RequestPart("data") request: UpdateCoffeeBeanRequest,
         @RequestPart("images", required = false) images: List<MultipartFile>?,
         @RequestParam("imageTypes", required = false) imageTypes: List<String>?,
+        @RequestParam("keepImageIds", required = false) keepImageIds: List<String>?,
     ): ResponseEntity<CoffeeBeanResponse> {
-        val coffeeBean = updateCoffeeBeanUsecase.execute(id, request, images ?: emptyList(), imageTypes ?: emptyList())
+        val coffeeBean = updateCoffeeBeanUsecase.execute(id, request, images ?: emptyList(), imageTypes ?: emptyList(), keepImageIds ?: emptyList())
             ?: return ResponseEntity.notFound().build()
         return ResponseEntity.ok(CoffeeBeanResponse.from(coffeeBean))
     }

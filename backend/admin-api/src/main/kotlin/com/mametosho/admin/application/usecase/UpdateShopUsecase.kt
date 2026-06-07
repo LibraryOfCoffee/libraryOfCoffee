@@ -1,7 +1,7 @@
 package com.mametosho.admin.application.usecase
 
-import com.mametosho.admin.application.service.deleteImages
-import com.mametosho.admin.application.service.uploadImages
+import com.mametosho.admin.application.service.ExistingImage
+import com.mametosho.admin.application.service.resolveImages
 import com.mametosho.admin.presentation.dto.request.UpdateShopRequest
 import com.mametosho.domain.model.shared.ParticipationStatus
 import com.mametosho.domain.model.shop.Prefecture
@@ -26,21 +26,19 @@ class UpdateShopUsecase(
         request: UpdateShopRequest,
         imageFiles: List<MultipartFile>,
         imageTypes: List<String>,
+        keepImageIds: List<String>,
     ): Shop? {
         val shopId = ShopId(id)
         val existingShop = shopRepository.findById(shopId) ?: return null
 
-        val oldImageUrls = existingShop.images.map { it.imageUrl.value }
-        val images = if (imageFiles.isNotEmpty()) {
-            imageStorageService.uploadImages(
-                prefix = "shops",
-                entityId = id,
-                imageFiles = imageFiles,
-                imageTypes = imageTypes,
-            )
-        } else {
-            existingShop.images.map { it.type.name to it.imageUrl.value }
-        }
+        val finalImages = imageStorageService.resolveImages(
+            existing = existingShop.images.map { ExistingImage(it.id.value, it.type.name, it.imageUrl.value) },
+            imageFiles = imageFiles,
+            imageTypes = imageTypes,
+            keepImageIds = keepImageIds,
+            prefix = "shops",
+            entityId = id,
+        )
 
         val updatedShop = existingShop.update(
             shopifyShopId = request.shopifyShopId,
@@ -50,16 +48,12 @@ class UpdateShopUsecase(
             shopUrl = request.shopUrl,
             prefecture = Prefecture.valueOf(request.prefecture),
             participationStatus = request.participationStatus,
-            images = images,
+            images = finalImages,
         )
         shopRepository.save(updatedShop)
 
         if (updatedShop.participationStatus == ParticipationStatus.DROPPED) {
             shopDropDomainService.invalidateCoffeeBeans(shopId)
-        }
-
-        if (imageFiles.isNotEmpty()) {
-            imageStorageService.deleteImages(oldImageUrls)
         }
 
         return updatedShop

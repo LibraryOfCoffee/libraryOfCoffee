@@ -18,6 +18,7 @@ type ExistingImage = {
 type ImageEntry = {
   key: number;
   type: string;
+  replacingImageId?: string;
 };
 
 /** 同一typeは1枚のみ許可する種別 */
@@ -35,8 +36,16 @@ export function ImageUploadField({
   const [entries, setEntries] = useState<ImageEntry[]>([]);
   const nextKey = useRef(0);
 
+  const replacingImageIds = new Set(
+    entries
+      .map((e) => e.replacingImageId)
+      .filter((id): id is string => id !== undefined),
+  );
+
   const usedTypes = new Set([
-    ...(existingImages ?? []).map((img) => img.type),
+    ...(existingImages ?? [])
+      .filter((img) => !replacingImageIds.has(img.id))
+      .map((img) => img.type),
     ...entries.map((e) => e.type),
   ]);
 
@@ -44,12 +53,13 @@ export function ImageUploadField({
     (t) => !SINGLE_ONLY_TYPES.has(t.value) || !usedTypes.has(t.value),
   );
 
-  const addEntry = () => {
-    if (availableTypes.length === 0) return;
+  const addEntry = (replacement?: { imageId: string; imageType: string }) => {
+    if (!replacement && availableTypes.length === 0) return;
+    const type = replacement?.imageType ?? availableTypes[0].value;
     nextKey.current += 1;
     setEntries((prev) => [
       ...prev,
-      { key: nextKey.current, type: availableTypes[0].value },
+      { key: nextKey.current, type, replacingImageId: replacement?.imageId },
     ]);
   };
 
@@ -70,19 +80,44 @@ export function ImageUploadField({
 
       {existingImages && existingImages.length > 0 && (
         <div className={styles.imagePreview}>
-          {existingImages.map((image) => (
-            <div key={image.id} className={styles.previewItem}>
-              <Image
-                src={image.imageUrl}
-                alt=""
-                width={80}
-                height={80}
-                className={styles.previewImage}
-                unoptimized
-              />
-              <span className={styles.previewType}>{image.type}</span>
-            </div>
-          ))}
+          {existingImages.map((image) =>
+            replacingImageIds.has(image.id) ? (
+              <div key={image.id} className={styles.previewItem}>
+                <Image
+                  src={image.imageUrl}
+                  alt=""
+                  width={80}
+                  height={80}
+                  className={styles.previewImage}
+                  style={{ opacity: 0.4 }}
+                  unoptimized
+                />
+                <span className={styles.previewType}>{image.type}: 変更中</span>
+              </div>
+            ) : (
+              <div key={image.id} className={styles.previewItem}>
+                <input type="hidden" name="keepImageIds" value={image.id} />
+                <Image
+                  src={image.imageUrl}
+                  alt=""
+                  width={80}
+                  height={80}
+                  className={styles.previewImage}
+                  unoptimized
+                />
+                <span className={styles.previewType}>{image.type}</span>
+                <button
+                  type="button"
+                  className={styles.changeButton}
+                  onClick={() =>
+                    addEntry({ imageId: image.id, imageType: image.type })
+                  }
+                >
+                  変更
+                </button>
+              </div>
+            ),
+          )}
         </div>
       )}
 
@@ -101,18 +136,22 @@ export function ImageUploadField({
               accept="image/jpeg,image/png,image/webp"
               className={styles.fileInput}
             />
-            <select
-              name="imageTypes"
-              value={entry.type}
-              onChange={(e) => updateEntryType(entry.key, e.target.value)}
-              className={styles.typeSelect}
-            >
-              {selectableTypes.map((t) => (
-                <option key={t.value} value={t.value}>
-                  {t.label}
-                </option>
-              ))}
-            </select>
+            {entry.replacingImageId ? (
+              <input type="hidden" name="imageTypes" value={entry.type} />
+            ) : (
+              <select
+                name="imageTypes"
+                value={entry.type}
+                onChange={(e) => updateEntryType(entry.key, e.target.value)}
+                className={styles.typeSelect}
+              >
+                {selectableTypes.map((t) => (
+                  <option key={t.value} value={t.value}>
+                    {t.label}
+                  </option>
+                ))}
+              </select>
+            )}
             <button
               type="button"
               className={styles.removeButton}

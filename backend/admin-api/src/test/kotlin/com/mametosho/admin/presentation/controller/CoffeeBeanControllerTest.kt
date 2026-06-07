@@ -199,11 +199,14 @@ class CoffeeBeanControllerTest {
             insertShop()
             insertCoffeeBean()
 
+            // insertCoffeeBean が挿入する画像IDを保持して既存画像を維持する
+            val existingImageId = "00000000-0000-4000-8000-900000000071"
             val response = coffeeBeanController.updateCoffeeBean(
                 "00000000-0000-4000-8000-000000000071",
                 createUpdateRequest(),
                 emptyList(),
                 emptyList(),
+                listOf(existingImageId),
             )
 
             assertEquals(HttpStatus.OK, response.statusCode)
@@ -215,6 +218,7 @@ class CoffeeBeanControllerTest {
             val response = coffeeBeanController.updateCoffeeBean(
                 "00000000-0000-4000-8000-999999999999",
                 createUpdateRequest(),
+                emptyList(),
                 emptyList(),
                 emptyList(),
             )

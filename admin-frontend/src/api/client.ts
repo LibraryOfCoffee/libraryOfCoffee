@@ -45,6 +45,11 @@ export async function multipartRequest(
     }
   });
 
+  const keepImageIds = formData.getAll("keepImageIds") as string[];
+  for (const id of keepImageIds) {
+    apiFormData.append("keepImageIds", id);
+  }
+
   return fetch(`${API_BASE_URL}${path}`, {
     method,
     headers: { Authorization: `Bearer ${accessToken}` },

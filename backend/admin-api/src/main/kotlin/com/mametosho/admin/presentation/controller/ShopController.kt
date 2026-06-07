@@ -365,8 +365,9 @@ class ShopController(
         @RequestPart("data") request: UpdateShopRequest,
         @RequestPart("images", required = false) images: List<MultipartFile>?,
         @RequestParam("imageTypes", required = false) imageTypes: List<String>?,
+        @RequestParam("keepImageIds", required = false) keepImageIds: List<String>?,
     ): ResponseEntity<ShopResponse> {
-        val shop = updateShopUsecase.execute(id, request, images ?: emptyList(), imageTypes ?: emptyList())
+        val shop = updateShopUsecase.execute(id, request, images ?: emptyList(), imageTypes ?: emptyList(), keepImageIds ?: emptyList())
             ?: return ResponseEntity.notFound().build()
         return ResponseEntity.ok(ShopResponse.from(shop))
     }

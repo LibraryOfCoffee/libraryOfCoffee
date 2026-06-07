@@ -1,7 +1,7 @@
 package com.mametosho.admin.application.usecase
 
-import com.mametosho.admin.application.service.deleteImages
-import com.mametosho.admin.application.service.uploadImages
+import com.mametosho.admin.application.service.ExistingImage
+import com.mametosho.admin.application.service.resolveImages
 import com.mametosho.admin.presentation.dto.request.UpdateCoffeeBeanRequest
 import com.mametosho.domain.model.coffeebean.CoffeeBean
 import com.mametosho.domain.model.coffeebean.CoffeeBeanId
@@ -22,20 +22,18 @@ class UpdateCoffeeBeanUsecase(
         request: UpdateCoffeeBeanRequest,
         imageFiles: List<MultipartFile>,
         imageTypes: List<String>,
+        keepImageIds: List<String>,
     ): CoffeeBean? {
         val existingBean = coffeeBeanRepository.findById(CoffeeBeanId(id)) ?: return null
 
-        val oldImageUrls = existingBean.images.map { it.imageUrl.value }
-        val images = if (imageFiles.isNotEmpty()) {
-            imageStorageService.uploadImages(
-                prefix = "coffee-beans",
-                entityId = id,
-                imageFiles = imageFiles,
-                imageTypes = imageTypes,
-            )
-        } else {
-            existingBean.images.map { it.type.name to it.imageUrl.value }
-        }
+        val finalImages = imageStorageService.resolveImages(
+            existing = existingBean.images.map { ExistingImage(it.id.value, it.type.name, it.imageUrl.value) },
+            imageFiles = imageFiles,
+            imageTypes = imageTypes,
+            keepImageIds = keepImageIds,
+            prefix = "coffee-beans",
+            entityId = id,
+        )
 
         val updatedBean = existingBean.update(
             shopId = request.shopId,
@@ -48,15 +46,10 @@ class UpdateCoffeeBeanUsecase(
             processingMethod = request.processingMethod,
             isSpecialty = request.isSpecialty,
             publishStatus = request.publishStatus,
-            images = images,
+            images = finalImages,
             tastes = request.tastes.map { it.tasteId to it.evaluationValue },
         )
         coffeeBeanRepository.save(updatedBean)
-
-        if (imageFiles.isNotEmpty()) {
-            imageStorageService.deleteImages(oldImageUrls)
-        }
-
         return updatedBean
     }
 }

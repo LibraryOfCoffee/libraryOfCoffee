@@ -34,3 +34,28 @@ fun ImageStorageService.deleteImages(imageUrls: List<String>) {
         }
     }
 }
+
+data class ExistingImage(val id: String, val type: String, val url: String)
+
+/**
+ * keepImageIds に含まれる既存画像を保持し、新規ファイルをアップロードして結合した最終画像リストを返す。
+ * keepImageIds に含まれない既存画像は S3 から削除する。
+ */
+fun ImageStorageService.resolveImages(
+    existing: List<ExistingImage>,
+    imageFiles: List<MultipartFile>,
+    imageTypes: List<String>,
+    keepImageIds: List<String>,
+    prefix: String,
+    entityId: String,
+): List<Pair<String, String>> {
+    val keepSet = keepImageIds.toSet()
+    val (toKeep, toDelete) = existing.partition { it.id in keepSet }
+    val newImages = if (imageFiles.isNotEmpty()) {
+        uploadImages(prefix, entityId, imageFiles, imageTypes)
+    } else {
+        emptyList()
+    }
+    deleteImages(toDelete.map { it.url })
+    return toKeep.map { it.type to it.url } + newImages
+}

@@ -165,7 +165,7 @@ class ShopControllerTest {
                 participationStatus = "PARTICIPATING",
             )
 
-            val response = shopController.updateShop("00000000-0000-4000-8000-000000000001", request, listOf(logoFile), listOf("LOGO"))
+            val response = shopController.updateShop("00000000-0000-4000-8000-000000000001", request, listOf(logoFile), listOf("LOGO"), emptyList())
 
             assertEquals(HttpStatus.OK, response.statusCode)
             assertEquals("00000000-0000-4000-8000-000000000001", response.body?.id)
@@ -183,7 +183,7 @@ class ShopControllerTest {
                 participationStatus = "PARTICIPATING",
             )
 
-            val response = shopController.updateShop("00000000-0000-4000-8000-999999999999", request, listOf(logoFile), listOf("LOGO"))
+            val response = shopController.updateShop("00000000-0000-4000-8000-999999999999", request, listOf(logoFile), listOf("LOGO"), emptyList())
 
             assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
             assertNull(response.body)
