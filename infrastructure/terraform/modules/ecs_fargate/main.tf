@@ -120,6 +120,9 @@ resource "aws_ecs_service" "this" {
   task_definition = aws_ecs_task_definition.this.arn
   desired_count   = 1
 
+  # 起動猶予はALB連携サービスのみ有効。LBが無いサービスに設定するとAWS APIエラーになるため null に落とす。
+  health_check_grace_period_seconds = var.target_group_arn != null ? var.health_check_grace_period_seconds : null
+
   dynamic "capacity_provider_strategy" {
     for_each = var.use_spot ? [1] : []
     content {
