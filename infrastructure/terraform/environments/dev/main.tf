@@ -158,7 +158,7 @@ module "alb_attachment_cs_frontend" {
   certificate_arn   = module.acm_cs_frontend.certificate_arn
   container_port    = 3000
   host_header       = "${local.env}.mametosho.com"
-  health_check_path = "/"
+  health_check_path = "/api/health"
   priority          = 30
 }
 
