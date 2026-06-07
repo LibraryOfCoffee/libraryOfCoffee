@@ -305,6 +305,10 @@ components:
           type: string
           description: プランID
           example: 00000000-0000-4000-8000-000000000024
+        shopifyPlanId:
+          type: string
+          description: ShopifyのプランID（Shopify遷移時に使用する）
+          example: gid://shopify/SellingPlan/200004
         label:
           type: string
           description: プラン表示名
@@ -369,6 +373,10 @@ components:
           type: string
           description: 珈琲豆ID
           example: 00000000-0000-4000-8000-000000000071
+        shopifyBeanId:
+          type: string
+          description: ShopifyのID（Shopify遷移時に使用する）
+          example: gid://shopify/Product/400001
         name:
           type: string
           description: 珈琲豆名

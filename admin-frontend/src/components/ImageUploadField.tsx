@@ -199,7 +199,7 @@ export function ImageUploadField({
         <button
           type="button"
           className={styles.addImageButton}
-          onClick={addEntry}
+          onClick={() => addEntry()}
         >
           + 画像を追加
         </button>

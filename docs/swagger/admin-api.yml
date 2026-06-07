@@ -91,13 +91,6 @@ paths:
         schema:
           type: string
         example: 00000000-0000-4000-8000-000000000001
-      - name: imageTypes
-        in: query
-        required: false
-        schema:
-          type: array
-          items:
-            type: string
       requestBody:
         content:
           multipart/form-data:
@@ -411,13 +404,6 @@ paths:
         schema:
           type: string
         example: 00000000-0000-4000-8000-000000000001
-      - name: imageTypes
-        in: query
-        required: false
-        schema:
-          type: array
-          items:
-            type: string
       requestBody:
         content:
           multipart/form-data:
@@ -582,14 +568,6 @@ paths:
       summary: 店舗登録
       description: 新しい店舗を登録します。multipart/form-data形式で送信してください。ShopIdおよびShopImageIdはサーバー側でUUIDv4を自動生成します。
       operationId: createShop
-      parameters:
-      - name: imageTypes
-        in: query
-        required: false
-        schema:
-          type: array
-          items:
-            type: string
       requestBody:
         content:
           multipart/form-data:
@@ -707,14 +685,6 @@ paths:
       summary: コーヒー豆登録
       description: 新しいコーヒー豆を登録します。multipart/form-data形式で送信してください。CoffeeBeanId、CoffeeBeanImageId、CoffeeBeanTasteIdはサーバー側でUUIDv4を自動生成します。
       operationId: createCoffeeBean
-      parameters:
-      - name: imageTypes
-        in: query
-        required: false
-        schema:
-          type: array
-          items:
-            type: string
       requestBody:
         content:
           multipart/form-data:
@@ -933,6 +903,18 @@ components:
           description: "参画ステータス（BEFORE_PARTICIPATION: 参画前 / PARTICIPATING: 参画中 / DROPPED:\
             \ 参画落ち）"
           example: PARTICIPATING
+        imageTypes:
+          type: array
+          description: アップロード画像のタイプ一覧（imagesと同じ順序）
+          example:
+          - MAIN
+          items:
+            type: string
+        keepImageIds:
+          type: array
+          description: 保持する既存画像のID一覧（含まれない既存画像は削除される）
+          items:
+            type: string
       required:
       - name
       - participationStatus
@@ -1094,6 +1076,18 @@ components:
           description: テイスト評価一覧
           items:
             $ref: "#/components/schemas/TasteRequest"
+        imageTypes:
+          type: array
+          description: アップロード画像のタイプ一覧（imagesと同じ順序）
+          example:
+          - MAIN
+          items:
+            type: string
+        keepImageIds:
+          type: array
+          description: 保持する既存画像のID一覧（含まれない既存画像は削除される）
+          items:
+            type: string
         isSpecialty:
           type: boolean
           description: スペシャルティコーヒーかどうか
@@ -1151,6 +1145,13 @@ components:
           type: string
           description: "参画ステータス（BEFORE_PARTICIPATION: 参画前 / PARTICIPATING: 参画中）"
           example: BEFORE_PARTICIPATION
+        imageTypes:
+          type: array
+          description: アップロード画像のタイプ一覧（imagesと同じ順序）
+          example:
+          - MAIN
+          items:
+            type: string
       required:
       - name
       - participationStatus
@@ -1202,6 +1203,13 @@ components:
           description: テイスト評価一覧
           items:
             $ref: "#/components/schemas/TasteRequest"
+        imageTypes:
+          type: array
+          description: アップロード画像のタイプ一覧（imagesと同じ順序）
+          example:
+          - MAIN
+          items:
+            type: string
         isSpecialty:
           type: boolean
           description: スペシャルティコーヒーかどうか

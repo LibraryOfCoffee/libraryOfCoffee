@@ -33,7 +33,7 @@ export interface paths {
     };
     /**
      * プラン一覧取得
-     * @description プランの一覧を取得します。typeパラメータで定期便/単品の絞り込み、gramWeightパラメータでグラム数の絞り込みができます。
+     * @description プランの一覧を取得します。
      */
     get: operations["listPlans"];
     put?: never;
@@ -68,8 +68,31 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
-    /** @description 店舗一覧アイテム */
+    /** @description 店舗一覧レスポンス */
     ShopListResponse: {
+      /** @description アイテム一覧 */
+      items: components["schemas"]["ShopResponse"][];
+      /**
+       * Format: int64
+       * @description 全件数
+       * @example 3
+       */
+      totalCount: number;
+      /**
+       * Format: int32
+       * @description 現在のページ番号（0始まり）
+       * @example 0
+       */
+      page: number;
+      /**
+       * Format: int32
+       * @description 1ページあたりの件数
+       * @example 20
+       */
+      size: number;
+    };
+    /** @description 店舗一覧アイテム */
+    ShopResponse: {
       /**
        * @description 店舗ID
        * @example 00000000-0000-4000-8000-000000000031
@@ -102,17 +125,17 @@ export interface components {
       logoImageUrl?: string;
     };
     /** @description プラン一覧アイテム */
-    PlanListResponse: {
-      /**
-       * @description おすすめバッジ
-       * @example true
-       */
-      isRecommended?: boolean;
+    PlanResponse: {
       /**
        * @description プランID
        * @example 00000000-0000-4000-8000-000000000024
        */
       id?: string;
+      /**
+       * @description ShopifyのプランID（Shopify遷移時に使用する）
+       * @example gid://shopify/SellingPlan/200004
+       */
+      shopifyPlanId?: string;
       /**
        * @description プラン表示名
        * @example 定番
@@ -141,14 +164,47 @@ export interface components {
        * @example SUBSCRIPTION
        */
       type?: string;
+      /**
+       * @description おすすめバッジ
+       * @example true
+       */
+      isRecommended?: boolean;
+    };
+    /** @description 珈琲豆一覧レスポンス */
+    CoffeeBeanListResponse: {
+      /** @description アイテム一覧 */
+      items: components["schemas"]["CoffeeBeanResponse"][];
+      /**
+       * Format: int64
+       * @description 全件数
+       * @example 1
+       */
+      totalCount: number;
+      /**
+       * Format: int32
+       * @description 現在のページ番号（0始まり）
+       * @example 0
+       */
+      page: number;
+      /**
+       * Format: int32
+       * @description 1ページあたりの件数
+       * @example 20
+       */
+      size: number;
     };
     /** @description 珈琲豆一覧アイテム */
-    CoffeeBeanListResponse: {
+    CoffeeBeanResponse: {
       /**
        * @description 珈琲豆ID
        * @example 00000000-0000-4000-8000-000000000071
        */
       id?: string;
+      /**
+       * @description ShopifyのID（Shopify遷移時に使用する）
+       * @example gid://shopify/Product/400001
+       */
+      shopifyBeanId?: string;
       /**
        * @description 珈琲豆名
        * @example エチオピア イルガチェフェ G1
@@ -184,32 +240,23 @@ export interface components {
        * @example 山田珈琲焙煎所
        */
       shopName?: string;
+      /**
+       * @description ロースターの都道府県
+       * @example TOKYO
+       */
+      shopPrefecture?: string;
+      /**
+       * @description ロースターのURL
+       * @example https://mametosho.example.com
+       */
+      shopUrl?: string;
       /** @description テイストプロファイル一覧 */
       tasteProfiles?: components["schemas"]["TasteProfileResponse"][];
-      specialty?: boolean;
-    };
-    /** @description ページネーション付きレスポンス */
-    PagedResponseCoffeeBeanListResponse: {
-      /** @description アイテム一覧 */
-      items?: components["schemas"]["CoffeeBeanListResponse"][];
       /**
-       * Format: int64
-       * @description 全件数
-       * @example 42
+       * @description スペシャルティ珈琲かどうか
+       * @example true
        */
-      totalCount?: number;
-      /**
-       * Format: int32
-       * @description 現在のページ番号（0始まり）
-       * @example 0
-       */
-      page?: number;
-      /**
-       * Format: int32
-       * @description 1ページあたりの件数
-       * @example 20
-       */
-      size?: number;
+      isSpecialty?: boolean;
     };
     /** @description テイストプロファイル */
     TasteProfileResponse: {
@@ -260,25 +307,14 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "*/*": components["schemas"]["ShopListResponse"];
+          "application/json": components["schemas"]["ShopListResponse"];
         };
       };
     };
   };
   listPlans: {
     parameters: {
-      query?: {
-        /**
-         * @description プラン種別（SUBSCRIPTION / SINGLE）で絞り込み
-         * @example SUBSCRIPTION
-         */
-        type?: string;
-        /**
-         * @description 1種あたりのグラム数（30/60/90）で絞り込み
-         * @example 30
-         */
-        gramWeight?: number;
-      };
+      query?: never;
       header?: never;
       path?: never;
       cookie?: never;
@@ -291,7 +327,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "application/json": components["schemas"]["PlanListResponse"][];
+          "application/json": components["schemas"]["PlanResponse"][];
         };
       };
     };
@@ -383,7 +419,7 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "*/*": components["schemas"]["PagedResponseCoffeeBeanListResponse"];
+          "application/json": components["schemas"]["CoffeeBeanListResponse"];
         };
       };
     };
