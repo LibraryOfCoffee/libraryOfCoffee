@@ -194,6 +194,7 @@ module "ecs_cs_frontend" {
   memory              = 512
   image_url           = "${module.ecr_cs_frontend.repository_url}:latest"
   target_group_arn    = module.alb_attachment_cs_frontend.target_group_arn
+  use_spot            = false
   environment = [
     { name = "CS_API_BASE_URL", value = "http://cs-api.${local.env}.local:8080" },
     { name = "URL", value = "https://${local.env}.mametosho.com" },
@@ -223,6 +224,7 @@ module "ecs_cs_api" {
   service_registry_arn  = module.service_discovery.service_arns["cs-api"]
   enable_rds_access     = true
   rds_security_group_id = module.rds.security_group_id
+  use_spot              = false
   secret_arns = [
     aws_secretsmanager_secret.cs_api_db.arn,
   ]
@@ -279,8 +281,8 @@ module "ecs_admin_api" {
   ingress_from_sg_id    = module.ecs_admin_frontend.ecs_sg_id
   ingress_description   = "Allow access from admin-frontend"
   container_port        = 8080
-  cpu                   = 512
-  memory                = 1024
+  cpu                   = 256
+  memory                = 512
   image_url             = "${module.ecr_admin_api.repository_url}:latest"
   service_registry_arn  = module.service_discovery.service_arns["admin-api"]
   enable_rds_access     = true

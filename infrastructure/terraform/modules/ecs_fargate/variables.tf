@@ -114,3 +114,9 @@ variable "enable_rds_access" {
   default     = false
   description = "RDS SGへのingressルールを追加するかどうか"
 }
+
+variable "use_spot" {
+  type        = bool
+  default     = true
+  description = "true: FARGATE_SPOT 100% (コスト優先) / false: FARGATE オンデマンド 100% (可用性優先)"
+}
