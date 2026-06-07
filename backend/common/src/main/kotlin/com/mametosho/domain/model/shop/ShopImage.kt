@@ -1,6 +1,6 @@
 package com.mametosho.domain.model.shop
 
-import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.Image
 
 /**
  * 店舗画像を表すエンティティ。
@@ -12,5 +12,5 @@ import com.mametosho.domain.model.shared.ImageUrl
 data class ShopImage(
     val id: ShopImageId,
     val type: ShopImageType,
-    val imageUrl: ImageUrl,
+    val image: Image,
 )

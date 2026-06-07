@@ -102,7 +102,10 @@ class CoffeeBeanControllerTest {
 
     private val mainImage = MockMultipartFile("images", "main.jpg", "image/jpeg", byteArrayOf(1))
 
-    private fun createRequest(shopId: String = "00000000-0000-4000-8000-000000000001") = CreateCoffeeBeanRequest(
+    private fun createRequest(
+        shopId: String = "00000000-0000-4000-8000-000000000001",
+        imageTypes: List<String> = emptyList(),
+    ) = CreateCoffeeBeanRequest(
         shopId = shopId,
         shopifyBeanId = "test-bean-001",
         name = "テストコーヒー豆",
@@ -114,9 +117,14 @@ class CoffeeBeanControllerTest {
         isSpecialty = true,
         publishStatus = "PUBLISHED",
         tastes = listOf(CreateCoffeeBeanRequest.TasteRequest(tasteId = tasteId, evaluationValue = 4)),
+        imageTypes = imageTypes,
     )
 
-    private fun createUpdateRequest(shopId: String = "00000000-0000-4000-8000-000000000001") = UpdateCoffeeBeanRequest(
+    private fun createUpdateRequest(
+        shopId: String = "00000000-0000-4000-8000-000000000001",
+        imageTypes: List<String> = emptyList(),
+        keepImageIds: List<String> = emptyList(),
+    ) = UpdateCoffeeBeanRequest(
         shopId = shopId,
         shopifyBeanId = "test-bean-001",
         name = "更新コーヒー豆",
@@ -128,6 +136,8 @@ class CoffeeBeanControllerTest {
         isSpecialty = true,
         publishStatus = "PUBLISHED",
         tastes = listOf(UpdateCoffeeBeanRequest.TasteRequest(tasteId = tasteId, evaluationValue = 3)),
+        imageTypes = imageTypes,
+        keepImageIds = keepImageIds,
     )
 
     @Nested
@@ -183,7 +193,7 @@ class CoffeeBeanControllerTest {
             insertShop()
             jdbcTemplate.execute("INSERT INTO tastes (id, name) VALUES ('$tasteId', '酸味')")
 
-            val response = coffeeBeanController.createCoffeeBean(createRequest(), listOf(mainImage), listOf("MAIN"))
+            val response = coffeeBeanController.createCoffeeBean(createRequest(imageTypes = listOf("MAIN")), listOf(mainImage))
 
             assertEquals(HttpStatus.CREATED, response.statusCode)
             val beans = jdbcTemplate.queryForList("SELECT * FROM coffee_beans")
@@ -199,10 +209,11 @@ class CoffeeBeanControllerTest {
             insertShop()
             insertCoffeeBean()
 
+            // insertCoffeeBean が挿入する画像IDを保持して既存画像を維持する
+            val existingImageId = "00000000-0000-4000-8000-900000000071"
             val response = coffeeBeanController.updateCoffeeBean(
                 "00000000-0000-4000-8000-000000000071",
-                createUpdateRequest(),
-                emptyList(),
+                createUpdateRequest(keepImageIds = listOf(existingImageId)),
                 emptyList(),
             )
 
@@ -215,7 +226,6 @@ class CoffeeBeanControllerTest {
             val response = coffeeBeanController.updateCoffeeBean(
                 "00000000-0000-4000-8000-999999999999",
                 createUpdateRequest(),
-                emptyList(),
                 emptyList(),
             )
 

@@ -2,10 +2,10 @@ export const ROAST_LEVELS = ["LIGHT", "MEDIUM", "CITY", "FRENCH"] as const;
 export type RoastLevel = (typeof ROAST_LEVELS)[number];
 
 export const ROAST_LEVEL_LABELS: Record<RoastLevel, string> = {
-  LIGHT: "ライト",
-  MEDIUM: "ミディアム",
-  CITY: "シティ",
-  FRENCH: "フレンチ",
+  LIGHT: "浅煎り",
+  MEDIUM: "中煎り",
+  CITY: "中深煎り",
+  FRENCH: "深煎り",
 };
 
 export const PROCESSING_METHODS = [

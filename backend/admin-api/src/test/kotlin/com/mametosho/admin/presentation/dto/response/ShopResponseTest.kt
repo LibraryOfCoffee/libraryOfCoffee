@@ -1,6 +1,6 @@
 package com.mametosho.admin.presentation.dto.response
 
-import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.Image
 import com.mametosho.domain.model.shared.ParticipationStatus
 import com.mametosho.domain.model.shop.Shop
 import com.mametosho.domain.model.shop.ShopId
@@ -28,12 +28,12 @@ class ShopResponseTest {
             ShopImage(
                 id = ShopImageId("00000000-0000-4000-8000-000000000011"),
                 type = ShopImageType.MAIN,
-                imageUrl = ImageUrl("https://example.com/image.png"),
+                image = Image("https://example.com/image.png"),
             ),
             ShopImage(
                 id = ShopImageId("00000000-0000-4000-8000-000000000012"),
                 type = ShopImageType.LOGO,
-                imageUrl = ImageUrl("https://example.com/logo.png"),
+                image = Image("https://example.com/logo.png"),
             ),
         ),
     )

@@ -42,7 +42,7 @@ data class ShopDetailResponse(
             fun from(image: ShopImage): ImageDetail = ImageDetail(
                 id = image.id.value,
                 type = image.type.name,
-                imageUrl = image.imageUrl.value,
+                imageUrl = image.image.url,
             )
         }
     }

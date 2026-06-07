@@ -28,4 +28,10 @@ data class UpdateShopRequest(
         requiredMode = Schema.RequiredMode.REQUIRED,
     )
     val participationStatus: String,
+
+    @Schema(description = "アップロード画像のタイプ一覧（imagesと同じ順序）", example = "[\"MAIN\"]")
+    val imageTypes: List<String> = emptyList(),
+
+    @Schema(description = "保持する既存画像のID一覧（含まれない既存画像は削除される）")
+    val keepImageIds: List<String> = emptyList(),
 )

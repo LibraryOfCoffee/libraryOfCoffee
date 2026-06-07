@@ -42,6 +42,9 @@ data class CreateCoffeeBeanRequest(
 
     @Schema(description = "テイスト評価一覧", requiredMode = Schema.RequiredMode.REQUIRED)
     val tastes: List<TasteRequest>,
+
+    @Schema(description = "アップロード画像のタイプ一覧（imagesと同じ順序）", example = "[\"MAIN\"]")
+    val imageTypes: List<String> = emptyList(),
 ) {
     @Schema(description = "テイスト評価リクエスト")
     data class TasteRequest(

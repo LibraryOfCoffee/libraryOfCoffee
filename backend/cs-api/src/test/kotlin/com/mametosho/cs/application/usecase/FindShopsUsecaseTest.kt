@@ -1,6 +1,6 @@
 package com.mametosho.cs.application.usecase
 
-import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.Image
 import com.mametosho.domain.model.shared.ParticipationStatus
 import com.mametosho.domain.model.shop.Prefecture
 import com.mametosho.domain.model.shop.Shop
@@ -33,7 +33,7 @@ class FindShopsUsecaseTest {
             ShopImage(
                 id = ShopImageId("00000000-0000-4000-8000-000000000091"),
                 type = ShopImageType.LOGO,
-                imageUrl = ImageUrl("https://placehold.jp/100x100.png"),
+                image = Image("https://placehold.jp/100x100.png"),
             ),
         ),
     )

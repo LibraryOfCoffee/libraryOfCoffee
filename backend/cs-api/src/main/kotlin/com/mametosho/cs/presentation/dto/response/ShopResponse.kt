@@ -26,7 +26,7 @@ data class ShopResponse(
             introduction = shop.introduction ?: "",
             shopUrl = shop.shopUrl,
             prefecture = shop.prefecture.name,
-            logoImageUrl = shop.images.first { it.type == ShopImageType.LOGO }.imageUrl.value,
+            logoImageUrl = shop.images.first { it.type == ShopImageType.LOGO }.image.url,
         )
     }
 }

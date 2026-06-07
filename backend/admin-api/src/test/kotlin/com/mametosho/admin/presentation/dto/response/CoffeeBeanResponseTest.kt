@@ -10,7 +10,7 @@ import com.mametosho.domain.model.coffeebean.CoffeeBeanTasteId
 import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import com.mametosho.domain.model.coffeebean.RoastLevel
 import com.mametosho.domain.model.coffeebean.ShopifyBeanId
-import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.Image
 import com.mametosho.domain.model.shared.PublishStatus
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.taste.TasteId
@@ -36,7 +36,7 @@ class CoffeeBeanResponseTest {
             CoffeeBeanImage(
                 id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000010"),
                 type = CoffeeBeanImageType.MAIN,
-                imageUrl = ImageUrl("https://example.com/bean.jpg"),
+                image = Image("https://example.com/bean.jpg"),
             ),
         ),
         tastes = listOf(

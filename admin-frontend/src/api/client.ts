@@ -31,19 +31,34 @@ export async function multipartRequest(
   const accessToken = cookieStore.get("accessToken")?.value ?? "";
 
   const apiFormData = new FormData();
-  apiFormData.append(
-    "data",
-    new Blob([JSON.stringify(data)], { type: "application/json" }),
-  );
 
+  // アップロードする画像ファイルと、それに対応するタイプを同じ順序で組み立てる
   const imageFiles = formData.getAll("images") as File[];
   const imageTypes = formData.getAll("imageTypes") as string[];
+  const uploadedImageTypes: string[] = [];
   imageFiles.forEach((file, index) => {
     if (file.size > 0) {
       apiFormData.append("images", file);
-      apiFormData.append("imageTypes", imageTypes[index] ?? "MAIN");
+      uploadedImageTypes.push(imageTypes[index] ?? "MAIN");
     }
   });
+
+  const keepImageIds = formData.getAll("keepImageIds") as string[];
+
+  // imageTypes / keepImageIds は data(JSON)パートに含めて送信する
+  apiFormData.append(
+    "data",
+    new Blob(
+      [
+        JSON.stringify({
+          ...data,
+          imageTypes: uploadedImageTypes,
+          keepImageIds,
+        }),
+      ],
+      { type: "application/json" },
+    ),
+  );
 
   return fetch(`${API_BASE_URL}${path}`, {
     method,

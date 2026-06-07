@@ -233,6 +233,15 @@ export interface components {
        * @example PARTICIPATING
        */
       participationStatus: string;
+      /**
+       * @description アップロード画像のタイプ一覧（imagesと同じ順序）
+       * @example [
+       *       "MAIN"
+       *     ]
+       */
+      imageTypes?: string[];
+      /** @description 保持する既存画像のID一覧（含まれない既存画像は削除される） */
+      keepImageIds?: string[];
     };
     /** @description 店舗登録レスポンス */
     ShopResponse: {
@@ -385,6 +394,15 @@ export interface components {
       /** @description テイスト評価一覧 */
       tastes: components["schemas"]["TasteRequest"][];
       /**
+       * @description アップロード画像のタイプ一覧（imagesと同じ順序）
+       * @example [
+       *       "MAIN"
+       *     ]
+       */
+      imageTypes?: string[];
+      /** @description 保持する既存画像のID一覧（含まれない既存画像は削除される） */
+      keepImageIds?: string[];
+      /**
        * @description スペシャルティコーヒーかどうか
        * @example true
        */
@@ -435,6 +453,13 @@ export interface components {
        * @example BEFORE_PARTICIPATION
        */
       participationStatus: string;
+      /**
+       * @description アップロード画像のタイプ一覧（imagesと同じ順序）
+       * @example [
+       *       "MAIN"
+       *     ]
+       */
+      imageTypes?: string[];
     };
     /** @description コーヒー豆登録リクエスト */
     CreateCoffeeBeanRequest: {
@@ -485,6 +510,13 @@ export interface components {
       publishStatus: string;
       /** @description テイスト評価一覧 */
       tastes: components["schemas"]["TasteRequest"][];
+      /**
+       * @description アップロード画像のタイプ一覧（imagesと同じ順序）
+       * @example [
+       *       "MAIN"
+       *     ]
+       */
+      imageTypes?: string[];
       /**
        * @description スペシャルティコーヒーかどうか
        * @example true
@@ -980,9 +1012,7 @@ export interface operations {
   };
   updateShop: {
     parameters: {
-      query?: {
-        imageTypes?: string[];
-      };
+      query?: never;
       header?: never;
       path: {
         /**
@@ -1211,9 +1241,7 @@ export interface operations {
   };
   updateCoffeeBean: {
     parameters: {
-      query?: {
-        imageTypes?: string[];
-      };
+      query?: never;
       header?: never;
       path: {
         /**
@@ -1342,9 +1370,7 @@ export interface operations {
   };
   createShop: {
     parameters: {
-      query?: {
-        imageTypes?: string[];
-      };
+      query?: never;
       header?: never;
       path?: never;
       cookie?: never;
@@ -1420,9 +1446,7 @@ export interface operations {
   };
   createCoffeeBean: {
     parameters: {
-      query?: {
-        imageTypes?: string[];
-      };
+      query?: never;
       header?: never;
       path?: never;
       cookie?: never;

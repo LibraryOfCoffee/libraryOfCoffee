@@ -1,6 +1,6 @@
 package com.mametosho.domain.model.shop
 
-import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.Image
 import com.mametosho.domain.model.shared.ParticipationStatus
 import java.util.UUID
 
@@ -102,7 +102,7 @@ data class Shop(
                 ShopImage(
                     id = ShopImageId(UUID.randomUUID().toString()),
                     type = ShopImageType.valueOf(type),
-                    imageUrl = ImageUrl(imageUrl),
+                    image = Image(imageUrl),
                 )
             },
         )
@@ -152,7 +152,7 @@ data class Shop(
                     ShopImage(
                         id = ShopImageId(UUID.randomUUID().toString()),
                         type = ShopImageType.valueOf(type),
-                        imageUrl = ImageUrl(imageUrl),
+                        image = Image(imageUrl),
                     )
                 },
             )

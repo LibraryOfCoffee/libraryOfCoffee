@@ -1,6 +1,6 @@
 package com.mametosho.infrastructure.persistence.repository
 
-import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.Image
 import com.mametosho.domain.model.shared.ParticipationStatus
 import com.mametosho.domain.model.shop.Shop
 import com.mametosho.domain.model.shop.ShopId
@@ -40,7 +40,7 @@ class ShopRepositoryImpl(
                     id = image.id.value,
                     shopId = shop.id.value,
                     type = image.type.name,
-                    imageUrl = image.imageUrl.value,
+                    imageUrl = image.image.url,
                 ),
             )
         }
@@ -89,7 +89,7 @@ class ShopRepositoryImpl(
                     ShopImage(
                         id = ShopImageId(checkNotNull(row.imageId)),
                         type = ShopImageType.valueOf(checkNotNull(row.imageType)),
-                        imageUrl = ImageUrl(checkNotNull(row.imageUrl)),
+                        image = Image(checkNotNull(row.imageUrl)),
                     )
                 },
         )

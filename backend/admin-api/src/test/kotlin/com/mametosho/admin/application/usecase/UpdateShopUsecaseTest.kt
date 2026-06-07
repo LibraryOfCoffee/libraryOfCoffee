@@ -1,7 +1,8 @@
 package com.mametosho.admin.application.usecase
 
+import com.mametosho.admin.application.service.ImageUpload
 import com.mametosho.admin.presentation.dto.request.UpdateShopRequest
-import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.Image
 import com.mametosho.domain.model.shared.ParticipationStatus
 import com.mametosho.domain.model.shop.Shop
 import com.mametosho.domain.model.shop.ShopId
@@ -17,10 +18,13 @@ import com.mametosho.domain.model.coffeebean.CoffeeBeanId
 import com.mametosho.domain.repository.ShopRepository
 import com.mametosho.domain.service.ShopDropDomainService
 import com.mametosho.admin.test.FakeImageStorageService
+import com.mametosho.domain.service.ImageStorageService
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
+import org.springframework.mock.web.MockMultipartFile
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
@@ -28,6 +32,8 @@ import kotlin.test.assertTrue
 class UpdateShopUsecaseTest {
 
     private val existingShopId = "00000000-0000-4000-8000-000000000001"
+    private val existingMainImageId = "00000000-0000-4000-8000-000000000011"
+    private val existingLogoImageId = "00000000-0000-4000-8000-000000000012"
 
     private val existingShop = Shop(
         id = ShopId(existingShopId),
@@ -40,14 +46,14 @@ class UpdateShopUsecaseTest {
         participationStatus = ParticipationStatus.PARTICIPATING,
         images = listOf(
             ShopImage(
-                id = ShopImageId("00000000-0000-4000-8000-000000000011"),
+                id = ShopImageId(existingMainImageId),
                 type = ShopImageType.MAIN,
-                imageUrl = ImageUrl("https://example.com/old-image.png"),
+                image = Image("https://example.com/old-image.png"),
             ),
             ShopImage(
-                id = ShopImageId("00000000-0000-4000-8000-000000000012"),
+                id = ShopImageId(existingLogoImageId),
                 type = ShopImageType.LOGO,
-                imageUrl = ImageUrl("https://example.com/logo.png"),
+                image = Image("https://example.com/logo.png"),
             ),
         ),
     )
@@ -90,6 +96,9 @@ class UpdateShopUsecaseTest {
 
     private val usecase = UpdateShopUsecase(fakeRepository, fakeShopDropDomainService, FakeImageStorageService)
 
+    private val mainImageFile = MockMultipartFile("images", "main.png", "image/png", byteArrayOf(1))
+    private val logoImageFile = MockMultipartFile("images", "logo.png", "image/png", byteArrayOf(2))
+
     private fun createRequest(
         shopifyShopId: String = "updated-shop-001",
         name: String = "更新店舗",
@@ -108,11 +117,13 @@ class UpdateShopUsecaseTest {
         participationStatus = participationStatus,
     )
 
+    private val allImageIds = listOf(existingMainImageId, existingLogoImageId)
+
     @Nested
     inner class 正常系 {
         @Test
         fun `正常にShopを編集できる`() {
-            val shop = usecase.execute(existingShopId, createRequest(), emptyList(), emptyList())
+            val shop = usecase.execute(existingShopId, createRequest(), emptyList(), allImageIds)
 
             assertNotNull(shop)
             assertEquals(existingShopId, shop.id.value)
@@ -124,7 +135,7 @@ class UpdateShopUsecaseTest {
 
         @Test
         fun `編集後もShopIdが変わらない`() {
-            val shop = usecase.execute(existingShopId, createRequest(), emptyList(), emptyList())
+            val shop = usecase.execute(existingShopId, createRequest(), emptyList(), allImageIds)
 
             assertNotNull(shop)
             assertEquals(existingShopId, shop.id.value)
@@ -145,7 +156,7 @@ class UpdateShopUsecaseTest {
     inner class nullable項目 {
         @Test
         fun `introductionがnullでもShopを編集できる`() {
-            val shop = usecase.execute(existingShopId, createRequest(introduction = null), emptyList(), emptyList())
+            val shop = usecase.execute(existingShopId, createRequest(introduction = null), emptyList(), allImageIds)
 
             assertNotNull(shop)
             assertNull(shop.introduction)
@@ -153,7 +164,7 @@ class UpdateShopUsecaseTest {
 
         @Test
         fun `particularがnullでもShopを編集できる`() {
-            val shop = usecase.execute(existingShopId, createRequest(particular = null), emptyList(), emptyList())
+            val shop = usecase.execute(existingShopId, createRequest(particular = null), emptyList(), allImageIds)
 
             assertNotNull(shop)
             assertNull(shop.particular)
@@ -161,13 +172,55 @@ class UpdateShopUsecaseTest {
     }
 
     @Nested
-    inner class 空コレクション {
+    inner class 画像管理 {
         @Test
-        fun `画像なしでもShopを編集できる`() {
-            val shop = usecase.execute(existingShopId, createRequest(), emptyList(), emptyList())
+        fun `keepImageIdsで既存画像を全保持できる`() {
+            val shop = usecase.execute(existingShopId, createRequest(), emptyList(), allImageIds)
 
             assertNotNull(shop)
-            assertEquals(2, shop.images.size, "画像未送信時は既存画像が維持される")
+            assertEquals(2, shop.images.size, "全画像が保持される")
+        }
+
+        @Test
+        fun `MAINのみ更新した場合LOGOが保持される`() {
+            val shop = usecase.execute(
+                existingShopId,
+                createRequest(),
+                listOf(ImageUpload("MAIN", mainImageFile)),
+                listOf(existingLogoImageId),
+            )!!
+
+            assertEquals(2, shop.images.size)
+            assertTrue(shop.images.any { it.type == ShopImageType.LOGO })
+            assertTrue(shop.images.any { it.type == ShopImageType.MAIN })
+        }
+
+        @Test
+        fun `LOGOのみ更新した場合MAINが保持される`() {
+            val shop = usecase.execute(
+                existingShopId,
+                createRequest(),
+                listOf(ImageUpload("LOGO", logoImageFile)),
+                listOf(existingMainImageId),
+            )!!
+
+            assertEquals(2, shop.images.size)
+            assertTrue(shop.images.any { it.type == ShopImageType.MAIN })
+            assertTrue(shop.images.any { it.type == ShopImageType.LOGO })
+        }
+
+        @Test
+        fun `MAINとLOGO両方更新できる`() {
+            val shop = usecase.execute(
+                existingShopId,
+                createRequest(),
+                listOf(ImageUpload("MAIN", mainImageFile), ImageUpload("LOGO", logoImageFile)),
+                emptyList(),
+            )!!
+
+            assertEquals(2, shop.images.size)
+            assertTrue(shop.images.any { it.type == ShopImageType.MAIN })
+            assertTrue(shop.images.any { it.type == ShopImageType.LOGO })
         }
     }
 
@@ -176,7 +229,7 @@ class UpdateShopUsecaseTest {
         @Test
         fun `編集したShopがリポジトリに保存される`() {
             savedShops.clear()
-            usecase.execute(existingShopId, createRequest(), emptyList(), emptyList())
+            usecase.execute(existingShopId, createRequest(), emptyList(), allImageIds)
 
             assertEquals(1, savedShops.size)
             assertEquals("更新店舗", savedShops[0].name)
@@ -196,7 +249,7 @@ class UpdateShopUsecaseTest {
         @Test
         fun `nameが空白の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                usecase.execute(existingShopId, createRequest(name = ""), emptyList(), emptyList())
+                usecase.execute(existingShopId, createRequest(name = ""), emptyList(), allImageIds)
             }
         }
 
@@ -211,7 +264,7 @@ class UpdateShopUsecaseTest {
         fun `DROPPED状態の店舗を更新しようとすると例外が発生する`() {
             fakeRepository.shopToReturn = droppedShop
             assertThrows<IllegalArgumentException> {
-                usecase.execute(existingShopId, createRequest(participationStatus = "DROPPED"), emptyList(), emptyList())
+                usecase.execute(existingShopId, createRequest(participationStatus = "DROPPED"), emptyList(), allImageIds)
             }
         }
 
@@ -219,8 +272,52 @@ class UpdateShopUsecaseTest {
         fun `BEFORE_PARTICIPATIONからDROPPEDへの直接遷移は例外が発生する`() {
             fakeRepository.shopToReturn = existingShop.copy(participationStatus = ParticipationStatus.BEFORE_PARTICIPATION)
             assertThrows<IllegalArgumentException> {
-                usecase.execute(existingShopId, createRequest(participationStatus = "DROPPED"), emptyList(), emptyList())
+                usecase.execute(existingShopId, createRequest(participationStatus = "DROPPED"), emptyList(), allImageIds)
             }
+        }
+    }
+
+    @Nested
+    inner class ファイルサイズバリデーション {
+        @Test
+        fun `1MBを超える画像は例外が発生する`() {
+            val largeFile = MockMultipartFile("images", "large.jpg", "image/jpeg", ByteArray(1024 * 1024 + 1))
+            assertThrows<IllegalArgumentException> {
+                usecase.execute(existingShopId, createRequest(), listOf(ImageUpload("MAIN", largeFile)), allImageIds)
+            }
+        }
+    }
+
+    @Nested
+    inner class S3削除 {
+        private fun trackingUsecase(): Pair<UpdateShopUsecase, MutableList<String>> {
+            val deletedKeys = mutableListOf<String>()
+            val service = object : ImageStorageService by FakeImageStorageService {
+                override fun delete(key: String) { deletedKeys.add(key) }
+            }
+            return UpdateShopUsecase(fakeRepository, fakeShopDropDomainService, service) to deletedKeys
+        }
+
+        @Test
+        fun `MAINを置換したとき旧MAINのS3キーが削除されLOGOは削除されない`() {
+            val (uc, deletedKeys) = trackingUsecase()
+            uc.execute(existingShopId, createRequest(), listOf(ImageUpload("MAIN", mainImageFile)), listOf(existingLogoImageId))
+
+            val mainUrl = existingShop.images.first { it.type == ShopImageType.MAIN }.image.url
+            val logoUrl = existingShop.images.first { it.type == ShopImageType.LOGO }.image.url
+            val mainKey = FakeImageStorageService.extractKey(mainUrl)!!
+            val logoKey = FakeImageStorageService.extractKey(logoUrl)!!
+
+            assertTrue(deletedKeys.contains(mainKey), "旧MAINのS3キーが削除されていない: $mainKey")
+            assertFalse(deletedKeys.contains(logoKey), "LOGOのS3キーが削除されてはならない: $logoKey")
+        }
+
+        @Test
+        fun `全画像をkeepImageIdsで保持したとき削除は発生しない`() {
+            val (uc, deletedKeys) = trackingUsecase()
+            uc.execute(existingShopId, createRequest(), emptyList(), allImageIds)
+
+            assertTrue(deletedKeys.isEmpty(), "保持対象の画像が削除されてはならない: $deletedKeys")
         }
     }
 }

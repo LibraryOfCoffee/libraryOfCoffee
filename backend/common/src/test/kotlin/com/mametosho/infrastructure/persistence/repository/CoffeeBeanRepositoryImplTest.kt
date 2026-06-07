@@ -10,7 +10,7 @@ import com.mametosho.domain.model.coffeebean.CoffeeBeanTasteId
 import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import com.mametosho.domain.model.coffeebean.RoastLevel
 import com.mametosho.domain.model.coffeebean.ShopifyBeanId
-import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.Image
 import com.mametosho.domain.model.shared.PublishStatus
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.taste.TasteId
@@ -97,7 +97,7 @@ class CoffeeBeanRepositoryImplTest {
             CoffeeBeanImage(
                 id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000011"),
                 type = CoffeeBeanImageType.MAIN,
-                imageUrl = ImageUrl("https://example.com/bean.png"),
+                image = Image("https://example.com/bean.png"),
             ),
         ),
         tastes: List<CoffeeBeanTaste> = listOf(
@@ -215,12 +215,12 @@ class CoffeeBeanRepositoryImplTest {
                         CoffeeBeanImage(
                             id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000011"),
                             type = CoffeeBeanImageType.MAIN,
-                            imageUrl = ImageUrl("https://example.com/bean1.png"),
+                            image = Image("https://example.com/bean1.png"),
                         ),
                         CoffeeBeanImage(
                             id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000012"),
                             type = CoffeeBeanImageType.MAIN,
-                            imageUrl = ImageUrl("https://example.com/bean2.png"),
+                            image = Image("https://example.com/bean2.png"),
                         ),
                     ),
                 )
@@ -276,7 +276,7 @@ class CoffeeBeanRepositoryImplTest {
                         CoffeeBeanImage(
                             id = CoffeeBeanImageId("00000000-0000-4000-${String.format(Locale.ROOT, "%04d", index)}-000000000099"),
                             type = CoffeeBeanImageType.MAIN,
-                            imageUrl = ImageUrl("https://example.com/bean-$index.jpg"),
+                            image = Image("https://example.com/bean-$index.jpg"),
                         ),
                     ),
                     tastes = listOf(
@@ -316,7 +316,7 @@ class CoffeeBeanRepositoryImplTest {
                         CoffeeBeanImage(
                             id = CoffeeBeanImageId("00000000-0000-4000-${String.format(Locale.ROOT, "%04d", index)}-000000000099"),
                             type = CoffeeBeanImageType.MAIN,
-                            imageUrl = ImageUrl("https://example.com/bean-$index.jpg"),
+                            image = Image("https://example.com/bean-$index.jpg"),
                         ),
                     ),
                     tastes = listOf(

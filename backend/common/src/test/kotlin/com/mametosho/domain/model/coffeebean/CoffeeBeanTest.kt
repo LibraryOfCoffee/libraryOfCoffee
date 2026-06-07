@@ -1,6 +1,6 @@
 package com.mametosho.domain.model.coffeebean
 
-import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.Image
 import com.mametosho.domain.model.shared.PublishStatus
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.taste.TasteId
@@ -24,7 +24,7 @@ class CoffeeBeanTest {
         CoffeeBeanImage(
             id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000201"),
             type = CoffeeBeanImageType.MAIN,
-            imageUrl = com.mametosho.domain.model.shared.ImageUrl("https://example.com/bean.jpg"),
+            image = Image("https://example.com/bean.jpg"),
         ),
     )
 
@@ -70,7 +70,7 @@ class CoffeeBeanTest {
                 CoffeeBeanImage(
                     id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000009"),
                     type = CoffeeBeanImageType.MAIN,
-                    imageUrl = ImageUrl("https://example.com/bean.jpg"),
+                    image = Image("https://example.com/bean.jpg"),
                 ),
             )
             val bean = createCoffeeBean(images = images)
@@ -173,7 +173,7 @@ class CoffeeBeanTest {
             assertTrue(updated.isSpecialty)
             assertEquals(1, updated.images.size)
             assertEquals(CoffeeBeanImageType.MAIN, updated.images[0].type)
-            assertEquals("https://example.com/updated.png", updated.images[0].imageUrl.value)
+            assertEquals("https://example.com/updated.png", updated.images[0].image.url)
             assertEquals(1, updated.tastes.size)
             assertEquals("00000000-0000-4000-8000-000000000004", updated.tastes[0].tasteId.value)
             assertEquals(5, updated.tastes[0].evaluationValue)
