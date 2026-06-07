@@ -5,7 +5,7 @@ package com.mametosho.domain.model.shared
 @Suppress("MagicNumber")
 value class Image(val url: String) {
     companion object {
-        const val MAX_FILE_SIZE_BYTES = 1L * 1024 * 1024
+        const val MAX_FILE_SIZE_BYTES = 1024L * 1024
     }
 
     init {
