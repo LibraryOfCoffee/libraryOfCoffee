@@ -1,6 +1,6 @@
 package com.mametosho.domain.model.shop
 
-import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.Image
 import com.mametosho.domain.model.shared.ParticipationStatus
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.assertThrows
@@ -14,7 +14,7 @@ class ShopTest {
     private val defaultLogoImage = ShopImage(
         id = ShopImageId("00000000-0000-4000-8000-000000000008"),
         type = ShopImageType.LOGO,
-        imageUrl = ImageUrl("https://example.com/logo.png"),
+        image = Image("https://example.com/logo.png"),
     )
 
     private fun createShop(
@@ -62,7 +62,7 @@ class ShopTest {
                 ShopImage(
                     id = ShopImageId("00000000-0000-4000-8000-000000000009"),
                     type = ShopImageType.MAIN,
-                    imageUrl = ImageUrl("https://example.com/shop.jpg"),
+                    image = Image("https://example.com/shop.jpg"),
                 ),
             )
             val shop = createShop(images = images)
@@ -313,12 +313,12 @@ class ShopTest {
                         ShopImage(
                             id = ShopImageId("00000000-0000-4000-8000-000000000009"),
                             type = ShopImageType.LOGO,
-                            imageUrl = ImageUrl("https://example.com/logo1.png"),
+                            image = Image("https://example.com/logo1.png"),
                         ),
                         ShopImage(
                             id = ShopImageId("00000000-0000-4000-8000-000000000010"),
                             type = ShopImageType.LOGO,
-                            imageUrl = ImageUrl("https://example.com/logo2.png"),
+                            image = Image("https://example.com/logo2.png"),
                         ),
                     ),
                 )

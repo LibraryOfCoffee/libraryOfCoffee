@@ -5,14 +5,14 @@ import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ImageUrlTest {
+class ImageTest {
 
     @Nested
     inner class 生成テスト {
         @Test
         fun `正常なURLで生成できる`() {
-            val url = ImageUrl("https://example.com/image.jpg")
-            assertEquals("https://example.com/image.jpg", url.value)
+            val image = Image("https://example.com/image.jpg")
+            assertEquals("https://example.com/image.jpg", image.value)
         }
     }
 
@@ -21,14 +21,14 @@ class ImageUrlTest {
         @Test
         fun `空文字の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                ImageUrl("")
+                Image("")
             }
         }
 
         @Test
         fun `2049文字以上の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                ImageUrl("a".repeat(2049))
+                Image("a".repeat(2049))
             }
         }
     }

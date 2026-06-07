@@ -32,7 +32,7 @@ class UpdateShopUsecase(
         val existingShop = shopRepository.findById(shopId) ?: return null
 
         val finalImages = imageStorageService.resolveImages(
-            existing = existingShop.images.map { ExistingImage(it.id.value, it.type.name, it.imageUrl.value) },
+            existing = existingShop.images.map { ExistingImage(it.id.value, it.type.name, it.image.value) },
             imageFiles = imageFiles,
             imageTypes = imageTypes,
             keepImageIds = keepImageIds,

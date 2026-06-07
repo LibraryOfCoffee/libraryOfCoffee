@@ -10,7 +10,7 @@ import com.mametosho.domain.model.coffeebean.CoffeeBeanTasteId
 import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import com.mametosho.domain.model.coffeebean.RoastLevel
 import com.mametosho.domain.model.coffeebean.ShopifyBeanId
-import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.Image
 import com.mametosho.domain.model.shared.PublishStatus
 import com.mametosho.domain.model.shop.ShopId
 import org.springframework.transaction.annotation.Transactional
@@ -46,7 +46,7 @@ class CoffeeBeanRepositoryImpl(
                 CoffeeBeanImage(
                     id = CoffeeBeanImageId(img.id),
                     type = CoffeeBeanImageType.valueOf(img.type),
-                    imageUrl = ImageUrl(img.imageUrl),
+                    image = Image(img.imageUrl),
                 )
             },
             tastes = tasteEntities.map { taste ->
@@ -82,7 +82,7 @@ class CoffeeBeanRepositoryImpl(
                     id = image.id.value,
                     coffeeBeanId = coffeeBean.id.value,
                     type = image.type.name,
-                    imageUrl = image.imageUrl.value,
+                    imageUrl = image.image.value,
                 ),
             )
         }

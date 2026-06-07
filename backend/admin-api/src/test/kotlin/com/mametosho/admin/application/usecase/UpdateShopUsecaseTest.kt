@@ -1,7 +1,7 @@
 package com.mametosho.admin.application.usecase
 
 import com.mametosho.admin.presentation.dto.request.UpdateShopRequest
-import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.Image
 import com.mametosho.domain.model.shared.ParticipationStatus
 import com.mametosho.domain.model.shop.Shop
 import com.mametosho.domain.model.shop.ShopId
@@ -47,12 +47,12 @@ class UpdateShopUsecaseTest {
             ShopImage(
                 id = ShopImageId(existingMainImageId),
                 type = ShopImageType.MAIN,
-                imageUrl = ImageUrl("https://example.com/old-image.png"),
+                image = Image("https://example.com/old-image.png"),
             ),
             ShopImage(
                 id = ShopImageId(existingLogoImageId),
                 type = ShopImageType.LOGO,
-                imageUrl = ImageUrl("https://example.com/logo.png"),
+                image = Image("https://example.com/logo.png"),
             ),
         ),
     )
@@ -305,8 +305,8 @@ class UpdateShopUsecaseTest {
             val (uc, deletedKeys) = trackingUsecase()
             uc.execute(existingShopId, createRequest(), listOf(mainImageFile), listOf("MAIN"), listOf(existingLogoImageId))
 
-            val mainUrl = existingShop.images.first { it.type == ShopImageType.MAIN }.imageUrl.value
-            val logoUrl = existingShop.images.first { it.type == ShopImageType.LOGO }.imageUrl.value
+            val mainUrl = existingShop.images.first { it.type == ShopImageType.MAIN }.image.value
+            val logoUrl = existingShop.images.first { it.type == ShopImageType.LOGO }.image.value
             val mainKey = FakeImageStorageService.extractKey(mainUrl)!!
             val logoKey = FakeImageStorageService.extractKey(logoUrl)!!
 

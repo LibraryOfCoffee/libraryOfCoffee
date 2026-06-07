@@ -27,7 +27,7 @@ class UpdateCoffeeBeanUsecase(
         val existingBean = coffeeBeanRepository.findById(CoffeeBeanId(id)) ?: return null
 
         val finalImages = imageStorageService.resolveImages(
-            existing = existingBean.images.map { ExistingImage(it.id.value, it.type.name, it.imageUrl.value) },
+            existing = existingBean.images.map { ExistingImage(it.id.value, it.type.name, it.image.value) },
             imageFiles = imageFiles,
             imageTypes = imageTypes,
             keepImageIds = keepImageIds,

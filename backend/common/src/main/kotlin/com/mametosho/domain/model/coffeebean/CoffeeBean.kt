@@ -1,6 +1,6 @@
 package com.mametosho.domain.model.coffeebean
 
-import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.Image
 import com.mametosho.domain.model.shared.PublishStatus
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.taste.TasteId
@@ -116,7 +116,7 @@ data class CoffeeBean(
                 CoffeeBeanImage(
                     id = CoffeeBeanImageId(UUID.randomUUID().toString()),
                     type = CoffeeBeanImageType.valueOf(type),
-                    imageUrl = ImageUrl(imageUrl),
+                    image = Image(imageUrl),
                 )
             },
             tastes = tastes.map { (tasteId, evaluationValue) ->
@@ -179,7 +179,7 @@ data class CoffeeBean(
                 CoffeeBeanImage(
                     id = CoffeeBeanImageId(UUID.randomUUID().toString()),
                     type = CoffeeBeanImageType.valueOf(type),
-                    imageUrl = ImageUrl(imageUrl),
+                    image = Image(imageUrl),
                 )
             },
             tastes = tastes.map { (tasteId, evaluationValue) ->
