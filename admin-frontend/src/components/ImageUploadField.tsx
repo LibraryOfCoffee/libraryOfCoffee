@@ -67,6 +67,14 @@ export function ImageUploadField({
     ]);
   };
 
+  const clearError = (key: number) => {
+    setSizeErrors((prev) => {
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+  };
+
   const handleFileChange = (key: number, e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file && file.size > MAX_IMAGE_FILE_SIZE) {
@@ -76,21 +84,13 @@ export function ImageUploadField({
       }));
       e.target.value = "";
     } else {
-      setSizeErrors((prev) => {
-        const next = { ...prev };
-        delete next[key];
-        return next;
-      });
+      clearError(key);
     }
   };
 
   const removeEntry = (key: number) => {
     setEntries((prev) => prev.filter((e) => e.key !== key));
-    setSizeErrors((prev) => {
-      const next = { ...prev };
-      delete next[key];
-      return next;
-    });
+    clearError(key);
   };
 
   const updateEntryType = (key: number, type: string) => {
