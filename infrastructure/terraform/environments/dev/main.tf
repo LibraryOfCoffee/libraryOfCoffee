@@ -237,6 +237,18 @@ module "ecs_cs_api" {
   ]
 }
 
+# cs-frontend から cs-api への Cloud Map 内部DNS(cs-api.<env>.local:8080)経由の通信を許可。
+# cs-api のSGは ALB からの ingress しか持たないため、cs-frontend のタスクSGからの8080を追加で開ける。
+resource "aws_security_group_rule" "cs_api_from_cs_frontend" {
+  type                     = "ingress"
+  from_port                = 8080
+  to_port                  = 8080
+  protocol                 = "tcp"
+  security_group_id        = module.ecs_cs_api.ecs_sg_id
+  source_security_group_id = module.ecs_cs_frontend.ecs_sg_id
+  description              = "Allow access from cs-frontend (internal DNS)"
+}
+
 # ============================================
 # ECS - Admin Frontend
 # ============================================
