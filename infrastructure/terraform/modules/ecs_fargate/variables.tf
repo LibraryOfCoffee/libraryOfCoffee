@@ -123,3 +123,13 @@ variable "use_spot" {
   default     = true
   description = "true: FARGATE_SPOT 100% (コスト優先) / false: FARGATE オンデマンド 100% (可用性優先)"
 }
+
+# ALB連携サービスのみ有効。タスク起動からこの秒数の間はELBヘルスチェックの失敗を
+# カウントしない(起動猶予)。JVM(Spring Boot)は起動に60秒以上かかるため、これが0だと
+# 起動完了前にunhealthy判定されデプロイがタイムアウトする。target_group_arn が無い
+# サービス(admin-api等)ではAWS側でエラーになるため、モジュール内でnullに落とす。
+variable "health_check_grace_period_seconds" {
+  type        = number
+  default     = 120
+  description = "ELBヘルスチェックの起動猶予秒数 (ALB連携サービスのみ有効)"
+}
