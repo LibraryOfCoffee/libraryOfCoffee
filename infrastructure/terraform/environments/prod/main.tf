@@ -198,8 +198,8 @@ module "ecs_cs_frontend" {
   ingress_from_sg_id  = module.alb_admin.alb_security_group_id
   ingress_description = "Allow access from ALB"
   container_port      = 3000
-  cpu                 = 512
-  memory              = 1024
+  cpu                 = 256
+  memory              = 512
   image_url           = "${module.ecr_cs_frontend.repository_url}:latest"
   target_group_arn    = module.alb_attachment_cs_frontend.target_group_arn
   use_spot            = false
@@ -225,8 +225,8 @@ module "ecs_cs_api" {
   ingress_from_sg_id    = module.alb_admin.alb_security_group_id
   ingress_description   = "Allow access from ALB"
   container_port        = 8080
-  cpu                   = 512
-  memory                = 1024
+  cpu                   = 256
+  memory                = 512
   image_url             = "${module.ecr_cs_api.repository_url}:latest"
   target_group_arn      = module.alb_attachment_cs.target_group_arn
   service_registry_arn  = module.service_discovery.service_arns["cs-api"]
