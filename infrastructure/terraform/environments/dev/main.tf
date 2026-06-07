@@ -14,6 +14,12 @@ module "acm_cs" {
   domain_name = "dev.api.mametosho.com"
 }
 
+module "acm_cs_frontend" {
+  source = "../../modules/acm"
+
+  domain_name = "dev.mametosho.com"
+}
+
 module "cd" {
   source = "../../modules/cd"
 
@@ -54,6 +60,15 @@ module "ecr_cs_api" {
   image_tag_mutability = "MUTABLE"
 }
 
+module "ecr_cs_frontend" {
+  source = "../../modules/ecr"
+
+  repository_name      = "cs-frontend"
+  env                  = local.env
+  image_retention_days = 30
+  image_tag_mutability = "MUTABLE"
+}
+
 # ============================================
 # S3 (Image Storage)
 # ============================================
@@ -67,6 +82,7 @@ module "s3_images" {
 
 # ============================================
 # Bastion (DB接続用踏み台サーバー)
+# デフォルトは停止状態。必要時は running = true にして apply する。
 # ============================================
 
 module "bastion" {
@@ -101,7 +117,7 @@ module "rds" {
 }
 
 # ============================================
-# ALB
+# ALB (admin + cs-api を1台に統合)
 # ============================================
 
 module "alb_admin" {
@@ -118,19 +134,32 @@ module "alb_admin" {
   container_port      = 3001
 }
 
-module "alb_cs" {
-  source = "../../modules/alb"
+module "alb_attachment_cs" {
+  source = "../../modules/alb_attachment"
 
-  account_id          = local.account_id
-  env                 = local.env
-  name                = "cs"
-  vpc_id              = module.vpc.vpc_id
-  public_subnet_ids   = module.vpc.public_subnet_ids
-  allowed_cidr_blocks = local.allowed_cidr_blocks
-  certificate_arn     = module.acm_cs.certificate_arn
-  host_header         = "${local.env}.api.mametosho.com"
-  container_port      = 8080
-  health_check_path   = "/actuator/health"
+  env               = local.env
+  name              = "cs"
+  vpc_id            = module.vpc.vpc_id
+  listener_arn      = module.alb_admin.https_listener_arn
+  certificate_arn   = module.acm_cs.certificate_arn
+  container_port    = 8080
+  host_header       = "${local.env}.api.mametosho.com"
+  health_check_path = "/actuator/health"
+  priority          = 20
+}
+
+module "alb_attachment_cs_frontend" {
+  source = "../../modules/alb_attachment"
+
+  env               = local.env
+  name              = "cs-frontend"
+  vpc_id            = module.vpc.vpc_id
+  listener_arn      = module.alb_admin.https_listener_arn
+  certificate_arn   = module.acm_cs_frontend.certificate_arn
+  container_port    = 3000
+  host_header       = "${local.env}.mametosho.com"
+  health_check_path = "/"
+  priority          = 30
 }
 
 # ============================================
@@ -142,7 +171,33 @@ module "service_discovery" {
 
   env           = local.env
   vpc_id        = module.vpc.vpc_id
-  service_names = ["admin-api"]
+  service_names = ["admin-api", "cs-api"]
+}
+
+# ============================================
+# ECS - CS Frontend
+# ============================================
+
+module "ecs_cs_frontend" {
+  source = "../../modules/ecs_fargate"
+
+  account_id          = local.account_id
+  env                 = local.env
+  service_name        = "cs-frontend"
+  container_name      = "cs-frontend"
+  vpc_id              = module.vpc.vpc_id
+  subnet_ids          = module.vpc.public_subnet_ids
+  ingress_from_sg_id  = module.alb_admin.alb_security_group_id
+  ingress_description = "Allow access from ALB"
+  container_port      = 3000
+  cpu                 = 256
+  memory              = 512
+  image_url           = "${module.ecr_cs_frontend.repository_url}:latest"
+  target_group_arn    = module.alb_attachment_cs_frontend.target_group_arn
+  environment = [
+    { name = "CS_API_BASE_URL", value = "http://cs-api.${local.env}.local:8080" },
+    { name = "URL", value = "https://${local.env}.mametosho.com" },
+  ]
 }
 
 # ============================================
@@ -157,14 +212,15 @@ module "ecs_cs_api" {
   service_name          = "cs-api"
   container_name        = "cs-api"
   vpc_id                = module.vpc.vpc_id
-  private_subnet_ids    = module.vpc.private_subnet_ids
-  ingress_from_sg_id    = module.alb_cs.alb_security_group_id
-  ingress_description   = "Allow access from cs ALB"
+  subnet_ids            = module.vpc.public_subnet_ids
+  ingress_from_sg_id    = module.alb_admin.alb_security_group_id
+  ingress_description   = "Allow access from ALB"
   container_port        = 8080
   cpu                   = 512
   memory                = 1024
   image_url             = "${module.ecr_cs_api.repository_url}:latest"
-  target_group_arn      = module.alb_cs.target_group_arn
+  target_group_arn      = module.alb_attachment_cs.target_group_arn
+  service_registry_arn  = module.service_discovery.service_arns["cs-api"]
   enable_rds_access     = true
   rds_security_group_id = module.rds.security_group_id
   secret_arns = [
@@ -193,7 +249,7 @@ module "ecs_admin_frontend" {
   service_name        = "admin-frontend"
   container_name      = "admin-frontend"
   vpc_id              = module.vpc.vpc_id
-  private_subnet_ids  = module.vpc.private_subnet_ids
+  subnet_ids          = module.vpc.public_subnet_ids
   ingress_from_sg_id  = module.alb_admin.alb_security_group_id
   ingress_description = "Allow access from admin ALB"
   container_port      = 3001
@@ -219,7 +275,7 @@ module "ecs_admin_api" {
   service_name          = "admin-api"
   container_name        = "admin-api"
   vpc_id                = module.vpc.vpc_id
-  private_subnet_ids    = module.vpc.private_subnet_ids
+  subnet_ids            = module.vpc.public_subnet_ids
   ingress_from_sg_id    = module.ecs_admin_frontend.ecs_sg_id
   ingress_description   = "Allow access from admin-frontend"
   container_port        = 8080
@@ -259,8 +315,8 @@ output "acm_validation_records" {
   value       = module.acm.domain_validation_options
 }
 
-output "admin_alb_dns" {
-  description = "Admin ALB DNS name (set dev.admin.mametosho.com CNAME to this)"
+output "alb_dns" {
+  description = "ALB DNS name (dev.admin.mametosho.com と dev.api.mametosho.com の両方をこのALBに向ける)"
   value       = module.alb_admin.alb_dns_name
 }
 
@@ -269,7 +325,7 @@ output "cs_acm_validation_records" {
   value       = module.acm_cs.domain_validation_options
 }
 
-output "cs_alb_dns" {
-  description = "CS ALB DNS name (set dev.api.mametosho.com CNAME to this)"
-  value       = module.alb_cs.alb_dns_name
+output "cs_frontend_acm_validation_records" {
+  description = "Add these CNAME records to your DNS provider (dev.mametosho.com)"
+  value       = module.acm_cs_frontend.domain_validation_options
 }
