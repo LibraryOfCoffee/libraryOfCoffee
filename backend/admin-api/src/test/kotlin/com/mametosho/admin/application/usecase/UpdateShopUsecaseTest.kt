@@ -305,8 +305,8 @@ class UpdateShopUsecaseTest {
             val (uc, deletedKeys) = trackingUsecase()
             uc.execute(existingShopId, createRequest(), listOf(mainImageFile), listOf("MAIN"), listOf(existingLogoImageId))
 
-            val mainUrl = existingShop.images.first { it.type == ShopImageType.MAIN }.image.value
-            val logoUrl = existingShop.images.first { it.type == ShopImageType.LOGO }.image.value
+            val mainUrl = existingShop.images.first { it.type == ShopImageType.MAIN }.image.url
+            val logoUrl = existingShop.images.first { it.type == ShopImageType.LOGO }.image.url
             val mainKey = FakeImageStorageService.extractKey(mainUrl)!!
             val logoKey = FakeImageStorageService.extractKey(logoUrl)!!
 

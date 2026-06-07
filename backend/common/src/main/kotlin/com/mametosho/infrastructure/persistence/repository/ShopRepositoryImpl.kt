@@ -40,7 +40,7 @@ class ShopRepositoryImpl(
                     id = image.id.value,
                     shopId = shop.id.value,
                     type = image.type.name,
-                    imageUrl = image.image.value,
+                    imageUrl = image.image.url,
                 ),
             )
         }

@@ -82,7 +82,7 @@ class CoffeeBeanRepositoryImpl(
                     id = image.id.value,
                     coffeeBeanId = coffeeBean.id.value,
                     type = image.type.name,
-                    imageUrl = image.image.value,
+                    imageUrl = image.image.url,
                 ),
             )
         }

@@ -16,7 +16,7 @@ class DeleteShopUsecase(
     open fun execute(id: String): Boolean {
         val shopId = ShopId(id)
         val shop = shopRepository.findById(shopId) ?: return false
-        imageStorageService.deleteImages(shop.images.map { it.image.value })
+        imageStorageService.deleteImages(shop.images.map { it.image.url })
         shopRepository.deleteById(shopId)
         return true
     }

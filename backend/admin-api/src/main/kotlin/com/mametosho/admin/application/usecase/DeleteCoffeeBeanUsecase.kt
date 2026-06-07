@@ -15,7 +15,7 @@ class DeleteCoffeeBeanUsecase(
     @Transactional
     open fun execute(id: String): Boolean {
         val existingBean = coffeeBeanRepository.findById(CoffeeBeanId(id)) ?: return false
-        imageStorageService.deleteImages(existingBean.images.map { it.image.value })
+        imageStorageService.deleteImages(existingBean.images.map { it.image.url })
         coffeeBeanRepository.deleteById(existingBean.id)
         return true
     }

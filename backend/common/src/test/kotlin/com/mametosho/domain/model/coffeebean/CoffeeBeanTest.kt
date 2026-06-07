@@ -173,7 +173,7 @@ class CoffeeBeanTest {
             assertTrue(updated.isSpecialty)
             assertEquals(1, updated.images.size)
             assertEquals(CoffeeBeanImageType.MAIN, updated.images[0].type)
-            assertEquals("https://example.com/updated.png", updated.images[0].image.value)
+            assertEquals("https://example.com/updated.png", updated.images[0].image.url)
             assertEquals(1, updated.tastes.size)
             assertEquals("00000000-0000-4000-8000-000000000004", updated.tastes[0].tasteId.value)
             assertEquals(5, updated.tastes[0].evaluationValue)

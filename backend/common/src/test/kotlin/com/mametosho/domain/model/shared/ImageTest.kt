@@ -12,7 +12,7 @@ class ImageTest {
         @Test
         fun `正常なURLで生成できる`() {
             val image = Image("https://example.com/image.jpg")
-            assertEquals("https://example.com/image.jpg", image.value)
+            assertEquals("https://example.com/image.jpg", image.url)
         }
     }
 

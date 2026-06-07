@@ -176,7 +176,7 @@ class UpdateCoffeeBeanUsecaseTest {
         fun `新規画像をアップロードすると旧画像が置換される`() {
             val bean = usecase.execute(existingBean.id.value, createRequest(), listOf(imageFile), listOf("MAIN"), emptyList())!!
             assertEquals(1, bean.images.size)
-            assertTrue(bean.images[0].image.value.endsWith(".jpg"))
+            assertTrue(bean.images[0].image.url.endsWith(".jpg"))
         }
 
         @Test
@@ -296,7 +296,7 @@ class UpdateCoffeeBeanUsecaseTest {
             val (uc, deletedKeys) = trackingUsecase()
             uc.execute(existingBean.id.value, createRequest(), listOf(imageFile), listOf("MAIN"), emptyList())
 
-            val oldUrl = existingBean.images[0].image.value
+            val oldUrl = existingBean.images[0].image.url
             val expectedKey = FakeImageStorageService.extractKey(oldUrl)!!
             assertTrue(deletedKeys.contains(expectedKey), "旧画像のS3キーが削除されていない: $expectedKey")
         }
