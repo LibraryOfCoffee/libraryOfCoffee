@@ -16,7 +16,7 @@ fun buildImageUploads(files: List<MultipartFile>, types: List<String>): List<Ima
     require(files.size == types.size) {
         "imageTypes size must match images size"
     }
-    return files.mapIndexed { index, file -> ImageUpload(types[index], file) }
+    return files.zip(types) { file, type -> ImageUpload(type, file) }
 }
 
 fun ImageStorageService.uploadImages(
