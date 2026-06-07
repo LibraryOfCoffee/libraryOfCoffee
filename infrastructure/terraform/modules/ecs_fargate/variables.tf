@@ -22,7 +22,7 @@ variable "vpc_id" {
 
 variable "subnet_ids" {
   type        = list(string)
-  description = "ECSタスクを配置するサブネットID (パブリックサブネットを指定)"
+  description = "ECSタスクを配置するサブネットのIDリスト"
 }
 
 variable "ingress_from_sg_id" {

@@ -109,8 +109,3 @@ resource "aws_instance" "main" {
     Name = "mametosho-${var.env}-bastion"
   }
 }
-
-resource "aws_ec2_instance_state" "main" {
-  instance_id = aws_instance.main.id
-  state       = var.running ? "running" : "stopped"
-}

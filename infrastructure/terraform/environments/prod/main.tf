@@ -119,48 +119,18 @@ module "alb_admin" {
   container_port      = 3001
 }
 
-# cs-api用ターゲットグループ (admin ALBに統合)
-resource "aws_lb_target_group" "cs_api" {
-  name        = "prod-cs-tg"
-  port        = 8080
-  protocol    = "HTTP"
-  vpc_id      = module.vpc.vpc_id
-  target_type = "ip"
+module "alb_attachment_cs" {
+  source = "../../modules/alb_attachment"
 
-  health_check {
-    enabled             = true
-    healthy_threshold   = 2
-    interval            = 30
-    matcher             = "200"
-    path                = "/actuator/health"
-    port                = "traffic-port"
-    protocol            = "HTTP"
-    timeout             = 5
-    unhealthy_threshold = 2
-  }
-}
-
-# cs-api用証明書をadmin ALBのHTTPSリスナーに追加 (SNI)
-resource "aws_lb_listener_certificate" "cs" {
-  listener_arn    = module.alb_admin.https_listener_arn
-  certificate_arn = module.acm_cs.certificate_arn
-}
-
-# cs-api用リスナールール (api.mametosho.com → cs-api TG)
-resource "aws_lb_listener_rule" "cs_api" {
-  listener_arn = module.alb_admin.https_listener_arn
-  priority     = 20
-
-  action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.cs_api.arn
-  }
-
-  condition {
-    host_header {
-      values = ["api.mametosho.com"]
-    }
-  }
+  env               = local.env
+  name              = "cs"
+  vpc_id            = module.vpc.vpc_id
+  listener_arn      = module.alb_admin.https_listener_arn
+  certificate_arn   = module.acm_cs.certificate_arn
+  container_port    = 8080
+  host_header       = "api.mametosho.com"
+  health_check_path = "/actuator/health"
+  priority          = 20
 }
 
 # ============================================
@@ -194,7 +164,7 @@ module "ecs_cs_api" {
   cpu                   = 512
   memory                = 1024
   image_url             = "${module.ecr_cs_api.repository_url}:latest"
-  target_group_arn      = aws_lb_target_group.cs_api.arn
+  target_group_arn      = module.alb_attachment_cs.target_group_arn
   enable_rds_access     = true
   rds_security_group_id = module.rds.security_group_id
   secret_arns = [
