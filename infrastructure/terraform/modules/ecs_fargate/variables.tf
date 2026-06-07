@@ -20,8 +20,9 @@ variable "vpc_id" {
   type = string
 }
 
-variable "private_subnet_ids" {
-  type = list(string)
+variable "subnet_ids" {
+  type        = list(string)
+  description = "ECSタスクを配置するサブネットID (パブリックサブネットを指定)"
 }
 
 variable "ingress_from_sg_id" {
