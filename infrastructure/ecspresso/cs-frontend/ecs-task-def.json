@@ -19,7 +19,7 @@
       "environment": [
         {
           "name": "CS_API_BASE_URL",
-          "value": "{{ must_env `CS_API_BASE_URL` }}"
+          "value": "http://cs-api.{{ must_env `ENV` }}.local:8080"
         },
         {
           "name": "URL",

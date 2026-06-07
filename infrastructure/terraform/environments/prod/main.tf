@@ -171,7 +171,7 @@ module "service_discovery" {
 
   env           = local.env
   vpc_id        = module.vpc.vpc_id
-  service_names = ["admin-api"]
+  service_names = ["admin-api", "cs-api"]
 }
 
 # ============================================
@@ -195,7 +195,7 @@ module "ecs_cs_frontend" {
   image_url           = "${module.ecr_cs_frontend.repository_url}:latest"
   target_group_arn    = module.alb_attachment_cs_frontend.target_group_arn
   environment = [
-    { name = "CS_API_BASE_URL", value = "https://api.mametosho.com" },
+    { name = "CS_API_BASE_URL", value = "http://cs-api.${local.env}.local:8080" },
     { name = "URL", value = "https://mametosho.com" },
   ]
 }
@@ -220,6 +220,7 @@ module "ecs_cs_api" {
   memory                = 1024
   image_url             = "${module.ecr_cs_api.repository_url}:latest"
   target_group_arn      = module.alb_attachment_cs.target_group_arn
+  service_registry_arn  = module.service_discovery.service_arns["cs-api"]
   enable_rds_access     = true
   rds_security_group_id = module.rds.security_group_id
   secret_arns = [
