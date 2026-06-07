@@ -88,7 +88,6 @@ jobs:
           push: true
           tags: |
             ${{ steps.login-ecr.outputs.registry }}/admin-frontend-${{ inputs.environment }}:${{ steps.set-tag.outputs.tag }}
-            ${{ steps.login-ecr.outputs.registry }}/admin-frontend-${{ inputs.environment }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 

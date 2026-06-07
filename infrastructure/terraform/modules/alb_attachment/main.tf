@@ -34,7 +34,13 @@ resource "aws_lb_listener_rule" "this" {
 
   condition {
     host_header {
-      values = [var.host_header]
+      values = concat([var.host_header], var.extra_host_headers)
     }
   }
+}
+
+resource "aws_lb_listener_certificate" "extra" {
+  for_each        = toset(var.extra_certificate_arns)
+  listener_arn    = var.listener_arn
+  certificate_arn = each.value
 }

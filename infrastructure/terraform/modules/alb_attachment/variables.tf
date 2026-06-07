@@ -30,6 +30,18 @@ variable "host_header" {
   description = "ルーティング条件となるホストヘッダー (例: api.mametosho.com)"
 }
 
+variable "extra_host_headers" {
+  type        = list(string)
+  description = "追加のホストヘッダー (例: プレビュー用サブドメイン)"
+  default     = []
+}
+
+variable "extra_certificate_arns" {
+  type        = list(string)
+  description = "追加のACM証明書ARN (extra_host_headers に対応する証明書)"
+  default     = []
+}
+
 variable "health_check_path" {
   type    = string
   default = "/api/health"

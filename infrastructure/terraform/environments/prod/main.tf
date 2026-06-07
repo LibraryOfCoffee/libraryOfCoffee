@@ -20,6 +20,12 @@ module "acm_cs_frontend" {
   domain_name = "mametosho.com"
 }
 
+module "acm_cs_frontend_preview" {
+  source = "../../modules/acm"
+
+  domain_name = "preview.mametosho.com"
+}
+
 module "cd" {
   source = "../../modules/cd"
 
@@ -151,15 +157,17 @@ module "alb_attachment_cs" {
 module "alb_attachment_cs_frontend" {
   source = "../../modules/alb_attachment"
 
-  env               = local.env
-  name              = "cs-frontend"
-  vpc_id            = module.vpc.vpc_id
-  listener_arn      = module.alb_admin.https_listener_arn
-  certificate_arn   = module.acm_cs_frontend.certificate_arn
-  container_port    = 3000
-  host_header       = "mametosho.com"
-  health_check_path = "/"
-  priority          = 30
+  env                    = local.env
+  name                   = "cs-frontend"
+  vpc_id                 = module.vpc.vpc_id
+  listener_arn           = module.alb_admin.https_listener_arn
+  certificate_arn        = module.acm_cs_frontend.certificate_arn
+  container_port         = 3000
+  host_header            = "mametosho.com"
+  health_check_path      = "/"
+  priority               = 30
+  extra_host_headers     = ["preview.mametosho.com"]
+  extra_certificate_arns = [module.acm_cs_frontend_preview.certificate_arn]
 }
 
 # ============================================
@@ -328,4 +336,9 @@ output "cs_acm_validation_records" {
 output "cs_frontend_acm_validation_records" {
   description = "Add these CNAME records to your DNS provider (mametosho.com)"
   value       = module.acm_cs_frontend.domain_validation_options
+}
+
+output "cs_frontend_preview_acm_validation_records" {
+  description = "Add these CNAME records to your DNS provider (preview.mametosho.com)"
+  value       = module.acm_cs_frontend_preview.domain_validation_options
 }
