@@ -14,6 +14,12 @@ module "acm_cs" {
   domain_name = "api.mametosho.com"
 }
 
+module "acm_cs_frontend" {
+  source = "../../modules/acm"
+
+  domain_name = "mametosho.com"
+}
+
 module "cd" {
   source = "../../modules/cd"
 
@@ -49,6 +55,15 @@ module "ecr_cs_api" {
   source = "../../modules/ecr"
 
   repository_name      = "cs-api"
+  env                  = local.env
+  image_retention_days = 30
+  image_tag_mutability = "IMMUTABLE"
+}
+
+module "ecr_cs_frontend" {
+  source = "../../modules/ecr"
+
+  repository_name      = "cs-frontend"
   env                  = local.env
   image_retention_days = 30
   image_tag_mutability = "IMMUTABLE"
@@ -133,6 +148,20 @@ module "alb_attachment_cs" {
   priority          = 20
 }
 
+module "alb_attachment_cs_frontend" {
+  source = "../../modules/alb_attachment"
+
+  env               = local.env
+  name              = "cs-frontend"
+  vpc_id            = module.vpc.vpc_id
+  listener_arn      = module.alb_admin.https_listener_arn
+  certificate_arn   = module.acm_cs_frontend.certificate_arn
+  container_port    = 3000
+  host_header       = "mametosho.com"
+  health_check_path = "/"
+  priority          = 30
+}
+
 # ============================================
 # Service Discovery
 # ============================================
@@ -143,6 +172,40 @@ module "service_discovery" {
   env           = local.env
   vpc_id        = module.vpc.vpc_id
   service_names = ["admin-api"]
+}
+
+# ============================================
+# ECS - CS Frontend
+# ============================================
+
+module "ecs_cs_frontend" {
+  source = "../../modules/ecs_fargate"
+
+  account_id          = local.account_id
+  env                 = local.env
+  service_name        = "cs-frontend"
+  container_name      = "cs-frontend"
+  vpc_id              = module.vpc.vpc_id
+  subnet_ids          = module.vpc.public_subnet_ids
+  ingress_from_sg_id  = module.alb_admin.alb_security_group_id
+  ingress_description = "Allow access from ALB"
+  container_port      = 3000
+  cpu                 = 256
+  memory              = 512
+  image_url           = "${module.ecr_cs_frontend.repository_url}:latest"
+  target_group_arn    = module.alb_attachment_cs_frontend.target_group_arn
+  secret_arns = [
+    aws_secretsmanager_secret.cs_frontend_basic_auth.arn,
+  ]
+
+  environment = [
+    { name = "CS_API_BASE_URL", value = "https://api.mametosho.com" },
+    { name = "URL", value = "https://mametosho.com" },
+  ]
+
+  secrets = [
+    { name = "BASIC_AUTH_CREDENTIALS", valueFrom = aws_secretsmanager_secret.cs_frontend_basic_auth.arn },
+  ]
 }
 
 # ============================================
@@ -267,4 +330,9 @@ output "alb_dns" {
 output "cs_acm_validation_records" {
   description = "Add these CNAME records to your DNS provider"
   value       = module.acm_cs.domain_validation_options
+}
+
+output "cs_frontend_acm_validation_records" {
+  description = "Add these CNAME records to your DNS provider (mametosho.com)"
+  value       = module.acm_cs_frontend.domain_validation_options
 }
