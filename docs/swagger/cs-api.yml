@@ -297,6 +297,13 @@ components:
           type: string
           description: ロゴ画像URL
           example: https://placehold.jp/100x100.png
+      required:
+      - id
+      - introduction
+      - logoImageUrl
+      - name
+      - prefecture
+      - shopUrl
     PlanResponse:
       type: object
       description: プラン一覧アイテム
@@ -336,6 +343,15 @@ components:
           type: boolean
           description: おすすめバッジ
           example: true
+      required:
+      - beanQuantity
+      - gramWeight
+      - id
+      - isRecommended
+      - label
+      - price
+      - shopifyPlanId
+      - type
     CoffeeBeanListResponse:
       type: object
       description: 珈琲豆一覧レスポンス
@@ -422,6 +438,20 @@ components:
           type: boolean
           description: スペシャルティ珈琲かどうか
           example: true
+      required:
+      - description
+      - id
+      - imageUrl
+      - isSpecialty
+      - name
+      - origin
+      - processingMethod
+      - roastLevel
+      - shopName
+      - shopPrefecture
+      - shopUrl
+      - shopifyBeanId
+      - tasteProfiles
     TasteProfileResponse:
       type: object
       description: テイストプロファイル
@@ -435,3 +465,6 @@ components:
           format: int32
           description: 評価値
           example: 60
+      required:
+      - name
+      - value

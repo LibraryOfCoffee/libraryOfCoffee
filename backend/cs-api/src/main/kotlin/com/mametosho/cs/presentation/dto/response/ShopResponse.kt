@@ -6,17 +6,17 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "店舗一覧アイテム")
 data class ShopResponse(
-    @Schema(description = "店舗ID", example = "00000000-0000-4000-8000-000000000031")
+    @Schema(description = "店舗ID", example = "00000000-0000-4000-8000-000000000031", requiredMode = Schema.RequiredMode.REQUIRED)
     val id: String,
-    @Schema(description = "店舗名", example = "珈琲工房 まめとしょ")
+    @Schema(description = "店舗名", example = "珈琲工房 まめとしょ", requiredMode = Schema.RequiredMode.REQUIRED)
     val name: String,
-    @Schema(description = "店舗紹介文", example = "東京都渋谷区にある自家焙煎珈琲店。厳選されたスペシャルティコーヒーをお届けします。")
+    @Schema(description = "店舗紹介文", example = "東京都渋谷区にある自家焙煎珈琲店。厳選されたスペシャルティコーヒーをお届けします。", requiredMode = Schema.RequiredMode.REQUIRED)
     val introduction: String,
-    @Schema(description = "店舗URL", example = "https://mametosho.example.com")
+    @Schema(description = "店舗URL", example = "https://mametosho.example.com", requiredMode = Schema.RequiredMode.REQUIRED)
     val shopUrl: String,
-    @Schema(description = "都道府県", example = "TOKYO")
+    @Schema(description = "都道府県", example = "TOKYO", requiredMode = Schema.RequiredMode.REQUIRED)
     val prefecture: String,
-    @Schema(description = "ロゴ画像URL", example = "https://placehold.jp/100x100.png")
+    @Schema(description = "ロゴ画像URL", example = "https://placehold.jp/100x100.png", requiredMode = Schema.RequiredMode.REQUIRED)
     val logoImageUrl: String,
 ) {
     companion object {

@@ -8,8 +8,6 @@ export type PlanListItem = components["schemas"]["PlanSummaryResponse"];
 export type PlanDetail = components["schemas"]["PlanDetailResponse"];
 export type PlanListResponse = components["schemas"]["PlanListResponse"];
 
-export type PlanType = "SUBSCRIPTION" | "SINGLE";
-
 export async function fetchPlans(
   page = 0,
   size = 20,

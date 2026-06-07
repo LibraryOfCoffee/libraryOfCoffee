@@ -97,32 +97,32 @@ export interface components {
        * @description 店舗ID
        * @example 00000000-0000-4000-8000-000000000031
        */
-      id?: string;
+      id: string;
       /**
        * @description 店舗名
        * @example 珈琲工房 まめとしょ
        */
-      name?: string;
+      name: string;
       /**
        * @description 店舗紹介文
        * @example 東京都渋谷区にある自家焙煎珈琲店。厳選されたスペシャルティコーヒーをお届けします。
        */
-      introduction?: string;
+      introduction: string;
       /**
        * @description 店舗URL
        * @example https://mametosho.example.com
        */
-      shopUrl?: string;
+      shopUrl: string;
       /**
        * @description 都道府県
        * @example TOKYO
        */
-      prefecture?: string;
+      prefecture: string;
       /**
        * @description ロゴ画像URL
        * @example https://placehold.jp/100x100.png
        */
-      logoImageUrl?: string;
+      logoImageUrl: string;
     };
     /** @description プラン一覧アイテム */
     PlanResponse: {
@@ -130,45 +130,45 @@ export interface components {
        * @description プランID
        * @example 00000000-0000-4000-8000-000000000024
        */
-      id?: string;
+      id: string;
       /**
        * @description ShopifyのプランID（Shopify遷移時に使用する）
        * @example gid://shopify/SellingPlan/200004
        */
-      shopifyPlanId?: string;
+      shopifyPlanId: string;
       /**
        * @description プラン表示名
        * @example 定番
        */
-      label?: string;
+      label: string;
       /**
        * Format: int32
        * @description 1種あたりのグラム数
        * @example 60
        */
-      gramWeight?: number;
+      gramWeight: number;
       /**
        * Format: int32
        * @description 豆の種類数
        * @example 4
        */
-      beanQuantity?: number;
+      beanQuantity: number;
       /**
        * Format: int32
        * @description 価格
        * @example 3800
        */
-      price?: number;
+      price: number;
       /**
        * @description プラン種別（SUBSCRIPTION / SINGLE）
        * @example SUBSCRIPTION
        */
-      type?: string;
+      type: string;
       /**
        * @description おすすめバッジ
        * @example true
        */
-      isRecommended?: boolean;
+      isRecommended: boolean;
     };
     /** @description 珈琲豆一覧レスポンス */
     CoffeeBeanListResponse: {
@@ -199,64 +199,64 @@ export interface components {
        * @description 珈琲豆ID
        * @example 00000000-0000-4000-8000-000000000071
        */
-      id?: string;
+      id: string;
       /**
        * @description ShopifyのID（Shopify遷移時に使用する）
        * @example gid://shopify/Product/400001
        */
-      shopifyBeanId?: string;
+      shopifyBeanId: string;
       /**
        * @description 珈琲豆名
        * @example エチオピア イルガチェフェ G1
        */
-      name?: string;
+      name: string;
       /**
        * @description 産地
        * @example エチオピア
        */
-      origin?: string;
+      origin: string;
       /**
        * @description 焙煎度
        * @example LIGHT
        */
-      roastLevel?: string;
+      roastLevel: string;
       /**
        * @description 精製方法
        * @example WASHED
        */
-      processingMethod?: string;
+      processingMethod: string;
       /**
        * @description 説明文
        * @example フルーティーな香りと明るい酸味が特徴の豆です。
        */
-      description?: string;
+      description: string;
       /**
        * @description メイン画像URL
        * @example https://example.com/images/coffee.jpg
        */
-      imageUrl?: string;
+      imageUrl: string;
       /**
        * @description ロースター名
        * @example 山田珈琲焙煎所
        */
-      shopName?: string;
+      shopName: string;
       /**
        * @description ロースターの都道府県
        * @example TOKYO
        */
-      shopPrefecture?: string;
+      shopPrefecture: string;
       /**
        * @description ロースターのURL
        * @example https://mametosho.example.com
        */
-      shopUrl?: string;
+      shopUrl: string;
       /** @description テイストプロファイル一覧 */
-      tasteProfiles?: components["schemas"]["TasteProfileResponse"][];
+      tasteProfiles: components["schemas"]["TasteProfileResponse"][];
       /**
        * @description スペシャルティ珈琲かどうか
        * @example true
        */
-      isSpecialty?: boolean;
+      isSpecialty: boolean;
     };
     /** @description テイストプロファイル */
     TasteProfileResponse: {
@@ -264,13 +264,13 @@ export interface components {
        * @description テイスト名
        * @example 酸味
        */
-      name?: string;
+      name: string;
       /**
        * Format: int32
        * @description 評価値
        * @example 60
        */
-      value?: number;
+      value: number;
     };
   };
   responses: never;

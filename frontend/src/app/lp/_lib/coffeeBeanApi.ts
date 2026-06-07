@@ -1,7 +1,7 @@
-export type TasteProfile = {
-  label: string;
-  value: number;
-};
+import type { components } from "@/api/generated/cs-api";
+
+export type TasteProfile =
+  components["schemas"]["CoffeeBeanResponse"]["tasteProfiles"][number];
 
 export interface BeanDetail {
   id: string;
@@ -27,33 +27,7 @@ export interface BeanDetail {
 
 export const SPECIALTY_TAG_COLOR = "#C4972A";
 
-type TasteProfileApiItem = {
-  name: string;
-  value: number;
-};
-
-type CoffeeBeanApiItem = {
-  id: string;
-  shopifyBeanId: string;
-  name: string;
-  origin: string;
-  roastLevel: "LIGHT" | "MEDIUM" | "CITY" | "FRENCH";
-  processingMethod: string;
-  isSpecialty: boolean;
-  description: string;
-  imageUrl: string;
-  shopName: string;
-  shopPrefecture: string;
-  shopUrl: string;
-  tasteProfiles: TasteProfileApiItem[];
-};
-
-type BeansApiResponse = {
-  items: CoffeeBeanApiItem[];
-  totalCount: number;
-  page: number;
-  size: number;
-};
+type CoffeeBeanApiItem = components["schemas"]["CoffeeBeanResponse"];
 
 const PREFECTURE_JP: Record<string, string> = {
   HOKKAIDO: "北海道",
@@ -139,10 +113,7 @@ function toBeanDetail(item: CoffeeBeanApiItem): BeanDetail {
     roaster: item.shopName,
     roasterLink: item.shopUrl,
     prefecture: PREFECTURE_JP[item.shopPrefecture] ?? item.shopPrefecture,
-    tasteProfile: item.tasteProfiles.map((t) => ({
-      label: t.name,
-      value: t.value,
-    })),
+    tasteProfile: item.tasteProfiles,
     isSpecialty: item.isSpecialty,
   };
 }
@@ -154,7 +125,8 @@ export async function fetchCoffeeBeans(): Promise<BeanDetail[]> {
       cache: "no-store",
     });
     if (!res.ok) return [];
-    const data: BeansApiResponse = await res.json();
+    const data: components["schemas"]["CoffeeBeanListResponse"] =
+      await res.json();
     return data.items.map(toBeanDetail);
   } catch {
     return [];

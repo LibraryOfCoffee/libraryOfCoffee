@@ -795,7 +795,11 @@ paths:
         "200":
           description: 取得成功
           content:
-            '*/*':
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TasteResponse"
               examples:
                 success:
                   summary: 取得成功例
@@ -1258,6 +1262,21 @@ components:
       - accessToken
       - expiresIn
       - tokenType
+    TasteResponse:
+      type: object
+      description: テイスト一覧アイテム
+      properties:
+        id:
+          type: string
+          description: テイストID
+          example: 00000000-0000-4000-8000-000000000041
+        name:
+          type: string
+          description: テイスト名
+          example: 酸味
+      required:
+      - id
+      - name
     ShopListResponse:
       type: object
       description: 店舗一覧レスポンス

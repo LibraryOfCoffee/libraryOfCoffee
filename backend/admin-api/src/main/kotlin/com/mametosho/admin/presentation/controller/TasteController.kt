@@ -3,11 +3,14 @@ package com.mametosho.admin.presentation.controller
 import com.mametosho.admin.application.usecase.FindTastesUsecase
 import com.mametosho.admin.presentation.dto.response.TasteResponse
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.ExampleObject
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -31,6 +34,8 @@ class TasteController(
                 description = "取得成功",
                 content = [
                     Content(
+                        mediaType = MediaType.APPLICATION_JSON_VALUE,
+                        array = ArraySchema(schema = Schema(implementation = TasteResponse::class)),
                         examples = [
                             ExampleObject(
                                 name = "success",

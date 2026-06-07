@@ -1,13 +1,11 @@
 import "server-only";
 
 import { cookies } from "next/headers";
+import type { components } from "@/api/generated/admin-api";
 
 const API_BASE_URL = process.env.API_BASE_URL ?? "http://localhost:8081";
 
-export type TasteListItem = {
-  id: string;
-  name: string;
-};
+export type TasteListItem = components["schemas"]["TasteResponse"];
 
 /**
  * テイスト一覧を取得する。
