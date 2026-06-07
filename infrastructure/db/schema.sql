@@ -1,10 +1,3 @@
-CREATE TABLE IF NOT EXISTS sample (
-    id   BIGINT       AUTO_INCREMENT PRIMARY KEY                               COMMENT 'ID',
-    name VARCHAR(255) NOT NULL                                                 COMMENT '名前',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                             COMMENT '作成日時',
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='サンプルテーブル';
-
 CREATE TABLE IF NOT EXISTS administrators (
     id              CHAR(36)     NOT NULL PRIMARY KEY                          COMMENT '管理者ID',
     email           VARCHAR(255) NOT NULL UNIQUE                               COMMENT 'メールアドレス',

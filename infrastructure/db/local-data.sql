@@ -2,10 +2,6 @@
 -- ローカル開発用初期データ
 -- ============================================================
 
--- sample
-INSERT IGNORE INTO sample (id, name) VALUES (1, 'Sample Item 1');
-INSERT IGNORE INTO sample (id, name) VALUES (2, 'Sample Item 2');
-
 -- ------------------------------------------------------------
 -- administrators（管理者）
 -- ------------------------------------------------------------
