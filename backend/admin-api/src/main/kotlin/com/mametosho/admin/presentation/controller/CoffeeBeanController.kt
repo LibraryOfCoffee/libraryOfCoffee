@@ -1,5 +1,6 @@
 package com.mametosho.admin.presentation.controller
 
+import com.mametosho.admin.application.service.buildImageUploads
 import com.mametosho.admin.application.usecase.CreateCoffeeBeanUsecase
 import com.mametosho.admin.application.usecase.DeleteCoffeeBeanUsecase
 import com.mametosho.admin.application.usecase.GetCoffeeBeanUsecase
@@ -263,9 +264,9 @@ class CoffeeBeanController(
     fun createCoffeeBean(
         @RequestPart("data") request: CreateCoffeeBeanRequest,
         @RequestPart("images", required = false) images: List<MultipartFile>?,
-        @RequestParam("imageTypes", required = false) imageTypes: List<String>?,
     ): ResponseEntity<CoffeeBeanResponse> {
-        val coffeeBean = createCoffeeBeanUsecase.execute(request, images ?: emptyList(), imageTypes ?: emptyList())
+        val uploads = buildImageUploads(images ?: emptyList(), request.imageTypes)
+        val coffeeBean = createCoffeeBeanUsecase.execute(request, uploads)
         return ResponseEntity.status(HttpStatus.CREATED).body(CoffeeBeanResponse.from(coffeeBean))
     }
 
@@ -371,10 +372,9 @@ class CoffeeBeanController(
         @PathVariable id: String,
         @RequestPart("data") request: UpdateCoffeeBeanRequest,
         @RequestPart("images", required = false) images: List<MultipartFile>?,
-        @RequestParam("imageTypes", required = false) imageTypes: List<String>?,
-        @RequestParam("keepImageIds", required = false) keepImageIds: List<String>?,
     ): ResponseEntity<CoffeeBeanResponse> {
-        val coffeeBean = updateCoffeeBeanUsecase.execute(id, request, images ?: emptyList(), imageTypes ?: emptyList(), keepImageIds ?: emptyList())
+        val uploads = buildImageUploads(images ?: emptyList(), request.imageTypes)
+        val coffeeBean = updateCoffeeBeanUsecase.execute(id, request, uploads, request.keepImageIds)
             ?: return ResponseEntity.notFound().build()
         return ResponseEntity.ok(CoffeeBeanResponse.from(coffeeBean))
     }

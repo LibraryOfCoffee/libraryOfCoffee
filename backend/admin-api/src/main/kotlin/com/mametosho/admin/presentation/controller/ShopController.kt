@@ -1,5 +1,6 @@
 package com.mametosho.admin.presentation.controller
 
+import com.mametosho.admin.application.service.buildImageUploads
 import com.mametosho.admin.application.usecase.CreateShopUsecase
 import com.mametosho.admin.application.usecase.DeleteShopUsecase
 import com.mametosho.admin.application.usecase.GetShopUsecase
@@ -256,9 +257,9 @@ class ShopController(
     fun createShop(
         @RequestPart("data") request: CreateShopRequest,
         @RequestPart("images", required = false) images: List<MultipartFile>?,
-        @RequestParam("imageTypes", required = false) imageTypes: List<String>?,
     ): ResponseEntity<ShopResponse> {
-        val shop = createShopUsecase.execute(request, images ?: emptyList(), imageTypes ?: emptyList())
+        val uploads = buildImageUploads(images ?: emptyList(), request.imageTypes)
+        val shop = createShopUsecase.execute(request, uploads)
         return ResponseEntity.status(HttpStatus.CREATED).body(ShopResponse.from(shop))
     }
 
@@ -364,10 +365,9 @@ class ShopController(
         @PathVariable id: String,
         @RequestPart("data") request: UpdateShopRequest,
         @RequestPart("images", required = false) images: List<MultipartFile>?,
-        @RequestParam("imageTypes", required = false) imageTypes: List<String>?,
-        @RequestParam("keepImageIds", required = false) keepImageIds: List<String>?,
     ): ResponseEntity<ShopResponse> {
-        val shop = updateShopUsecase.execute(id, request, images ?: emptyList(), imageTypes ?: emptyList(), keepImageIds ?: emptyList())
+        val uploads = buildImageUploads(images ?: emptyList(), request.imageTypes)
+        val shop = updateShopUsecase.execute(id, request, uploads, request.keepImageIds)
             ?: return ResponseEntity.notFound().build()
         return ResponseEntity.ok(ShopResponse.from(shop))
     }

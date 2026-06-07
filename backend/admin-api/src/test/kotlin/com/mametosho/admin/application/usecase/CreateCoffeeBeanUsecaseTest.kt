@@ -1,5 +1,6 @@
 package com.mametosho.admin.application.usecase
 
+import com.mametosho.admin.application.service.ImageUpload
 import com.mametosho.admin.presentation.dto.request.CreateCoffeeBeanRequest
 import com.mametosho.admin.test.FakeImageStorageService
 import com.mametosho.domain.model.coffeebean.CoffeeBean
@@ -70,7 +71,7 @@ class CreateCoffeeBeanUsecaseTest {
         @Test
         fun `正常にCoffeeBeanを作成できる`() {
             val request = createRequest()
-            val bean = usecase.execute(request, listOf(imageFile), listOf("MAIN"))
+            val bean = usecase.execute(request, listOf(ImageUpload("MAIN", imageFile)))
 
             assertEquals("00000000-0000-4000-8000-000000000001", bean.shopId.value)
             assertEquals("test-bean-001", bean.shopifyBeanId.value)
@@ -91,14 +92,14 @@ class CreateCoffeeBeanUsecaseTest {
     inner class UUID自動生成 {
         @Test
         fun `CoffeeBeanIdがUUID形式で自動生成される`() {
-            val bean = usecase.execute(createRequest(), listOf(imageFile), listOf("MAIN"))
+            val bean = usecase.execute(createRequest(), listOf(ImageUpload("MAIN", imageFile)))
             val uuidRegex = Regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             assertTrue(uuidRegex.matches(bean.id.value))
         }
 
         @Test
         fun `CoffeeBeanTasteIdがUUID形式で自動生成される`() {
-            val bean = usecase.execute(createRequest(), listOf(imageFile), listOf("MAIN"))
+            val bean = usecase.execute(createRequest(), listOf(ImageUpload("MAIN", imageFile)))
             val uuidRegex = Regex("^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             assertTrue(uuidRegex.matches(bean.tastes[0].id.value))
         }
@@ -108,7 +109,7 @@ class CreateCoffeeBeanUsecaseTest {
     inner class nullable項目 {
         @Test
         fun `farmがnullでもCoffeeBeanを作成できる`() {
-            val bean = usecase.execute(createRequest(farm = null), listOf(imageFile), listOf("MAIN"))
+            val bean = usecase.execute(createRequest(farm = null), listOf(ImageUpload("MAIN", imageFile)))
             assertNull(bean.farm)
         }
     }
@@ -118,14 +119,14 @@ class CreateCoffeeBeanUsecaseTest {
         @Test
         fun `画像なしではCoffeeBeanを作成できない`() {
             assertThrows<IllegalArgumentException> {
-                usecase.execute(createRequest(), emptyList(), emptyList())
+                usecase.execute(createRequest(), emptyList())
             }
         }
 
         @Test
         fun `テイストなしではCoffeeBeanを作成できない`() {
             assertThrows<IllegalArgumentException> {
-                usecase.execute(createRequest(tastes = emptyList()), listOf(imageFile), listOf("MAIN"))
+                usecase.execute(createRequest(tastes = emptyList()), listOf(ImageUpload("MAIN", imageFile)))
             }
         }
     }
@@ -135,7 +136,7 @@ class CreateCoffeeBeanUsecaseTest {
         @Test
         fun `作成したCoffeeBeanがリポジトリに保存される`() {
             savedBeans.clear()
-            usecase.execute(createRequest(), listOf(imageFile), listOf("MAIN"))
+            usecase.execute(createRequest(), listOf(ImageUpload("MAIN", imageFile)))
             assertEquals(1, savedBeans.size)
             assertEquals("テストコーヒー豆", savedBeans[0].name)
         }
@@ -146,21 +147,21 @@ class CreateCoffeeBeanUsecaseTest {
         @Test
         fun `nameが空白の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                usecase.execute(createRequest(name = ""), listOf(imageFile), listOf("MAIN"))
+                usecase.execute(createRequest(name = ""), listOf(ImageUpload("MAIN", imageFile)))
             }
         }
 
         @Test
         fun `不正な焙煎度の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                usecase.execute(createRequest(roastLevel = "INVALID"), listOf(imageFile), listOf("MAIN"))
+                usecase.execute(createRequest(roastLevel = "INVALID"), listOf(ImageUpload("MAIN", imageFile)))
             }
         }
 
         @Test
         fun `不正な精製方法の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
-                usecase.execute(createRequest(processingMethod = "INVALID"), listOf(imageFile), listOf("MAIN"))
+                usecase.execute(createRequest(processingMethod = "INVALID"), listOf(ImageUpload("MAIN", imageFile)))
             }
         }
 
@@ -176,8 +177,7 @@ class CreateCoffeeBeanUsecaseTest {
                             ),
                         ),
                     ),
-                    listOf(imageFile),
-                    listOf("MAIN"),
+                    listOf(ImageUpload("MAIN", imageFile)),
                 )
             }
         }

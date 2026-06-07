@@ -5,19 +5,29 @@ import com.mametosho.domain.service.ImageStorageService
 import org.springframework.web.multipart.MultipartFile
 import java.util.UUID
 
+/** アップロードする画像ファイルとそのタイプの組。並列配列ではなく型で対応関係を保証する。 */
+data class ImageUpload(val type: String, val file: MultipartFile)
+
+/**
+ * multipartで別々に届く画像ファイルとタイプ配列を、対応関係を保証した [ImageUpload] のリストに変換する。
+ * 並列配列を扱うのはこの境界の1箇所だけに閉じ込める。
+ */
+fun buildImageUploads(files: List<MultipartFile>, types: List<String>): List<ImageUpload> {
+    require(files.size == types.size) {
+        "imageTypes size must match images size"
+    }
+    return files.mapIndexed { index, file -> ImageUpload(types[index], file) }
+}
+
 fun ImageStorageService.uploadImages(
     prefix: String,
     entityId: String,
-    imageFiles: List<MultipartFile>,
-    imageTypes: List<String>,
+    uploads: List<ImageUpload>,
 ): List<Pair<String, String>> {
-    require(imageTypes.size == imageFiles.size) {
-        "imageTypes size must match imageFiles size"
-    }
-    require(imageFiles.all { it.size <= Image.MAX_FILE_SIZE_BYTES }) {
+    require(uploads.all { it.file.size <= Image.MAX_FILE_SIZE_BYTES }) {
         "画像ファイルは1MB以下にしてください"
     }
-    return imageFiles.mapIndexed { index, file ->
+    return uploads.map { (type, file) ->
         val extension = file.originalFilename?.substringAfterLast('.', "") ?: ""
         val key = "$prefix/$entityId/${UUID.randomUUID()}.$extension"
         val url = upload(
@@ -26,7 +36,7 @@ fun ImageStorageService.uploadImages(
             contentType = file.contentType ?: "application/octet-stream",
             contentLength = file.size,
         )
-        imageTypes[index] to url
+        type to url
     }
 }
 
@@ -47,16 +57,15 @@ data class ExistingImage(val id: String, val type: String, val url: String)
  */
 fun ImageStorageService.resolveImages(
     existing: List<ExistingImage>,
-    imageFiles: List<MultipartFile>,
-    imageTypes: List<String>,
+    uploads: List<ImageUpload>,
     keepImageIds: List<String>,
     prefix: String,
     entityId: String,
 ): List<Pair<String, String>> {
     val keepSet = keepImageIds.toSet()
     val (toKeep, toDelete) = existing.partition { it.id in keepSet }
-    val newImages = if (imageFiles.isNotEmpty()) {
-        uploadImages(prefix, entityId, imageFiles, imageTypes)
+    val newImages = if (uploads.isNotEmpty()) {
+        uploadImages(prefix, entityId, uploads)
     } else {
         emptyList()
     }

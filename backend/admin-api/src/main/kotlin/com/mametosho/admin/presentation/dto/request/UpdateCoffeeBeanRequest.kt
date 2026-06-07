@@ -42,6 +42,12 @@ data class UpdateCoffeeBeanRequest(
 
     @Schema(description = "テイスト評価一覧", requiredMode = Schema.RequiredMode.REQUIRED)
     val tastes: List<TasteRequest>,
+
+    @Schema(description = "アップロード画像のタイプ一覧（imagesと同じ順序）", example = "[\"MAIN\"]")
+    val imageTypes: List<String> = emptyList(),
+
+    @Schema(description = "保持する既存画像のID一覧（含まれない既存画像は削除される）")
+    val keepImageIds: List<String> = emptyList(),
 ) {
     @Schema(description = "テイスト評価リクエスト")
     data class TasteRequest(

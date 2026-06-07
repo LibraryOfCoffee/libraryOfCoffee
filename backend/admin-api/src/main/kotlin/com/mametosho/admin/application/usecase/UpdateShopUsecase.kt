@@ -1,6 +1,7 @@
 package com.mametosho.admin.application.usecase
 
 import com.mametosho.admin.application.service.ExistingImage
+import com.mametosho.admin.application.service.ImageUpload
 import com.mametosho.admin.application.service.resolveImages
 import com.mametosho.admin.presentation.dto.request.UpdateShopRequest
 import com.mametosho.domain.model.shared.ParticipationStatus
@@ -12,7 +13,6 @@ import com.mametosho.domain.service.ImageStorageService
 import com.mametosho.domain.service.ShopDropDomainService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.multipart.MultipartFile
 
 @Service
 class UpdateShopUsecase(
@@ -24,8 +24,7 @@ class UpdateShopUsecase(
     open fun execute(
         id: String,
         request: UpdateShopRequest,
-        imageFiles: List<MultipartFile>,
-        imageTypes: List<String>,
+        uploads: List<ImageUpload>,
         keepImageIds: List<String>,
     ): Shop? {
         val shopId = ShopId(id)
@@ -33,8 +32,7 @@ class UpdateShopUsecase(
 
         val finalImages = imageStorageService.resolveImages(
             existing = existingShop.images.map { ExistingImage(it.id.value, it.type.name, it.image.url) },
-            imageFiles = imageFiles,
-            imageTypes = imageTypes,
+            uploads = uploads,
             keepImageIds = keepImageIds,
             prefix = "shops",
             entityId = id,

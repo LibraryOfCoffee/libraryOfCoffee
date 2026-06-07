@@ -139,9 +139,10 @@ class ShopControllerTest {
                 shopUrl = "https://example.com",
                 prefecture = "TOKYO",
                 participationStatus = "PARTICIPATING",
+                imageTypes = listOf("LOGO"),
             )
 
-            val response = shopController.createShop(request, listOf(logoFile), listOf("LOGO"))
+            val response = shopController.createShop(request, listOf(logoFile))
 
             assertEquals(HttpStatus.CREATED, response.statusCode)
             val shops = jdbcTemplate.queryForList("SELECT * FROM shops")
@@ -163,9 +164,10 @@ class ShopControllerTest {
                 shopUrl = "https://updated.example.com",
                 prefecture = "OSAKA",
                 participationStatus = "PARTICIPATING",
+                imageTypes = listOf("LOGO"),
             )
 
-            val response = shopController.updateShop("00000000-0000-4000-8000-000000000001", request, listOf(logoFile), listOf("LOGO"), emptyList())
+            val response = shopController.updateShop("00000000-0000-4000-8000-000000000001", request, listOf(logoFile))
 
             assertEquals(HttpStatus.OK, response.statusCode)
             assertEquals("00000000-0000-4000-8000-000000000001", response.body?.id)
@@ -181,9 +183,10 @@ class ShopControllerTest {
                 shopUrl = "https://example.com",
                 prefecture = "TOKYO",
                 participationStatus = "PARTICIPATING",
+                imageTypes = listOf("LOGO"),
             )
 
-            val response = shopController.updateShop("00000000-0000-4000-8000-999999999999", request, listOf(logoFile), listOf("LOGO"), emptyList())
+            val response = shopController.updateShop("00000000-0000-4000-8000-999999999999", request, listOf(logoFile))
 
             assertEquals(HttpStatus.NOT_FOUND, response.statusCode)
             assertNull(response.body)

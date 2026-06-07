@@ -1,6 +1,7 @@
 package com.mametosho.admin.application.usecase
 
 import com.mametosho.admin.application.service.ExistingImage
+import com.mametosho.admin.application.service.ImageUpload
 import com.mametosho.admin.application.service.resolveImages
 import com.mametosho.admin.presentation.dto.request.UpdateCoffeeBeanRequest
 import com.mametosho.domain.model.coffeebean.CoffeeBean
@@ -9,7 +10,6 @@ import com.mametosho.domain.repository.CoffeeBeanRepository
 import com.mametosho.domain.service.ImageStorageService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.multipart.MultipartFile
 
 @Service
 class UpdateCoffeeBeanUsecase(
@@ -20,16 +20,14 @@ class UpdateCoffeeBeanUsecase(
     open fun execute(
         id: String,
         request: UpdateCoffeeBeanRequest,
-        imageFiles: List<MultipartFile>,
-        imageTypes: List<String>,
+        uploads: List<ImageUpload>,
         keepImageIds: List<String>,
     ): CoffeeBean? {
         val existingBean = coffeeBeanRepository.findById(CoffeeBeanId(id)) ?: return null
 
         val finalImages = imageStorageService.resolveImages(
             existing = existingBean.images.map { ExistingImage(it.id.value, it.type.name, it.image.url) },
-            imageFiles = imageFiles,
-            imageTypes = imageTypes,
+            uploads = uploads,
             keepImageIds = keepImageIds,
             prefix = "coffee-beans",
             entityId = id,
