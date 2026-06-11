@@ -142,6 +142,7 @@ paths:
           type: string
           enum:
           - LIGHT
+          - CINNAMON
           - MEDIUM
           - CITY
           - FRENCH

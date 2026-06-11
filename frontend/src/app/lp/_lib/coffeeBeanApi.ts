@@ -80,6 +80,7 @@ const PREFECTURE_JP: Record<string, string> = {
 
 const ROAST_LEVEL_JP: Record<string, string> = {
   LIGHT: "浅煎り",
+  CINNAMON: "中浅煎り",
   MEDIUM: "中煎り",
   CITY: "中深煎り",
   FRENCH: "深煎り",
@@ -87,6 +88,7 @@ const ROAST_LEVEL_JP: Record<string, string> = {
 
 const ROAST_TAG_COLOR: Record<string, string> = {
   LIGHT: "#E2B36E",
+  CINNAMON: "#C48D55",
   MEDIUM: "#A6683D",
   CITY: "#5C3317",
   FRENCH: "#321E14",
