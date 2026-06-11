@@ -72,11 +72,46 @@ export function PlanListTable({
                     {plan.label}
                   </Link>
                 </td>
-                <td>{PLAN_TYPE_LABELS[plan.type] ?? plan.type}</td>
-                <td>{plan.gramWeight}g</td>
-                <td>{plan.beanQuantity}種</td>
-                <td>¥{plan.price.toLocaleString()}</td>
-                <td>{plan.isRecommended ? "★" : "-"}</td>
+                <td>
+                  <Link
+                    href={`/plans/${plan.id}`}
+                    className={listStyles.rowLink}
+                  >
+                    {PLAN_TYPE_LABELS[plan.type] ?? plan.type}
+                  </Link>
+                </td>
+                <td>
+                  <Link
+                    href={`/plans/${plan.id}`}
+                    className={listStyles.rowLink}
+                  >
+                    {plan.gramWeight}g
+                  </Link>
+                </td>
+                <td>
+                  <Link
+                    href={`/plans/${plan.id}`}
+                    className={listStyles.rowLink}
+                  >
+                    {plan.beanQuantity}種
+                  </Link>
+                </td>
+                <td>
+                  <Link
+                    href={`/plans/${plan.id}`}
+                    className={listStyles.rowLink}
+                  >
+                    ¥{plan.price.toLocaleString()}
+                  </Link>
+                </td>
+                <td>
+                  <Link
+                    href={`/plans/${plan.id}`}
+                    className={listStyles.rowLink}
+                  >
+                    {plan.isRecommended ? "★" : "-"}
+                  </Link>
+                </td>
               </tr>
             ))}
           </tbody>
