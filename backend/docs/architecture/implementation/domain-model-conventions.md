@@ -64,6 +64,7 @@ value class CoffeeBeanId(val value: String) {
 // RoastLevel.kt
 enum class RoastLevel {
     LIGHT,
+    CINNAMON,
     MEDIUM,
     CITY,
     FRENCH,

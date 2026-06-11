@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS coffee_beans (
     description       TEXT          NOT NULL                                     COMMENT '説明',
     origin            VARCHAR(255)  NOT NULL                                   COMMENT '産地',
     farm              VARCHAR(255)                                             COMMENT '農園',
-    roast_level       ENUM('LIGHT', 'MEDIUM', 'CITY', 'FRENCH') NOT NULL       COMMENT '焙煎度',
+    roast_level       ENUM('LIGHT', 'CINNAMON', 'MEDIUM', 'CITY', 'FRENCH') NOT NULL COMMENT '焙煎度',
     processing_method ENUM('FULLY_WASHED', 'WASHED', 'THERMAL_SHOCK_NATURAL', 'NATURAL', 'WET_HULLING', 'HONEY') NOT NULL COMMENT '精製方法',
     is_specialty      BOOLEAN       NOT NULL DEFAULT FALSE                     COMMENT 'スペシャルティコーヒーかどうか',
     publish_status    ENUM('DRAFT', 'PUBLISHED', 'INVALIDATED') NOT NULL DEFAULT 'DRAFT' COMMENT '公開状態',

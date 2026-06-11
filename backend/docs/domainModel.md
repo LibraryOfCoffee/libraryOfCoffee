@@ -214,6 +214,7 @@ classDiagram
     class RoastLevel {
       <<Enum>>
       light
+      cinnamon
       medium
       city
       french

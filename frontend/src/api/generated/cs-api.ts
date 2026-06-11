@@ -354,7 +354,7 @@ export interface operations {
          * @description 焙煎度
          * @example LIGHT
          */
-        roastLevel?: "LIGHT" | "MEDIUM" | "CITY" | "FRENCH";
+        roastLevel?: "LIGHT" | "CINNAMON" | "MEDIUM" | "CITY" | "FRENCH";
         /**
          * @description ロースターの都道府県
          * @example TOKYO
