@@ -4,6 +4,14 @@ resource "aws_lb" "this" {
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb.id]
   subnets            = var.public_subnet_ids
+
+  dynamic "access_logs" {
+    for_each = var.access_logs_bucket != "" ? [1] : []
+    content {
+      bucket  = var.access_logs_bucket
+      enabled = true
+    }
+  }
 }
 
 resource "aws_lb_target_group" "this" {

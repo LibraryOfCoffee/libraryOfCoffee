@@ -123,6 +123,17 @@ module "rds" {
 }
 
 # ============================================
+# ALB アクセスログ (S3 + Athena)
+# ============================================
+
+module "alb_logs" {
+  source = "../../modules/alb_logs"
+
+  env        = local.env
+  account_id = local.account_id
+}
+
+# ============================================
 # ALB (admin + cs-api を1台に統合)
 # ============================================
 
@@ -138,6 +149,11 @@ module "alb_admin" {
   certificate_arn     = module.acm.certificate_arn
   host_header         = "admin.mametosho.com"
   container_port      = 3001
+  access_logs_bucket  = module.alb_logs.log_bucket_name
+
+  # ALBのアクセスログ有効化はバケットへのテスト書き込みを伴うため、
+  # バケットポリシー(alb_logsモジュール内)が適用されてからALBを構成する必要がある。
+  depends_on = [module.alb_logs]
 }
 
 module "alb_attachment_cs" {
