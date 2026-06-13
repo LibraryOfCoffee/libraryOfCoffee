@@ -50,7 +50,7 @@ data "aws_region" "current" {}
 # ============================================
 
 resource "aws_s3_bucket" "logs" {
-  bucket        = "${var.env}-alb-access-logs"
+  bucket        = "mametosho-alb-access-logs-${var.env}"
   force_destroy = false
 }
 
@@ -117,7 +117,7 @@ resource "aws_s3_bucket_policy" "logs" {
 # ============================================
 
 resource "aws_s3_bucket" "athena_results" {
-  bucket        = "${var.env}-alb-athena-results"
+  bucket        = "mametosho-alb-athena-results-${var.env}"
   force_destroy = false
 }
 
