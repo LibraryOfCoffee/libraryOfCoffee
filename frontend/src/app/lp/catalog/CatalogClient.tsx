@@ -301,9 +301,9 @@ function CatalogContent({
               </span>
             </div>
             <p className={styles.counterNote}>
-              ※ 最低1種は豆図書おまかせのため、選べるのは最大{" "}
-              <strong>{plan.maxSelection}種</strong> まで（合計{" "}
-              {plan.beanQuantity}種）
+              ※ 豆図書おまかせの1種を含む、合計{plan.beanQuantity}
+              種でお届けします。 <strong>{plan.maxSelection}種</strong>{" "}
+              まで自由にお選びいただけます
             </p>
 
             {/* bean list */}
