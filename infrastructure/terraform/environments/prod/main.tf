@@ -150,6 +150,10 @@ module "alb_admin" {
   host_header         = "admin.mametosho.com"
   container_port      = 3001
   access_logs_bucket  = module.alb_logs.log_bucket_name
+
+  # ALBのアクセスログ有効化はバケットへのテスト書き込みを伴うため、
+  # バケットポリシー(alb_logsモジュール内)が適用されてからALBを構成する必要がある。
+  depends_on = [module.alb_logs]
 }
 
 module "alb_attachment_cs" {
