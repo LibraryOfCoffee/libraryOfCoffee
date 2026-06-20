@@ -36,6 +36,15 @@ variable "ingress_description" {
   description = "ingressルールの説明"
 }
 
+variable "additional_ingress_sgs" {
+  type = list(object({
+    sg_id       = string
+    description = string
+  }))
+  default     = []
+  description = "container_portへのingressを追加で許可する元SGのリスト。独立ルールではなくinlineで定義され、inlineと独立ルールの混在競合を避ける。"
+}
+
 variable "container_port" {
   type = number
 }
