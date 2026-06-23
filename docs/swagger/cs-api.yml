@@ -68,6 +68,72 @@ paths:
                     totalCount: 3
                     page: 0
                     size: 20
+  /api/shops/{shopId}:
+    get:
+      tags:
+      - Shop
+      summary: 店舗詳細取得
+      description: 指定されたIDの店舗の詳細情報を取得します。参画中の店舗のみ取得できます。
+      operationId: getShop
+      parameters:
+      - name: shopId
+        in: path
+        description: 店舗ID
+        required: true
+        schema:
+          type: string
+        example: 00000000-0000-4000-8000-000000000031
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShopDetailResponse"
+              examples:
+                success:
+                  summary: 取得成功例
+                  description: success
+                  value:
+                    id: 00000000-0000-4000-8000-000000000031
+                    name: 珈琲工房 まめとしょ
+                    introduction: 東京都渋谷区にある自家焙煎珈琲店。厳選されたスペシャルティコーヒーをお届けします。
+                    particular: 厳選された豆のみを使用しています。
+                    shopUrl: https://mametosho.example.com
+                    prefecture: TOKYO
+                    images:
+                    - id: 00000000-0000-4000-8000-000000000010
+                      type: LOGO
+                      imageUrl: https://placehold.jp/100x100.png
+                    - id: 00000000-0000-4000-8000-000000000011
+                      type: MAIN
+                      imageUrl: https://placehold.jp/600x400.png
+        "400":
+          description: 店舗IDの形式が不正
+          content:
+            '*/*':
+              examples:
+                bad_request:
+                  summary: 店舗IDがUUID形式でない場合
+                  description: bad_request
+                  value:
+                    timestamp: 2026-02-23T12:00:00.000+00:00
+                    status: 400
+                    error: Bad Request
+                    path: /api/shops/invalid-id
+        "404":
+          description: 店舗が見つかりません（存在しない、または参画中でない）
+          content:
+            '*/*':
+              examples:
+                not_found:
+                  summary: 店舗が見つからない場合
+                  description: not_found
+                  value:
+                    timestamp: 2026-02-23T12:00:00.000+00:00
+                    status: 404
+                    error: Not Found
+                    path: /api/shops/00000000-0000-4000-8000-000000000999
   /api/plans:
     get:
       tags:
@@ -303,6 +369,67 @@ components:
       - introduction
       - logoImageUrl
       - name
+      - prefecture
+      - shopUrl
+    ImageDetail:
+      type: object
+      description: 画像詳細
+      properties:
+        id:
+          type: string
+          description: 画像ID
+          example: 00000000-0000-4000-8000-000000000010
+        type:
+          type: string
+          description: "画像種別（LOGO: ロゴ / MAIN: メイン）"
+          example: LOGO
+        imageUrl:
+          type: string
+          description: 画像URL
+          example: https://placehold.jp/100x100.png
+      required:
+      - id
+      - imageUrl
+      - type
+    ShopDetailResponse:
+      type: object
+      description: 店舗詳細レスポンス
+      properties:
+        id:
+          type: string
+          description: 店舗ID
+          example: 00000000-0000-4000-8000-000000000031
+        name:
+          type: string
+          description: 店舗名
+          example: 珈琲工房 まめとしょ
+        introduction:
+          type: string
+          description: 店舗紹介文
+          example: 東京都渋谷区にある自家焙煎珈琲店。厳選されたスペシャルティコーヒーをお届けします。
+        particular:
+          type: string
+          description: こだわり
+          example: 厳選された豆のみを使用しています。
+        shopUrl:
+          type: string
+          description: 店舗URL
+          example: https://mametosho.example.com
+        prefecture:
+          type: string
+          description: 都道府県
+          example: TOKYO
+        images:
+          type: array
+          description: 画像一覧
+          items:
+            $ref: "#/components/schemas/ImageDetail"
+      required:
+      - id
+      - images
+      - introduction
+      - name
+      - particular
       - prefecture
       - shopUrl
     PlanResponse:
