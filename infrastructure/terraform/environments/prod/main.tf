@@ -229,9 +229,15 @@ module "ecs_cs_frontend" {
   image_url           = "${module.ecr_cs_frontend.repository_url}:latest"
   target_group_arn    = module.alb_attachment_cs_frontend.target_group_arn
   use_spot            = false
+  secret_arns = [
+    aws_secretsmanager_secret.cs_frontend_hmac_ssr_key.arn,
+  ]
   environment = [
     { name = "CS_API_BASE_URL", value = "http://cs-api.${local.env}.local:8080" },
     { name = "URL", value = "https://mametosho.com" },
+  ]
+  secrets = [
+    { name = "CS_API_HMAC_KEY_SSR", valueFrom = aws_secretsmanager_secret.cs_frontend_hmac_ssr_key.arn },
   ]
 }
 
@@ -242,14 +248,14 @@ module "ecs_cs_frontend" {
 module "ecs_cs_api" {
   source = "../../modules/ecs_fargate"
 
-  account_id            = local.account_id
-  env                   = local.env
-  service_name          = "cs-api"
-  container_name        = "cs-api"
-  vpc_id                = module.vpc.vpc_id
-  subnet_ids            = module.vpc.public_subnet_ids
-  ingress_from_sg_id    = module.alb_admin.alb_security_group_id
-  ingress_description   = "Allow access from ALB"
+  account_id          = local.account_id
+  env                 = local.env
+  service_name        = "cs-api"
+  container_name      = "cs-api"
+  vpc_id              = module.vpc.vpc_id
+  subnet_ids          = module.vpc.public_subnet_ids
+  ingress_from_sg_id  = module.alb_admin.alb_security_group_id
+  ingress_description = "Allow access from ALB"
   additional_ingress_sgs = [
     {
       sg_id       = module.ecs_cs_frontend.ecs_sg_id
@@ -267,6 +273,7 @@ module "ecs_cs_api" {
   use_spot              = false
   secret_arns = [
     aws_secretsmanager_secret.cs_api_db.arn,
+    aws_secretsmanager_secret.cs_api_hmac_master_key.arn,
   ]
 
   environment = [
@@ -276,6 +283,7 @@ module "ecs_cs_api" {
   secrets = [
     { name = "DB_USERNAME", valueFrom = "${aws_secretsmanager_secret.cs_api_db.arn}:username::" },
     { name = "DB_PASSWORD", valueFrom = "${aws_secretsmanager_secret.cs_api_db.arn}:password::" },
+    { name = "CS_API_HMAC_MASTER_KEY", valueFrom = aws_secretsmanager_secret.cs_api_hmac_master_key.arn },
   ]
 }
 

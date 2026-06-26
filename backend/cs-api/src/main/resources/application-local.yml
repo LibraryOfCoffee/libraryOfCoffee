@@ -11,6 +11,10 @@ spring:
       file: ../compose.yml
       lifecycle-management: start-and-stop
 
+hmac:
+  # ローカル開発用の固定マスター鍵(AES-256, hex64)。本番は CS_API_HMAC_MASTER_KEY で注入。
+  master-key: 7f079f53a156f76466e1443ce4f3a196fcea51b275a55b7052e20f727e98faf6
+
 logging:
   level:
     com.mametosho: DEBUG

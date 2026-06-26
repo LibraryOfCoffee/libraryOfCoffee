@@ -1,4 +1,5 @@
 import type { components } from "@/api/generated/cs-api";
+import { hmacFetch } from "./hmacFetch";
 
 export type TasteProfile =
   components["schemas"]["CoffeeBeanResponse"]["tasteProfiles"][number];
@@ -121,9 +122,8 @@ function toBeanDetail(item: CoffeeBeanApiItem): BeanDetail {
 }
 
 export async function fetchCoffeeBeans(): Promise<BeanDetail[]> {
-  const baseUrl = process.env.CS_API_BASE_URL ?? "http://localhost:8080";
   try {
-    const res = await fetch(`${baseUrl}/api/coffeeBeans?page=0&size=100`, {
+    const res = await hmacFetch("/api/coffeeBeans?page=0&size=100", {
       cache: "no-store",
     });
     if (!res.ok) return [];
