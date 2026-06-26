@@ -20,6 +20,8 @@ export const PROCESSING_METHODS = [
   "WASHED",
   "THERMAL_SHOCK_NATURAL",
   "NATURAL",
+  "ANAEROBIC_NATURAL",
+  "DRY_ON_TREE_NATURAL",
   "WET_HULLING",
   "HONEY",
 ] as const;
@@ -30,7 +32,9 @@ export const PROCESSING_METHOD_LABELS: Record<ProcessingMethod, string> = {
   WASHED: "ウォッシュド",
   THERMAL_SHOCK_NATURAL: "サーマルショック・ナチュラル",
   NATURAL: "ナチュラル",
-  WET_HULLING: "ウェットハリング",
+  ANAEROBIC_NATURAL: "アナエロビックナチュラル",
+  DRY_ON_TREE_NATURAL: "ドライオンツリーナチュラル",
+  WET_HULLING: "スマトラ式",
   HONEY: "ハニー",
 };
 

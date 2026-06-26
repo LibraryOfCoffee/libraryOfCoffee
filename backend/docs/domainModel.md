@@ -226,6 +226,8 @@ classDiagram
       washed
       thermal_shock_natural
       natural
+      anaerobic_natural
+      dry_on_tree_natural
       wet_hulling
       honey
     }

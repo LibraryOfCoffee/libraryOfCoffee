@@ -6,6 +6,8 @@ enum class ProcessingMethod {
     WASHED,
     THERMAL_SHOCK_NATURAL,
     NATURAL,
+    ANAEROBIC_NATURAL,
+    DRY_ON_TREE_NATURAL,
     WET_HULLING,
     HONEY,
 }
