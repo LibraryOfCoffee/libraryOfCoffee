@@ -16,6 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 import java.security.MessageDigest
 import java.time.Instant
 import java.time.OffsetDateTime
+import java.util.HexFormat
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 import kotlin.math.abs
@@ -102,16 +103,13 @@ class HmacSignatureFilter(
     }
 
     private fun sha256Hex(data: ByteArray): String =
-        MessageDigest.getInstance("SHA-256").digest(data).toHex()
+        HEX.formatHex(MessageDigest.getInstance("SHA-256").digest(data))
 
     private fun hmacSha256Hex(key: ByteArray, data: String): String {
         val mac = Mac.getInstance("HmacSHA256")
         mac.init(SecretKeySpec(key, "HmacSHA256"))
-        return mac.doFinal(data.toByteArray()).toHex()
+        return HEX.formatHex(mac.doFinal(data.toByteArray()))
     }
-
-    private fun ByteArray.toHex(): String =
-        joinToString("") { "%02x".format(it) }
 
     private fun writeUnauthorized(request: HttpServletRequest, response: HttpServletResponse, reason: String) {
         log.warn("HMAC認証失敗 {} {}: {}", request.method, request.requestURI, reason)
@@ -130,6 +128,7 @@ class HmacSignatureFilter(
     }
 
     companion object {
+        private val HEX = HexFormat.of()
         private const val HEADER_CLIENT_ID = "X-Client-Id"
         private const val HEADER_TIMESTAMP = "X-Timestamp"
         private const val HEADER_SIGNATURE = "X-Signature"

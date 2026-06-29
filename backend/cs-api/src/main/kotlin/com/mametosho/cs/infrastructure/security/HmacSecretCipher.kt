@@ -4,6 +4,7 @@ import com.mametosho.cs.config.HmacProperties
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import java.security.SecureRandom
+import java.util.HexFormat
 import javax.crypto.Cipher
 import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.SecretKeySpec
@@ -20,7 +21,7 @@ import javax.crypto.spec.SecretKeySpec
 @Profile("!openapi")
 class HmacSecretCipher(properties: HmacProperties) {
 
-    private val secretKey = SecretKeySpec(hexToBytes(properties.masterKey), "AES")
+    private val secretKey = SecretKeySpec(HexFormat.of().parseHex(properties.masterKey), "AES")
 
     fun encrypt(plaintext: ByteArray): ByteArray {
         val iv = ByteArray(IV_LENGTH).also { SecureRandom().nextBytes(it) }
@@ -38,17 +39,9 @@ class HmacSecretCipher(properties: HmacProperties) {
         return cipher.doFinal(cipherText)
     }
 
-    private fun hexToBytes(hex: String): ByteArray {
-        require(hex.length % 2 == 0) { "マスター鍵のhex長が不正です" }
-        return ByteArray(hex.length / 2) { i ->
-            hex.substring(i * 2, i * 2 + 2).toInt(HEX_RADIX).toByte()
-        }
-    }
-
     companion object {
         private const val TRANSFORMATION = "AES/GCM/NoPadding"
         private const val IV_LENGTH = 12
         private const val TAG_LENGTH_BITS = 128
-        private const val HEX_RADIX = 16
     }
 }
