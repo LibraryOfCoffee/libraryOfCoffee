@@ -143,3 +143,13 @@ CREATE TABLE IF NOT EXISTS actual_shipping_coffee_beans (
     FOREIGN KEY (monthly_subscription_detail_id) REFERENCES monthly_subscription_details (id),
     FOREIGN KEY (coffee_bean_id) REFERENCES coffee_beans (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='実際に発送する珈琲豆テーブル';
+
+CREATE TABLE IF NOT EXISTS api_clients (
+    id               CHAR(36)       NOT NULL PRIMARY KEY                          COMMENT 'APIクライアントID(UUID)',
+    client_id        VARCHAR(255)   NOT NULL UNIQUE                               COMMENT '識別子(X-Client-Idと一致, 例 ssr-frontend)',
+    description      VARCHAR(255)   NOT NULL                                      COMMENT '用途説明',
+    encrypted_secret VARBINARY(512) NOT NULL                                      COMMENT 'AES-GCMで封筒暗号化したHMAC秘密鍵(iv||ciphertext||tag)',
+    is_active        BOOLEAN        NOT NULL DEFAULT TRUE                          COMMENT '有効フラグ(失効はfalse)',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP                             COMMENT '作成日時',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='APIクライアント(HMAC)鍵管理テーブル';

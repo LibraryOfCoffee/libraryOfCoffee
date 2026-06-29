@@ -30,6 +30,10 @@
         {
           "name": "DB_PASSWORD",
           "valueFrom": "{{ must_env `DB_SECRET_ARN` }}:password::"
+        },
+        {
+          "name": "CS_API_HMAC_MASTER_KEY",
+          "valueFrom": "{{ must_env `HMAC_MASTER_KEY_SECRET_ARN` }}"
         }
       ],
       "logConfiguration": {

@@ -15,6 +15,10 @@ mybatis:
 server:
   port: ${SERVER_PORT:8080}
 
+hmac:
+  master-key: ${CS_API_HMAC_MASTER_KEY}
+  allowed-skew-seconds: ${CS_API_HMAC_SKEW_SECONDS:300}
+
 springdoc:
   api-docs:
     path: /v3/api-docs

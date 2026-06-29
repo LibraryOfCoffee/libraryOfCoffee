@@ -26,6 +26,12 @@
           "value": "{{ must_env `SITE_URL` }}"
         }
       ],
+      "secrets": [
+        {
+          "name": "CS_API_HMAC_KEY_SSR",
+          "valueFrom": "{{ must_env `HMAC_SSR_KEY_SECRET_ARN` }}"
+        }
+      ],
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {

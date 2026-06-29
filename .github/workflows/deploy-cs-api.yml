@@ -119,9 +119,11 @@ jobs:
 
           DB_SECRET_ARN=$(get_param "/${ENV}/cs-api/db-secret-arn")
           RDS_ENDPOINT=$(get_param "/${ENV}/cs-api/rds-endpoint")
+          HMAC_MASTER_KEY_SECRET_ARN=$(get_param "/${ENV}/cs-api/hmac-master-key-secret-arn")
 
           echo "db_secret_arn=${DB_SECRET_ARN}" >> $GITHUB_OUTPUT
           echo "db_url=jdbc:mysql://${RDS_ENDPOINT}:3306/mametosho" >> $GITHUB_OUTPUT
+          echo "hmac_master_key_secret_arn=${HMAC_MASTER_KEY_SECRET_ARN}" >> $GITHUB_OUTPUT
 
       - name: Install ecspresso
         uses: kayac/ecspresso@v2
@@ -134,6 +136,7 @@ jobs:
           IMAGE_TAG: ${{ needs.build.outputs.image_tag }}
           DB_URL: ${{ steps.params.outputs.db_url }}
           DB_SECRET_ARN: ${{ steps.params.outputs.db_secret_arn }}
+          HMAC_MASTER_KEY_SECRET_ARN: ${{ steps.params.outputs.hmac_master_key_secret_arn }}
         run: |
           ecspresso deploy \
             --config infrastructure/ecspresso/cs-api/ecspresso.yml

@@ -117,6 +117,11 @@ jobs:
             echo "site_url=https://${ENV}.mametosho.com" >> $GITHUB_OUTPUT
           fi
 
+          HMAC_SSR_KEY_SECRET_ARN=$(aws ssm get-parameter \
+            --name "/${ENV}/cs-frontend/hmac-ssr-key-secret-arn" \
+            --query 'Parameter.Value' --output text)
+          echo "hmac_ssr_key_secret_arn=${HMAC_SSR_KEY_SECRET_ARN}" >> $GITHUB_OUTPUT
+
       - name: Install ecspresso
         uses: kayac/ecspresso@v2
         with:
@@ -127,6 +132,7 @@ jobs:
           ENV: ${{ inputs.environment }}
           IMAGE_TAG: ${{ needs.build.outputs.image_tag }}
           SITE_URL: ${{ steps.params.outputs.site_url }}
+          HMAC_SSR_KEY_SECRET_ARN: ${{ steps.params.outputs.hmac_ssr_key_secret_arn }}
         run: |
           ecspresso deploy \
             --config infrastructure/ecspresso/cs-frontend/ecspresso.yml

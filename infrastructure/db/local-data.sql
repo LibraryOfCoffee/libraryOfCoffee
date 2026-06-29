@@ -191,3 +191,13 @@ INSERT IGNORE INTO actual_shipping_coffee_beans (id, monthly_subscription_detail
 ('00000000-0000-4000-8000-0000000000f3', '00000000-0000-4000-8000-000000000083', '00000000-0000-4000-8000-000000000072'),
 ('00000000-0000-4000-8000-0000000000f4', '00000000-0000-4000-8000-000000000083', '00000000-0000-4000-8000-000000000075'),
 ('00000000-0000-4000-8000-0000000000f5', '00000000-0000-4000-8000-000000000083', '00000000-0000-4000-8000-000000000076');
+
+-- ------------------------------------------------------------
+-- api_clients（HMAC認証クライアント鍵）
+-- encrypted_secret は application-local.yml の hmac.master-key で
+-- 各クライアント秘密鍵をAES-GCM封筒暗号化した値(iv||ciphertext||tag)。
+-- SSR用の平文秘密鍵はフロントの CS_API_HMAC_KEY_SSR と一致させること。
+-- ------------------------------------------------------------
+INSERT IGNORE INTO api_clients (id, client_id, description, encrypted_secret, is_active) VALUES
+('00000000-0000-4000-8000-000000000301', 'ssr-frontend', 'CS Frontend (Next.js SSR)', UNHEX('cf88dfef71fedcee69078658c7023d3903ccda0584b033e5c6248456803295d31acb6cb4274c27d1f6c736bb5ef9c22c98b4e5bc596f14e941ce428cb0d328e796450348b44d2f2fab6067d7'), TRUE),
+('00000000-0000-4000-8000-000000000302', 'shopify', 'Shopify連携クライアント', UNHEX('1a4a430c8c29d95f361a3a3d7fdfe11f7a337cf54ce9b0491db41523fa09c7687f829b831ede2c8dcd7b9a05cc5bec48737ca03ce13bc3622387047bb4522bc4956a2f16532e961538ac26a7'), TRUE);

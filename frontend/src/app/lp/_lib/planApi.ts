@@ -1,4 +1,5 @@
 import type { components } from "@/api/generated/cs-api";
+import { hmacFetch } from "./hmacFetch";
 
 export type WeightGrams = 30 | 60 | 90;
 
@@ -24,10 +25,9 @@ export function groupPlansByGram(
 }
 
 export async function fetchPlans(): Promise<PlanGroup[]> {
-  const baseUrl = process.env.CS_API_BASE_URL ?? "http://localhost:8080";
   let items: PlanApiItem[];
   try {
-    const res = await fetch(`${baseUrl}/api/plans`, {
+    const res = await hmacFetch("/api/plans", {
       cache: "no-store",
     });
     if (!res.ok) return [];
