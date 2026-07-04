@@ -2,6 +2,7 @@ package com.mametosho.cs.presentation.dto.response
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.mametosho.cs.application.query.result.CoffeeBeanSummaryResult
+import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "珈琲豆一覧アイテム")
@@ -21,7 +22,9 @@ data class CoffeeBeanResponse(
     @Schema(description = "焙煎度", example = "LIGHT", requiredMode = Schema.RequiredMode.REQUIRED)
     val roastLevel: String,
     @Schema(description = "精製方法", example = "WASHED", requiredMode = Schema.RequiredMode.REQUIRED)
-    val processingMethod: String,
+    val processingMethod: ProcessingMethod,
+    @Schema(description = "精製方法の表示名", example = "ウォッシュド", requiredMode = Schema.RequiredMode.REQUIRED)
+    val processingMethodName: String,
     @get:Schema(description = "スペシャルティ珈琲かどうか", example = "true", requiredMode = Schema.RequiredMode.REQUIRED)
     @get:JsonProperty("isSpecialty")
     val isSpecialty: Boolean,
@@ -47,22 +50,26 @@ data class CoffeeBeanResponse(
     )
 
     companion object {
-        fun from(result: CoffeeBeanSummaryResult): CoffeeBeanResponse = CoffeeBeanResponse(
-            id = result.id,
-            shopifyBeanId = result.shopifyBeanId,
-            name = result.name,
-            origin = result.origin,
-            roastLevel = result.roastLevel,
-            processingMethod = result.processingMethod,
-            isSpecialty = result.isSpecialty,
-            description = result.description,
-            imageUrl = result.imageUrl,
-            shopName = result.shopName,
-            shopPrefecture = result.shopPrefecture,
-            shopUrl = result.shopUrl,
-            tasteProfiles = result.tasteProfiles.map { taste ->
-                TasteProfileResponse(name = taste.name, value = taste.value)
-            },
-        )
+        fun from(result: CoffeeBeanSummaryResult): CoffeeBeanResponse {
+            val processingMethod = ProcessingMethod.valueOf(result.processingMethod)
+            return CoffeeBeanResponse(
+                id = result.id,
+                shopifyBeanId = result.shopifyBeanId,
+                name = result.name,
+                origin = result.origin,
+                roastLevel = result.roastLevel,
+                processingMethod = processingMethod,
+                processingMethodName = processingMethod.label,
+                isSpecialty = result.isSpecialty,
+                description = result.description,
+                imageUrl = result.imageUrl,
+                shopName = result.shopName,
+                shopPrefecture = result.shopPrefecture,
+                shopUrl = result.shopUrl,
+                tasteProfiles = result.tasteProfiles.map { taste ->
+                    TasteProfileResponse(name = taste.name, value = taste.value)
+                },
+            )
+        }
     }
 }

@@ -13,7 +13,10 @@ import com.mametosho.admin.presentation.dto.response.CoffeeBeanListResponse
 import com.mametosho.admin.presentation.dto.response.CoffeeBeanSummaryResponse
 import com.mametosho.admin.presentation.dto.response.CoffeeBeanResponse
 import com.mametosho.admin.presentation.dto.response.ErrorResponse
+import com.mametosho.admin.presentation.dto.response.ProcessingMethodResponse
+import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.ExampleObject
 import io.swagger.v3.oas.annotations.media.Schema
@@ -99,6 +102,48 @@ class CoffeeBeanController(
     ): ResponseEntity<CoffeeBeanListResponse> {
         val result = findCoffeeBeansUsecase.execute(page, size)
         return ResponseEntity.ok(CoffeeBeanListResponse.from(result))
+    }
+
+    @GetMapping("/processing-methods")
+    @Operation(
+        summary = "精製方法一覧取得",
+        description = "コーヒー豆の精製方法の選択肢一覧（値と表示名）を取得します。",
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "取得成功",
+                content = [
+                    Content(
+                        mediaType = MediaType.APPLICATION_JSON_VALUE,
+                        array = ArraySchema(schema = Schema(implementation = ProcessingMethodResponse::class)),
+                        examples = [
+                            ExampleObject(
+                                name = "success",
+                                summary = "取得成功例",
+                                value = """
+                                    [
+                                      {
+                                        "value": "FULLY_WASHED",
+                                        "label": "フリーウォッシュド"
+                                      },
+                                      {
+                                        "value": "WASHED",
+                                        "label": "ウォッシュド"
+                                      }
+                                    ]
+                                """,
+                            ),
+                        ],
+                    ),
+                ],
+            ),
+        ],
+    )
+    fun listProcessingMethods(): ResponseEntity<List<ProcessingMethodResponse>> {
+        val responses = ProcessingMethod.entries.map { ProcessingMethodResponse.from(it) }
+        return ResponseEntity.ok(responses)
     }
 
     @GetMapping("/{id}")

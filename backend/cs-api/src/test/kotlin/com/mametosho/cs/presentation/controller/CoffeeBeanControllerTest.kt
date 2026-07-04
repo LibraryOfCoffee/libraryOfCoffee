@@ -12,6 +12,7 @@ import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.MySQLContainer
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
+import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -126,7 +127,7 @@ class CoffeeBeanControllerTest {
             assertEquals("エチオピア イルガチェフェ G1", item?.name)
             assertEquals("エチオピア", item?.origin)
             assertEquals("LIGHT", item?.roastLevel)
-            assertEquals("WASHED", item?.processingMethod)
+            assertEquals(ProcessingMethod.WASHED, item?.processingMethod)
             assertEquals(true, item?.isSpecialty)
         }
 

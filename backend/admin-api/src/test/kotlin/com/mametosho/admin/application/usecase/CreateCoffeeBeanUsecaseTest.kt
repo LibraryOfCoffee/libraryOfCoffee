@@ -43,7 +43,7 @@ class CreateCoffeeBeanUsecaseTest {
         origin: String = "エチオピア",
         farm: String? = "テスト農園",
         roastLevel: String = "MEDIUM",
-        processingMethod: String = "WASHED",
+        processingMethod: ProcessingMethod = ProcessingMethod.WASHED,
         isSpecialty: Boolean = true,
         publishStatus: String = "PUBLISHED",
         tastes: List<CreateCoffeeBeanRequest.TasteRequest> = listOf(
@@ -155,13 +155,6 @@ class CreateCoffeeBeanUsecaseTest {
         fun `不正な焙煎度の場合は例外が発生する`() {
             assertThrows<IllegalArgumentException> {
                 usecase.execute(createRequest(roastLevel = "INVALID"), listOf(ImageUpload("MAIN", imageFile)))
-            }
-        }
-
-        @Test
-        fun `不正な精製方法の場合は例外が発生する`() {
-            assertThrows<IllegalArgumentException> {
-                usecase.execute(createRequest(processingMethod = "INVALID"), listOf(ImageUpload("MAIN", imageFile)))
             }
         }
 

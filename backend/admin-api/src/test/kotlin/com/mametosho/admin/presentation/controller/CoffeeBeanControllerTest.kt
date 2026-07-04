@@ -3,6 +3,7 @@ package com.mametosho.admin.presentation.controller
 import com.mametosho.admin.presentation.dto.request.CreateCoffeeBeanRequest
 import com.mametosho.admin.presentation.dto.request.UpdateCoffeeBeanRequest
 import com.mametosho.admin.test.FakeImageStorageConfig
+import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.springframework.beans.factory.annotation.Autowired
@@ -113,7 +114,7 @@ class CoffeeBeanControllerTest {
         origin = "エチオピア",
         farm = "テスト農園",
         roastLevel = "MEDIUM",
-        processingMethod = "WASHED",
+        processingMethod = ProcessingMethod.WASHED,
         isSpecialty = true,
         publishStatus = "PUBLISHED",
         tastes = listOf(CreateCoffeeBeanRequest.TasteRequest(tasteId = tasteId, evaluationValue = 4)),
@@ -132,13 +133,27 @@ class CoffeeBeanControllerTest {
         origin = "ブラジル",
         farm = "更新農園",
         roastLevel = "FRENCH",
-        processingMethod = "NATURAL",
+        processingMethod = ProcessingMethod.NATURAL,
         isSpecialty = true,
         publishStatus = "PUBLISHED",
         tastes = listOf(UpdateCoffeeBeanRequest.TasteRequest(tasteId = tasteId, evaluationValue = 3)),
         imageTypes = imageTypes,
         keepImageIds = keepImageIds,
     )
+
+    @Nested
+    inner class 精製方法一覧取得 {
+        @Test
+        fun `正常に精製方法一覧を取得すると200が返る`() {
+            val response = coffeeBeanController.listProcessingMethods()
+
+            assertEquals(HttpStatus.OK, response.statusCode)
+            val body = response.body
+            assertEquals(ProcessingMethod.entries.size, body?.size)
+            assertEquals(ProcessingMethod.FULLY_WASHED, body?.first()?.value)
+            assertEquals("フリーウォッシュド", body?.first()?.label)
+        }
+    }
 
     @Nested
     inner class コーヒー豆一覧取得 {

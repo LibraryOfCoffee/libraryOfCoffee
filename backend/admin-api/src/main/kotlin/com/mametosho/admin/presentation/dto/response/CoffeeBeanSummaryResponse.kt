@@ -2,6 +2,7 @@ package com.mametosho.admin.presentation.dto.response
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.mametosho.admin.application.query.result.CoffeeBeanSummaryResult
+import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "コーヒー豆一覧アイテム")
@@ -23,7 +24,9 @@ data class CoffeeBeanSummaryResponse(
     @Schema(description = "焙煎度", example = "MEDIUM", requiredMode = Schema.RequiredMode.REQUIRED)
     val roastLevel: String,
     @Schema(description = "精製方法", example = "WASHED", requiredMode = Schema.RequiredMode.REQUIRED)
-    val processingMethod: String,
+    val processingMethod: ProcessingMethod,
+    @Schema(description = "精製方法の表示名", example = "ウォッシュド", requiredMode = Schema.RequiredMode.REQUIRED)
+    val processingMethodName: String,
     @get:Schema(description = "スペシャルティコーヒーかどうか", example = "true", requiredMode = Schema.RequiredMode.REQUIRED)
     @get:JsonProperty("isSpecialty")
     val isSpecialty: Boolean,
@@ -35,18 +38,22 @@ data class CoffeeBeanSummaryResponse(
     val publishStatus: String,
 ) {
     companion object {
-        fun from(result: CoffeeBeanSummaryResult): CoffeeBeanSummaryResponse = CoffeeBeanSummaryResponse(
-            id = result.id,
-            shopId = result.shopId,
-            shopifyBeanId = result.shopifyBeanId,
-            name = result.name,
-            description = result.description,
-            origin = result.origin,
-            farm = result.farm,
-            roastLevel = result.roastLevel,
-            processingMethod = result.processingMethod,
-            isSpecialty = result.isSpecialty,
-            publishStatus = result.publishStatus,
-        )
+        fun from(result: CoffeeBeanSummaryResult): CoffeeBeanSummaryResponse {
+            val processingMethod = ProcessingMethod.valueOf(result.processingMethod)
+            return CoffeeBeanSummaryResponse(
+                id = result.id,
+                shopId = result.shopId,
+                shopifyBeanId = result.shopifyBeanId,
+                name = result.name,
+                description = result.description,
+                origin = result.origin,
+                farm = result.farm,
+                roastLevel = result.roastLevel,
+                processingMethod = processingMethod,
+                processingMethodName = processingMethod.label,
+                isSpecialty = result.isSpecialty,
+                publishStatus = result.publishStatus,
+            )
+        }
     }
 }

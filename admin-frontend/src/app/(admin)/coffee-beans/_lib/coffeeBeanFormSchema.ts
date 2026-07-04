@@ -1,5 +1,5 @@
 import { z } from "zod/v4";
-import { PROCESSING_METHODS, ROAST_LEVELS } from "./coffeeBeanLabels";
+import { ROAST_LEVELS } from "./coffeeBeanLabels";
 
 export const coffeeBeanFieldsSchema = z.object({
   shopId: z.string().min(1, "店舗を選択してください。"),
@@ -27,9 +27,8 @@ export const coffeeBeanFieldsSchema = z.object({
   roastLevel: z.enum(ROAST_LEVELS, {
     error: "焙煎度を選択してください。",
   }),
-  processingMethod: z.enum(PROCESSING_METHODS, {
-    error: "精製方法を選択してください。",
-  }),
+  // 有効値はAdmin APIの精製方法一覧が正本。不正値はAPI側で400になる
+  processingMethod: z.string().min(1, "精製方法を選択してください。"),
   isSpecialty: z
     .enum(["true", "false"], {
       error: "スペシャルティを選択してください。",
