@@ -7,16 +7,11 @@ import {
   useId,
   useRef,
 } from "react";
+import type { ProcessingMethodOption } from "@/api/coffee-beans";
 import type { ShopListItem } from "@/api/shops";
 import type { TasteListItem } from "@/api/tastes";
-import type {
-  ProcessingMethod,
-  RoastLevel,
-} from "@/app/(admin)/coffee-beans/_lib/coffeeBeanLabels";
-import {
-  PROCESSING_METHOD_LABELS,
-  ROAST_LEVEL_LABELS,
-} from "@/app/(admin)/coffee-beans/_lib/coffeeBeanLabels";
+import type { RoastLevel } from "@/app/(admin)/coffee-beans/_lib/coffeeBeanLabels";
+import { ROAST_LEVEL_LABELS } from "@/app/(admin)/coffee-beans/_lib/coffeeBeanLabels";
 import { ImageUploadField } from "@/components/ImageUploadField";
 import modalStyles from "@/components/modal.module.css";
 import { ShopSearchSelect } from "@/components/ShopSearchSelect";
@@ -33,11 +28,13 @@ const initialState: CreateCoffeeBeanState = {};
 export function CreateCoffeeBeanModal({
   shops,
   tastes,
+  processingMethods,
   open,
   onClose,
 }: {
   shops: ShopListItem[];
   tastes: TasteListItem[];
+  processingMethods: ProcessingMethodOption[];
   open: boolean;
   onClose: () => void;
 }) {
@@ -250,12 +247,7 @@ export function CreateCoffeeBeanModal({
             <option value="" disabled>
               精製方法を選択してください
             </option>
-            {(
-              Object.entries(PROCESSING_METHOD_LABELS) as [
-                ProcessingMethod,
-                string,
-              ][]
-            ).map(([value, label]) => (
+            {processingMethods.map(({ value, label }) => (
               <option key={value} value={value}>
                 {label}
               </option>

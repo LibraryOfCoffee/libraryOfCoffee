@@ -8,6 +8,10 @@ info:
 servers:
 - url: /
   description: Current Server
+security:
+- X-Client-Id: []
+  X-Timestamp: []
+  X-Signature: []
 tags:
 - name: Plan
   description: プランAPI
@@ -536,7 +540,24 @@ components:
         processingMethod:
           type: string
           description: 精製方法
+          enum:
+          - FULLY_WASHED
+          - WASHED
+          - ANAEROBIC_WASHED
+          - THERMAL_SHOCK_NATURAL
+          - NATURAL
+          - ANAEROBIC_NATURAL
+          - DRY_ON_TREE_NATURAL
+          - LACTIC_NATURAL
+          - WET_HULLING
+          - HONEY
+          - LADO_A_LADO_PROCESS
+          - LADO_A_LADO_PROCESS_FULLY_WASHED
           example: WASHED
+        processingMethodName:
+          type: string
+          description: 精製方法の表示名
+          example: ウォッシュド
         description:
           type: string
           description: 説明文
@@ -574,6 +595,7 @@ components:
       - name
       - origin
       - processingMethod
+      - processingMethodName
       - roastLevel
       - shopName
       - shopPrefecture
@@ -596,3 +618,19 @@ components:
       required:
       - name
       - value
+  securitySchemes:
+    X-Client-Id:
+      type: apiKey
+      description: クライアント識別子
+      name: X-Client-Id
+      in: header
+    X-Timestamp:
+      type: apiKey
+      description: UNIXエポック秒
+      name: X-Timestamp
+      in: header
+    X-Signature:
+      type: apiKey
+      description: HMAC-SHA256署名(hex)
+      name: X-Signature
+      in: header

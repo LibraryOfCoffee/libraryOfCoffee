@@ -1,6 +1,7 @@
 package com.mametosho.admin.presentation.dto.request
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "コーヒー豆更新リクエスト")
@@ -27,7 +28,7 @@ data class UpdateCoffeeBeanRequest(
     val roastLevel: String,
 
     @Schema(description = "精製方法", example = "WASHED", requiredMode = Schema.RequiredMode.REQUIRED)
-    val processingMethod: String,
+    val processingMethod: ProcessingMethod,
 
     @get:Schema(description = "スペシャルティコーヒーかどうか", example = "true", requiredMode = Schema.RequiredMode.REQUIRED)
     @get:JsonProperty("isSpecialty")

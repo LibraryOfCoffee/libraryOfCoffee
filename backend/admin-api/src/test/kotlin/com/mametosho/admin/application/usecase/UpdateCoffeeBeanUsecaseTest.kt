@@ -65,7 +65,7 @@ class UpdateCoffeeBeanUsecaseTest {
         origin: String = "ブラジル",
         farm: String? = "更新後農園",
         roastLevel: String = "FRENCH",
-        processingMethod: String = "NATURAL",
+        processingMethod: ProcessingMethod = ProcessingMethod.NATURAL,
         isSpecialty: Boolean = true,
         publishStatus: String = "PUBLISHED",
         tastes: List<UpdateCoffeeBeanRequest.TasteRequest> = listOf(
@@ -256,18 +256,6 @@ class UpdateCoffeeBeanUsecaseTest {
                 usecase.execute(
                     existingBean.id.value,
                     createRequest(roastLevel = "INVALID"),
-                    listOf(ImageUpload("MAIN", imageFile)),
-                    emptyList(),
-                )
-            }
-        }
-
-        @Test
-        fun `不正な精製方法の場合は例外が発生する`() {
-            assertThrows<IllegalArgumentException> {
-                usecase.execute(
-                    existingBean.id.value,
-                    createRequest(processingMethod = "INVALID"),
                     listOf(ImageUpload("MAIN", imageFile)),
                     emptyList(),
                 )
