@@ -894,6 +894,11 @@ export interface components {
        */
       shopId: string;
       /**
+       * @description 店舗名
+       * @example コーヒーショップ青山
+       */
+      shopName: string;
+      /**
        * @description Shopify商品ID
        * @example test-bean-001
        */
@@ -969,6 +974,11 @@ export interface components {
        * @example 00000000-0000-4000-8000-000000000002
        */
       shopId: string;
+      /**
+       * @description 店舗名
+       * @example コーヒーショップ青山
+       */
+      shopName: string;
       /**
        * @description Shopify商品ID
        * @example test-bean-001

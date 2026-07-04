@@ -1,6 +1,6 @@
-package com.mametosho.admin.application.query.result
+package com.mametosho.admin.infrastructure.persistence.mybatis.entity
 
-data class CoffeeBeanSummaryResult(
+data class CoffeeBeanListRow(
     val id: String,
     val shopId: String,
     val shopName: String,

@@ -29,6 +29,7 @@ export function CoffeeBeanListTable({
           <thead>
             <tr>
               <th>名前</th>
+              <th>店舗</th>
               <th>産地</th>
               <th>農園</th>
               <th>焙煎度</th>
@@ -46,6 +47,14 @@ export function CoffeeBeanListTable({
                     className={styles.rowLink}
                   >
                     {bean.name}
+                  </Link>
+                </td>
+                <td>
+                  <Link
+                    href={`/coffee-beans/${bean.id}`}
+                    className={styles.rowLink}
+                  >
+                    {bean.shopName}
                   </Link>
                 </td>
                 <td>

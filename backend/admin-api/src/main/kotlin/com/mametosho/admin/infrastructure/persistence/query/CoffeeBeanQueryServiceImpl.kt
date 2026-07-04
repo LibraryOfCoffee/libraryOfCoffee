@@ -4,23 +4,24 @@ import com.mametosho.admin.application.query.CoffeeBeanQueryService
 import com.mametosho.admin.application.query.result.CoffeeBeanDetailResult
 import com.mametosho.admin.application.query.result.CoffeeBeanSummaryResult
 import com.mametosho.admin.application.result.PagedResult
-import com.mametosho.infrastructure.persistence.mybatis.mapper.CoffeeBeanMapper
+import com.mametosho.admin.infrastructure.persistence.mybatis.mapper.CoffeeBeanQueryMapper
 import org.springframework.stereotype.Service
 
 @Service
 class CoffeeBeanQueryServiceImpl(
-    private val coffeeBeanMapper: CoffeeBeanMapper,
+    private val coffeeBeanQueryMapper: CoffeeBeanQueryMapper,
 ) : CoffeeBeanQueryService {
 
     override fun findList(page: Int, size: Int): PagedResult<CoffeeBeanSummaryResult> {
         val offset = page * size
-        val rows = coffeeBeanMapper.findListRows(size, offset)
-        val totalCount = coffeeBeanMapper.countAll()
+        val rows = coffeeBeanQueryMapper.findListRows(size, offset)
+        val totalCount = coffeeBeanQueryMapper.countAll()
 
         val items = rows.map { row ->
             CoffeeBeanSummaryResult(
                 id = row.id,
                 shopId = row.shopId,
+                shopName = row.shopName,
                 shopifyBeanId = row.shopifyBeanId,
                 name = row.name,
                 description = row.description,
@@ -42,13 +43,14 @@ class CoffeeBeanQueryServiceImpl(
     }
 
     override fun findDetail(id: String): CoffeeBeanDetailResult? {
-        val rows = coffeeBeanMapper.findDetailRowsById(id)
+        val rows = coffeeBeanQueryMapper.findDetailRowsById(id)
         if (rows.isEmpty()) return null
 
         val first = rows.first()
         return CoffeeBeanDetailResult(
             id = first.beanId,
             shopId = first.shopId,
+            shopName = first.shopName,
             shopifyBeanId = first.shopifyBeanId,
             name = first.beanName,
             description = first.description,

@@ -71,6 +71,7 @@ class CoffeeBeanController(
                                         {
                                           "id": "00000000-0000-4000-8000-000000000001",
                                           "shopId": "00000000-0000-4000-8000-000000000002",
+                                          "shopName": "コーヒーショップ青山",
                                           "shopifyBeanId": "test-bean-001",
                                           "name": "エチオピア イルガチェフェ",
                                           "description": "フルーティーな香りが特徴的なコーヒー豆です。",
@@ -167,6 +168,7 @@ class CoffeeBeanController(
                                     {
                                       "id": "00000000-0000-4000-8000-000000000001",
                                       "shopId": "00000000-0000-4000-8000-000000000002",
+                                      "shopName": "コーヒーショップ青山",
                                       "shopifyBeanId": "test-bean-001",
                                       "name": "エチオピア イルガチェフェ",
                                       "description": "フルーティーな香りが特徴的なコーヒー豆です。",
