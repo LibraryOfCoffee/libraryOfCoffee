@@ -1,4 +1,4 @@
-package com.mametosho.infrastructure.persistence.mybatis.entity
+package com.mametosho.admin.infrastructure.persistence.mybatis.entity
 
 data class CoffeeBeanListRow(
     val id: String,
