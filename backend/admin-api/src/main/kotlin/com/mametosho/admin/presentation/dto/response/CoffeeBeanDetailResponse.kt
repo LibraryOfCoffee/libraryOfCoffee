@@ -2,6 +2,7 @@ package com.mametosho.admin.presentation.dto.response
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.mametosho.admin.application.query.result.CoffeeBeanDetailResult
+import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import io.swagger.v3.oas.annotations.media.Schema
 
 @Schema(description = "コーヒー豆詳細レスポンス")
@@ -25,7 +26,9 @@ data class CoffeeBeanDetailResponse(
     @Schema(description = "焙煎度", example = "MEDIUM", requiredMode = Schema.RequiredMode.REQUIRED)
     val roastLevel: String,
     @Schema(description = "精製方法", example = "WASHED", requiredMode = Schema.RequiredMode.REQUIRED)
-    val processingMethod: String,
+    val processingMethod: ProcessingMethod,
+    @Schema(description = "精製方法の表示名", example = "ウォッシュド", requiredMode = Schema.RequiredMode.REQUIRED)
+    val processingMethodName: String,
     @get:Schema(description = "スペシャルティコーヒーかどうか", example = "true", requiredMode = Schema.RequiredMode.REQUIRED)
     @get:JsonProperty("isSpecialty")
     val isSpecialty: Boolean,
@@ -63,23 +66,27 @@ data class CoffeeBeanDetailResponse(
     )
 
     companion object {
-        fun from(result: CoffeeBeanDetailResult): CoffeeBeanDetailResponse = CoffeeBeanDetailResponse(
-            id = result.id,
-            shopId = result.shopId,
-            shopName = result.shopName,
-            shopifyBeanId = result.shopifyBeanId,
-            name = result.name,
-            description = result.description,
-            origin = result.origin,
-            farm = result.farm,
-            roastLevel = result.roastLevel,
-            processingMethod = result.processingMethod,
-            isSpecialty = result.isSpecialty,
-            publishStatus = result.publishStatus,
-            images = result.images.map { ImageDetail(id = it.id, type = it.type, imageUrl = it.imageUrl) },
-            tastes = result.tastes.map {
-                TasteDetail(id = it.id, tasteId = it.tasteId, tasteName = it.tasteName, evaluationValue = it.evaluationValue)
-            },
-        )
+        fun from(result: CoffeeBeanDetailResult): CoffeeBeanDetailResponse {
+            val processingMethod = ProcessingMethod.valueOf(result.processingMethod)
+            return CoffeeBeanDetailResponse(
+                id = result.id,
+                shopId = result.shopId,
+                shopName = result.shopName,
+                shopifyBeanId = result.shopifyBeanId,
+                name = result.name,
+                description = result.description,
+                origin = result.origin,
+                farm = result.farm,
+                roastLevel = result.roastLevel,
+                processingMethod = processingMethod,
+                processingMethodName = processingMethod.label,
+                isSpecialty = result.isSpecialty,
+                publishStatus = result.publishStatus,
+                images = result.images.map { ImageDetail(id = it.id, type = it.type, imageUrl = it.imageUrl) },
+                tastes = result.tastes.map {
+                    TasteDetail(id = it.id, tasteId = it.tasteId, tasteName = it.tasteName, evaluationValue = it.evaluationValue)
+                },
+            )
+        }
     }
 }

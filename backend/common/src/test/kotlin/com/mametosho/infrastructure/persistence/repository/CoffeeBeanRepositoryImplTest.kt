@@ -301,7 +301,7 @@ class CoffeeBeanRepositoryImplTest {
         fun `全精製方法を大文字で保存できる`() {
             ProcessingMethod.entries.forEachIndexed { index, method ->
                 val coffeeBean = CoffeeBean(
-                    id = CoffeeBeanId("00000000-0000-4000-8000-00000000200$index"),
+                    id = CoffeeBeanId("00000000-0000-4000-8000-0000000020%02d".format(index)),
                     shopId = ShopId("00000000-0000-4000-8000-000000000001"),
                     shopifyBeanId = ShopifyBeanId("test-bean-proc-$index"),
                     name = "テスト豆",

@@ -10,6 +10,8 @@ export type CoffeeBeanDetail =
   components["schemas"]["CoffeeBeanDetailResponse"];
 export type CoffeeBeanListResponse =
   components["schemas"]["CoffeeBeanListResponse"];
+export type ProcessingMethodOption =
+  components["schemas"]["ProcessingMethodResponse"];
 
 export async function fetchCoffeeBeans(
   page = 0,
@@ -22,6 +24,21 @@ export async function fetchCoffeeBeans(
 
   if (error) {
     throw new Error("コーヒー豆一覧の取得に失敗しました");
+  }
+
+  return data;
+}
+
+export async function fetchProcessingMethods(): Promise<
+  ProcessingMethodOption[]
+> {
+  const client = await createAuthenticatedApiClient();
+  const { data, error } = await client.GET(
+    "/api/admin/coffee-beans/processing-methods",
+  );
+
+  if (error) {
+    throw new Error("精製方法一覧の取得に失敗しました");
   }
 
   return data;

@@ -36,7 +36,7 @@ class CreateCoffeeBeanUsecase(
             origin = request.origin,
             farm = request.farm,
             roastLevel = request.roastLevel,
-            processingMethod = request.processingMethod,
+            processingMethod = request.processingMethod.name,
             isSpecialty = request.isSpecialty,
             publishStatus = request.publishStatus,
             images = images,

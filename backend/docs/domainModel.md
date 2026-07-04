@@ -224,12 +224,16 @@ classDiagram
       <<Enum>>
       fully_washed
       washed
+      anaerobic_washed
       thermal_shock_natural
       natural
       anaerobic_natural
       dry_on_tree_natural
+      lactic_natural
       wet_hulling
       honey
+      lado_a_lado_process
+      lado_a_lado_process_fully_washed
     }
 
     class PublishStatus {

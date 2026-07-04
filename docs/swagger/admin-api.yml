@@ -874,6 +874,31 @@ paths:
                     totalCount: 1
                     page: 0
                     size: 20
+  /api/admin/coffee-beans/processing-methods:
+    get:
+      tags:
+      - CoffeeBean
+      summary: 精製方法一覧取得
+      description: コーヒー豆の精製方法の選択肢一覧（値と表示名）を取得します。
+      operationId: listProcessingMethods
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProcessingMethodResponse"
+              examples:
+                success:
+                  summary: 取得成功例
+                  description: success
+                  value:
+                  - value: FULLY_WASHED
+                    label: フリーウォッシュド
+                  - value: WASHED
+                    label: ウォッシュド
 components:
   schemas:
     UpdateShopRequest:
@@ -1072,6 +1097,19 @@ components:
         processingMethod:
           type: string
           description: 精製方法
+          enum:
+          - FULLY_WASHED
+          - WASHED
+          - ANAEROBIC_WASHED
+          - THERMAL_SHOCK_NATURAL
+          - NATURAL
+          - ANAEROBIC_NATURAL
+          - DRY_ON_TREE_NATURAL
+          - LACTIC_NATURAL
+          - WET_HULLING
+          - HONEY
+          - LADO_A_LADO_PROCESS
+          - LADO_A_LADO_PROCESS_FULLY_WASHED
           example: WASHED
         publishStatus:
           type: string
@@ -1199,6 +1237,19 @@ components:
         processingMethod:
           type: string
           description: 精製方法
+          enum:
+          - FULLY_WASHED
+          - WASHED
+          - ANAEROBIC_WASHED
+          - THERMAL_SHOCK_NATURAL
+          - NATURAL
+          - ANAEROBIC_NATURAL
+          - DRY_ON_TREE_NATURAL
+          - LACTIC_NATURAL
+          - WET_HULLING
+          - HONEY
+          - LADO_A_LADO_PROCESS
+          - LADO_A_LADO_PROCESS_FULLY_WASHED
           example: WASHED
         publishStatus:
           type: string
@@ -1619,7 +1670,24 @@ components:
         processingMethod:
           type: string
           description: 精製方法
+          enum:
+          - FULLY_WASHED
+          - WASHED
+          - ANAEROBIC_WASHED
+          - THERMAL_SHOCK_NATURAL
+          - NATURAL
+          - ANAEROBIC_NATURAL
+          - DRY_ON_TREE_NATURAL
+          - LACTIC_NATURAL
+          - WET_HULLING
+          - HONEY
+          - LADO_A_LADO_PROCESS
+          - LADO_A_LADO_PROCESS_FULLY_WASHED
           example: WASHED
+        processingMethodName:
+          type: string
+          description: 精製方法の表示名
+          example: ウォッシュド
         publishStatus:
           type: string
           description: "公開状態（DRAFT: 下書き / PUBLISHED: 公開）"
@@ -1635,6 +1703,7 @@ components:
       - name
       - origin
       - processingMethod
+      - processingMethodName
       - publishStatus
       - roastLevel
       - shopId
@@ -1683,7 +1752,24 @@ components:
         processingMethod:
           type: string
           description: 精製方法
+          enum:
+          - FULLY_WASHED
+          - WASHED
+          - ANAEROBIC_WASHED
+          - THERMAL_SHOCK_NATURAL
+          - NATURAL
+          - ANAEROBIC_NATURAL
+          - DRY_ON_TREE_NATURAL
+          - LACTIC_NATURAL
+          - WET_HULLING
+          - HONEY
+          - LADO_A_LADO_PROCESS
+          - LADO_A_LADO_PROCESS_FULLY_WASHED
           example: WASHED
+        processingMethodName:
+          type: string
+          description: 精製方法の表示名
+          example: ウォッシュド
         publishStatus:
           type: string
           description: "公開状態（DRAFT: 下書き / PUBLISHED: 公開）"
@@ -1710,6 +1796,7 @@ components:
       - name
       - origin
       - processingMethod
+      - processingMethodName
       - publishStatus
       - roastLevel
       - shopId
@@ -1742,6 +1829,34 @@ components:
       - id
       - tasteId
       - tasteName
+    ProcessingMethodResponse:
+      type: object
+      description: 精製方法
+      properties:
+        value:
+          type: string
+          description: 精製方法の値
+          enum:
+          - FULLY_WASHED
+          - WASHED
+          - ANAEROBIC_WASHED
+          - THERMAL_SHOCK_NATURAL
+          - NATURAL
+          - ANAEROBIC_NATURAL
+          - DRY_ON_TREE_NATURAL
+          - LACTIC_NATURAL
+          - WET_HULLING
+          - HONEY
+          - LADO_A_LADO_PROCESS
+          - LADO_A_LADO_PROCESS_FULLY_WASHED
+          example: WASHED
+        label:
+          type: string
+          description: 精製方法の表示名
+          example: ウォッシュド
+      required:
+      - label
+      - value
   securitySchemes:
     Bearer:
       type: http

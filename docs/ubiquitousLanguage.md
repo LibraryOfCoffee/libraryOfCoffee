@@ -33,12 +33,16 @@
 | 精製方法 | processing method | 珈琲豆の精製方法 | |
 | フリーウォッシュド | fully washed | 精製方法。水洗式の完全版 | FW |
 | ウォッシュド | washed | 精製方法。水洗式 | W |
+| アナエロビックウォッシュド | anaerobic washed | 精製方法。嫌気性発酵を行ったウォッシュド | |
 | サーマルショックナチュラル | thermal shock natural | 精製方法。熱衝撃を与えたナチュラル | TSN |
 | ナチュラル | natural | 精製方法。自然乾燥式 | N |
 | アナエロビックナチュラル | anaerobic natural | 精製方法。嫌気性発酵を行ったナチュラル | |
 | ドライオンツリーナチュラル | dry on tree natural | 精製方法。果実を樹上で乾燥させるナチュラル | |
+| ラクティックナチュラル | lactic natural | 精製方法。乳酸発酵を行ったナチュラル | |
 | スマトラ式 | wet hulling | 精製方法。半水洗式 | |
 | ハニー | honey | 精製方法。半水洗式の一種 | |
+| ラドラドプロセス | lado a lado process | 精製方法。特殊精製の一種 | |
+| ラドラドプロセス/フリーウォッシュド | lado a lado process / fully washed | 精製方法。ブレンドコーヒーの精製方法を表すための一時的な複合種別 | |
 
 ---
 

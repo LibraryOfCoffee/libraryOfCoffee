@@ -1,6 +1,7 @@
 package com.mametosho.admin.presentation.dto.response
 
 import com.mametosho.admin.application.query.result.CoffeeBeanDetailResult
+import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import org.junit.jupiter.api.Nested
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -57,7 +58,8 @@ class CoffeeBeanDetailResponseTest {
             assertEquals("エチオピア", response.origin)
             assertEquals("テスト農園", response.farm)
             assertEquals("MEDIUM", response.roastLevel)
-            assertEquals("WASHED", response.processingMethod)
+            assertEquals(ProcessingMethod.WASHED, response.processingMethod)
+            assertEquals("ウォッシュド", response.processingMethodName)
             assertEquals(true, response.isSpecialty)
             assertEquals("PUBLISHED", response.publishStatus)
             assertEquals(1, response.images.size)

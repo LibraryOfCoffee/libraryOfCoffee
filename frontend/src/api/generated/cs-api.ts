@@ -24,6 +24,26 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/shops/{shopId}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 店舗詳細取得
+     * @description 指定されたIDの店舗の詳細情報を取得します。参画中の店舗のみ取得できます。
+     */
+    get: operations["getShop"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/plans": {
     parameters: {
       query?: never;
@@ -124,6 +144,59 @@ export interface components {
        */
       logoImageUrl: string;
     };
+    /** @description 画像詳細 */
+    ImageDetail: {
+      /**
+       * @description 画像ID
+       * @example 00000000-0000-4000-8000-000000000010
+       */
+      id: string;
+      /**
+       * @description 画像種別（LOGO: ロゴ / MAIN: メイン）
+       * @example LOGO
+       */
+      type: string;
+      /**
+       * @description 画像URL
+       * @example https://placehold.jp/100x100.png
+       */
+      imageUrl: string;
+    };
+    /** @description 店舗詳細レスポンス */
+    ShopDetailResponse: {
+      /**
+       * @description 店舗ID
+       * @example 00000000-0000-4000-8000-000000000031
+       */
+      id: string;
+      /**
+       * @description 店舗名
+       * @example 珈琲工房 まめとしょ
+       */
+      name: string;
+      /**
+       * @description 店舗紹介文
+       * @example 東京都渋谷区にある自家焙煎珈琲店。厳選されたスペシャルティコーヒーをお届けします。
+       */
+      introduction: string;
+      /**
+       * @description こだわり
+       * @example 厳選された豆のみを使用しています。
+       */
+      particular: string;
+      /**
+       * @description 店舗URL
+       * @example https://mametosho.example.com
+       */
+      shopUrl: string;
+      /**
+       * @description 都道府県
+       * @example TOKYO
+       */
+      prefecture: string;
+      /** @description 画像一覧 */
+      images: components["schemas"]["ImageDetail"][];
+    };
     /** @description プラン一覧アイテム */
     PlanResponse: {
       /**
@@ -223,8 +296,26 @@ export interface components {
       /**
        * @description 精製方法
        * @example WASHED
+       * @enum {string}
        */
-      processingMethod: string;
+      processingMethod:
+        | "FULLY_WASHED"
+        | "WASHED"
+        | "ANAEROBIC_WASHED"
+        | "THERMAL_SHOCK_NATURAL"
+        | "NATURAL"
+        | "ANAEROBIC_NATURAL"
+        | "DRY_ON_TREE_NATURAL"
+        | "LACTIC_NATURAL"
+        | "WET_HULLING"
+        | "HONEY"
+        | "LADO_A_LADO_PROCESS"
+        | "LADO_A_LADO_PROCESS_FULLY_WASHED";
+      /**
+       * @description 精製方法の表示名
+       * @example ウォッシュド
+       */
+      processingMethodName: string;
       /**
        * @description 説明文
        * @example フルーティーな香りと明るい酸味が特徴の豆です。
@@ -308,6 +399,50 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["ShopListResponse"];
+        };
+      };
+    };
+  };
+  getShop: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /**
+         * @description 店舗ID
+         * @example 00000000-0000-4000-8000-000000000031
+         */
+        shopId: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 取得成功 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ShopDetailResponse"];
+        };
+      };
+      /** @description 店舗IDの形式が不正 */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": unknown;
+        };
+      };
+      /** @description 店舗が見つかりません（存在しない、または参画中でない） */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": unknown;
         };
       };
     };

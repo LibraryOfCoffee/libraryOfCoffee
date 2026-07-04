@@ -95,17 +95,6 @@ const ROAST_TAG_COLOR: Record<string, string> = {
   FRENCH: "#321E14",
 };
 
-const PROCESSING_METHOD_JP: Record<string, string> = {
-  FULLY_WASHED: "フリーウォッシュド",
-  WASHED: "ウォッシュド",
-  THERMAL_SHOCK_NATURAL: "サーマルショック・ナチュラル",
-  NATURAL: "ナチュラル",
-  ANAEROBIC_NATURAL: "アナエロビックナチュラル",
-  DRY_ON_TREE_NATURAL: "ドライオンツリーナチュラル",
-  WET_HULLING: "スマトラ式",
-  HONEY: "ハニー",
-};
-
 function toBeanDetail(item: CoffeeBeanApiItem): BeanDetail {
   const roastJP = ROAST_LEVEL_JP[item.roastLevel] ?? item.roastLevel;
   const tagColor = ROAST_TAG_COLOR[item.roastLevel] ?? "#A6683D";
@@ -123,8 +112,7 @@ function toBeanDetail(item: CoffeeBeanApiItem): BeanDetail {
     origin: item.origin,
     farm: "",
     roastLevel: roastJP,
-    processing:
-      PROCESSING_METHOD_JP[item.processingMethod] ?? item.processingMethod,
+    processing: item.processingMethodName,
     roaster: item.shopName,
     roasterLink: item.shopUrl,
     prefecture: PREFECTURE_JP[item.shopPrefecture] ?? item.shopPrefecture,

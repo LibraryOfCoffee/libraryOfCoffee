@@ -1,12 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { CoffeeBeanDetail as CoffeeBeanDetailType } from "@/api/coffee-beans";
+import type {
+  CoffeeBeanDetail as CoffeeBeanDetailType,
+  ProcessingMethodOption,
+} from "@/api/coffee-beans";
 import type { TasteListItem } from "@/api/tastes";
 import { PublishStatusBadge } from "@/components/PublishStatusBadge";
-import {
-  getProcessingMethodLabel,
-  getRoastLevelLabel,
-} from "../../_lib/coffeeBeanLabels";
+import { getRoastLevelLabel } from "../../_lib/coffeeBeanLabels";
 import { CoffeeBeanActions } from "./CoffeeBeanActions";
 import styles from "./CoffeeBeanDetail.module.css";
 
@@ -14,10 +14,12 @@ export function CoffeeBeanDetail({
   coffeeBean,
   initialShops,
   tastes,
+  processingMethods,
 }: {
   coffeeBean: CoffeeBeanDetailType;
   initialShops: { id: string; name: string }[];
   tastes: TasteListItem[];
+  processingMethods: ProcessingMethodOption[];
 }) {
   return (
     <div className={styles.container}>
@@ -32,6 +34,7 @@ export function CoffeeBeanDetail({
           coffeeBean={coffeeBean}
           initialShops={initialShops}
           tastes={tastes}
+          processingMethods={processingMethods}
         />
       </div>
 
@@ -88,7 +91,7 @@ export function CoffeeBeanDetail({
           <div className={styles.field}>
             <dt className={styles.fieldLabel}>精製方法</dt>
             <dd className={styles.fieldValue}>
-              {getProcessingMethodLabel(coffeeBean.processingMethod)}
+              {coffeeBean.processingMethodName}
             </dd>
           </div>
 

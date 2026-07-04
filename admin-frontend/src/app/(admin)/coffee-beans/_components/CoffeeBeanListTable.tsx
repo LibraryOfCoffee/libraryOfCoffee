@@ -3,10 +3,7 @@ import type { CoffeeBeanListResponse } from "@/api/coffee-beans";
 import styles from "@/components/list-page.module.css";
 import { Pagination } from "@/components/Pagination";
 import { PublishStatusBadge } from "@/components/PublishStatusBadge";
-import {
-  getProcessingMethodLabel,
-  getRoastLevelLabel,
-} from "../_lib/coffeeBeanLabels";
+import { getRoastLevelLabel } from "../_lib/coffeeBeanLabels";
 import { CreateCoffeeBeanButton } from "./CreateCoffeeBeanButton";
 
 export function CoffeeBeanListTable({
@@ -89,7 +86,7 @@ export function CoffeeBeanListTable({
                     href={`/coffee-beans/${bean.id}`}
                     className={styles.rowLink}
                   >
-                    {getProcessingMethodLabel(bean.processingMethod)}
+                    {bean.processingMethodName}
                   </Link>
                 </td>
                 <td>
