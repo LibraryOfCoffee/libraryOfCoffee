@@ -417,6 +417,7 @@ export interface components {
         | "LACTIC_NATURAL"
         | "WET_HULLING"
         | "HONEY"
+        | "MOUNTAIN_WATER"
         | "LADO_A_LADO_PROCESS"
         | "LADO_A_LADO_PROCESS_FULLY_WASHED";
       /**
@@ -547,6 +548,7 @@ export interface components {
         | "LACTIC_NATURAL"
         | "WET_HULLING"
         | "HONEY"
+        | "MOUNTAIN_WATER"
         | "LADO_A_LADO_PROCESS"
         | "LADO_A_LADO_PROCESS_FULLY_WASHED";
       /**
@@ -944,6 +946,7 @@ export interface components {
         | "LACTIC_NATURAL"
         | "WET_HULLING"
         | "HONEY"
+        | "MOUNTAIN_WATER"
         | "LADO_A_LADO_PROCESS"
         | "LADO_A_LADO_PROCESS_FULLY_WASHED";
       /**
@@ -1025,6 +1028,7 @@ export interface components {
         | "LACTIC_NATURAL"
         | "WET_HULLING"
         | "HONEY"
+        | "MOUNTAIN_WATER"
         | "LADO_A_LADO_PROCESS"
         | "LADO_A_LADO_PROCESS_FULLY_WASHED";
       /**
@@ -1089,6 +1093,7 @@ export interface components {
         | "LACTIC_NATURAL"
         | "WET_HULLING"
         | "HONEY"
+        | "MOUNTAIN_WATER"
         | "LADO_A_LADO_PROCESS"
         | "LADO_A_LADO_PROCESS_FULLY_WASHED";
       /**
