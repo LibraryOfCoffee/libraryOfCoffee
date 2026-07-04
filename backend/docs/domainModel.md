@@ -232,6 +232,7 @@ classDiagram
       lactic_natural
       wet_hulling
       honey
+      mountain_water
       lado_a_lado_process
       lado_a_lado_process_fully_washed
     }

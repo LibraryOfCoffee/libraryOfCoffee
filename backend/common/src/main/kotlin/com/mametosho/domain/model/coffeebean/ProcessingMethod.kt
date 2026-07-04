@@ -16,6 +16,7 @@ enum class ProcessingMethod(val label: String) {
     LACTIC_NATURAL("ラクティックナチュラル"),
     WET_HULLING("スマトラ式"),
     HONEY("ハニー"),
+    MOUNTAIN_WATER("マウンテンウォーター"),
     LADO_A_LADO_PROCESS("ラドラドプロセス"),
 
     /** ブレンドコーヒーの精製方法を表すための一時的な複合種別。 */

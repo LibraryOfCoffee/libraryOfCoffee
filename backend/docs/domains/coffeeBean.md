@@ -26,7 +26,7 @@ Shopifyの商品と1対1で紐づく。産地、焙煎度、精製方法、テ�
 | origin | String | 産地 |
 | farm | String? | 農園 |
 | roastLevel | RoastLevel | 焙煎度（light / cinnamon / medium / city / french） |
-| processingMethod | ProcessingMethod | 精製方法（fully_washed / washed / anaerobic_washed / thermal_shock_natural / natural / anaerobic_natural / dry_on_tree_natural / lactic_natural / wet_hulling / honey / lado_a_lado_process / lado_a_lado_process_fully_washed（ブレンドコーヒー向けの一時的な複合種別）） |
+| processingMethod | ProcessingMethod | 精製方法（fully_washed / washed / anaerobic_washed / thermal_shock_natural / natural / anaerobic_natural / dry_on_tree_natural / lactic_natural / wet_hulling / honey / mountain_water / lado_a_lado_process / lado_a_lado_process_fully_washed（ブレンドコーヒー向けの一時的な複合種別）） |
 | isSpecialty | Boolean | スペシャルティコーヒーかどうか |
 | publishStatus | PublishStatus | 公開状態（DRAFT / PUBLISHED / INVALIDATED） |
 | images | List\<CoffeeBeanImage\> | 珈琲豆画像一覧 |

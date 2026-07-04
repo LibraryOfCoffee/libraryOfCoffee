@@ -1108,6 +1108,7 @@ components:
           - LACTIC_NATURAL
           - WET_HULLING
           - HONEY
+          - MOUNTAIN_WATER
           - LADO_A_LADO_PROCESS
           - LADO_A_LADO_PROCESS_FULLY_WASHED
           example: WASHED
@@ -1248,6 +1249,7 @@ components:
           - LACTIC_NATURAL
           - WET_HULLING
           - HONEY
+          - MOUNTAIN_WATER
           - LADO_A_LADO_PROCESS
           - LADO_A_LADO_PROCESS_FULLY_WASHED
           example: WASHED
@@ -1681,6 +1683,7 @@ components:
           - LACTIC_NATURAL
           - WET_HULLING
           - HONEY
+          - MOUNTAIN_WATER
           - LADO_A_LADO_PROCESS
           - LADO_A_LADO_PROCESS_FULLY_WASHED
           example: WASHED
@@ -1763,6 +1766,7 @@ components:
           - LACTIC_NATURAL
           - WET_HULLING
           - HONEY
+          - MOUNTAIN_WATER
           - LADO_A_LADO_PROCESS
           - LADO_A_LADO_PROCESS_FULLY_WASHED
           example: WASHED
@@ -1847,6 +1851,7 @@ components:
           - LACTIC_NATURAL
           - WET_HULLING
           - HONEY
+          - MOUNTAIN_WATER
           - LADO_A_LADO_PROCESS
           - LADO_A_LADO_PROCESS_FULLY_WASHED
           example: WASHED
