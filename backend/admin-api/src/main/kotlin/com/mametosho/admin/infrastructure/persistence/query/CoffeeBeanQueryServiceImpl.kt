@@ -21,6 +21,7 @@ class CoffeeBeanQueryServiceImpl(
             CoffeeBeanSummaryResult(
                 id = row.id,
                 shopId = row.shopId,
+                shopName = row.shopName,
                 shopifyBeanId = row.shopifyBeanId,
                 name = row.name,
                 description = row.description,
@@ -49,6 +50,7 @@ class CoffeeBeanQueryServiceImpl(
         return CoffeeBeanDetailResult(
             id = first.beanId,
             shopId = first.shopId,
+            shopName = first.shopName,
             shopifyBeanId = first.shopifyBeanId,
             name = first.beanName,
             description = first.description,

@@ -15,6 +15,7 @@ class CoffeeBeanDetailResponseTest {
     ): CoffeeBeanDetailResult = CoffeeBeanDetailResult(
         id = "00000000-0000-4000-8000-000000000001",
         shopId = "00000000-0000-4000-8000-000000000002",
+        shopName = "テスト店舗",
         shopifyBeanId = "test-bean-001",
         name = "テストコーヒー豆",
         description = "テスト説明文",
@@ -49,6 +50,7 @@ class CoffeeBeanDetailResponseTest {
 
             assertEquals("00000000-0000-4000-8000-000000000001", response.id)
             assertEquals("00000000-0000-4000-8000-000000000002", response.shopId)
+            assertEquals("テスト店舗", response.shopName)
             assertEquals("test-bean-001", response.shopifyBeanId)
             assertEquals("テストコーヒー豆", response.name)
             assertEquals("テスト説明文", response.description)

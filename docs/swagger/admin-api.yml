@@ -360,6 +360,7 @@ paths:
                   value:
                     id: 00000000-0000-4000-8000-000000000001
                     shopId: 00000000-0000-4000-8000-000000000002
+                    shopName: コーヒーショップ青山
                     shopifyBeanId: test-bean-001
                     name: エチオピア イルガチェフェ
                     description: フルーティーな香りが特徴的なコーヒー豆です。
@@ -667,6 +668,7 @@ paths:
                     items:
                     - id: 00000000-0000-4000-8000-000000000001
                       shopId: 00000000-0000-4000-8000-000000000002
+                      shopName: コーヒーショップ青山
                       shopifyBeanId: test-bean-001
                       name: エチオピア イルガチェフェ
                       description: フルーティーな香りが特徴的なコーヒー豆です。
@@ -1586,6 +1588,10 @@ components:
           type: string
           description: ショップID
           example: 00000000-0000-4000-8000-000000000002
+        shopName:
+          type: string
+          description: 店舗名
+          example: コーヒーショップ青山
         shopifyBeanId:
           type: string
           description: Shopify商品ID
@@ -1632,6 +1638,7 @@ components:
       - publishStatus
       - roastLevel
       - shopId
+      - shopName
       - shopifyBeanId
     CoffeeBeanDetailResponse:
       type: object
@@ -1645,6 +1652,10 @@ components:
           type: string
           description: ショップID
           example: 00000000-0000-4000-8000-000000000002
+        shopName:
+          type: string
+          description: 店舗名
+          example: コーヒーショップ青山
         shopifyBeanId:
           type: string
           description: Shopify商品ID
@@ -1702,6 +1713,7 @@ components:
       - publishStatus
       - roastLevel
       - shopId
+      - shopName
       - shopifyBeanId
       - tastes
     TasteDetail:

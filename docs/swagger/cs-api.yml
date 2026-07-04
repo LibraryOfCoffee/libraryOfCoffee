@@ -8,6 +8,10 @@ info:
 servers:
 - url: /
   description: Current Server
+security:
+- X-Client-Id: []
+  X-Timestamp: []
+  X-Signature: []
 tags:
 - name: Plan
   description: プランAPI
@@ -596,3 +600,19 @@ components:
       required:
       - name
       - value
+  securitySchemes:
+    X-Client-Id:
+      type: apiKey
+      description: クライアント識別子
+      name: X-Client-Id
+      in: header
+    X-Timestamp:
+      type: apiKey
+      description: UNIXエポック秒
+      name: X-Timestamp
+      in: header
+    X-Signature:
+      type: apiKey
+      description: HMAC-SHA256署名(hex)
+      name: X-Signature
+      in: header

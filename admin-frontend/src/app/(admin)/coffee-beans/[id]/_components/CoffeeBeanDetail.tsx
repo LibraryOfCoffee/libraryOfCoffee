@@ -45,6 +45,18 @@ export function CoffeeBeanDetail({
           </div>
 
           <div className={styles.field}>
+            <dt className={styles.fieldLabel}>店舗</dt>
+            <dd className={styles.fieldValue}>
+              <Link
+                href={`/shops/${coffeeBean.shopId}`}
+                className={styles.shopLink}
+              >
+                {coffeeBean.shopName}
+              </Link>
+            </dd>
+          </div>
+
+          <div className={styles.field}>
             <dt className={styles.fieldLabel}>Shopify Bean ID</dt>
             <dd className={styles.fieldValue}>{coffeeBean.shopifyBeanId}</dd>
           </div>

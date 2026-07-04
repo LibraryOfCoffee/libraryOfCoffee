@@ -3,6 +3,7 @@ package com.mametosho.admin.application.query.result
 data class CoffeeBeanDetailResult(
     val id: String,
     val shopId: String,
+    val shopName: String,
     val shopifyBeanId: String,
     val name: String,
     val description: String,

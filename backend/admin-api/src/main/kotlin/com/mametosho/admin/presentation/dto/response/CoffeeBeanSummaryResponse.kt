@@ -10,6 +10,8 @@ data class CoffeeBeanSummaryResponse(
     val id: String,
     @Schema(description = "ショップID", example = "00000000-0000-4000-8000-000000000002", requiredMode = Schema.RequiredMode.REQUIRED)
     val shopId: String,
+    @Schema(description = "店舗名", example = "コーヒーショップ青山", requiredMode = Schema.RequiredMode.REQUIRED)
+    val shopName: String,
     @Schema(description = "Shopify商品ID", example = "test-bean-001", requiredMode = Schema.RequiredMode.REQUIRED)
     val shopifyBeanId: String,
     @Schema(description = "豆の名前", example = "エチオピア イルガチェフェ", requiredMode = Schema.RequiredMode.REQUIRED)
@@ -38,6 +40,7 @@ data class CoffeeBeanSummaryResponse(
         fun from(result: CoffeeBeanSummaryResult): CoffeeBeanSummaryResponse = CoffeeBeanSummaryResponse(
             id = result.id,
             shopId = result.shopId,
+            shopName = result.shopName,
             shopifyBeanId = result.shopifyBeanId,
             name = result.name,
             description = result.description,
