@@ -41,12 +41,12 @@ export default function BeanShowcase({ beans, plans }: BeanShowcaseProps) {
         ),
     ),
   );
-  const countries = Array.from(new Set(beans.map((b) => b.name)));
+  const countries = Array.from(new Set(beans.map((b) => b.origin)));
   const roastLevels = Array.from(new Set(beans.map((b) => b.tag)));
 
   const filtered = beans.filter((b) => {
     if (prefFilter && b.prefecture !== prefFilter) return false;
-    if (countryFilter && b.name !== countryFilter) return false;
+    if (countryFilter && b.origin !== countryFilter) return false;
     if (roastFilter && b.tag !== roastFilter) return false;
     return true;
   });
@@ -189,7 +189,6 @@ export default function BeanShowcase({ beans, plans }: BeanShowcaseProps) {
               imageSrc={b.imageSrc}
               tag={b.tag}
               name={b.name}
-              region={b.region}
               description={b.description}
               roaster={b.roaster}
               isSpecialty={b.isSpecialty}
