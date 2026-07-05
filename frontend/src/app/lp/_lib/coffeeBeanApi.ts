@@ -11,8 +11,6 @@ export interface BeanDetail {
   tag: string;
   tagColor: string;
   name: string;
-  subName: string;
-  region: string;
   description: string;
   detailDescription: string;
   origin: string;
@@ -104,9 +102,7 @@ function toBeanDetail(item: CoffeeBeanApiItem): BeanDetail {
     imageSrc: item.imageUrl,
     tag: roastJP,
     tagColor,
-    name: item.origin,
-    subName: item.name,
-    region: item.name,
+    name: item.name,
     description: item.description,
     detailDescription: item.description,
     origin: item.origin,

@@ -132,12 +132,6 @@
   font-weight: 500;
 }
 
-.region {
-  font-size: 11px;
-  color: var(--mt-ink-3);
-  margin-left: 6px;
-}
-
 .desc {
   margin-top: 4px;
   font-size: 11px;

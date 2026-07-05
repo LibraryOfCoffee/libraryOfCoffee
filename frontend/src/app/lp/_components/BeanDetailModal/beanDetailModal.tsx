@@ -80,8 +80,6 @@ export default function BeanDetailModal({
             </span>
           </div>
 
-          {bean.subName && <p className={styles.subtitle}>{bean.subName}</p>}
-
           <p className={styles.desc}>{bean.detailDescription}</p>
 
           <div className={styles.separator} />

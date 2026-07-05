@@ -50,7 +50,7 @@ function CatalogContent({
   const prefectures = Array.from(
     new Set(beans.map((b) => b.prefecture).filter((p): p is string => !!p)),
   );
-  const countries = Array.from(new Set(beans.map((b) => b.name)));
+  const countries = Array.from(new Set(beans.map((b) => b.origin)));
   const roastLevels = Array.from(new Set(beans.map((b) => b.tag)));
 
   const router = useRouter();
@@ -97,7 +97,7 @@ function CatalogContent({
 
   const filtered = beans.filter((b) => {
     if (prefFilter && b.prefecture !== prefFilter) return false;
-    if (countryFilter && b.name !== countryFilter) return false;
+    if (countryFilter && b.origin !== countryFilter) return false;
     if (roastFilter && b.tag !== roastFilter) return false;
     return true;
   });
@@ -622,10 +622,7 @@ function LibraryCard({
               {bean.tag}
             </span>
           </div>
-          <h3 className={styles.libCardName}>
-            {bean.name}
-            <span className={styles.libCardRegion}>{bean.region}</span>
-          </h3>
+          <h3 className={styles.libCardName}>{bean.name}</h3>
           <p className={styles.libCardDesc}>{bean.description}</p>
           <div className={styles.libCardFooter}>
             <span className={styles.libCardRoaster}>

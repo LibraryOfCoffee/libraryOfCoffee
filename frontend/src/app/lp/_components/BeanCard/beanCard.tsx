@@ -19,7 +19,6 @@ interface BeanCardProps {
   imageSrc: string;
   tag: string;
   name: string;
-  region: string;
   description: string;
   roaster: string;
   isSpecialty?: boolean;
@@ -30,7 +29,6 @@ export default function BeanCard({
   imageSrc,
   tag,
   name,
-  region,
   description,
   roaster,
   isSpecialty,
@@ -71,10 +69,7 @@ export default function BeanCard({
               {tag}
             </span>
           </div>
-          <h3 className={styles.name}>
-            {name}
-            <span className={styles.region}>{region}</span>
-          </h3>
+          <h3 className={styles.name}>{name}</h3>
           <p className={styles.desc}>{description}</p>
           <div className={styles.footer}>
             <span>
