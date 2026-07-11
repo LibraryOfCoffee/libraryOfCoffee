@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
     staleTimes: {
       dynamic: 0,
     },
+    serverActions: {
+      // 画像アップロードを含むFormData送信がデフォルト上限(1MB)を超えるため引き上げる
+      bodySizeLimit: "10mb",
+    },
   },
   images: {
     remotePatterns: [
