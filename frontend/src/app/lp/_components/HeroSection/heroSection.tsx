@@ -32,7 +32,7 @@ export default function HeroSection() {
         </LinkWithLoading>
         <p className={styles.priceNote}>
           <span className={styles.priceNoteEn}>
-            定期便 ¥1,500〜/月 · 単品購入 ¥1,650〜
+            定期便 ¥1,580〜/月 · 単品購入 ¥1,700〜
           </span>
         </p>
         <a href="#beans" className={styles.subCta}>

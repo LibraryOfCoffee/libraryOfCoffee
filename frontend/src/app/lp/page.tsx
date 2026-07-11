@@ -48,8 +48,8 @@ const productJsonLd = {
   image: "https://mametosho.com/ogImageRectangle.jpeg",
   offers: {
     "@type": "AggregateOffer",
-    lowPrice: "1500",
-    highPrice: "6750",
+    lowPrice: "1580",
+    highPrice: "6830",
     priceCurrency: "JPY",
     offerCount: "9",
     availability: "https://schema.org/InStock",
