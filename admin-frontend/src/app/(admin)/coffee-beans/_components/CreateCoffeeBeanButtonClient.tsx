@@ -1,14 +1,20 @@
 "use client";
 
 import { useState } from "react";
+import type { ProcessingMethodOption } from "@/api/coffee-beans";
 import type { ShopListItem } from "@/api/shops";
+import type { TasteListItem } from "@/api/tastes";
 import styles from "@/components/list-page.module.css";
 import { CreateCoffeeBeanModal } from "./CreateCoffeeBeanModal";
 
 export function CreateCoffeeBeanButtonClient({
   shops,
+  tastes,
+  processingMethods,
 }: {
   shops: ShopListItem[];
+  tastes: TasteListItem[];
+  processingMethods: ProcessingMethodOption[];
 }) {
   const [open, setOpen] = useState(false);
   const [modalKey, setModalKey] = useState(0);
@@ -30,6 +36,8 @@ export function CreateCoffeeBeanButtonClient({
       <CreateCoffeeBeanModal
         key={modalKey}
         shops={shops}
+        tastes={tastes}
+        processingMethods={processingMethods}
         open={open}
         onClose={() => setOpen(false)}
       />

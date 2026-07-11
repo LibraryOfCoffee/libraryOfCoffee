@@ -43,3 +43,9 @@ variable "health_check_path" {
   type    = string
   default = "/api/health"
 }
+
+variable "access_logs_bucket" {
+  type        = string
+  description = "ALBアクセスログを送るS3バケット名。空文字の場合はログ無効"
+  default     = ""
+}

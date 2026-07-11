@@ -1,6 +1,6 @@
 package com.mametosho.domain.model.customer
 
-import com.mametosho.domain.model.subscriptionplan.SubscriptionPlanId
+import com.mametosho.domain.model.plan.PlanId
 import java.time.LocalDate
 
 /**
@@ -24,7 +24,7 @@ data class Customer(
      * 契約を追加する。
      *
      * @param id 新しい契約のID
-     * @param subscriptionPlanId 契約するプランのID
+     * @param planId 契約するプランのID
      * @param contractedFrom 契約開始日
      * @return 契約が追加された新しい[Customer]
      * @throws IllegalStateException 退会済み（withdrawn）の顧客の場合
@@ -32,17 +32,17 @@ data class Customer(
      */
     fun addSubscription(
         id: CustomerSubscriptionId,
-        subscriptionPlanId: SubscriptionPlanId,
+        planId: PlanId,
         contractedFrom: LocalDate,
     ): Customer {
         check(status != CustomerStatus.WITHDRAWN) { "Cannot add subscription to a withdrawn customer" }
         val hasActiveSamePlan = subscriptions.any {
-            it.subscriptionPlanId == subscriptionPlanId && it.status == SubscriptionStatus.ACTIVE
+            it.planId == planId && it.status == SubscriptionStatus.ACTIVE
         }
-        check(!hasActiveSamePlan) { "Already has an active subscription for plan: ${subscriptionPlanId.value}" }
+        check(!hasActiveSamePlan) { "Already has an active subscription for plan: ${planId.value}" }
         val newSubscription = CustomerSubscription(
             id = id,
-            subscriptionPlanId = subscriptionPlanId,
+            planId = planId,
             status = SubscriptionStatus.ACTIVE,
             contractPeriod = ContractPeriod(from = contractedFrom, to = null),
         )

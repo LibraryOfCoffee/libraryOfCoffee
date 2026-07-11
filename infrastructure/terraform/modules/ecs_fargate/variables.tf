@@ -20,8 +20,9 @@ variable "vpc_id" {
   type = string
 }
 
-variable "private_subnet_ids" {
-  type = list(string)
+variable "subnet_ids" {
+  type        = list(string)
+  description = "ECSタスクを配置するサブネットのIDリスト"
 }
 
 variable "ingress_from_sg_id" {
@@ -35,10 +36,22 @@ variable "ingress_description" {
   description = "ingressルールの説明"
 }
 
+variable "additional_ingress_sgs" {
+  type = list(object({
+    sg_id       = string
+    description = string
+  }))
+  default     = []
+  description = "container_portへのingressを追加で許可する元SGのリスト。独立ルールではなくinlineで定義され、inlineと独立ルールの混在競合を避ける。"
+}
+
 variable "container_port" {
   type = number
 }
 
+# cpu/memory は ECSサービス作成時の「初期タスク定義(seed)」にのみ使われる。
+# 実行中のスペックは ecspresso(ecs-task-def.json)が deploy 時に上書きするため、
+# ここの値は実効スペックではない（aws_ecs_service の ignore_changes = task_definition を参照）。
 variable "cpu" {
   type = number
 }
@@ -112,4 +125,20 @@ variable "enable_rds_access" {
   type        = bool
   default     = false
   description = "RDS SGへのingressルールを追加するかどうか"
+}
+
+variable "use_spot" {
+  type        = bool
+  default     = true
+  description = "true: FARGATE_SPOT 100% (コスト優先) / false: FARGATE オンデマンド 100% (可用性優先)"
+}
+
+# ALB連携サービスのみ有効。タスク起動からこの秒数の間はELBヘルスチェックの失敗を
+# カウントしない(起動猶予)。JVM(Spring Boot)は起動に60秒以上かかるため、これが0だと
+# 起動完了前にunhealthy判定されデプロイがタイムアウトする。target_group_arn が無い
+# サービス(admin-api等)ではAWS側でエラーになるため、モジュール内でnullに落とす。
+variable "health_check_grace_period_seconds" {
+  type        = number
+  default     = 120
+  description = "ELBヘルスチェックの起動猶予秒数 (ALB連携サービスのみ有効)"
 }

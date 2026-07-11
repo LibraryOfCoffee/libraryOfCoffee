@@ -1,19 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { CoffeeBeanDetail as CoffeeBeanDetailType } from "@/api/coffee-beans";
-import {
-  getProcessingMethodLabel,
-  getRoastLevelLabel,
-} from "../../_lib/coffeeBeanLabels";
+import type {
+  CoffeeBeanDetail as CoffeeBeanDetailType,
+  ProcessingMethodOption,
+} from "@/api/coffee-beans";
+import type { TasteListItem } from "@/api/tastes";
+import { PublishStatusBadge } from "@/components/PublishStatusBadge";
+import { getRoastLevelLabel } from "../../_lib/coffeeBeanLabels";
 import { CoffeeBeanActions } from "./CoffeeBeanActions";
 import styles from "./CoffeeBeanDetail.module.css";
 
 export function CoffeeBeanDetail({
   coffeeBean,
   initialShops,
+  tastes,
+  processingMethods,
 }: {
   coffeeBean: CoffeeBeanDetailType;
   initialShops: { id: string; name: string }[];
+  tastes: TasteListItem[];
+  processingMethods: ProcessingMethodOption[];
 }) {
   return (
     <div className={styles.container}>
@@ -27,11 +33,32 @@ export function CoffeeBeanDetail({
         <CoffeeBeanActions
           coffeeBean={coffeeBean}
           initialShops={initialShops}
+          tastes={tastes}
+          processingMethods={processingMethods}
         />
       </div>
 
       <div className={styles.content}>
         <dl className={styles.fieldList}>
+          <div className={styles.field}>
+            <dt className={styles.fieldLabel}>公開状態</dt>
+            <dd className={styles.fieldValue}>
+              <PublishStatusBadge status={coffeeBean.publishStatus} />
+            </dd>
+          </div>
+
+          <div className={styles.field}>
+            <dt className={styles.fieldLabel}>店舗</dt>
+            <dd className={styles.fieldValue}>
+              <Link
+                href={`/shops/${coffeeBean.shopId}`}
+                className={styles.shopLink}
+              >
+                {coffeeBean.shopName}
+              </Link>
+            </dd>
+          </div>
+
           <div className={styles.field}>
             <dt className={styles.fieldLabel}>Shopify Bean ID</dt>
             <dd className={styles.fieldValue}>{coffeeBean.shopifyBeanId}</dd>
@@ -64,7 +91,7 @@ export function CoffeeBeanDetail({
           <div className={styles.field}>
             <dt className={styles.fieldLabel}>精製方法</dt>
             <dd className={styles.fieldValue}>
-              {getProcessingMethodLabel(coffeeBean.processingMethod)}
+              {coffeeBean.processingMethodName}
             </dd>
           </div>
 

@@ -1,0 +1,55 @@
+.section {
+  padding: 20px 22px 8px;
+}
+
+.eyebrow {
+  font-family: var(--mt-font-en);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: var(--mt-accent);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.item {
+  padding: 14px 16px;
+  background: var(--mt-surface);
+  border: 0.5px solid var(--mt-line-soft);
+  border-radius: 4px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.num {
+  font-family: var(--mt-font-en);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--mt-accent);
+  line-height: 1;
+  padding-top: 2px;
+  flex-shrink: 0;
+}
+
+.label {
+  font-family: var(--mt-font-jp-serif);
+  font-size: 15px;
+  color: var(--mt-ink);
+  margin: 0;
+  font-weight: 500;
+}
+
+.desc {
+  margin-top: 4px;
+  font-size: 11.5px;
+  color: var(--mt-ink-2);
+  line-height: 1.6;
+  font-family: var(--mt-font-jp-sans);
+}

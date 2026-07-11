@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ShopDetail as ShopDetailType } from "@/api/shops";
+import { getPrefectureLabel } from "@/app/(admin)/shops/_lib/prefecture";
+import { ParticipationStatusBadge } from "@/components/ParticipationStatusBadge";
 import { ShopActions } from "./ShopActions";
 import styles from "./ShopDetail.module.css";
 
@@ -20,6 +22,13 @@ export function ShopDetail({ shop }: { shop: ShopDetailType }) {
       <div className={styles.content}>
         <dl className={styles.fieldList}>
           <div className={styles.field}>
+            <dt className={styles.fieldLabel}>参画ステータス</dt>
+            <dd className={styles.fieldValue}>
+              <ParticipationStatusBadge status={shop.participationStatus} />
+            </dd>
+          </div>
+
+          <div className={styles.field}>
             <dt className={styles.fieldLabel}>Shopify Shop ID</dt>
             <dd className={styles.fieldValue}>{shop.shopifyShopId}</dd>
           </div>
@@ -37,6 +46,13 @@ export function ShopDetail({ shop }: { shop: ShopDetailType }) {
             <dt className={styles.fieldLabel}>こだわり</dt>
             <dd className={styles.fieldValue}>
               {shop.particular ?? <span className={styles.empty}>未設定</span>}
+            </dd>
+          </div>
+
+          <div className={styles.field}>
+            <dt className={styles.fieldLabel}>都道府県</dt>
+            <dd className={styles.fieldValue}>
+              {getPrefectureLabel(shop.prefecture)}
             </dd>
           </div>
 

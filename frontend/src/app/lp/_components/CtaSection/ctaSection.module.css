@@ -1,38 +1,50 @@
 .cta {
-  background: var(--color-bg);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding: 56px 24px;
+  padding: 24px 22px 30px;
+  text-align: center;
 }
 
 .title {
-  font-size: 24px;
-  font-weight: bold;
-  color: var(--color-text);
-  text-align: center;
-  line-height: 1.4;
+  font-family: var(--mt-font-jp-serif);
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--mt-ink);
+  line-height: 1.5;
+  letter-spacing: 0.04em;
   margin: 0;
-  max-width: 300px;
 }
 
 .subtitle {
-  font-size: 14px;
-  color: var(--color-text-secondary);
-  text-align: center;
-  margin: 0;
+  font-size: 11px;
+  color: var(--mt-ink-3);
+  margin-top: 6px;
+  font-family: var(--mt-font-jp-sans);
 }
 
 .ctaBtn {
-  position: relative;
+  margin-top: 18px;
   width: 100%;
-  max-width: 320px;
+  padding: 15px 18px;
+  background: var(--mt-ink);
+  color: #fbf6ea;
+  border-radius: 999px;
+  border: none;
+  font-size: 15px;
+  font-family: var(--mt-font-jp-serif);
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.18s;
+}
+
+.ctaBtn:hover {
+  opacity: 0.88;
 }
 
 .ctaArrow {
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
+  font-family: var(--mt-font-en);
+  font-style: normal;
 }

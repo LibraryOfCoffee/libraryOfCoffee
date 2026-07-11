@@ -1,5 +1,6 @@
 package com.mametosho.admin.application.usecase
 
+import com.mametosho.admin.application.service.ImageUpload
 import com.mametosho.admin.application.service.uploadImages
 import com.mametosho.admin.presentation.dto.request.CreateCoffeeBeanRequest
 import com.mametosho.domain.model.coffeebean.CoffeeBean
@@ -7,7 +8,6 @@ import com.mametosho.domain.repository.CoffeeBeanRepository
 import com.mametosho.domain.service.ImageStorageService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.web.multipart.MultipartFile
 import java.util.UUID
 
 @Service
@@ -18,16 +18,14 @@ class CreateCoffeeBeanUsecase(
     @Transactional
     open fun execute(
         request: CreateCoffeeBeanRequest,
-        imageFiles: List<MultipartFile>,
-        imageTypes: List<String>,
+        uploads: List<ImageUpload>,
     ): CoffeeBean {
         val coffeeBeanId = UUID.randomUUID().toString()
 
         val images = imageStorageService.uploadImages(
             prefix = "coffee-beans",
             entityId = coffeeBeanId,
-            imageFiles = imageFiles,
-            imageTypes = imageTypes,
+            uploads = uploads,
         )
 
         val coffeeBean = CoffeeBean.create(
@@ -38,8 +36,9 @@ class CreateCoffeeBeanUsecase(
             origin = request.origin,
             farm = request.farm,
             roastLevel = request.roastLevel,
-            processingMethod = request.processingMethod,
+            processingMethod = request.processingMethod.name,
             isSpecialty = request.isSpecialty,
+            publishStatus = request.publishStatus,
             images = images,
             tastes = request.tastes.map { it.tasteId to it.evaluationValue },
             id = coffeeBeanId,

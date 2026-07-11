@@ -8,8 +8,14 @@ import {
   useRef,
 } from "react";
 import type { ShopDetail } from "@/api/shops";
+import { PREFECTURE_OPTIONS } from "@/app/(admin)/shops/_lib/prefecture";
 import { ImageUploadField } from "@/components/ImageUploadField";
 import modalStyles from "@/components/modal.module.css";
+import {
+  PARTICIPATION_STATUS_LABELS,
+  PARTICIPATION_STATUS_OPTIONS,
+  PARTICIPATION_STATUS_OPTIONS_WITH_DROPPED,
+} from "@/components/participationStatus";
 import { type EditShopState, editShopAction } from "./editShopAction";
 
 const initialState: EditShopState = {};
@@ -34,6 +40,8 @@ export function EditShopModal({
   const introductionId = useId();
   const particularId = useId();
   const shopUrlId = useId();
+  const prefectureId = useId();
+  const participationStatusId = useId();
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -51,15 +59,17 @@ export function EditShopModal({
     }
   }, [state.success, onClose]);
 
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDialogElement>) => {
-    if (e.target === dialogRef.current) {
-      onClose();
-    }
-  };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    startTransition(() => formAction(new FormData(e.currentTarget)));
+    const formData = new FormData(e.currentTarget);
+    const nextStatus = formData.get("participationStatus");
+    if (nextStatus === "DROPPED") {
+      const confirmed = window.confirm(
+        "店舗を「参画落ち」にすると、この店舗の全コーヒー豆が無効化され、元に戻すことができません。\n\n本当に参画落ちにしますか？",
+      );
+      if (!confirmed) return;
+    }
+    startTransition(() => formAction(formData));
   };
 
   return (
@@ -67,7 +77,6 @@ export function EditShopModal({
       ref={dialogRef}
       className={modalStyles.dialog}
       onClose={onClose}
-      onClick={handleBackdropClick}
       onKeyDown={(e) => {
         if (e.key === "Escape") onClose();
       }}
@@ -180,6 +189,73 @@ export function EditShopModal({
             className={modalStyles.input}
           />
           {state.fieldErrors?.shopUrl?.map((msg) => (
+            <span key={msg} className={modalStyles.fieldError}>
+              {msg}
+            </span>
+          ))}
+        </div>
+
+        <div className={modalStyles.field}>
+          <label htmlFor={prefectureId} className={modalStyles.label}>
+            都道府県
+            <span className={modalStyles.required}>*</span>
+          </label>
+          <select
+            id={prefectureId}
+            name="prefecture"
+            defaultValue={state.values?.prefecture ?? shop.prefecture}
+            className={modalStyles.input}
+          >
+            {PREFECTURE_OPTIONS.map((p) => (
+              <option key={p.value} value={p.value}>
+                {p.label}
+              </option>
+            ))}
+          </select>
+          {state.fieldErrors?.prefecture?.map((msg) => (
+            <span key={msg} className={modalStyles.fieldError}>
+              {msg}
+            </span>
+          ))}
+        </div>
+
+        <div className={modalStyles.field}>
+          <label htmlFor={participationStatusId} className={modalStyles.label}>
+            参画ステータス
+            <span className={modalStyles.required}>*</span>
+          </label>
+          {shop.participationStatus === "DROPPED" ? (
+            <>
+              <input type="hidden" name="participationStatus" value="DROPPED" />
+              <input
+                id={participationStatusId}
+                type="text"
+                value={PARTICIPATION_STATUS_LABELS.DROPPED}
+                className={modalStyles.input}
+                disabled
+                readOnly
+              />
+            </>
+          ) : (
+            <select
+              id={participationStatusId}
+              name="participationStatus"
+              defaultValue={
+                state.values?.participationStatus ?? shop.participationStatus
+              }
+              className={modalStyles.input}
+            >
+              {(shop.participationStatus === "PARTICIPATING"
+                ? PARTICIPATION_STATUS_OPTIONS_WITH_DROPPED
+                : PARTICIPATION_STATUS_OPTIONS
+              ).map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+          )}
+          {state.fieldErrors?.participationStatus?.map((msg) => (
             <span key={msg} className={modalStyles.fieldError}>
               {msg}
             </span>

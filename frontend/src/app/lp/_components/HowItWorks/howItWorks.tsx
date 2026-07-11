@@ -1,4 +1,3 @@
-import sharedStyles from "../../shared.module.css";
 import styles from "./howItWorks.module.css";
 
 const steps = [
@@ -10,7 +9,7 @@ const steps = [
   {
     num: 2,
     title: "届く",
-    desc: "選んだ豆 ＋ おすすめの豆を受け取り",
+    desc: "選んだ以外は豆図書におまかせで、焙煎したてでお届け",
   },
   {
     num: 3,
@@ -21,16 +20,14 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section
-      id="how-it-works"
-      className={`${styles.how} ${sharedStyles.section}`}
-    >
-      <h2 className={sharedStyles.sectionTitle}>ご利用の流れ</h2>
+    <section id="how-it-works" className={styles.section}>
+      <p className={styles.eyebrow}>— HOW IT WORKS</p>
+      <h2 className={styles.headline}>ご利用の流れ</h2>
       <div className={styles.steps}>
         {steps.map((step) => (
           <div key={step.num} className={styles.step}>
             <div className={styles.num}>{step.num}</div>
-            <div className={styles.content}>
+            <div>
               <h3 className={styles.stepTitle}>{step.title}</h3>
               <p className={styles.stepDesc}>{step.desc}</p>
             </div>

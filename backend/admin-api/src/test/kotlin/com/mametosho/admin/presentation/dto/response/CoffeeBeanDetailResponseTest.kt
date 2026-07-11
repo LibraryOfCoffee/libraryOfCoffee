@@ -1,6 +1,7 @@
 package com.mametosho.admin.presentation.dto.response
 
 import com.mametosho.admin.application.query.result.CoffeeBeanDetailResult
+import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import org.junit.jupiter.api.Nested
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,6 +16,7 @@ class CoffeeBeanDetailResponseTest {
     ): CoffeeBeanDetailResult = CoffeeBeanDetailResult(
         id = "00000000-0000-4000-8000-000000000001",
         shopId = "00000000-0000-4000-8000-000000000002",
+        shopName = "テスト店舗",
         shopifyBeanId = "test-bean-001",
         name = "テストコーヒー豆",
         description = "テスト説明文",
@@ -23,6 +25,7 @@ class CoffeeBeanDetailResponseTest {
         roastLevel = "MEDIUM",
         processingMethod = "WASHED",
         isSpecialty = true,
+        publishStatus = "PUBLISHED",
         images = images,
         tastes = tastes,
     )
@@ -38,6 +41,7 @@ class CoffeeBeanDetailResponseTest {
             )
             val taste = CoffeeBeanDetailResult.TasteResult(
                 id = "00000000-0000-4000-8000-000000000020",
+                tasteId = "00000000-0000-4000-8000-000000000041",
                 tasteName = "酸味",
                 evaluationValue = 4,
             )
@@ -47,20 +51,24 @@ class CoffeeBeanDetailResponseTest {
 
             assertEquals("00000000-0000-4000-8000-000000000001", response.id)
             assertEquals("00000000-0000-4000-8000-000000000002", response.shopId)
+            assertEquals("テスト店舗", response.shopName)
             assertEquals("test-bean-001", response.shopifyBeanId)
             assertEquals("テストコーヒー豆", response.name)
             assertEquals("テスト説明文", response.description)
             assertEquals("エチオピア", response.origin)
             assertEquals("テスト農園", response.farm)
             assertEquals("MEDIUM", response.roastLevel)
-            assertEquals("WASHED", response.processingMethod)
+            assertEquals(ProcessingMethod.WASHED, response.processingMethod)
+            assertEquals("ウォッシュド", response.processingMethodName)
             assertEquals(true, response.isSpecialty)
+            assertEquals("PUBLISHED", response.publishStatus)
             assertEquals(1, response.images.size)
             assertEquals("00000000-0000-4000-8000-000000000010", response.images[0].id)
             assertEquals("MAIN", response.images[0].type)
             assertEquals("https://example.com/image.jpg", response.images[0].imageUrl)
             assertEquals(1, response.tastes.size)
             assertEquals("00000000-0000-4000-8000-000000000020", response.tastes[0].id)
+            assertEquals("00000000-0000-4000-8000-000000000041", response.tastes[0].tasteId)
             assertEquals("酸味", response.tastes[0].tasteName)
             assertEquals(4, response.tastes[0].evaluationValue)
         }

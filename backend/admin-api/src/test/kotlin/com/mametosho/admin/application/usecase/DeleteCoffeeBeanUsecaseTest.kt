@@ -2,6 +2,7 @@ package com.mametosho.admin.application.usecase
 
 import com.mametosho.domain.model.coffeebean.CoffeeBean
 import com.mametosho.domain.model.coffeebean.CoffeeBeanId
+import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.repository.CoffeeBeanRepository
 import com.mametosho.admin.test.FakeImageStorageService
 import org.junit.jupiter.api.Nested
@@ -24,8 +25,9 @@ class DeleteCoffeeBeanUsecaseTest {
         roastLevel = "MEDIUM",
         processingMethod = "WASHED",
         isSpecialty = true,
-        images = emptyList(),
-        tastes = emptyList(),
+        publishStatus = "PUBLISHED",
+        images = listOf("MAIN" to "https://example.com/bean.jpg"),
+        tastes = listOf("00000000-0000-4000-8000-000000000041" to 3),
     )
 
     private val fakeRepository = object : CoffeeBeanRepository {
@@ -38,6 +40,7 @@ class DeleteCoffeeBeanUsecaseTest {
         override fun deleteById(id: CoffeeBeanId) {
             deletedIds.add(id)
         }
+        override fun invalidateByShopId(shopId: ShopId) = Unit
     }
 
     private val usecase = DeleteCoffeeBeanUsecase(fakeRepository, FakeImageStorageService)

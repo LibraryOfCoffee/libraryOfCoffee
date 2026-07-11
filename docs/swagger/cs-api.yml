@@ -8,174 +8,630 @@ info:
 servers:
 - url: /
   description: Current Server
+security:
+- X-Client-Id: []
+  X-Timestamp: []
+  X-Signature: []
 tags:
-- name: CoffeeListGroup
-  description: 珈琲リストグループAPI
+- name: Plan
+  description: プランAPI
+- name: Shop
+  description: 店舗API
+- name: CoffeeBean
+  description: 珈琲豆API
 paths:
-  /api/coffee-list-groups/{coffeeListGroupId}:
+  /api/shops:
     get:
       tags:
-      - CoffeeListGroup
-      summary: 珈琲リストグループ詳細取得
-      description: 指定されたIDの珈琲リストグループの詳細を取得します。グループに含まれる珈琲豆の情報（画像・テイスト評価を含む）を一括で返します。
-      operationId: getCoffeeListGroupDetail
+      - Shop
+      summary: 店舗一覧取得
+      description: 店舗の一覧をページネーション付きで取得します。
+      operationId: listShops
       parameters:
-      - name: coffeeListGroupId
-        in: path
-        description: 珈琲リストグループID
+      - name: page
+        in: query
+        description: ページ番号（0始まり）
         required: true
         schema:
-          type: string
-        example: 00000000-0000-4000-8000-000000000051
+          type: integer
+          format: int32
+        example: 0
+      - name: size
+        in: query
+        description: 1ページあたりの件数
+        required: true
+        schema:
+          type: integer
+          format: int32
+        example: 20
       responses:
         "200":
           description: 取得成功
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: "#/components/schemas/CoffeeListGroupDetailResponse"
+                $ref: "#/components/schemas/ShopListResponse"
               examples:
                 success:
                   summary: 取得成功例
                   description: success
                   value:
-                    id: 00000000-0000-4000-8000-000000000051
-                    description: 2026年2月のおすすめ珈琲豆
-                    coffeeBeans:
-                    - id: 00000000-0000-4000-8000-000000000071
-                      name: エチオピア イルガチェフェ G1
-                      description: 花のような華やかなフレーバーと、柑橘系の明るい酸味が特徴。クリーンカップで後味もすっきり。
-                      origin: エチオピア
-                      farm: イルガチェフェ コチャレ地区
-                      roastLevel: light
-                      processingMethod: washed
-                      isSpecialty: true
-                      images:
-                      - id: 00000000-0000-4000-8000-000000000091
-                        type: main
-                        imageUrl: https://placehold.jp/150x150.png
-                      tastes:
-                      - tasteId: 00000000-0000-4000-8000-000000000041
-                        tasteName: 酸味
-                        evaluationValue: 5
-                      - tasteId: 00000000-0000-4000-8000-000000000042
-                        tasteName: 苦味
-                        evaluationValue: 1
-                      - tasteId: 00000000-0000-4000-8000-000000000043
-                        tasteName: 甘味
-                        evaluationValue: 3
-                      - tasteId: 00000000-0000-4000-8000-000000000044
-                        tasteName: コク
-                        evaluationValue: 3
-                      - tasteId: 00000000-0000-4000-8000-000000000045
-                        tasteName: 香り
-                        evaluationValue: 5
+                    items:
+                    - id: 00000000-0000-4000-8000-000000000031
+                      name: 珈琲工房 まめとしょ
+                      introduction: 東京都渋谷区にある自家焙煎珈琲店。厳選されたスペシャルティコーヒーをお届けします。
+                      shopUrl: https://mametosho.example.com
+                      prefecture: TOKYO
+                      logoImageUrl: https://placehold.jp/100x100.png
+                    - id: 00000000-0000-4000-8000-000000000032
+                      name: CAFÉ LUMIÈRE
+                      introduction: 京都の町家を改装した珈琲専門店。フレンチローストからライトローストまで幅広い焙煎度をご用意。
+                      shopUrl: https://cafe-lumiere.example.com
+                      prefecture: KYOTO
+                      logoImageUrl: https://placehold.jp/100x100.png
+                    totalCount: 3
+                    page: 0
+                    size: 20
+  /api/shops/{shopId}:
+    get:
+      tags:
+      - Shop
+      summary: 店舗詳細取得
+      description: 指定されたIDの店舗の詳細情報を取得します。参画中の店舗のみ取得できます。
+      operationId: getShop
+      parameters:
+      - name: shopId
+        in: path
+        description: 店舗ID
+        required: true
+        schema:
+          type: string
+        example: 00000000-0000-4000-8000-000000000031
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ShopDetailResponse"
+              examples:
+                success:
+                  summary: 取得成功例
+                  description: success
+                  value:
+                    id: 00000000-0000-4000-8000-000000000031
+                    name: 珈琲工房 まめとしょ
+                    introduction: 東京都渋谷区にある自家焙煎珈琲店。厳選されたスペシャルティコーヒーをお届けします。
+                    particular: 厳選された豆のみを使用しています。
+                    shopUrl: https://mametosho.example.com
+                    prefecture: TOKYO
+                    images:
+                    - id: 00000000-0000-4000-8000-000000000010
+                      type: LOGO
+                      imageUrl: https://placehold.jp/100x100.png
+                    - id: 00000000-0000-4000-8000-000000000011
+                      type: MAIN
+                      imageUrl: https://placehold.jp/600x400.png
+        "400":
+          description: 店舗IDの形式が不正
+          content:
+            '*/*':
+              examples:
+                bad_request:
+                  summary: 店舗IDがUUID形式でない場合
+                  description: bad_request
+                  value:
+                    timestamp: 2026-02-23T12:00:00.000+00:00
+                    status: 400
+                    error: Bad Request
+                    path: /api/shops/invalid-id
         "404":
-          description: 珈琲リストグループが見つかりません
+          description: 店舗が見つかりません（存在しない、または参画中でない）
           content:
             '*/*':
               examples:
                 not_found:
-                  summary: リソースが見つからない場合
+                  summary: 店舗が見つからない場合
                   description: not_found
                   value:
                     timestamp: 2026-02-23T12:00:00.000+00:00
                     status: 404
                     error: Not Found
-                    path: /api/coffee-list-groups/00000000-0000-4000-8000-000000000099
+                    path: /api/shops/00000000-0000-4000-8000-000000000999
+  /api/plans:
+    get:
+      tags:
+      - Plan
+      summary: プラン一覧取得
+      description: プランの一覧を取得します。
+      operationId: listPlans
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PlanResponse"
+              examples:
+                success:
+                  summary: 取得成功例
+                  description: success
+                  value:
+                  - id: 00000000-0000-4000-8000-000000000024
+                    label: 定番
+                    gramWeight: 30
+                    beanQuantity: 4
+                    price: 1950
+                    type: SUBSCRIPTION
+                    isRecommended: true
+                  - id: 00000000-0000-4000-8000-00000000002d
+                    label: 定番
+                    gramWeight: 30
+                    beanQuantity: 4
+                    price: 2150
+                    type: SINGLE
+                    isRecommended: true
+  /api/coffeeBeans:
+    get:
+      tags:
+      - CoffeeBean
+      summary: 珈琲豆一覧取得
+      description: 珈琲豆の一覧をページネーション付きで取得します。産地・焙煎度・ロースターの都道府県でフィルタリングできます。
+      operationId: listCoffeeBeans
+      parameters:
+      - name: page
+        in: query
+        description: ページ番号（0始まり）
+        required: true
+        schema:
+          type: integer
+          format: int32
+        example: 0
+      - name: size
+        in: query
+        description: 1ページあたりの件数
+        required: true
+        schema:
+          type: integer
+          format: int32
+        example: 20
+      - name: origin
+        in: query
+        description: 産地（部分一致）
+        required: false
+        schema:
+          type: string
+        example: エチオピア
+      - name: roastLevel
+        in: query
+        description: 焙煎度
+        required: false
+        schema:
+          type: string
+          enum:
+          - LIGHT
+          - CINNAMON
+          - MEDIUM
+          - CITY
+          - FRENCH
+        example: LIGHT
+      - name: prefecture
+        in: query
+        description: ロースターの都道府県
+        required: false
+        schema:
+          type: string
+          enum:
+          - HOKKAIDO
+          - AOMORI
+          - IWATE
+          - MIYAGI
+          - AKITA
+          - YAMAGATA
+          - FUKUSHIMA
+          - IBARAKI
+          - TOCHIGI
+          - GUNMA
+          - SAITAMA
+          - CHIBA
+          - TOKYO
+          - KANAGAWA
+          - NIIGATA
+          - TOYAMA
+          - ISHIKAWA
+          - FUKUI
+          - YAMANASHI
+          - NAGANO
+          - SHIZUOKA
+          - AICHI
+          - MIE
+          - SHIGA
+          - KYOTO
+          - OSAKA
+          - HYOGO
+          - NARA
+          - WAKAYAMA
+          - TOTTORI
+          - SHIMANE
+          - OKAYAMA
+          - HIROSHIMA
+          - YAMAGUCHI
+          - TOKUSHIMA
+          - KAGAWA
+          - EHIME
+          - KOCHI
+          - FUKUOKA
+          - SAGA
+          - NAGASAKI
+          - KUMAMOTO
+          - OITA
+          - MIYAZAKI
+          - KAGOSHIMA
+          - OKINAWA
+        example: TOKYO
+      responses:
+        "200":
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CoffeeBeanListResponse"
+              examples:
+                success:
+                  summary: 取得成功例
+                  description: success
+                  value:
+                    items:
+                    - id: 00000000-0000-4000-8000-000000000071
+                      name: エチオピア イルガチェフェ G1
+                      origin: エチオピア
+                      roastLevel: LIGHT
+                      processingMethod: WASHED
+                      isSpecialty: true
+                      description: 花のような華やかなフレーバーと、柑橘系の明るい酸味が特徴。
+                      imageUrl: https://example.com/images/ethiopia.jpg
+                      shopName: 珈琲工房 まめとしょ
+                      shopPrefecture: TOKYO
+                      shopUrl: https://mametosho.example.com
+                      tasteProfiles:
+                      - name: 酸味
+                        value: 5
+                      - name: 苦味
+                        value: 1
+                      - name: 甘味
+                        value: 3
+                      - name: コク
+                        value: 3
+                      - name: 香り
+                        value: 5
+                    totalCount: 1
+                    page: 0
+                    size: 20
 components:
   schemas:
-    CoffeeBeanDetail:
+    ShopListResponse:
       type: object
-      description: 珈琲豆詳細
+      description: 店舗一覧レスポンス
+      properties:
+        items:
+          type: array
+          description: アイテム一覧
+          items:
+            $ref: "#/components/schemas/ShopResponse"
+        totalCount:
+          type: integer
+          format: int64
+          description: 全件数
+          example: 3
+        page:
+          type: integer
+          format: int32
+          description: 現在のページ番号（0始まり）
+          example: 0
+        size:
+          type: integer
+          format: int32
+          description: 1ページあたりの件数
+          example: 20
+      required:
+      - items
+      - page
+      - size
+      - totalCount
+    ShopResponse:
+      type: object
+      description: 店舗一覧アイテム
+      properties:
+        id:
+          type: string
+          description: 店舗ID
+          example: 00000000-0000-4000-8000-000000000031
+        name:
+          type: string
+          description: 店舗名
+          example: 珈琲工房 まめとしょ
+        introduction:
+          type: string
+          description: 店舗紹介文
+          example: 東京都渋谷区にある自家焙煎珈琲店。厳選されたスペシャルティコーヒーをお届けします。
+        shopUrl:
+          type: string
+          description: 店舗URL
+          example: https://mametosho.example.com
+        prefecture:
+          type: string
+          description: 都道府県
+          example: TOKYO
+        logoImageUrl:
+          type: string
+          description: ロゴ画像URL
+          example: https://placehold.jp/100x100.png
+      required:
+      - id
+      - introduction
+      - logoImageUrl
+      - name
+      - prefecture
+      - shopUrl
+    ImageDetail:
+      type: object
+      description: 画像詳細
+      properties:
+        id:
+          type: string
+          description: 画像ID
+          example: 00000000-0000-4000-8000-000000000010
+        type:
+          type: string
+          description: "画像種別（LOGO: ロゴ / MAIN: メイン）"
+          example: LOGO
+        imageUrl:
+          type: string
+          description: 画像URL
+          example: https://placehold.jp/100x100.png
+      required:
+      - id
+      - imageUrl
+      - type
+    ShopDetailResponse:
+      type: object
+      description: 店舗詳細レスポンス
+      properties:
+        id:
+          type: string
+          description: 店舗ID
+          example: 00000000-0000-4000-8000-000000000031
+        name:
+          type: string
+          description: 店舗名
+          example: 珈琲工房 まめとしょ
+        introduction:
+          type: string
+          description: 店舗紹介文
+          example: 東京都渋谷区にある自家焙煎珈琲店。厳選されたスペシャルティコーヒーをお届けします。
+        particular:
+          type: string
+          description: こだわり
+          example: 厳選された豆のみを使用しています。
+        shopUrl:
+          type: string
+          description: 店舗URL
+          example: https://mametosho.example.com
+        prefecture:
+          type: string
+          description: 都道府県
+          example: TOKYO
+        images:
+          type: array
+          description: 画像一覧
+          items:
+            $ref: "#/components/schemas/ImageDetail"
+      required:
+      - id
+      - images
+      - introduction
+      - name
+      - particular
+      - prefecture
+      - shopUrl
+    PlanResponse:
+      type: object
+      description: プラン一覧アイテム
+      properties:
+        id:
+          type: string
+          description: プランID
+          example: 00000000-0000-4000-8000-000000000024
+        shopifyPlanId:
+          type: string
+          description: ShopifyのプランID（Shopify遷移時に使用する）
+          example: gid://shopify/SellingPlan/200004
+        label:
+          type: string
+          description: プラン表示名
+          example: 定番
+        gramWeight:
+          type: integer
+          format: int32
+          description: 1種あたりのグラム数
+          example: 60
+        beanQuantity:
+          type: integer
+          format: int32
+          description: 豆の種類数
+          example: 4
+        price:
+          type: integer
+          format: int32
+          description: 価格
+          example: 3800
+        type:
+          type: string
+          description: プラン種別（SUBSCRIPTION / SINGLE）
+          example: SUBSCRIPTION
+        isRecommended:
+          type: boolean
+          description: おすすめバッジ
+          example: true
+      required:
+      - beanQuantity
+      - gramWeight
+      - id
+      - isRecommended
+      - label
+      - price
+      - shopifyPlanId
+      - type
+    CoffeeBeanListResponse:
+      type: object
+      description: 珈琲豆一覧レスポンス
+      properties:
+        items:
+          type: array
+          description: アイテム一覧
+          items:
+            $ref: "#/components/schemas/CoffeeBeanResponse"
+        totalCount:
+          type: integer
+          format: int64
+          description: 全件数
+          example: 1
+        page:
+          type: integer
+          format: int32
+          description: 現在のページ番号（0始まり）
+          example: 0
+        size:
+          type: integer
+          format: int32
+          description: 1ページあたりの件数
+          example: 20
+      required:
+      - items
+      - page
+      - size
+      - totalCount
+    CoffeeBeanResponse:
+      type: object
+      description: 珈琲豆一覧アイテム
       properties:
         id:
           type: string
           description: 珈琲豆ID
           example: 00000000-0000-4000-8000-000000000071
+        shopifyBeanId:
+          type: string
+          description: ShopifyのID（Shopify遷移時に使用する）
+          example: gid://shopify/Product/400001
         name:
           type: string
           description: 珈琲豆名
           example: エチオピア イルガチェフェ G1
-        description:
-          type: string
-          description: 説明
-          example: 花のような華やかなフレーバーと、柑橘系の明るい酸味が特徴。
         origin:
           type: string
           description: 産地
           example: エチオピア
-        farm:
-          type: string
-          description: 農園
-          example: イルガチェフェ コチャレ地区
         roastLevel:
           type: string
           description: 焙煎度
-          example: light
+          example: LIGHT
         processingMethod:
           type: string
           description: 精製方法
-          example: washed
-        images:
-          type: array
-          description: 画像一覧
-          items:
-            $ref: "#/components/schemas/CoffeeBeanImageDetail"
-        tastes:
-          type: array
-          description: テイスト評価一覧
-          items:
-            $ref: "#/components/schemas/CoffeeBeanTasteDetail"
-        specialty:
-          type: boolean
-    CoffeeBeanImageDetail:
-      type: object
-      description: 珈琲豆画像
-      properties:
-        id:
+          enum:
+          - FULLY_WASHED
+          - WASHED
+          - ANAEROBIC_WASHED
+          - THERMAL_SHOCK_NATURAL
+          - NATURAL
+          - ANAEROBIC_NATURAL
+          - DRY_ON_TREE_NATURAL
+          - LACTIC_NATURAL
+          - WET_HULLING
+          - HONEY
+          - MOUNTAIN_WATER
+          - LADO_A_LADO_PROCESS
+          - LADO_A_LADO_PROCESS_FULLY_WASHED
+          example: WASHED
+        processingMethodName:
           type: string
-          description: 画像ID
-          example: 00000000-0000-4000-8000-000000000091
-        type:
+          description: 精製方法の表示名
+          example: ウォッシュド
+        description:
           type: string
-          description: 画像種別
-          example: main
+          description: 説明文
+          example: フルーティーな香りと明るい酸味が特徴の豆です。
         imageUrl:
           type: string
-          description: 画像URL
-          example: https://placehold.jp/150x150.png
-    CoffeeBeanTasteDetail:
-      type: object
-      description: 珈琲豆テイスト評価
-      properties:
-        tasteId:
+          description: メイン画像URL
+          example: https://example.com/images/coffee.jpg
+        shopName:
           type: string
-          description: テイストID
-          example: 00000000-0000-4000-8000-000000000041
-        tasteName:
+          description: ロースター名
+          example: 山田珈琲焙煎所
+        shopPrefecture:
+          type: string
+          description: ロースターの都道府県
+          example: TOKYO
+        shopUrl:
+          type: string
+          description: ロースターのURL
+          example: https://mametosho.example.com
+        tasteProfiles:
+          type: array
+          description: テイストプロファイル一覧
+          items:
+            $ref: "#/components/schemas/TasteProfileResponse"
+        isSpecialty:
+          type: boolean
+          description: スペシャルティ珈琲かどうか
+          example: true
+      required:
+      - description
+      - id
+      - imageUrl
+      - isSpecialty
+      - name
+      - origin
+      - processingMethod
+      - processingMethodName
+      - roastLevel
+      - shopName
+      - shopPrefecture
+      - shopUrl
+      - shopifyBeanId
+      - tasteProfiles
+    TasteProfileResponse:
+      type: object
+      description: テイストプロファイル
+      properties:
+        name:
           type: string
           description: テイスト名
           example: 酸味
-        evaluationValue:
+        value:
           type: integer
           format: int32
-          description: 評価値（1〜5）
-          example: 4
-    CoffeeListGroupDetailResponse:
-      type: object
-      description: 珈琲リストグループ詳細レスポンス
-      properties:
-        id:
-          type: string
-          description: グループID
-          example: 00000000-0000-4000-8000-000000000051
-        description:
-          type: string
-          description: グループの説明
-          example: 2026年2月のおすすめ珈琲豆
-        coffeeBeans:
-          type: array
-          description: 珈琲豆一覧
-          items:
-            $ref: "#/components/schemas/CoffeeBeanDetail"
+          description: 評価値
+          example: 60
+      required:
+      - name
+      - value
+  securitySchemes:
+    X-Client-Id:
+      type: apiKey
+      description: クライアント識別子
+      name: X-Client-Id
+      in: header
+    X-Timestamp:
+      type: apiKey
+      description: UNIXエポック秒
+      name: X-Timestamp
+      in: header
+    X-Signature:
+      type: apiKey
+      description: HMAC-SHA256署名(hex)
+      name: X-Signature
+      in: header

@@ -1,15 +1,18 @@
 package com.mametosho.infrastructure.persistence.repository
 
-import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.Image
+import com.mametosho.domain.model.shared.ParticipationStatus
 import com.mametosho.domain.model.shop.Shop
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.shop.ShopImage
 import com.mametosho.domain.model.shop.ShopImageId
 import com.mametosho.domain.model.shop.ShopImageType
+import com.mametosho.domain.model.shop.Prefecture
 import com.mametosho.domain.model.shop.ShopifyShopId
 import com.mametosho.domain.repository.ShopRepository
 import com.mametosho.infrastructure.persistence.mybatis.entity.ShopEntity
 import com.mametosho.infrastructure.persistence.mybatis.entity.ShopImageEntity
+import com.mametosho.infrastructure.persistence.mybatis.entity.ShopListRow
 import com.mametosho.infrastructure.persistence.mybatis.mapper.ShopMapper
 import org.springframework.stereotype.Repository
 
@@ -26,6 +29,8 @@ class ShopRepositoryImpl(
                 introduction = shop.introduction,
                 particular = shop.particular,
                 shopUrl = shop.shopUrl,
+                prefecture = shop.prefecture.name,
+                participationStatus = shop.participationStatus.name,
             ),
         )
         shopMapper.deleteShopImagesByShopId(shop.id.value)
@@ -35,7 +40,7 @@ class ShopRepositoryImpl(
                     id = image.id.value,
                     shopId = shop.id.value,
                     type = image.type.name,
-                    imageUrl = image.imageUrl.value,
+                    imageUrl = image.image.url,
                 ),
             )
         }
@@ -46,23 +51,47 @@ class ShopRepositoryImpl(
         shopMapper.deleteShopById(id.value)
     }
 
+    override fun findAll(
+        page: Int,
+        size: Int,
+        name: String?,
+        participationStatus: ParticipationStatus?,
+    ): Pair<List<Shop>, Long> {
+        val offset = page * size
+        val participationStatusName = participationStatus?.name
+        val rows = shopMapper.findListRows(size, offset, name, participationStatusName)
+        val totalCount = shopMapper.countByCondition(name, participationStatusName)
+        if (rows.isEmpty()) return Pair(emptyList(), totalCount)
+        val shops = rows.groupBy { it.id }.map { (_, shopRows) -> mapRowsToShop(shopRows) }
+        return Pair(shops, totalCount)
+    }
+
     override fun findById(id: ShopId): Shop? {
-        val shopEntity = shopMapper.findShopById(id.value) ?: return null
-        val imageEntities = shopMapper.findShopImagesByShopId(id.value)
+        val rows = shopMapper.findShopById(id.value)
+        if (rows.isEmpty()) return null
+        return mapRowsToShop(rows)
+    }
+
+    private fun mapRowsToShop(rows: List<ShopListRow>): Shop {
+        val first = rows.first()
         return Shop(
-            id = ShopId(shopEntity.id),
-            shopifyShopId = ShopifyShopId(shopEntity.shopifyShopId),
-            name = shopEntity.name,
-            introduction = shopEntity.introduction,
-            particular = shopEntity.particular,
-            shopUrl = shopEntity.shopUrl,
-            images = imageEntities.map { img ->
-                ShopImage(
-                    id = ShopImageId(img.id),
-                    type = ShopImageType.valueOf(img.type),
-                    imageUrl = ImageUrl(img.imageUrl),
-                )
-            },
+            id = ShopId(first.id),
+            shopifyShopId = ShopifyShopId(first.shopifyShopId),
+            name = first.name,
+            introduction = first.introduction,
+            particular = first.particular,
+            shopUrl = first.shopUrl,
+            prefecture = Prefecture.valueOf(first.prefecture),
+            participationStatus = ParticipationStatus.valueOf(first.participationStatus),
+            images = rows
+                .filter { it.imageId != null }
+                .map { row ->
+                    ShopImage(
+                        id = ShopImageId(checkNotNull(row.imageId)),
+                        type = ShopImageType.valueOf(checkNotNull(row.imageType)),
+                        image = Image(checkNotNull(row.imageUrl)),
+                    )
+                },
         )
     }
 }

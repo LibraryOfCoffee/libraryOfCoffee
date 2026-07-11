@@ -43,6 +43,16 @@ subprojects {
 	tasks.withType<Test> {
 		useJUnitPlatform()
 	}
+
+	// generateOpenApiDocs が使う forkedSpringBootRun は :common:jar の出力に依存するため、
+	// Spring Boot プラグイン適用モジュールに対して依存を一括宣言する。
+	// forkedSpringBootRun は springdoc プラグインが（モジュールの afterEvaluate 内で）
+	// 遅延登録するため、tasks.matching の configureEach で登場時に設定する。
+	plugins.withId("org.springframework.boot") {
+		tasks.matching { it.name == "forkedSpringBootRun" }.configureEach {
+			dependsOn(":common:jar")
+		}
+	}
 }
 
 tasks.register<JavaExec>("detekt") {

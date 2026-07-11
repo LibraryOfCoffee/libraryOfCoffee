@@ -7,15 +7,18 @@ import {
   useId,
   useRef,
 } from "react";
-import type { CoffeeBeanDetail } from "@/api/coffee-beans";
+import type {
+  CoffeeBeanDetail,
+  ProcessingMethodOption,
+} from "@/api/coffee-beans";
+import type { TasteListItem } from "@/api/tastes";
 import { searchShopsAction } from "@/app/(admin)/coffee-beans/_components/searchShopsAction";
-import {
-  PROCESSING_METHOD_LABELS,
-  ROAST_LEVEL_LABELS,
-} from "@/app/(admin)/coffee-beans/_lib/coffeeBeanLabels";
+import { TasteProfileField } from "@/app/(admin)/coffee-beans/_components/TasteProfileField";
+import { ROAST_LEVEL_LABELS } from "@/app/(admin)/coffee-beans/_lib/coffeeBeanLabels";
 import { ImageUploadField } from "@/components/ImageUploadField";
 import modalStyles from "@/components/modal.module.css";
 import { ShopSearchSelect } from "@/components/ShopSearchSelect";
+import { ToggleField } from "@/components/ToggleField";
 import {
   type EditCoffeeBeanState,
   editCoffeeBeanAction,
@@ -26,11 +29,15 @@ const initialState: EditCoffeeBeanState = {};
 export function EditCoffeeBeanModal({
   coffeeBean,
   initialShops,
+  tastes,
+  processingMethods,
   open,
   onClose,
 }: {
   coffeeBean: CoffeeBeanDetail;
   initialShops: { id: string; name: string }[];
+  tastes: TasteListItem[];
+  processingMethods: ProcessingMethodOption[];
   open: boolean;
   onClose: () => void;
 }) {
@@ -48,6 +55,7 @@ export function EditCoffeeBeanModal({
   const roastLevelId = useId();
   const processingMethodId = useId();
   const isSpecialtyId = useId();
+  const publishStatusId = useId();
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -65,12 +73,6 @@ export function EditCoffeeBeanModal({
     }
   }, [state.success, onClose]);
 
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDialogElement>) => {
-    if (e.target === dialogRef.current) {
-      onClose();
-    }
-  };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     startTransition(() => formAction(new FormData(e.currentTarget)));
@@ -81,7 +83,6 @@ export function EditCoffeeBeanModal({
       ref={dialogRef}
       className={modalStyles.dialog}
       onClose={onClose}
-      onClick={handleBackdropClick}
       onKeyDown={(e) => {
         if (e.key === "Escape") onClose();
       }}
@@ -100,11 +101,6 @@ export function EditCoffeeBeanModal({
 
       <form onSubmit={handleSubmit} className={modalStyles.form}>
         <input type="hidden" name="id" value={coffeeBean.id} />
-        <input
-          type="hidden"
-          name="currentTastes"
-          value={JSON.stringify(coffeeBean.tastes ?? [])}
-        />
 
         {state.error && <div className={modalStyles.error}>{state.error}</div>}
 
@@ -252,7 +248,7 @@ export function EditCoffeeBeanModal({
             }
             className={modalStyles.select}
           >
-            {Object.entries(PROCESSING_METHOD_LABELS).map(([value, label]) => (
+            {processingMethods.map(({ value, label }) => (
               <option key={value} value={value}>
                 {label}
               </option>
@@ -265,29 +261,37 @@ export function EditCoffeeBeanModal({
           ))}
         </div>
 
-        <div className={modalStyles.field}>
-          <label htmlFor={isSpecialtyId} className={modalStyles.label}>
-            スペシャルティ
-            <span className={modalStyles.required}>*</span>
-          </label>
-          <select
-            id={isSpecialtyId}
-            name="isSpecialty"
-            defaultValue={
-              state.values?.isSpecialty ??
-              (coffeeBean.isSpecialty ? "true" : "false")
-            }
-            className={modalStyles.select}
-          >
-            <option value="true">あり</option>
-            <option value="false">なし</option>
-          </select>
-          {state.fieldErrors?.isSpecialty?.map((msg) => (
-            <span key={msg} className={modalStyles.fieldError}>
-              {msg}
-            </span>
-          ))}
-        </div>
+        <ToggleField
+          id={isSpecialtyId}
+          name="isSpecialty"
+          label="スペシャルティ"
+          required
+          defaultChecked={
+            (state.values?.isSpecialty ??
+              (coffeeBean.isSpecialty ? "true" : "false")) === "true"
+          }
+          errors={state.fieldErrors?.isSpecialty}
+        />
+
+        <ToggleField
+          id={publishStatusId}
+          name="publishStatus"
+          label="公開状態"
+          required
+          defaultChecked={
+            (state.values?.publishStatus ?? coffeeBean.publishStatus) ===
+            "PUBLISHED"
+          }
+          errors={state.fieldErrors?.publishStatus}
+        />
+
+        <TasteProfileField
+          tastes={tastes}
+          getDefaultValue={(taste) =>
+            coffeeBean.tastes.find((t) => t.tasteId === taste.id)
+              ?.evaluationValue ?? 0
+          }
+        />
 
         <ImageUploadField
           imageTypes={[{ value: "MAIN", label: "メイン" }]}

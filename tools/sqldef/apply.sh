@@ -120,7 +120,7 @@ if [[ "$APPLY" == false ]]; then
 else
   log "--- DDL を適用します (DROP: $([[ $ALLOW_DROP == true ]] && echo 有効 || echo スキップ)) ---"
   if [[ "$ALLOW_DROP" == true ]]; then
-    MYSQLDEF_ARGS+=(--enable-drop-table)
+    MYSQLDEF_ARGS+=(--enable-drop)
   fi
 fi
 

@@ -2,6 +2,7 @@ package com.mametosho.infrastructure.persistence.mybatis.mapper
 
 import com.mametosho.infrastructure.persistence.mybatis.entity.ShopEntity
 import com.mametosho.infrastructure.persistence.mybatis.entity.ShopImageEntity
+import com.mametosho.infrastructure.persistence.mybatis.entity.ShopListRow
 import org.apache.ibatis.annotations.Delete
 import org.apache.ibatis.annotations.Insert
 import org.apache.ibatis.annotations.Mapper
@@ -12,14 +13,16 @@ import org.apache.ibatis.annotations.Select
 interface ShopMapper {
     @Insert(
         """
-        INSERT INTO shops (id, shopify_shop_id, name, introduction, particular, shop_url)
-        VALUES (#{id}, #{shopifyShopId}, #{name}, #{introduction}, #{particular}, #{shopUrl})
+        INSERT INTO shops (id, shopify_shop_id, name, introduction, particular, shop_url, prefecture, participation_status)
+        VALUES (#{id}, #{shopifyShopId}, #{name}, #{introduction}, #{particular}, #{shopUrl}, #{prefecture}, #{participationStatus})
         ON DUPLICATE KEY UPDATE
             shopify_shop_id = VALUES(shopify_shop_id),
             name = VALUES(name),
             introduction = VALUES(introduction),
             particular = VALUES(particular),
-            shop_url = VALUES(shop_url)
+            shop_url = VALUES(shop_url),
+            prefecture = VALUES(prefecture),
+            participation_status = VALUES(participation_status)
         """,
     )
     fun upsertShop(entity: ShopEntity)
@@ -35,11 +38,16 @@ interface ShopMapper {
     )
     fun insertShopImage(entity: ShopImageEntity)
 
-    @Select("SELECT id, shopify_shop_id, name, introduction, particular, shop_url FROM shops WHERE id = #{id}")
-    fun findShopById(id: String): ShopEntity?
-
-    @Select("SELECT id, shop_id, type, image_url FROM shop_images WHERE shop_id = #{shopId}")
-    fun findShopImagesByShopId(shopId: String): List<ShopImageEntity>
+    @Select(
+        """
+        SELECT s.id, s.shopify_shop_id, s.name, s.introduction, s.particular, s.shop_url, s.prefecture, s.participation_status,
+               si.id AS image_id, si.type AS image_type, si.image_url
+        FROM shops s
+        LEFT JOIN shop_images si ON si.shop_id = s.id
+        WHERE s.id = #{id}
+        """,
+    )
+    fun findShopById(id: String): List<ShopListRow>
 
     @Delete("DELETE FROM shops WHERE id = #{id}")
     fun deleteShopById(id: String)
@@ -47,15 +55,24 @@ interface ShopMapper {
     @Select(
         """
         <script>
-        SELECT id, shopify_shop_id, name, introduction, particular, shop_url
-        FROM shops
-        <where>
-            <if test="name != null">
-                name LIKE CONCAT('%', #{name}, '%')
-            </if>
-        </where>
-        ORDER BY created_at DESC
-        LIMIT #{size} OFFSET #{offset}
+        SELECT s.id, s.shopify_shop_id, s.name, s.introduction, s.particular, s.shop_url, s.prefecture, s.participation_status,
+               si.id AS image_id, si.type AS image_type, si.image_url
+        FROM (
+            SELECT id FROM shops
+            <where>
+                <if test="name != null">
+                    AND name LIKE CONCAT('%', #{name}, '%')
+                </if>
+                <if test="participationStatus != null">
+                    AND participation_status = #{participationStatus}
+                </if>
+            </where>
+            ORDER BY created_at DESC
+            LIMIT #{size} OFFSET #{offset}
+        ) AS paged
+        INNER JOIN shops s ON s.id = paged.id
+        LEFT JOIN shop_images si ON si.shop_id = s.id
+        ORDER BY s.created_at DESC
         </script>
         """,
     )
@@ -63,7 +80,8 @@ interface ShopMapper {
         @Param("size") size: Int,
         @Param("offset") offset: Int,
         @Param("name") name: String?,
-    ): List<ShopEntity>
+        @Param("participationStatus") participationStatus: String?,
+    ): List<ShopListRow>
 
     @Select(
         """
@@ -71,11 +89,17 @@ interface ShopMapper {
         SELECT COUNT(*) FROM shops
         <where>
             <if test="name != null">
-                name LIKE CONCAT('%', #{name}, '%')
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="participationStatus != null">
+                AND participation_status = #{participationStatus}
             </if>
         </where>
         </script>
         """,
     )
-    fun countByCondition(@Param("name") name: String?): Long
+    fun countByCondition(
+        @Param("name") name: String?,
+        @Param("participationStatus") participationStatus: String?,
+    ): Long
 }

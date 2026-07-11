@@ -12,6 +12,11 @@ spring:
   security:
     enabled: false
 
+# openapiプロファイルではHMACフィルタを無効化(Beanは@Profile("!openapi")で除外)。
+# master-keyのプレースホルダ解決のためダミー値を置くだけで、実際には使用されない。
+hmac:
+  master-key: openapi-dummy-master-key-not-used
+
 server:
   port: 8080
 

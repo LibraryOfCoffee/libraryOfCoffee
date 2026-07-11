@@ -1,14 +1,15 @@
 import Link from "next/link";
-import type { PagedResponse, ShopListItem } from "@/api/shops";
+import type { ShopListResponse } from "@/api/shops";
 import styles from "@/components/list-page.module.css";
 import { Pagination } from "@/components/Pagination";
+import { ParticipationStatusBadge } from "@/components/ParticipationStatusBadge";
 import { CreateShopButton } from "./CreateShopButton";
 
 export function ShopListTable({
   shops,
   currentPage,
 }: {
-  shops: PagedResponse<ShopListItem>;
+  shops: ShopListResponse;
   currentPage: number;
 }) {
   const totalPages = Math.ceil(shops.totalCount / shops.size);
@@ -31,6 +32,7 @@ export function ShopListTable({
               <th>紹介文</th>
               <th>こだわり</th>
               <th>店舗URL</th>
+              <th>参画ステータス</th>
             </tr>
           </thead>
           <tbody>
@@ -68,6 +70,13 @@ export function ShopListTable({
                     className={`${styles.rowLink} ${styles.truncatedCell}`}
                   >
                     {shop.shopUrl}
+                  </Link>
+                </td>
+                <td>
+                  <Link href={`/shops/${shop.id}`} className={styles.rowLink}>
+                    <ParticipationStatusBadge
+                      status={shop.participationStatus}
+                    />
                   </Link>
                 </td>
               </tr>

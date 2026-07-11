@@ -53,6 +53,8 @@ dependencies {
 	testImplementation(libs.spring.boot.starter.test)
 	testImplementation(libs.kotlin.test.junit5)
 	testImplementation(libs.archunit.junit5)
+	testImplementation(libs.testcontainers.mysql)
+	testImplementation(libs.testcontainers.junit.jupiter)
 	testRuntimeOnly(libs.junit.platform.launcher)
 }
 

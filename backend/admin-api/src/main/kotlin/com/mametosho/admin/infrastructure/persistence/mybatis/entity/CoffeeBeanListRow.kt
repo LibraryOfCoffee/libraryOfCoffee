@@ -1,0 +1,16 @@
+package com.mametosho.admin.infrastructure.persistence.mybatis.entity
+
+data class CoffeeBeanListRow(
+    val id: String,
+    val shopId: String,
+    val shopName: String,
+    val shopifyBeanId: String,
+    val name: String,
+    val description: String,
+    val origin: String,
+    val farm: String?,
+    val roastLevel: String,
+    val processingMethod: String,
+    val isSpecialty: Boolean,
+    val publishStatus: String,
+)

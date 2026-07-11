@@ -1,18 +1,22 @@
 package com.mametosho.admin.presentation.controller
 
+import com.mametosho.admin.application.service.buildImageUploads
 import com.mametosho.admin.application.usecase.CreateCoffeeBeanUsecase
 import com.mametosho.admin.application.usecase.DeleteCoffeeBeanUsecase
 import com.mametosho.admin.application.usecase.GetCoffeeBeanUsecase
-import com.mametosho.admin.application.usecase.ListCoffeeBeansUsecase
+import com.mametosho.admin.application.usecase.FindCoffeeBeansUsecase
 import com.mametosho.admin.application.usecase.UpdateCoffeeBeanUsecase
 import com.mametosho.admin.presentation.dto.request.CreateCoffeeBeanRequest
 import com.mametosho.admin.presentation.dto.request.UpdateCoffeeBeanRequest
 import com.mametosho.admin.presentation.dto.response.CoffeeBeanDetailResponse
 import com.mametosho.admin.presentation.dto.response.CoffeeBeanListResponse
+import com.mametosho.admin.presentation.dto.response.CoffeeBeanSummaryResponse
 import com.mametosho.admin.presentation.dto.response.CoffeeBeanResponse
 import com.mametosho.admin.presentation.dto.response.ErrorResponse
-import com.mametosho.admin.presentation.dto.response.PagedResponse
+import com.mametosho.admin.presentation.dto.response.ProcessingMethodResponse
+import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.ExampleObject
 import io.swagger.v3.oas.annotations.media.Schema
@@ -39,7 +43,7 @@ import org.springframework.web.multipart.MultipartFile
 @Tag(name = "CoffeeBean", description = "コーヒー豆API")
 class CoffeeBeanController(
     private val getCoffeeBeanUsecase: GetCoffeeBeanUsecase,
-    private val listCoffeeBeansUsecase: ListCoffeeBeansUsecase,
+    private val findCoffeeBeansUsecase: FindCoffeeBeansUsecase,
     private val createCoffeeBeanUsecase: CreateCoffeeBeanUsecase,
     private val updateCoffeeBeanUsecase: UpdateCoffeeBeanUsecase,
     private val deleteCoffeeBeanUsecase: DeleteCoffeeBeanUsecase,
@@ -56,6 +60,7 @@ class CoffeeBeanController(
                 description = "取得成功",
                 content = [
                     Content(
+                        schema = Schema(implementation = CoffeeBeanListResponse::class),
                         examples = [
                             ExampleObject(
                                 name = "success",
@@ -66,6 +71,7 @@ class CoffeeBeanController(
                                         {
                                           "id": "00000000-0000-4000-8000-000000000001",
                                           "shopId": "00000000-0000-4000-8000-000000000002",
+                                          "shopName": "コーヒーショップ青山",
                                           "shopifyBeanId": "test-bean-001",
                                           "name": "エチオピア イルガチェフェ",
                                           "description": "フルーティーな香りが特徴的なコーヒー豆です。",
@@ -73,7 +79,8 @@ class CoffeeBeanController(
                                           "farm": "イルガチェフェ農園",
                                           "roastLevel": "MEDIUM",
                                           "processingMethod": "WASHED",
-                                          "isSpecialty": true
+                                          "isSpecialty": true,
+                                          "publishStatus": "PUBLISHED"
                                         }
                                       ],
                                       "totalCount": 1,
@@ -93,9 +100,51 @@ class CoffeeBeanController(
         @RequestParam(defaultValue = "0") page: Int,
         @Parameter(description = "1ページあたりの件数", example = "20")
         @RequestParam(defaultValue = "20") size: Int,
-    ): ResponseEntity<PagedResponse<CoffeeBeanListResponse>> {
-        val result = listCoffeeBeansUsecase.execute(page, size)
-        return ResponseEntity.ok(PagedResponse.from(result) { CoffeeBeanListResponse.from(it) })
+    ): ResponseEntity<CoffeeBeanListResponse> {
+        val result = findCoffeeBeansUsecase.execute(page, size)
+        return ResponseEntity.ok(CoffeeBeanListResponse.from(result))
+    }
+
+    @GetMapping("/processing-methods")
+    @Operation(
+        summary = "精製方法一覧取得",
+        description = "コーヒー豆の精製方法の選択肢一覧（値と表示名）を取得します。",
+    )
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "200",
+                description = "取得成功",
+                content = [
+                    Content(
+                        mediaType = MediaType.APPLICATION_JSON_VALUE,
+                        array = ArraySchema(schema = Schema(implementation = ProcessingMethodResponse::class)),
+                        examples = [
+                            ExampleObject(
+                                name = "success",
+                                summary = "取得成功例",
+                                value = """
+                                    [
+                                      {
+                                        "value": "FULLY_WASHED",
+                                        "label": "フリーウォッシュド"
+                                      },
+                                      {
+                                        "value": "WASHED",
+                                        "label": "ウォッシュド"
+                                      }
+                                    ]
+                                """,
+                            ),
+                        ],
+                    ),
+                ],
+            ),
+        ],
+    )
+    fun listProcessingMethods(): ResponseEntity<List<ProcessingMethodResponse>> {
+        val responses = ProcessingMethod.entries.map { ProcessingMethodResponse.from(it) }
+        return ResponseEntity.ok(responses)
     }
 
     @GetMapping("/{id}")
@@ -119,6 +168,7 @@ class CoffeeBeanController(
                                     {
                                       "id": "00000000-0000-4000-8000-000000000001",
                                       "shopId": "00000000-0000-4000-8000-000000000002",
+                                      "shopName": "コーヒーショップ青山",
                                       "shopifyBeanId": "test-bean-001",
                                       "name": "エチオピア イルガチェフェ",
                                       "description": "フルーティーな香りが特徴的なコーヒー豆です。",
@@ -127,6 +177,7 @@ class CoffeeBeanController(
                                       "roastLevel": "MEDIUM",
                                       "processingMethod": "WASHED",
                                       "isSpecialty": true,
+                                      "publishStatus": "PUBLISHED",
                                       "images": [
                                         {
                                           "id": "00000000-0000-4000-8000-000000000010",
@@ -260,9 +311,9 @@ class CoffeeBeanController(
     fun createCoffeeBean(
         @RequestPart("data") request: CreateCoffeeBeanRequest,
         @RequestPart("images", required = false) images: List<MultipartFile>?,
-        @RequestParam("imageTypes", required = false) imageTypes: List<String>?,
     ): ResponseEntity<CoffeeBeanResponse> {
-        val coffeeBean = createCoffeeBeanUsecase.execute(request, images ?: emptyList(), imageTypes ?: emptyList())
+        val uploads = buildImageUploads(images ?: emptyList(), request.imageTypes)
+        val coffeeBean = createCoffeeBeanUsecase.execute(request, uploads)
         return ResponseEntity.status(HttpStatus.CREATED).body(CoffeeBeanResponse.from(coffeeBean))
     }
 
@@ -368,9 +419,9 @@ class CoffeeBeanController(
         @PathVariable id: String,
         @RequestPart("data") request: UpdateCoffeeBeanRequest,
         @RequestPart("images", required = false) images: List<MultipartFile>?,
-        @RequestParam("imageTypes", required = false) imageTypes: List<String>?,
     ): ResponseEntity<CoffeeBeanResponse> {
-        val coffeeBean = updateCoffeeBeanUsecase.execute(id, request, images ?: emptyList(), imageTypes ?: emptyList())
+        val uploads = buildImageUploads(images ?: emptyList(), request.imageTypes)
+        val coffeeBean = updateCoffeeBeanUsecase.execute(id, request, uploads, request.keepImageIds)
             ?: return ResponseEntity.notFound().build()
         return ResponseEntity.ok(CoffeeBeanResponse.from(coffeeBean))
     }

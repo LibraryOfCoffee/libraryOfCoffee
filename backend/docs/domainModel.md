@@ -6,12 +6,11 @@
 |------|------|
 | [Administrator](domains/administrator.md) | 管理画面にログインする管理者 |
 | [Customer](domains/customer.md) | 顧客とそのサブスクリプション契約 |
-| [SubscriptionPlan](domains/subscriptionPlan.md) | サブスクリプションのプラン |
+| [Plan](domains/plan.md) | 購入プラン（定期便・単品購入） |
 | [MonthlySubscriptionDetail](domains/monthlySubscriptionDetail.md) | 月次の配送内容と発送ステータス |
 | [Shop](domains/shop.md) | 珈琲豆を提供する店舗 |
 | [CoffeeBean](domains/coffeeBean.md) | 店舗が提供する珈琲豆 |
 | [Taste](domains/taste.md) | テイスト評価の種別（酸味・苦味など） |
-| [CoffeeListGroup](domains/coffeeListGroup.md) | CSサイトに表示する珈琲豆リスト |
 
 ## ドメインモデル図
 
@@ -52,7 +51,7 @@ classDiagram
     class CustomerSubscription {
       <<Entity>>
       id: CustomerSubscriptionId
-      subscriptionPlanId: SubscriptionPlanId
+      planId: PlanId
       status: SubscriptionStatus
       contractPeriod: ContractPeriod
     }
@@ -75,17 +74,28 @@ classDiagram
   CustomerSubscription --> SubscriptionStatus
   CustomerSubscription --> ContractPeriod
 
-  namespace SubscriptionPlan集約 {
-    class SubscriptionPlan {
+  namespace Plan集約 {
+    class Plan {
       <<Aggregate Root>>
-      id: SubscriptionPlanId
-      shopifySubscriptionId: ShopifySubscriptionId
-      price: Int
+      id: PlanId
+      shopifyPlanId: ShopifyPlanId
+      label: String
+      gramWeight: Int
       beanQuantity: Int
+      price: Int
+      type: PlanType
+      isRecommended: Boolean
+    }
+
+    class PlanType {
+      <<Enum>>
+      SUBSCRIPTION
+      SINGLE
     }
   }
 
-  CustomerSubscription o-- SubscriptionPlan : subscriptionPlanId
+  Plan --> PlanType
+  CustomerSubscription o-- Plan : planId
 
   namespace MonthlySubscriptionDetail集約 {
     class MonthlySubscriptionDetail {
@@ -125,6 +135,8 @@ classDiagram
       introduction: String?
       particular: String?
       shopUrl: String
+      prefecture: Prefecture
+      participationStatus: ParticipationStatus
       images: List~ShopImage~
     }
 
@@ -140,9 +152,25 @@ classDiagram
       main
       logo
     }
+
+    class Prefecture {
+      <<Enum>>
+      HOKKAIDO
+      ...
+      OKINAWA
+    }
+
+    class ParticipationStatus {
+      <<Enum>>
+      BEFORE_PARTICIPATION
+      PARTICIPATING
+      DROPPED
+    }
   }
 
   Shop *-- ShopImage
+  Shop --> Prefecture
+  Shop --> ParticipationStatus
   ShopImage --> ShopImageType
 
   namespace CoffeeBean集約 {
@@ -158,6 +186,7 @@ classDiagram
       roastLevel: RoastLevel
       processingMethod: ProcessingMethod
       isSpecialty: Boolean
+      publishStatus: PublishStatus
       images: List~CoffeeBeanImage~
       tastes: List~CoffeeBeanTaste~
     }
@@ -172,6 +201,7 @@ classDiagram
     class CoffeeBeanImageType {
       <<Enum>>
       main
+      （将来追加予定）
     }
 
     class CoffeeBeanTaste {
@@ -184,6 +214,7 @@ classDiagram
     class RoastLevel {
       <<Enum>>
       light
+      cinnamon
       medium
       city
       french
@@ -193,19 +224,34 @@ classDiagram
       <<Enum>>
       fully_washed
       washed
+      anaerobic_washed
       thermal_shock_natural
       natural
+      anaerobic_natural
+      dry_on_tree_natural
+      lactic_natural
       wet_hulling
       honey
+      mountain_water
+      lado_a_lado_process
+      lado_a_lado_process_fully_washed
+    }
+
+    class PublishStatus {
+      <<Enum>>
+      DRAFT
+      PUBLISHED
+      INVALIDATED
     }
   }
 
   CoffeeBean --> RoastLevel
   CoffeeBean --> ProcessingMethod
+  CoffeeBean --> PublishStatus
   CoffeeBean o-- Shop : shopId
   CoffeeBeanImage --> CoffeeBeanImageType
-  CoffeeBean *-- CoffeeBeanImage
-  CoffeeBean *-- CoffeeBeanTaste
+  CoffeeBean "1" *-- "1..*" CoffeeBeanImage : MAINはちょうど1枚必須
+  CoffeeBean "1" *-- "1..*" CoffeeBeanTaste : 必須（全テイスト種別）
 
   namespace Taste集約 {
     class Taste {
@@ -217,23 +263,6 @@ classDiagram
 
   CoffeeBeanTaste o-- Taste : tasteId
 
-  namespace CoffeeListGroup集約 {
-    class CoffeeListGroup {
-      <<Aggregate Root>>
-      id: CoffeeListGroupId
-      description: String?
-      children: List~CoffeeListChild~
-    }
-
-    class CoffeeListChild {
-      <<Entity>>
-      id: CoffeeListChildId
-      coffeeBeanId: CoffeeBeanId
-    }
-  }
-
-  CoffeeListGroup *-- CoffeeListChild
-  CoffeeListChild o-- CoffeeBean : coffeeBeanId
   MonthlySubscriptionDetail o-- CoffeeBean : choices / shippingBeans
 ```
 

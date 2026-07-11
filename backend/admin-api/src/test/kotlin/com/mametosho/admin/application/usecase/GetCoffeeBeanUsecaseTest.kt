@@ -2,8 +2,8 @@ package com.mametosho.admin.application.usecase
 
 import com.mametosho.admin.application.query.CoffeeBeanQueryService
 import com.mametosho.admin.application.query.result.CoffeeBeanDetailResult
-import com.mametosho.admin.application.query.result.CoffeeBeanListResult
-import com.mametosho.admin.application.query.result.PagedResult
+import com.mametosho.admin.application.query.result.CoffeeBeanSummaryResult
+import com.mametosho.admin.application.result.PagedResult
 import org.junit.jupiter.api.Nested
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -14,6 +14,7 @@ class GetCoffeeBeanUsecaseTest {
     private val existingResult = CoffeeBeanDetailResult(
         id = "00000000-0000-4000-8000-000000000001",
         shopId = "00000000-0000-4000-8000-000000000002",
+        shopName = "テスト店舗",
         shopifyBeanId = "test-bean-001",
         name = "テストコーヒー豆",
         description = "テスト説明文",
@@ -22,13 +23,14 @@ class GetCoffeeBeanUsecaseTest {
         roastLevel = "MEDIUM",
         processingMethod = "WASHED",
         isSpecialty = true,
+        publishStatus = "PUBLISHED",
         images = emptyList(),
         tastes = emptyList(),
     )
 
     private fun createUsecase(result: CoffeeBeanDetailResult? = existingResult): GetCoffeeBeanUsecase {
         val fakeQueryService = object : CoffeeBeanQueryService {
-            override fun findList(page: Int, size: Int): PagedResult<CoffeeBeanListResult> =
+            override fun findList(page: Int, size: Int): PagedResult<CoffeeBeanSummaryResult> =
                 PagedResult(emptyList(), 0L, page, size)
             override fun findDetail(id: String): CoffeeBeanDetailResult? =
                 if (id == existingResult.id) result else null

@@ -3,6 +3,7 @@ package com.mametosho.admin.application.query.result
 data class CoffeeBeanDetailResult(
     val id: String,
     val shopId: String,
+    val shopName: String,
     val shopifyBeanId: String,
     val name: String,
     val description: String,
@@ -11,6 +12,7 @@ data class CoffeeBeanDetailResult(
     val roastLevel: String,
     val processingMethod: String,
     val isSpecialty: Boolean,
+    val publishStatus: String,
     val images: List<ImageResult>,
     val tastes: List<TasteResult>,
 ) {
@@ -22,6 +24,7 @@ data class CoffeeBeanDetailResult(
 
     data class TasteResult(
         val id: String,
+        val tasteId: String,
         val tasteName: String,
         val evaluationValue: Int,
     )

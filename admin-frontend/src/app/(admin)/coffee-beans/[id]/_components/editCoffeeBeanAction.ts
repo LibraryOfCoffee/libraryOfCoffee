@@ -7,6 +7,8 @@ import {
   type CoffeeBeanFormState,
   coffeeBeanFieldsSchema,
 } from "@/app/(admin)/coffee-beans/_lib/coffeeBeanFormSchema";
+import { parseTastesFromFormData } from "@/app/(admin)/coffee-beans/_lib/parseTastes";
+import { isChecked } from "@/lib/formData";
 
 const editCoffeeBeanSchema = coffeeBeanFieldsSchema.extend({
   id: z.string(),
@@ -27,7 +29,8 @@ export async function editCoffeeBeanAction(
     farm: (formData.get("farm") as string) ?? "",
     roastLevel: (formData.get("roastLevel") as string) ?? "",
     processingMethod: (formData.get("processingMethod") as string) ?? "",
-    isSpecialty: (formData.get("isSpecialty") as string) ?? "false",
+    isSpecialty: isChecked(formData, "isSpecialty") ? "true" : "false",
+    publishStatus: isChecked(formData, "publishStatus") ? "PUBLISHED" : "DRAFT",
   };
 
   const result = editCoffeeBeanSchema.safeParse({
@@ -41,23 +44,14 @@ export async function editCoffeeBeanAction(
 
   const { id, ...fields } = result.data;
 
-  const currentTastesRaw = formData.get("currentTastes") as string;
-  let tastes: { tasteId: string; evaluationValue: number }[] = [];
-  try {
-    tastes = JSON.parse(currentTastesRaw || "[]");
-  } catch {
-    tastes = [];
-  }
+  const tastes = parseTastesFromFormData(formData);
 
   const response = await multipartRequest(
     `/api/admin/coffee-beans/${id}`,
     "PUT",
     {
       ...fields,
-      tastes: tastes.map((t) => ({
-        tasteId: t.tasteId,
-        evaluationValue: t.evaluationValue,
-      })),
+      tastes,
     },
     formData,
   );
@@ -69,7 +63,15 @@ export async function editCoffeeBeanAction(
         values,
       };
     }
-    return { error: "コーヒー豆の更新に失敗しました。", values };
+    if (response.status === 422) {
+      return {
+        error: "無効化されたコーヒー豆は更新できません。",
+        values,
+      };
+    }
+    const body = await response.json().catch(() => null);
+    const message = body?.message ?? "コーヒー豆の更新に失敗しました。";
+    return { error: message, values };
   }
 
   revalidatePath(`/coffee-beans/${id}`);

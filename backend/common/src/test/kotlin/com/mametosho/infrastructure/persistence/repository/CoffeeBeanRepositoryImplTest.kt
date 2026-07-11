@@ -10,11 +10,14 @@ import com.mametosho.domain.model.coffeebean.CoffeeBeanTasteId
 import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import com.mametosho.domain.model.coffeebean.RoastLevel
 import com.mametosho.domain.model.coffeebean.ShopifyBeanId
-import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.Image
+import com.mametosho.domain.model.shared.PublishStatus
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.taste.TasteId
+import java.util.Locale
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.jdbc.core.JdbcTemplate
@@ -62,15 +65,14 @@ class CoffeeBeanRepositoryImplTest {
     fun setUp() {
         jdbcTemplate.execute("DELETE FROM coffee_bean_tastes")
         jdbcTemplate.execute("DELETE FROM coffee_bean_images")
-        jdbcTemplate.execute("DELETE FROM coffee_list_childs")
         jdbcTemplate.execute("DELETE FROM coffee_beans")
         jdbcTemplate.execute("DELETE FROM tastes")
         jdbcTemplate.execute("DELETE FROM shops")
 
         jdbcTemplate.execute(
             """
-            INSERT INTO shops (id, shopify_shop_id, name, introduction, particular, shop_url)
-            VALUES ('00000000-0000-4000-8000-000000000001', 'test-shop-001', 'テスト店舗', 'テスト紹介', 'テストこだわり', 'https://example.com')
+            INSERT INTO shops (id, shopify_shop_id, name, introduction, particular, shop_url, prefecture)
+            VALUES ('00000000-0000-4000-8000-000000000001', 'test-shop-001', 'テスト店舗', 'テスト紹介', 'テストこだわり', 'https://example.com', 'TOKYO')
             """,
         )
         jdbcTemplate.execute(
@@ -95,7 +97,7 @@ class CoffeeBeanRepositoryImplTest {
             CoffeeBeanImage(
                 id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000011"),
                 type = CoffeeBeanImageType.MAIN,
-                imageUrl = ImageUrl("https://example.com/bean.png"),
+                image = Image("https://example.com/bean.png"),
             ),
         ),
         tastes: List<CoffeeBeanTaste> = listOf(
@@ -116,6 +118,7 @@ class CoffeeBeanRepositoryImplTest {
         roastLevel = RoastLevel.MEDIUM,
         processingMethod = ProcessingMethod.WASHED,
         isSpecialty = true,
+        publishStatus = PublishStatus.PUBLISHED,
         images = images,
         tastes = tastes,
     )
@@ -191,54 +194,42 @@ class CoffeeBeanRepositoryImplTest {
     @Nested
     inner class 空コレクション {
         @Test
-        fun `画像なしでも保存できる`() {
-            val coffeeBean = createCoffeeBean(images = emptyList())
-
-            coffeeBeanRepositoryImpl.save(coffeeBean)
-
-            val beans = jdbcTemplate.queryForList("SELECT * FROM coffee_beans")
-            assertEquals(1, beans.size)
-            val images = jdbcTemplate.queryForList("SELECT * FROM coffee_bean_images")
-            assertEquals(0, images.size)
+        fun `画像が空の場合はIllegalArgumentExceptionが発生する`() {
+            assertThrows<IllegalArgumentException> {
+                createCoffeeBean(images = emptyList())
+            }
         }
 
         @Test
-        fun `テイストなしでも保存できる`() {
-            val coffeeBean = createCoffeeBean(tastes = emptyList())
+        fun `テイストが空の場合はIllegalArgumentExceptionが発生する`() {
+            assertThrows<IllegalArgumentException> {
+                createCoffeeBean(tastes = emptyList())
+            }
+        }
 
-            coffeeBeanRepositoryImpl.save(coffeeBean)
-
-            val beans = jdbcTemplate.queryForList("SELECT * FROM coffee_beans")
-            assertEquals(1, beans.size)
-            val tastes = jdbcTemplate.queryForList("SELECT * FROM coffee_bean_tastes")
-            assertEquals(0, tastes.size)
+        @Test
+        fun `MAIN画像が2枚の場合はIllegalArgumentExceptionが発生する`() {
+            assertThrows<IllegalArgumentException> {
+                createCoffeeBean(
+                    images = listOf(
+                        CoffeeBeanImage(
+                            id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000011"),
+                            type = CoffeeBeanImageType.MAIN,
+                            image = Image("https://example.com/bean1.png"),
+                        ),
+                        CoffeeBeanImage(
+                            id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000012"),
+                            type = CoffeeBeanImageType.MAIN,
+                            image = Image("https://example.com/bean2.png"),
+                        ),
+                    ),
+                )
+            }
         }
     }
 
     @Nested
     inner class 複数行INSERT {
-        @Test
-        fun `複数の画像を保存できる`() {
-            val coffeeBean = createCoffeeBean(
-                images = listOf(
-                    CoffeeBeanImage(
-                        id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000011"),
-                        type = CoffeeBeanImageType.MAIN,
-                        imageUrl = ImageUrl("https://example.com/bean1.png"),
-                    ),
-                    CoffeeBeanImage(
-                        id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000012"),
-                        type = CoffeeBeanImageType.MAIN,
-                        imageUrl = ImageUrl("https://example.com/bean2.png"),
-                    ),
-                ),
-            )
-
-            coffeeBeanRepositoryImpl.save(coffeeBean)
-
-            val images = jdbcTemplate.queryForList("SELECT * FROM coffee_bean_images ORDER BY id")
-            assertEquals(2, images.size)
-        }
 
         @Test
         fun `複数のテイスト評価を保存できる`() {
@@ -280,8 +271,21 @@ class CoffeeBeanRepositoryImplTest {
                     roastLevel = roastLevel,
                     processingMethod = ProcessingMethod.WASHED,
                     isSpecialty = false,
-                    images = emptyList(),
-                    tastes = emptyList(),
+                    publishStatus = PublishStatus.PUBLISHED,
+                    images = listOf(
+                        CoffeeBeanImage(
+                            id = CoffeeBeanImageId("00000000-0000-4000-${String.format(Locale.ROOT, "%04d", index)}-000000000099"),
+                            type = CoffeeBeanImageType.MAIN,
+                            image = Image("https://example.com/bean-$index.jpg"),
+                        ),
+                    ),
+                    tastes = listOf(
+                        CoffeeBeanTaste(
+                            id = CoffeeBeanTasteId("00000000-0000-4001-${String.format(Locale.ROOT, "%04d", index)}-000000000099"),
+                            tasteId = TasteId("00000000-0000-4000-8000-000000000101"),
+                            evaluationValue = 3,
+                        ),
+                    ),
                 )
                 coffeeBeanRepositoryImpl.save(coffeeBean)
             }
@@ -297,7 +301,7 @@ class CoffeeBeanRepositoryImplTest {
         fun `全精製方法を大文字で保存できる`() {
             ProcessingMethod.entries.forEachIndexed { index, method ->
                 val coffeeBean = CoffeeBean(
-                    id = CoffeeBeanId("00000000-0000-4000-8000-00000000200$index"),
+                    id = CoffeeBeanId("00000000-0000-4000-8000-0000000020%02d".format(index)),
                     shopId = ShopId("00000000-0000-4000-8000-000000000001"),
                     shopifyBeanId = ShopifyBeanId("test-bean-proc-$index"),
                     name = "テスト豆",
@@ -307,8 +311,21 @@ class CoffeeBeanRepositoryImplTest {
                     roastLevel = RoastLevel.MEDIUM,
                     processingMethod = method,
                     isSpecialty = false,
-                    images = emptyList(),
-                    tastes = emptyList(),
+                    publishStatus = PublishStatus.PUBLISHED,
+                    images = listOf(
+                        CoffeeBeanImage(
+                            id = CoffeeBeanImageId("00000000-0000-4000-${String.format(Locale.ROOT, "%04d", index)}-000000000099"),
+                            type = CoffeeBeanImageType.MAIN,
+                            image = Image("https://example.com/bean-$index.jpg"),
+                        ),
+                    ),
+                    tastes = listOf(
+                        CoffeeBeanTaste(
+                            id = CoffeeBeanTasteId("00000000-0000-4001-${String.format(Locale.ROOT, "%04d", index)}-000000000099"),
+                            tasteId = TasteId("00000000-0000-4000-8000-000000000101"),
+                            evaluationValue = 3,
+                        ),
+                    ),
                 )
                 coffeeBeanRepositoryImpl.save(coffeeBean)
             }

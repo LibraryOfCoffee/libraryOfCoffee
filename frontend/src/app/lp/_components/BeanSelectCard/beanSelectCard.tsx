@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { LuCheck, LuCrown } from "react-icons/lu";
-import { type BeanDetail, SPECIALTY_TAG_COLOR } from "../../_lib/beanData";
+import { type BeanDetail, SPECIALTY_TAG_COLOR } from "../../_lib/coffeeBeanApi";
 import styles from "./beanSelectCard.module.css";
 
 interface BeanSelectCardProps {

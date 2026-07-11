@@ -7,32 +7,34 @@ import {
   useId,
   useRef,
 } from "react";
+import type { ProcessingMethodOption } from "@/api/coffee-beans";
 import type { ShopListItem } from "@/api/shops";
-import type {
-  ProcessingMethod,
-  RoastLevel,
-} from "@/app/(admin)/coffee-beans/_lib/coffeeBeanLabels";
-import {
-  PROCESSING_METHOD_LABELS,
-  ROAST_LEVEL_LABELS,
-} from "@/app/(admin)/coffee-beans/_lib/coffeeBeanLabels";
+import type { TasteListItem } from "@/api/tastes";
+import type { RoastLevel } from "@/app/(admin)/coffee-beans/_lib/coffeeBeanLabels";
+import { ROAST_LEVEL_LABELS } from "@/app/(admin)/coffee-beans/_lib/coffeeBeanLabels";
 import { ImageUploadField } from "@/components/ImageUploadField";
 import modalStyles from "@/components/modal.module.css";
 import { ShopSearchSelect } from "@/components/ShopSearchSelect";
+import { ToggleField } from "@/components/ToggleField";
 import {
   type CreateCoffeeBeanState,
   createCoffeeBeanAction,
 } from "./createCoffeeBeanAction";
 import { searchShopsAction } from "./searchShopsAction";
+import { TasteProfileField } from "./TasteProfileField";
 
 const initialState: CreateCoffeeBeanState = {};
 
 export function CreateCoffeeBeanModal({
   shops,
+  tastes,
+  processingMethods,
   open,
   onClose,
 }: {
   shops: ShopListItem[];
+  tastes: TasteListItem[];
+  processingMethods: ProcessingMethodOption[];
   open: boolean;
   onClose: () => void;
 }) {
@@ -50,6 +52,7 @@ export function CreateCoffeeBeanModal({
   const roastLevelId = useId();
   const processingMethodId = useId();
   const isSpecialtyId = useId();
+  const publishStatusId = useId();
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -67,12 +70,6 @@ export function CreateCoffeeBeanModal({
     }
   }, [state.success, onClose]);
 
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDialogElement>) => {
-    if (e.target === dialogRef.current) {
-      onClose();
-    }
-  };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     startTransition(() => formAction(new FormData(e.currentTarget)));
@@ -83,7 +80,6 @@ export function CreateCoffeeBeanModal({
       ref={dialogRef}
       className={modalStyles.dialog}
       onClose={onClose}
-      onClick={handleBackdropClick}
       onKeyDown={(e) => {
         if (e.key === "Escape") onClose();
       }}
@@ -251,12 +247,7 @@ export function CreateCoffeeBeanModal({
             <option value="" disabled>
               精製方法を選択してください
             </option>
-            {(
-              Object.entries(PROCESSING_METHOD_LABELS) as [
-                ProcessingMethod,
-                string,
-              ][]
-            ).map(([value, label]) => (
+            {processingMethods.map(({ value, label }) => (
               <option key={value} value={value}>
                 {label}
               </option>
@@ -269,26 +260,27 @@ export function CreateCoffeeBeanModal({
           ))}
         </div>
 
-        <div className={modalStyles.field}>
-          <label htmlFor={isSpecialtyId} className={modalStyles.label}>
-            スペシャルティ
-            <span className={modalStyles.required}>*</span>
-          </label>
-          <select
-            id={isSpecialtyId}
-            name="isSpecialty"
-            defaultValue={state.values?.isSpecialty ?? "false"}
-            className={modalStyles.select}
-          >
-            <option value="true">あり</option>
-            <option value="false">なし</option>
-          </select>
-          {state.fieldErrors?.isSpecialty?.map((msg) => (
-            <span key={msg} className={modalStyles.fieldError}>
-              {msg}
-            </span>
-          ))}
-        </div>
+        <ToggleField
+          id={isSpecialtyId}
+          name="isSpecialty"
+          label="スペシャルティ"
+          required
+          defaultChecked={(state.values?.isSpecialty ?? "false") === "true"}
+          errors={state.fieldErrors?.isSpecialty}
+        />
+
+        <ToggleField
+          id={publishStatusId}
+          name="publishStatus"
+          label="公開状態"
+          required
+          defaultChecked={
+            (state.values?.publishStatus ?? "DRAFT") === "PUBLISHED"
+          }
+          errors={state.fieldErrors?.publishStatus}
+        />
+
+        <TasteProfileField tastes={tastes} />
 
         <ImageUploadField imageTypes={[{ value: "MAIN", label: "メイン" }]} />
 

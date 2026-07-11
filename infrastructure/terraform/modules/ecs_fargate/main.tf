@@ -120,16 +120,31 @@ resource "aws_ecs_service" "this" {
   task_definition = aws_ecs_task_definition.this.arn
   desired_count   = 1
 
-  capacity_provider_strategy {
-    capacity_provider = "FARGATE_SPOT"
-    weight            = 100
-    base              = 0
+  # 起動猶予はALB連携サービスのみ有効。LBが無いサービスに設定するとAWS APIエラーになるため null に落とす。
+  health_check_grace_period_seconds = var.target_group_arn != null ? var.health_check_grace_period_seconds : null
+
+  dynamic "capacity_provider_strategy" {
+    for_each = var.use_spot ? [1] : []
+    content {
+      capacity_provider = "FARGATE_SPOT"
+      weight            = 100
+      base              = 0
+    }
+  }
+
+  dynamic "capacity_provider_strategy" {
+    for_each = var.use_spot ? [] : [1]
+    content {
+      capacity_provider = "FARGATE"
+      weight            = 100
+      base              = 0
+    }
   }
 
   network_configuration {
-    subnets          = var.private_subnet_ids
+    subnets          = var.subnet_ids
     security_groups  = [aws_security_group.ecs.id]
-    assign_public_ip = false
+    assign_public_ip = true
   }
 
   dynamic "load_balancer" {
@@ -146,6 +161,14 @@ resource "aws_ecs_service" "this" {
     content {
       registry_arn = var.service_registry_arn
     }
+  }
+
+  # 実行中のタスク定義(cpu/memory含む)は ecspresso(infrastructure/ecspresso/<svc>/ecs-task-def.json)が
+  # deploy のたびに新リビジョンを登録して張り替える。Terraform はそれを上書きしないよう task_definition を
+  # ignore する。したがって本モジュールの cpu/memory 変数は「最初の1リビジョンのseed値」にすぎず、
+  # 実効スペックは ecspresso 側が決定する。スペックを実際に変えるには ecs-task-def.json を編集して deploy する。
+  lifecycle {
+    ignore_changes = [task_definition, desired_count]
   }
 
   depends_on = [aws_iam_role_policy_attachment.execution]

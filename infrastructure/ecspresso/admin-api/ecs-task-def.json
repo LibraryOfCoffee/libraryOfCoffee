@@ -2,8 +2,8 @@
   "family": "{{ must_env `AWS_ACCOUNT_ID` }}-{{ must_env `ENV` }}-admin-api",
   "networkMode": "awsvpc",
   "requiresCompatibilities": ["FARGATE"],
-  "cpu": "512",
-  "memory": "1024",
+  "cpu": "256",
+  "memory": "512",
   "executionRoleArn": "arn:aws:iam::{{ must_env `AWS_ACCOUNT_ID` }}:role/{{ must_env `AWS_ACCOUNT_ID` }}-{{ must_env `ENV` }}-admin-api-ecs-execution",
   "taskRoleArn": "arn:aws:iam::{{ must_env `AWS_ACCOUNT_ID` }}:role/{{ must_env `AWS_ACCOUNT_ID` }}-{{ must_env `ENV` }}-admin-api-ecs-task",
   "containerDefinitions": [

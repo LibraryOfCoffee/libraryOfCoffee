@@ -53,6 +53,7 @@ class AdminSecurityConfig(
                         timestamp = OffsetDateTime.now(),
                         status = status.value(),
                         error = status.reasonPhrase,
+                        message = null,
                         path = request.requestURI,
                     )
                     response.status = status.value()

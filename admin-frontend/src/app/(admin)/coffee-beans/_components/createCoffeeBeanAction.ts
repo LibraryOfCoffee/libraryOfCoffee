@@ -6,6 +6,8 @@ import {
   type CoffeeBeanFormState,
   coffeeBeanFieldsSchema,
 } from "@/app/(admin)/coffee-beans/_lib/coffeeBeanFormSchema";
+import { parseTastesFromFormData } from "@/app/(admin)/coffee-beans/_lib/parseTastes";
+import { isChecked } from "@/lib/formData";
 
 export type CreateCoffeeBeanState = CoffeeBeanFormState;
 
@@ -22,7 +24,8 @@ export async function createCoffeeBeanAction(
     farm: (formData.get("farm") as string) ?? "",
     roastLevel: (formData.get("roastLevel") as string) ?? "",
     processingMethod: (formData.get("processingMethod") as string) ?? "",
-    isSpecialty: (formData.get("isSpecialty") as string) ?? "false",
+    isSpecialty: isChecked(formData, "isSpecialty") ? "true" : "false",
+    publishStatus: isChecked(formData, "publishStatus") ? "PUBLISHED" : "DRAFT",
   };
 
   const result = coffeeBeanFieldsSchema.safeParse(values);
@@ -36,10 +39,12 @@ export async function createCoffeeBeanAction(
 
   const { shopId: parsedShopId, ...fields } = result.data;
 
+  const tastes = parseTastesFromFormData(formData);
+
   const response = await multipartRequest(
     "/api/admin/coffee-beans",
     "POST",
-    { shopId: parsedShopId, ...fields, tastes: [] },
+    { shopId: parsedShopId, ...fields, tastes },
     formData,
   );
 
@@ -50,10 +55,9 @@ export async function createCoffeeBeanAction(
         values,
       };
     }
-    return {
-      error: "コーヒー豆の登録に失敗しました。",
-      values,
-    };
+    const body = await response.json().catch(() => null);
+    const message = body?.message ?? "コーヒー豆の登録に失敗しました。";
+    return { error: message, values };
   }
 
   revalidatePath("/coffee-beans");

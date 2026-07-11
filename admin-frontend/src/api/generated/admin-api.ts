@@ -32,6 +32,30 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/admin/plans/{id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * プラン詳細取得
+     * @description 指定されたIDのプランの詳細情報を取得します。
+     */
+    get: operations["getPlan"];
+    /**
+     * プラン編集
+     * @description 指定されたIDのプランを編集します。全項目を置換します。
+     */
+    put: operations["updatePlan"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/admin/coffee-beans/{id}": {
     parameters: {
       query?: never;
@@ -128,6 +152,66 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/admin/tastes": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * テイスト一覧取得
+     * @description テイスト（酸味・苦味・甘味・コク・香りなど）の一覧を取得します。
+     */
+    get: operations["listTastes"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/admin/plans": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * プラン一覧取得
+     * @description プランの一覧をページネーション付きで取得します。プラン表示名による部分一致検索が可能です。
+     */
+    get: operations["listPlans"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/admin/coffee-beans/processing-methods": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * 精製方法一覧取得
+     * @description コーヒー豆の精製方法の選択肢一覧（値と表示名）を取得します。
+     */
+    get: operations["listProcessingMethods"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -138,12 +222,12 @@ export interface components {
        * @description ShopifyのショップID
        * @example test-shop-001
        */
-      shopifyShopId?: string;
+      shopifyShopId: string;
       /**
        * @description 店舗名
        * @example テスト店舗
        */
-      name?: string;
+      name: string;
       /**
        * @description 店舗紹介
        * @example テスト紹介文
@@ -158,7 +242,26 @@ export interface components {
        * @description 店舗URL
        * @example https://example.com
        */
-      shopUrl?: string;
+      shopUrl: string;
+      /**
+       * @description 都道府県
+       * @example TOKYO
+       */
+      prefecture: string;
+      /**
+       * @description 参画ステータス（BEFORE_PARTICIPATION: 参画前 / PARTICIPATING: 参画中 / DROPPED: 参画落ち）
+       * @example PARTICIPATING
+       */
+      participationStatus: string;
+      /**
+       * @description アップロード画像のタイプ一覧（imagesと同じ順序）
+       * @example [
+       *       "MAIN"
+       *     ]
+       */
+      imageTypes?: string[];
+      /** @description 保持する既存画像のID一覧（含まれない既存画像は削除される） */
+      keepImageIds?: string[];
     };
     /** @description 店舗登録レスポンス */
     ShopResponse: {
@@ -166,7 +269,7 @@ export interface components {
        * @description 店舗ID
        * @example 00000000-0000-4000-8000-000000000001
        */
-      id?: string;
+      id: string;
     };
     /** @description エラーレスポンス */
     ErrorResponse: {
@@ -175,23 +278,77 @@ export interface components {
        * @description エラー発生日時
        * @example 2026-02-23T12:00:00.000+00:00
        */
-      timestamp?: string;
+      timestamp: string;
       /**
        * Format: int32
        * @description HTTPステータスコード
        * @example 404
        */
-      status?: number;
+      status: number;
       /**
        * @description エラー概要
        * @example Not Found
        */
-      error?: string;
+      error: string;
+      /**
+       * @description エラーメッセージ
+       * @example tastes must not be empty
+       */
+      message?: string;
       /**
        * @description リクエストパス
        * @example /api/admin/resources/00000000-0000-4000-8000-000000000099
        */
-      path?: string;
+      path: string;
+    };
+    /** @description プラン編集リクエスト */
+    UpdatePlanRequest: {
+      /**
+       * @description ShopifyのプランID
+       * @example test-plan-001
+       */
+      shopifyPlanId: string;
+      /**
+       * @description プラン表示名
+       * @example 定番
+       */
+      label: string;
+      /**
+       * Format: int32
+       * @description 1種あたりのグラム数（30 / 60 / 90）
+       * @example 60
+       */
+      gramWeight: number;
+      /**
+       * Format: int32
+       * @description 豆の種類数（3 / 4 / 5）
+       * @example 4
+       */
+      beanQuantity: number;
+      /**
+       * Format: int32
+       * @description 価格
+       * @example 3800
+       */
+      price: number;
+      /**
+       * @description プラン種別（SUBSCRIPTION / SINGLE）
+       * @example SUBSCRIPTION
+       */
+      type: string;
+      /**
+       * @description おすすめバッジ
+       * @example true
+       */
+      isRecommended: boolean;
+    };
+    /** @description プラン編集レスポンス */
+    PlanResponse: {
+      /**
+       * @description プランID
+       * @example 00000000-0000-4000-8000-000000000024
+       */
+      id: string;
     };
     /** @description テイスト評価リクエスト */
     TasteRequest: {
@@ -199,36 +356,41 @@ export interface components {
        * @description テイストID
        * @example 00000000-0000-4000-8000-000000000041
        */
-      tasteId?: string;
+      tasteId: string;
       /**
        * Format: int32
-       * @description 評価値
+       * @description 評価値（0-5）
        * @example 3
        */
-      evaluationValue?: number;
+      evaluationValue: number;
     };
     /** @description コーヒー豆更新リクエスト */
     UpdateCoffeeBeanRequest: {
       /**
+       * @description 店舗ID
+       * @example 00000000-0000-4000-8000-000000000001
+       */
+      shopId: string;
+      /**
        * @description Shopifyの商品ID
        * @example test-bean-001
        */
-      shopifyBeanId?: string;
+      shopifyBeanId: string;
       /**
        * @description 豆の名前
        * @example テストコーヒー豆
        */
-      name?: string;
+      name: string;
       /**
        * @description 説明
        * @example テスト説明文
        */
-      description?: string;
+      description: string;
       /**
        * @description 産地
        * @example エチオピア
        */
-      origin?: string;
+      origin: string;
       /**
        * @description 農園名
        * @example テスト農園
@@ -238,15 +400,47 @@ export interface components {
        * @description 焙煎度
        * @example MEDIUM
        */
-      roastLevel?: string;
+      roastLevel: string;
       /**
        * @description 精製方法
        * @example WASHED
+       * @enum {string}
        */
-      processingMethod?: string;
+      processingMethod:
+        | "FULLY_WASHED"
+        | "WASHED"
+        | "ANAEROBIC_WASHED"
+        | "THERMAL_SHOCK_NATURAL"
+        | "NATURAL"
+        | "ANAEROBIC_NATURAL"
+        | "DRY_ON_TREE_NATURAL"
+        | "LACTIC_NATURAL"
+        | "WET_HULLING"
+        | "HONEY"
+        | "MOUNTAIN_WATER"
+        | "LADO_A_LADO_PROCESS"
+        | "LADO_A_LADO_PROCESS_FULLY_WASHED";
+      /**
+       * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
+       * @example PUBLISHED
+       */
+      publishStatus: string;
       /** @description テイスト評価一覧 */
-      tastes?: components["schemas"]["TasteRequest"][];
-      specialty?: boolean;
+      tastes: components["schemas"]["TasteRequest"][];
+      /**
+       * @description アップロード画像のタイプ一覧（imagesと同じ順序）
+       * @example [
+       *       "MAIN"
+       *     ]
+       */
+      imageTypes?: string[];
+      /** @description 保持する既存画像のID一覧（含まれない既存画像は削除される） */
+      keepImageIds?: string[];
+      /**
+       * @description スペシャルティコーヒーかどうか
+       * @example true
+       */
+      isSpecialty: boolean;
     };
     /** @description コーヒー豆登録レスポンス */
     CoffeeBeanResponse: {
@@ -254,7 +448,7 @@ export interface components {
        * @description コーヒー豆ID
        * @example 00000000-0000-4000-8000-000000000001
        */
-      id?: string;
+      id: string;
     };
     /** @description 店舗登録リクエスト */
     CreateShopRequest: {
@@ -262,12 +456,12 @@ export interface components {
        * @description ShopifyのショップID
        * @example test-shop-001
        */
-      shopifyShopId?: string;
+      shopifyShopId: string;
       /**
        * @description 店舗名
        * @example テスト店舗
        */
-      name?: string;
+      name: string;
       /**
        * @description 店舗紹介
        * @example テスト紹介文
@@ -282,7 +476,24 @@ export interface components {
        * @description 店舗URL
        * @example https://example.com
        */
-      shopUrl?: string;
+      shopUrl: string;
+      /**
+       * @description 都道府県
+       * @example TOKYO
+       */
+      prefecture: string;
+      /**
+       * @description 参画ステータス（BEFORE_PARTICIPATION: 参画前 / PARTICIPATING: 参画中）
+       * @example BEFORE_PARTICIPATION
+       */
+      participationStatus: string;
+      /**
+       * @description アップロード画像のタイプ一覧（imagesと同じ順序）
+       * @example [
+       *       "MAIN"
+       *     ]
+       */
+      imageTypes?: string[];
     };
     /** @description コーヒー豆登録リクエスト */
     CreateCoffeeBeanRequest: {
@@ -290,27 +501,27 @@ export interface components {
        * @description 店舗ID
        * @example 00000000-0000-4000-8000-000000000031
        */
-      shopId?: string;
+      shopId: string;
       /**
        * @description Shopifyの商品ID
        * @example gid://shopify/Product/999999
        */
-      shopifyBeanId?: string;
+      shopifyBeanId: string;
       /**
        * @description 豆の名前
        * @example テストコーヒー豆
        */
-      name?: string;
+      name: string;
       /**
        * @description 説明
        * @example テスト説明文
        */
-      description?: string;
+      description: string;
       /**
        * @description 産地
        * @example エチオピア
        */
-      origin?: string;
+      origin: string;
       /**
        * @description 農園名
        * @example テスト農園
@@ -320,15 +531,45 @@ export interface components {
        * @description 焙煎度
        * @example MEDIUM
        */
-      roastLevel?: string;
+      roastLevel: string;
       /**
        * @description 精製方法
        * @example WASHED
+       * @enum {string}
        */
-      processingMethod?: string;
+      processingMethod:
+        | "FULLY_WASHED"
+        | "WASHED"
+        | "ANAEROBIC_WASHED"
+        | "THERMAL_SHOCK_NATURAL"
+        | "NATURAL"
+        | "ANAEROBIC_NATURAL"
+        | "DRY_ON_TREE_NATURAL"
+        | "LACTIC_NATURAL"
+        | "WET_HULLING"
+        | "HONEY"
+        | "MOUNTAIN_WATER"
+        | "LADO_A_LADO_PROCESS"
+        | "LADO_A_LADO_PROCESS_FULLY_WASHED";
+      /**
+       * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
+       * @example DRAFT
+       */
+      publishStatus: string;
       /** @description テイスト評価一覧 */
-      tastes?: components["schemas"]["TasteRequest"][];
-      specialty?: boolean;
+      tastes: components["schemas"]["TasteRequest"][];
+      /**
+       * @description アップロード画像のタイプ一覧（imagesと同じ順序）
+       * @example [
+       *       "MAIN"
+       *     ]
+       */
+      imageTypes?: string[];
+      /**
+       * @description スペシャルティコーヒーかどうか
+       * @example true
+       */
+      isSpecialty: boolean;
     };
     /** @description ログインリクエスト */
     LoginRequest: {
@@ -349,18 +590,97 @@ export interface components {
        * @description アクセストークン
        * @example eyJhbGciOiJIUzI1NiJ9...
        */
-      accessToken?: string;
+      accessToken: string;
       /**
        * @description トークンタイプ
        * @example Bearer
        */
-      tokenType?: string;
+      tokenType: string;
       /**
        * Format: int64
        * @description 有効期限（秒）
        * @example 3600
        */
-      expiresIn?: number;
+      expiresIn: number;
+    };
+    /** @description テイスト一覧アイテム */
+    TasteResponse: {
+      /**
+       * @description テイストID
+       * @example 00000000-0000-4000-8000-000000000041
+       */
+      id: string;
+      /**
+       * @description テイスト名
+       * @example 酸味
+       */
+      name: string;
+    };
+    /** @description 店舗一覧レスポンス */
+    ShopListResponse: {
+      /** @description アイテム一覧 */
+      items: components["schemas"]["ShopSummaryResponse"][];
+      /**
+       * Format: int64
+       * @description 全件数
+       * @example 42
+       */
+      totalCount: number;
+      /**
+       * Format: int32
+       * @description 現在のページ番号（0始まり）
+       * @example 0
+       */
+      page: number;
+      /**
+       * Format: int32
+       * @description 1ページあたりの件数
+       * @example 20
+       */
+      size: number;
+    };
+    /** @description 店舗一覧アイテム */
+    ShopSummaryResponse: {
+      /**
+       * @description 店舗ID
+       * @example 00000000-0000-4000-8000-000000000001
+       */
+      id: string;
+      /**
+       * @description ShopifyショップID
+       * @example test-shop-001
+       */
+      shopifyShopId: string;
+      /**
+       * @description 店舗名
+       * @example テスト珈琲店
+       */
+      name: string;
+      /**
+       * @description 紹介文
+       * @example こだわりの珈琲をお届けします。
+       */
+      introduction?: string;
+      /**
+       * @description こだわり
+       * @example 厳選された豆のみを使用しています。
+       */
+      particular?: string;
+      /**
+       * @description 店舗URL
+       * @example https://example.com
+       */
+      shopUrl: string;
+      /**
+       * @description 都道府県
+       * @example TOKYO
+       */
+      prefecture: string;
+      /**
+       * @description 参画ステータス（BEFORE_PARTICIPATION: 参画前 / PARTICIPATING: 参画中 / DROPPED: 参画落ち）
+       * @example PARTICIPATING
+       */
+      participationStatus: string;
     };
     /** @description 画像詳細 */
     ImageDetail: {
@@ -368,17 +688,17 @@ export interface components {
        * @description 画像ID
        * @example 00000000-0000-4000-8000-000000000010
        */
-      id?: string;
+      id: string;
       /**
        * @description 画像種別
        * @example MAIN
        */
-      type?: string;
+      type: string;
       /**
        * @description 画像URL
        * @example https://example.com/image.jpg
        */
-      imageUrl?: string;
+      imageUrl: string;
     };
     /** @description 店舗詳細レスポンス */
     ShopDetailResponse: {
@@ -386,17 +706,17 @@ export interface components {
        * @description 店舗ID
        * @example 00000000-0000-4000-8000-000000000001
        */
-      id?: string;
+      id: string;
       /**
        * @description ShopifyショップID
        * @example test-shop-001
        */
-      shopifyShopId?: string;
+      shopifyShopId: string;
       /**
        * @description 店舗名
        * @example テスト珈琲店
        */
-      name?: string;
+      name: string;
       /**
        * @description 店舗紹介
        * @example こだわりの珈琲をお届けします。
@@ -411,42 +731,195 @@ export interface components {
        * @description 店舗URL
        * @example https://example.com
        */
-      shopUrl?: string;
+      shopUrl: string;
+      /**
+       * @description 都道府県
+       * @example TOKYO
+       */
+      prefecture: string;
+      /**
+       * @description 参画ステータス（BEFORE_PARTICIPATION: 参画前 / PARTICIPATING: 参画中 / DROPPED: 参画落ち）
+       * @example PARTICIPATING
+       */
+      participationStatus: string;
       /** @description 画像一覧 */
-      images?: components["schemas"]["ImageDetail"][];
+      images: components["schemas"]["ImageDetail"][];
     };
-    /** @description コーヒー豆詳細レスポンス */
-    CoffeeBeanDetailResponse: {
+    /** @description プラン一覧レスポンス */
+    PlanListResponse: {
+      /** @description アイテム一覧 */
+      items: components["schemas"]["PlanSummaryResponse"][];
+      /**
+       * Format: int64
+       * @description 全件数
+       * @example 42
+       */
+      totalCount: number;
+      /**
+       * Format: int32
+       * @description 現在のページ番号（0始まり）
+       * @example 0
+       */
+      page: number;
+      /**
+       * Format: int32
+       * @description 1ページあたりの件数
+       * @example 20
+       */
+      size: number;
+    };
+    /** @description プラン一覧アイテム */
+    PlanSummaryResponse: {
+      /**
+       * @description プランID
+       * @example 00000000-0000-4000-8000-000000000024
+       */
+      id: string;
+      /**
+       * @description ShopifyのプランID
+       * @example test-plan-001
+       */
+      shopifyPlanId: string;
+      /**
+       * @description プラン表示名
+       * @example 定番
+       */
+      label: string;
+      /**
+       * Format: int32
+       * @description 1種あたりのグラム数
+       * @example 60
+       */
+      gramWeight: number;
+      /**
+       * Format: int32
+       * @description 豆の種類数
+       * @example 4
+       */
+      beanQuantity: number;
+      /**
+       * Format: int32
+       * @description 価格
+       * @example 3800
+       */
+      price: number;
+      /**
+       * @description プラン種別（SUBSCRIPTION / SINGLE）
+       * @example SUBSCRIPTION
+       */
+      type: string;
+      /**
+       * @description おすすめバッジ
+       * @example true
+       */
+      isRecommended: boolean;
+    };
+    /** @description プラン詳細レスポンス */
+    PlanDetailResponse: {
+      /**
+       * @description プランID
+       * @example 00000000-0000-4000-8000-000000000024
+       */
+      id: string;
+      /**
+       * @description ShopifyのプランID
+       * @example test-plan-001
+       */
+      shopifyPlanId: string;
+      /**
+       * @description プラン表示名
+       * @example 定番
+       */
+      label: string;
+      /**
+       * Format: int32
+       * @description 1種あたりのグラム数
+       * @example 60
+       */
+      gramWeight: number;
+      /**
+       * Format: int32
+       * @description 豆の種類数
+       * @example 4
+       */
+      beanQuantity: number;
+      /**
+       * Format: int32
+       * @description 価格
+       * @example 3800
+       */
+      price: number;
+      /**
+       * @description プラン種別（SUBSCRIPTION / SINGLE）
+       * @example SUBSCRIPTION
+       */
+      type: string;
+      /**
+       * @description おすすめバッジ
+       * @example true
+       */
+      isRecommended: boolean;
+    };
+    /** @description コーヒー豆一覧レスポンス */
+    CoffeeBeanListResponse: {
+      /** @description アイテム一覧 */
+      items: components["schemas"]["CoffeeBeanSummaryResponse"][];
+      /**
+       * Format: int64
+       * @description 全件数
+       * @example 42
+       */
+      totalCount: number;
+      /**
+       * Format: int32
+       * @description 現在のページ番号（0始まり）
+       * @example 0
+       */
+      page: number;
+      /**
+       * Format: int32
+       * @description 1ページあたりの件数
+       * @example 20
+       */
+      size: number;
+    };
+    /** @description コーヒー豆一覧アイテム */
+    CoffeeBeanSummaryResponse: {
       /**
        * @description コーヒー豆ID
        * @example 00000000-0000-4000-8000-000000000001
        */
-      id?: string;
+      id: string;
       /**
        * @description ショップID
        * @example 00000000-0000-4000-8000-000000000002
        */
-      shopId?: string;
+      shopId: string;
+      /**
+       * @description 店舗名
+       * @example コーヒーショップ青山
+       */
+      shopName: string;
       /**
        * @description Shopify商品ID
        * @example test-bean-001
        */
-      shopifyBeanId?: string;
+      shopifyBeanId: string;
       /**
        * @description 豆の名前
        * @example エチオピア イルガチェフェ
        */
-      name?: string;
+      name: string;
       /**
        * @description 説明
        * @example フルーティーな香りが特徴的なコーヒー豆です。
        */
-      description?: string;
+      description: string;
       /**
        * @description 産地
        * @example エチオピア
        */
-      origin?: string;
+      origin: string;
       /**
        * @description 農園名
        * @example イルガチェフェ農園
@@ -456,17 +929,127 @@ export interface components {
        * @description 焙煎度
        * @example MEDIUM
        */
-      roastLevel?: string;
+      roastLevel: string;
       /**
        * @description 精製方法
        * @example WASHED
+       * @enum {string}
        */
-      processingMethod?: string;
+      processingMethod:
+        | "FULLY_WASHED"
+        | "WASHED"
+        | "ANAEROBIC_WASHED"
+        | "THERMAL_SHOCK_NATURAL"
+        | "NATURAL"
+        | "ANAEROBIC_NATURAL"
+        | "DRY_ON_TREE_NATURAL"
+        | "LACTIC_NATURAL"
+        | "WET_HULLING"
+        | "HONEY"
+        | "MOUNTAIN_WATER"
+        | "LADO_A_LADO_PROCESS"
+        | "LADO_A_LADO_PROCESS_FULLY_WASHED";
+      /**
+       * @description 精製方法の表示名
+       * @example ウォッシュド
+       */
+      processingMethodName: string;
+      /**
+       * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
+       * @example PUBLISHED
+       */
+      publishStatus: string;
+      /**
+       * @description スペシャルティコーヒーかどうか
+       * @example true
+       */
+      isSpecialty: boolean;
+    };
+    /** @description コーヒー豆詳細レスポンス */
+    CoffeeBeanDetailResponse: {
+      /**
+       * @description コーヒー豆ID
+       * @example 00000000-0000-4000-8000-000000000001
+       */
+      id: string;
+      /**
+       * @description ショップID
+       * @example 00000000-0000-4000-8000-000000000002
+       */
+      shopId: string;
+      /**
+       * @description 店舗名
+       * @example コーヒーショップ青山
+       */
+      shopName: string;
+      /**
+       * @description Shopify商品ID
+       * @example test-bean-001
+       */
+      shopifyBeanId: string;
+      /**
+       * @description 豆の名前
+       * @example エチオピア イルガチェフェ
+       */
+      name: string;
+      /**
+       * @description 説明
+       * @example フルーティーな香りが特徴的なコーヒー豆です。
+       */
+      description: string;
+      /**
+       * @description 産地
+       * @example エチオピア
+       */
+      origin: string;
+      /**
+       * @description 農園名
+       * @example イルガチェフェ農園
+       */
+      farm?: string;
+      /**
+       * @description 焙煎度
+       * @example MEDIUM
+       */
+      roastLevel: string;
+      /**
+       * @description 精製方法
+       * @example WASHED
+       * @enum {string}
+       */
+      processingMethod:
+        | "FULLY_WASHED"
+        | "WASHED"
+        | "ANAEROBIC_WASHED"
+        | "THERMAL_SHOCK_NATURAL"
+        | "NATURAL"
+        | "ANAEROBIC_NATURAL"
+        | "DRY_ON_TREE_NATURAL"
+        | "LACTIC_NATURAL"
+        | "WET_HULLING"
+        | "HONEY"
+        | "MOUNTAIN_WATER"
+        | "LADO_A_LADO_PROCESS"
+        | "LADO_A_LADO_PROCESS_FULLY_WASHED";
+      /**
+       * @description 精製方法の表示名
+       * @example ウォッシュド
+       */
+      processingMethodName: string;
+      /**
+       * @description 公開状態（DRAFT: 下書き / PUBLISHED: 公開）
+       * @example PUBLISHED
+       */
+      publishStatus: string;
       /** @description 画像一覧 */
-      images?: components["schemas"]["ImageDetail"][];
+      images: components["schemas"]["ImageDetail"][];
       /** @description テイスト評価一覧 */
-      tastes?: components["schemas"]["TasteDetail"][];
-      specialty?: boolean;
+      tastes: components["schemas"]["TasteDetail"][];
+      /**
+       * @description スペシャルティコーヒーかどうか
+       * @example true
+       */
+      isSpecialty: boolean;
     };
     /** @description テイスト評価詳細 */
     TasteDetail: {
@@ -474,18 +1057,50 @@ export interface components {
        * @description テイスト評価ID
        * @example 00000000-0000-4000-8000-000000000020
        */
-      id?: string;
+      id: string;
       /**
-       * @description テイストID
-       * @example 00000000-0000-4000-8000-000000000030
+       * @description テイストマスタID
+       * @example 00000000-0000-4000-8000-000000000041
        */
-      tasteId?: string;
+      tasteId: string;
+      /**
+       * @description テイスト名
+       * @example 酸味
+       */
+      tasteName: string;
       /**
        * Format: int32
        * @description 評価値（0-5）
        * @example 4
        */
-      evaluationValue?: number;
+      evaluationValue: number;
+    };
+    /** @description 精製方法 */
+    ProcessingMethodResponse: {
+      /**
+       * @description 精製方法の値
+       * @example WASHED
+       * @enum {string}
+       */
+      value:
+        | "FULLY_WASHED"
+        | "WASHED"
+        | "ANAEROBIC_WASHED"
+        | "THERMAL_SHOCK_NATURAL"
+        | "NATURAL"
+        | "ANAEROBIC_NATURAL"
+        | "DRY_ON_TREE_NATURAL"
+        | "LACTIC_NATURAL"
+        | "WET_HULLING"
+        | "HONEY"
+        | "MOUNTAIN_WATER"
+        | "LADO_A_LADO_PROCESS"
+        | "LADO_A_LADO_PROCESS_FULLY_WASHED";
+      /**
+       * @description 精製方法の表示名
+       * @example ウォッシュド
+       */
+      label: string;
     };
   };
   responses: never;
@@ -533,9 +1148,7 @@ export interface operations {
   };
   updateShop: {
     parameters: {
-      query?: {
-        imageTypes?: string[];
-      };
+      query?: never;
       header?: never;
       path: {
         /**
@@ -635,6 +1248,98 @@ export interface operations {
       };
     };
   };
+  getPlan: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /**
+         * @description プランID
+         * @example 00000000-0000-4000-8000-000000000024
+         */
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 取得成功 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PlanDetailResponse"];
+        };
+      };
+      /** @description プランが見つかりません */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": unknown;
+        };
+      };
+    };
+  };
+  updatePlan: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        /**
+         * @description プランID
+         * @example 00000000-0000-4000-8000-000000000024
+         */
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UpdatePlanRequest"];
+      };
+    };
+    responses: {
+      /** @description 編集成功 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PlanResponse"];
+        };
+      };
+      /** @description バリデーションエラー */
+      400: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description プランが見つかりません */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": unknown;
+        };
+      };
+      /** @description ShopifyプランIDが重複しています */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
   getCoffeeBean: {
     parameters: {
       query?: never;
@@ -672,9 +1377,7 @@ export interface operations {
   };
   updateCoffeeBean: {
     parameters: {
-      query?: {
-        imageTypes?: string[];
-      };
+      query?: never;
       header?: never;
       path: {
         /**
@@ -796,16 +1499,14 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "*/*": unknown;
+          "*/*": components["schemas"]["ShopListResponse"];
         };
       };
     };
   };
   createShop: {
     parameters: {
-      query?: {
-        imageTypes?: string[];
-      };
+      query?: never;
       header?: never;
       path?: never;
       cookie?: never;
@@ -874,16 +1575,14 @@ export interface operations {
           [name: string]: unknown;
         };
         content: {
-          "*/*": unknown;
+          "*/*": components["schemas"]["CoffeeBeanListResponse"];
         };
       };
     };
   };
   createCoffeeBean: {
     parameters: {
-      query?: {
-        imageTypes?: string[];
-      };
+      query?: never;
       header?: never;
       path?: never;
       cookie?: never;
@@ -955,6 +1654,82 @@ export interface operations {
         };
         content: {
           "*/*": unknown;
+        };
+      };
+    };
+  };
+  listTastes: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 取得成功 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["TasteResponse"][];
+        };
+      };
+    };
+  };
+  listPlans: {
+    parameters: {
+      query?: {
+        /**
+         * @description ページ番号（0始まり）
+         * @example 0
+         */
+        page?: number;
+        /**
+         * @description 1ページあたりの件数
+         * @example 20
+         */
+        size?: number;
+        /**
+         * @description プラン表示名（部分一致検索）
+         * @example 定番
+         */
+        keyword?: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 取得成功 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PlanListResponse"];
+        };
+      };
+    };
+  };
+  listProcessingMethods: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description 取得成功 */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ProcessingMethodResponse"][];
         };
       };
     };

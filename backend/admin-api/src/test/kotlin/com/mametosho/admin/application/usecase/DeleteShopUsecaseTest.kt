@@ -1,11 +1,13 @@
 package com.mametosho.admin.application.usecase
 
-import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.Image
+import com.mametosho.domain.model.shared.ParticipationStatus
 import com.mametosho.domain.model.shop.Shop
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.shop.ShopImage
 import com.mametosho.domain.model.shop.ShopImageId
 import com.mametosho.domain.model.shop.ShopImageType
+import com.mametosho.domain.model.shop.Prefecture
 import com.mametosho.domain.model.shop.ShopifyShopId
 import com.mametosho.domain.repository.ShopRepository
 import com.mametosho.admin.test.FakeImageStorageService
@@ -27,16 +29,18 @@ class DeleteShopUsecaseTest {
         introduction = "テスト紹介文",
         particular = "テストこだわり",
         shopUrl = "https://example.com",
+        prefecture = Prefecture.TOKYO,
+        participationStatus = ParticipationStatus.PARTICIPATING,
         images = listOf(
             ShopImage(
                 id = ShopImageId("00000000-0000-4000-8000-000000000011"),
                 type = ShopImageType.MAIN,
-                imageUrl = ImageUrl("https://example.com/image.png"),
+                image = Image("https://example.com/image.png"),
             ),
             ShopImage(
                 id = ShopImageId("00000000-0000-4000-8000-000000000012"),
                 type = ShopImageType.LOGO,
-                imageUrl = ImageUrl("https://example.com/logo.png"),
+                image = Image("https://example.com/logo.png"),
             ),
         ),
     )
@@ -50,6 +54,12 @@ class DeleteShopUsecaseTest {
             return if (id.value == existingShopId) existingShop else null
         }
 
+        override fun findAll(
+            page: Int,
+            size: Int,
+            name: String?,
+            participationStatus: ParticipationStatus?,
+        ): Pair<List<Shop>, Long> = Pair(emptyList(), 0L)
         override fun deleteById(id: ShopId) {
             deletedIds.add(id)
         }

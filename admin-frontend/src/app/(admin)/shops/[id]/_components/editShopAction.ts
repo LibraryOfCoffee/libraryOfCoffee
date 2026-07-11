@@ -24,6 +24,8 @@ export async function editShopAction(
     introduction: (formData.get("introduction") as string) ?? "",
     particular: (formData.get("particular") as string) ?? "",
     shopUrl: (formData.get("shopUrl") as string) ?? "",
+    prefecture: (formData.get("prefecture") as string) ?? "",
+    participationStatus: (formData.get("participationStatus") as string) ?? "",
   };
 
   const result = editShopSchema.safeParse({
@@ -47,13 +49,29 @@ export async function editShopAction(
     }
   }
 
-  const { id, shopifyShopId, name, introduction, particular, shopUrl } =
-    result.data;
+  const {
+    id,
+    shopifyShopId,
+    name,
+    introduction,
+    particular,
+    shopUrl,
+    prefecture,
+    participationStatus,
+  } = result.data;
 
   const response = await multipartRequest(
     `/api/admin/shops/${id}`,
     "PUT",
-    { shopifyShopId, name, introduction, particular, shopUrl },
+    {
+      shopifyShopId,
+      name,
+      introduction,
+      particular,
+      shopUrl,
+      prefecture,
+      participationStatus,
+    },
     formData,
   );
 
@@ -61,6 +79,12 @@ export async function editShopAction(
     if (response.status === 409) {
       return {
         error: "このShopify Shop IDは既に登録されています。",
+        values,
+      };
+    }
+    if (response.status === 422) {
+      return {
+        error: "この店舗のステータスを変更することはできません。",
         values,
       };
     }

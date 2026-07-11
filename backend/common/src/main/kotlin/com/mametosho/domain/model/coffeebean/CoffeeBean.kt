@@ -1,6 +1,7 @@
 package com.mametosho.domain.model.coffeebean
 
-import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.Image
+import com.mametosho.domain.model.shared.PublishStatus
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.taste.TasteId
 import java.util.UUID
@@ -20,10 +21,11 @@ import java.util.UUID
  * @property roastLevel 焙煎度
  * @property processingMethod 精製方法
  * @property isSpecialty スペシャルティコーヒーかどうか
+ * @property publishStatus 公開状態（draft/published）
  * @property images 画像一覧
  * @property tastes テイスト評価一覧。同一TasteIdの重複は不可
  */
-@Suppress("MagicNumber")
+@Suppress("MagicNumber", "LongParameterList")
 data class CoffeeBean(
     val id: CoffeeBeanId,
     val shopId: ShopId,
@@ -35,6 +37,7 @@ data class CoffeeBean(
     val roastLevel: RoastLevel,
     val processingMethod: ProcessingMethod,
     val isSpecialty: Boolean,
+    val publishStatus: PublishStatus,
     val images: List<CoffeeBeanImage>,
     val tastes: List<CoffeeBeanTaste>,
 ) {
@@ -49,6 +52,11 @@ data class CoffeeBean(
             require(it.isNotBlank()) { "farm must not be blank" }
             require(it.length <= 255) { "farm must be at most 255 characters, but was ${it.length}" }
         }
+        require(images.isNotEmpty()) { "images must not be empty" }
+        require(images.count { it.type == CoffeeBeanImageType.MAIN } == 1) {
+            "images must contain exactly one MAIN image"
+        }
+        require(tastes.isNotEmpty()) { "tastes must not be empty" }
         val duplicateTasteIds = tastes.groupBy { it.tasteId }.filter { it.value.size > 1 }.keys
         require(duplicateTasteIds.isEmpty()) {
             "Duplicate tasteId is not allowed: $duplicateTasteIds"
@@ -70,6 +78,7 @@ data class CoffeeBean(
      * @param roastLevel 焙煎度
      * @param processingMethod 精製方法
      * @param isSpecialty スペシャルティコーヒーかどうか
+     * @param publishStatus 公開状態（draft/published）
      * @param images 画像情報（種別とURL）のリスト
      * @param tastes テイスト評価情報（テイストIDと評価値）のリスト
      * @return 更新された[CoffeeBean]
@@ -84,34 +93,41 @@ data class CoffeeBean(
         roastLevel: String,
         processingMethod: String,
         isSpecialty: Boolean,
+        publishStatus: String,
         images: List<Pair<String, String>>,
         tastes: List<Pair<String, Int>>,
-    ): CoffeeBean = CoffeeBean(
-        id = this.id,
-        shopId = ShopId(shopId),
-        shopifyBeanId = ShopifyBeanId(shopifyBeanId),
-        name = name,
-        description = description,
-        origin = origin,
-        farm = farm,
-        roastLevel = RoastLevel.valueOf(roastLevel),
-        processingMethod = ProcessingMethod.valueOf(processingMethod),
-        isSpecialty = isSpecialty,
-        images = images.map { (type, imageUrl) ->
-            CoffeeBeanImage(
-                id = CoffeeBeanImageId(UUID.randomUUID().toString()),
-                type = CoffeeBeanImageType.valueOf(type),
-                imageUrl = ImageUrl(imageUrl),
-            )
-        },
-        tastes = tastes.map { (tasteId, evaluationValue) ->
-            CoffeeBeanTaste(
-                id = CoffeeBeanTasteId(UUID.randomUUID().toString()),
-                tasteId = TasteId(tasteId),
-                evaluationValue = evaluationValue,
-            )
-        },
-    )
+    ): CoffeeBean {
+        require(this.publishStatus != PublishStatus.INVALIDATED) {
+            "無効化されたコーヒー豆は更新できません"
+        }
+        return CoffeeBean(
+            id = this.id,
+            shopId = ShopId(shopId),
+            shopifyBeanId = ShopifyBeanId(shopifyBeanId),
+            name = name,
+            description = description,
+            origin = origin,
+            farm = farm,
+            roastLevel = RoastLevel.valueOf(roastLevel),
+            processingMethod = ProcessingMethod.valueOf(processingMethod),
+            isSpecialty = isSpecialty,
+            publishStatus = PublishStatus.valueOf(publishStatus),
+            images = images.map { (type, imageUrl) ->
+                CoffeeBeanImage(
+                    id = CoffeeBeanImageId(UUID.randomUUID().toString()),
+                    type = CoffeeBeanImageType.valueOf(type),
+                    image = Image(imageUrl),
+                )
+            },
+            tastes = tastes.map { (tasteId, evaluationValue) ->
+                CoffeeBeanTaste(
+                    id = CoffeeBeanTasteId(UUID.randomUUID().toString()),
+                    tasteId = TasteId(tasteId),
+                    evaluationValue = evaluationValue,
+                )
+            },
+        )
+    }
 
     companion object {
         /**
@@ -128,6 +144,7 @@ data class CoffeeBean(
          * @param roastLevel 焙煎度
          * @param processingMethod 精製方法
          * @param isSpecialty スペシャルティコーヒーかどうか
+         * @param publishStatus 公開状態（draft/published）
          * @param images 画像情報（種別とURL）のリスト
          * @param tastes テイスト評価情報（テイストIDと評価値）のリスト
          * @return 生成された[CoffeeBean]
@@ -142,6 +159,7 @@ data class CoffeeBean(
             roastLevel: String,
             processingMethod: String,
             isSpecialty: Boolean,
+            publishStatus: String,
             images: List<Pair<String, String>>,
             tastes: List<Pair<String, Int>>,
             id: String = UUID.randomUUID().toString(),
@@ -156,11 +174,12 @@ data class CoffeeBean(
             roastLevel = RoastLevel.valueOf(roastLevel),
             processingMethod = ProcessingMethod.valueOf(processingMethod),
             isSpecialty = isSpecialty,
+            publishStatus = PublishStatus.valueOf(publishStatus),
             images = images.map { (type, imageUrl) ->
                 CoffeeBeanImage(
                     id = CoffeeBeanImageId(UUID.randomUUID().toString()),
                     type = CoffeeBeanImageType.valueOf(type),
-                    imageUrl = ImageUrl(imageUrl),
+                    image = Image(imageUrl),
                 )
             },
             tastes = tastes.map { (tasteId, evaluationValue) ->

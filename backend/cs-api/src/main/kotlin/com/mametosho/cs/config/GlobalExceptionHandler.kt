@@ -15,6 +15,23 @@ class GlobalExceptionHandler {
 
     private val log = LoggerFactory.getLogger(GlobalExceptionHandler::class.java)
 
+    @ExceptionHandler(IllegalArgumentException::class)
+    fun handleIllegalArgument(
+        ex: IllegalArgumentException,
+        request: HttpServletRequest,
+    ): ResponseEntity<ErrorResponse> {
+        log.warn("{} {}: {}", request.method, request.requestURI, ex.message)
+        val status = HttpStatus.BAD_REQUEST
+        return ResponseEntity.status(status).body(
+            ErrorResponse(
+                timestamp = OffsetDateTime.now(),
+                status = status.value(),
+                error = status.reasonPhrase,
+                path = request.requestURI,
+            ),
+        )
+    }
+
     @ExceptionHandler(NoResourceFoundException::class)
     fun handleNoResourceFound(
         ex: NoResourceFoundException,

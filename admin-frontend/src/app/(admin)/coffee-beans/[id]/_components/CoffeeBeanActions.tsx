@@ -1,7 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import type { CoffeeBeanDetail } from "@/api/coffee-beans";
+import type {
+  CoffeeBeanDetail,
+  ProcessingMethodOption,
+} from "@/api/coffee-beans";
+import type { TasteListItem } from "@/api/tastes";
 import styles from "@/components/actions.module.css";
 import { DeleteCoffeeBeanModal } from "./DeleteCoffeeBeanModal";
 import { EditCoffeeBeanModal } from "./EditCoffeeBeanModal";
@@ -9,9 +13,13 @@ import { EditCoffeeBeanModal } from "./EditCoffeeBeanModal";
 export function CoffeeBeanActions({
   coffeeBean,
   initialShops,
+  tastes,
+  processingMethods,
 }: {
   coffeeBean: CoffeeBeanDetail;
   initialShops: { id: string; name: string }[];
+  tastes: TasteListItem[];
+  processingMethods: ProcessingMethodOption[];
 }) {
   const [editOpen, setEditOpen] = useState(false);
   const [editKey, setEditKey] = useState(0);
@@ -50,6 +58,8 @@ export function CoffeeBeanActions({
         key={`edit-${editKey}`}
         coffeeBean={coffeeBean}
         initialShops={initialShops}
+        tastes={tastes}
+        processingMethods={processingMethods}
         open={editOpen}
         onClose={() => setEditOpen(false)}
       />

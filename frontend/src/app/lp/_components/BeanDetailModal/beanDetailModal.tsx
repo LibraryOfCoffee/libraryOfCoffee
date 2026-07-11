@@ -3,20 +3,27 @@
 import Image from "next/image";
 import { useEffect } from "react";
 import { LuCrown, LuPlus, LuX } from "react-icons/lu";
-import { type BeanDetail, SPECIALTY_TAG_COLOR } from "../../_lib/beanData";
+import { type BeanDetail, SPECIALTY_TAG_COLOR } from "../../_lib/coffeeBeanApi";
+import LinkWithLoading from "../LinkWithLoading/linkWithLoading";
 import styles from "./beanDetailModal.module.css";
 
-interface BeanDetailModalProps {
+type BeanDetailModalProps = {
   bean: BeanDetail;
   onClose: () => void;
-  onSelect?: (bean: BeanDetail) => void;
-}
+} & (
+  | { selectHref: string; onSelect?: never }
+  | { onSelect: (bean: BeanDetail) => void; selectHref?: never }
+);
 
 export default function BeanDetailModal({
   bean,
   onClose,
+  selectHref,
   onSelect,
-}: BeanDetailModalProps) {
+}: BeanDetailModalProps & {
+  selectHref?: string;
+  onSelect?: (bean: BeanDetail) => void;
+}) {
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -29,9 +36,7 @@ export default function BeanDetailModal({
       className={styles.overlay}
       role="dialog"
       aria-modal="true"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
+      tabIndex={-1}
       onKeyDown={(e) => {
         if (e.key === "Escape") onClose();
       }}
@@ -50,20 +55,23 @@ export default function BeanDetailModal({
         </div>
 
         <div className={styles.body}>
-          <div className={styles.heroWrap}>
-            <Image
-              src={bean.imageSrc}
-              alt={bean.name}
-              fill
-              sizes="(max-width: 440px) 100vw, 400px"
-              className={styles.hero}
-            />
-            {bean.isSpecialty && (
-              <span className={styles.crown}>
-                <LuCrown size={16} color={SPECIALTY_TAG_COLOR} />
-              </span>
-            )}
-          </div>
+          {bean.imageSrc && (
+            <div className={styles.heroWrap}>
+              <Image
+                src={bean.imageSrc}
+                alt={bean.name}
+                fill
+                sizes="(max-width: 440px) 100vw, 400px"
+                unoptimized
+                className={styles.hero}
+              />
+              {bean.isSpecialty && (
+                <span className={styles.crown}>
+                  <LuCrown size={16} color={SPECIALTY_TAG_COLOR} />
+                </span>
+              )}
+            </div>
+          )}
 
           <div className={styles.titleRow}>
             <h3>{bean.name}</h3>
@@ -71,8 +79,6 @@ export default function BeanDetailModal({
               {bean.tag}
             </span>
           </div>
-
-          {bean.subName && <p className={styles.subtitle}>{bean.subName}</p>}
 
           <p className={styles.desc}>{bean.detailDescription}</p>
 
@@ -117,12 +123,12 @@ export default function BeanDetailModal({
           <h4 className={styles.tasteTitle}>テイストプロファイル</h4>
           <div className={styles.tasteGrid}>
             {bean.tasteProfile.map((t) => (
-              <div key={t.label} className={styles.tasteItem}>
-                <span className={styles.tasteLabel}>{t.label}</span>
+              <div key={t.name} className={styles.tasteItem}>
+                <span className={styles.tasteLabel}>{t.name}</span>
                 <div className={styles.tasteBarBg}>
                   <div
                     className={styles.tasteBarFill}
-                    style={{ width: `${t.value}%` }}
+                    style={{ width: `${(t.value / 5) * 100}%` }}
                   />
                 </div>
               </div>
@@ -131,14 +137,24 @@ export default function BeanDetailModal({
         </div>
 
         <div className={styles.footer}>
-          <button
-            type="button"
-            className={styles.selectBtn}
-            onClick={() => onSelect?.(bean)}
-          >
-            この豆を選ぶ
-            <LuPlus size={18} />
-          </button>
+          {onSelect ? (
+            <button
+              type="button"
+              className={styles.selectBtn}
+              onClick={() => onSelect(bean)}
+            >
+              この豆を選ぶ
+              <LuPlus size={18} />
+            </button>
+          ) : (
+            <LinkWithLoading
+              href={selectHref ?? ""}
+              className={styles.selectBtn}
+            >
+              この豆を選ぶ
+              <LuPlus size={18} />
+            </LinkWithLoading>
+          )}
         </div>
       </div>
     </div>

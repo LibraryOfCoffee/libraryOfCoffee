@@ -1,0 +1,46 @@
+{
+  "family": "{{ must_env `AWS_ACCOUNT_ID` }}-{{ must_env `ENV` }}-cs-frontend",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "executionRoleArn": "arn:aws:iam::{{ must_env `AWS_ACCOUNT_ID` }}:role/{{ must_env `AWS_ACCOUNT_ID` }}-{{ must_env `ENV` }}-cs-frontend-ecs-execution",
+  "containerDefinitions": [
+    {
+      "name": "cs-frontend",
+      "image": "{{ must_env `AWS_ACCOUNT_ID` }}.dkr.ecr.ap-northeast-1.amazonaws.com/cs-frontend-{{ must_env `ENV` }}:{{ must_env `IMAGE_TAG` }}",
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "hostPort": 3000,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "CS_API_BASE_URL",
+          "value": "http://cs-api.{{ must_env `ENV` }}.local:8080"
+        },
+        {
+          "name": "URL",
+          "value": "{{ must_env `SITE_URL` }}"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "CS_API_HMAC_KEY_SSR",
+          "valueFrom": "{{ must_env `HMAC_SSR_KEY_SECRET_ARN` }}"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/{{ must_env `AWS_ACCOUNT_ID` }}-{{ must_env `ENV` }}-cs-frontend",
+          "awslogs-region": "ap-northeast-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "essential": true
+    }
+  ]
+}

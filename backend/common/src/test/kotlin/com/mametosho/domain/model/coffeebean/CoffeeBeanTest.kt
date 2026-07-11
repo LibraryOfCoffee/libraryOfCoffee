@@ -1,6 +1,7 @@
 package com.mametosho.domain.model.coffeebean
 
-import com.mametosho.domain.model.shared.ImageUrl
+import com.mametosho.domain.model.shared.Image
+import com.mametosho.domain.model.shared.PublishStatus
 import com.mametosho.domain.model.shop.ShopId
 import com.mametosho.domain.model.taste.TasteId
 import org.junit.jupiter.api.Nested
@@ -11,9 +12,25 @@ import kotlin.test.assertTrue
 
 class CoffeeBeanTest {
 
+    private val defaultTastes = listOf(
+        CoffeeBeanTaste(
+            id = CoffeeBeanTasteId("00000000-0000-4000-8000-000000000101"),
+            tasteId = TasteId("00000000-0000-4000-8000-000000000041"),
+            evaluationValue = 3,
+        ),
+    )
+
+    private val defaultImages = listOf(
+        CoffeeBeanImage(
+            id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000201"),
+            type = CoffeeBeanImageType.MAIN,
+            image = Image("https://example.com/bean.jpg"),
+        ),
+    )
+
     private fun createCoffeeBean(
-        tastes: List<CoffeeBeanTaste> = emptyList(),
-        images: List<CoffeeBeanImage> = emptyList(),
+        tastes: List<CoffeeBeanTaste> = defaultTastes,
+        images: List<CoffeeBeanImage> = defaultImages,
     ): CoffeeBean = CoffeeBean(
         id = CoffeeBeanId("00000000-0000-4000-8000-000000000001"),
         shopId = ShopId("00000000-0000-4000-8000-000000000003"),
@@ -25,6 +42,7 @@ class CoffeeBeanTest {
         roastLevel = RoastLevel.LIGHT,
         processingMethod = ProcessingMethod.WASHED,
         isSpecialty = false,
+        publishStatus = PublishStatus.PUBLISHED,
         images = images,
         tastes = tastes,
     )
@@ -52,7 +70,7 @@ class CoffeeBeanTest {
                 CoffeeBeanImage(
                     id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000009"),
                     type = CoffeeBeanImageType.MAIN,
-                    imageUrl = ImageUrl("https://example.com/bean.jpg"),
+                    image = Image("https://example.com/bean.jpg"),
                 ),
             )
             val bean = createCoffeeBean(images = images)
@@ -120,8 +138,9 @@ class CoffeeBeanTest {
                 roastLevel = "FRENCH",
                 processingMethod = "NATURAL",
                 isSpecialty = true,
-                images = emptyList(),
-                tastes = emptyList(),
+                publishStatus = "PUBLISHED",
+                images = listOf("MAIN" to "https://example.com/updated.png"),
+                tastes = listOf("00000000-0000-4000-8000-000000000041" to 3),
             )
             assertEquals(bean.id, updated.id)
             assertEquals(ShopId(newShopId), updated.shopId)
@@ -140,6 +159,7 @@ class CoffeeBeanTest {
                 roastLevel = "FRENCH",
                 processingMethod = "NATURAL",
                 isSpecialty = true,
+                publishStatus = "PUBLISHED",
                 images = listOf("MAIN" to "https://example.com/updated.png"),
                 tastes = listOf("00000000-0000-4000-8000-000000000004" to 5),
             )
@@ -153,7 +173,7 @@ class CoffeeBeanTest {
             assertTrue(updated.isSpecialty)
             assertEquals(1, updated.images.size)
             assertEquals(CoffeeBeanImageType.MAIN, updated.images[0].type)
-            assertEquals("https://example.com/updated.png", updated.images[0].imageUrl.value)
+            assertEquals("https://example.com/updated.png", updated.images[0].image.url)
             assertEquals(1, updated.tastes.size)
             assertEquals("00000000-0000-4000-8000-000000000004", updated.tastes[0].tasteId.value)
             assertEquals(5, updated.tastes[0].evaluationValue)
@@ -173,6 +193,7 @@ class CoffeeBeanTest {
                 roastLevel = "LIGHT",
                 processingMethod = "WASHED",
                 isSpecialty = false,
+                publishStatus = "PUBLISHED",
                 images = listOf("MAIN" to "https://example.com/bean.jpg"),
                 tastes = listOf("00000000-0000-4000-8000-000000000004" to 3),
             )

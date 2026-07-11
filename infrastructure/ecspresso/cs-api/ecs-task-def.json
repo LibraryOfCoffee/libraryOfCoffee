@@ -2,8 +2,8 @@
   "family": "{{ must_env `AWS_ACCOUNT_ID` }}-{{ must_env `ENV` }}-cs-api",
   "networkMode": "awsvpc",
   "requiresCompatibilities": ["FARGATE"],
-  "cpu": "512",
-  "memory": "1024",
+  "cpu": "256",
+  "memory": "512",
   "executionRoleArn": "arn:aws:iam::{{ must_env `AWS_ACCOUNT_ID` }}:role/{{ must_env `AWS_ACCOUNT_ID` }}-{{ must_env `ENV` }}-cs-api-ecs-execution",
   "containerDefinitions": [
     {
@@ -30,6 +30,10 @@
         {
           "name": "DB_PASSWORD",
           "valueFrom": "{{ must_env `DB_SECRET_ARN` }}:password::"
+        },
+        {
+          "name": "CS_API_HMAC_MASTER_KEY",
+          "valueFrom": "{{ must_env `HMAC_MASTER_KEY_SECRET_ARN` }}"
         }
       ],
       "logConfiguration": {

@@ -2,10 +2,18 @@ package com.mametosho.admin.presentation.dto.response
 
 import com.mametosho.domain.model.coffeebean.CoffeeBean
 import com.mametosho.domain.model.coffeebean.CoffeeBeanId
+import com.mametosho.domain.model.coffeebean.CoffeeBeanImage
+import com.mametosho.domain.model.coffeebean.CoffeeBeanImageId
+import com.mametosho.domain.model.coffeebean.CoffeeBeanImageType
+import com.mametosho.domain.model.coffeebean.CoffeeBeanTaste
+import com.mametosho.domain.model.coffeebean.CoffeeBeanTasteId
 import com.mametosho.domain.model.coffeebean.ProcessingMethod
 import com.mametosho.domain.model.coffeebean.RoastLevel
 import com.mametosho.domain.model.coffeebean.ShopifyBeanId
+import com.mametosho.domain.model.shared.Image
+import com.mametosho.domain.model.shared.PublishStatus
 import com.mametosho.domain.model.shop.ShopId
+import com.mametosho.domain.model.taste.TasteId
 import org.junit.jupiter.api.Nested
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -23,8 +31,21 @@ class CoffeeBeanResponseTest {
         roastLevel = RoastLevel.MEDIUM,
         processingMethod = ProcessingMethod.WASHED,
         isSpecialty = true,
-        images = emptyList(),
-        tastes = emptyList(),
+        publishStatus = PublishStatus.PUBLISHED,
+        images = listOf(
+            CoffeeBeanImage(
+                id = CoffeeBeanImageId("00000000-0000-4000-8000-000000000010"),
+                type = CoffeeBeanImageType.MAIN,
+                image = Image("https://example.com/bean.jpg"),
+            ),
+        ),
+        tastes = listOf(
+            CoffeeBeanTaste(
+                id = CoffeeBeanTasteId("00000000-0000-4000-8000-000000000020"),
+                tasteId = TasteId("00000000-0000-4000-8000-000000000041"),
+                evaluationValue = 3,
+            ),
+        ),
     )
 
     @Nested

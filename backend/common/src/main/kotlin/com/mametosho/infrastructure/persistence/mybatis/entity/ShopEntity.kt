@@ -7,4 +7,6 @@ data class ShopEntity(
     val introduction: String?,
     val particular: String?,
     val shopUrl: String,
+    val prefecture: String,
+    val participationStatus: String,
 )

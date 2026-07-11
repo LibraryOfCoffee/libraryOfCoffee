@@ -1,16 +1,17 @@
 package com.mametosho.admin.presentation.controller
 
+import com.mametosho.admin.application.service.buildImageUploads
 import com.mametosho.admin.application.usecase.CreateShopUsecase
 import com.mametosho.admin.application.usecase.DeleteShopUsecase
 import com.mametosho.admin.application.usecase.GetShopUsecase
-import com.mametosho.admin.application.usecase.ListShopsUsecase
+import com.mametosho.admin.application.usecase.FindShopsUsecase
 import com.mametosho.admin.application.usecase.UpdateShopUsecase
 import com.mametosho.admin.presentation.dto.request.CreateShopRequest
 import com.mametosho.admin.presentation.dto.request.UpdateShopRequest
 import com.mametosho.admin.presentation.dto.response.ErrorResponse
-import com.mametosho.admin.presentation.dto.response.PagedResponse
 import com.mametosho.admin.presentation.dto.response.ShopDetailResponse
 import com.mametosho.admin.presentation.dto.response.ShopListResponse
+import com.mametosho.admin.presentation.dto.response.ShopSummaryResponse
 import com.mametosho.admin.presentation.dto.response.ShopResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -39,7 +40,7 @@ import org.springframework.web.multipart.MultipartFile
 @Tag(name = "Shop", description = "店舗API")
 class ShopController(
     private val getShopUsecase: GetShopUsecase,
-    private val listShopsUsecase: ListShopsUsecase,
+    private val findShopsUsecase: FindShopsUsecase,
     private val createShopUsecase: CreateShopUsecase,
     private val updateShopUsecase: UpdateShopUsecase,
     private val deleteShopUsecase: DeleteShopUsecase,
@@ -56,6 +57,7 @@ class ShopController(
                 description = "取得成功",
                 content = [
                     Content(
+                        schema = Schema(implementation = ShopListResponse::class),
                         examples = [
                             ExampleObject(
                                 name = "success",
@@ -69,7 +71,9 @@ class ShopController(
                                           "name": "テスト珈琲店",
                                           "introduction": "こだわりの珈琲をお届けします。",
                                           "particular": "厳選された豆のみを使用しています。",
-                                          "shopUrl": "https://example.com"
+                                          "shopUrl": "https://example.com",
+                                          "prefecture": "TOKYO",
+                                          "participationStatus": "PARTICIPATING"
                                         }
                                       ],
                                       "totalCount": 1,
@@ -91,9 +95,9 @@ class ShopController(
         @RequestParam(defaultValue = "20") size: Int,
         @Parameter(description = "店名（部分一致検索）", example = "珈琲", required = false)
         @RequestParam(required = false) name: String?,
-    ): ResponseEntity<PagedResponse<ShopListResponse>> {
-        val result = listShopsUsecase.execute(page, size, name)
-        return ResponseEntity.ok(PagedResponse.from(result) { ShopListResponse.from(it) })
+    ): ResponseEntity<ShopListResponse> {
+        val result = findShopsUsecase.execute(page, size, name)
+        return ResponseEntity.ok(ShopListResponse.from(result))
     }
 
     @GetMapping("/{id}")
@@ -121,6 +125,8 @@ class ShopController(
                                       "introduction": "こだわりの珈琲をお届けします。",
                                       "particular": "厳選された豆のみを使用しています。",
                                       "shopUrl": "https://example.com",
+                                      "prefecture": "TOKYO",
+                                      "publishStatus": "PUBLISHED",
                                       "images": [
                                         {
                                           "id": "00000000-0000-4000-8000-000000000010",
@@ -251,9 +257,9 @@ class ShopController(
     fun createShop(
         @RequestPart("data") request: CreateShopRequest,
         @RequestPart("images", required = false) images: List<MultipartFile>?,
-        @RequestParam("imageTypes", required = false) imageTypes: List<String>?,
     ): ResponseEntity<ShopResponse> {
-        val shop = createShopUsecase.execute(request, images ?: emptyList(), imageTypes ?: emptyList())
+        val uploads = buildImageUploads(images ?: emptyList(), request.imageTypes)
+        val shop = createShopUsecase.execute(request, uploads)
         return ResponseEntity.status(HttpStatus.CREATED).body(ShopResponse.from(shop))
     }
 
@@ -359,9 +365,9 @@ class ShopController(
         @PathVariable id: String,
         @RequestPart("data") request: UpdateShopRequest,
         @RequestPart("images", required = false) images: List<MultipartFile>?,
-        @RequestParam("imageTypes", required = false) imageTypes: List<String>?,
     ): ResponseEntity<ShopResponse> {
-        val shop = updateShopUsecase.execute(id, request, images ?: emptyList(), imageTypes ?: emptyList())
+        val uploads = buildImageUploads(images ?: emptyList(), request.imageTypes)
+        val shop = updateShopUsecase.execute(id, request, uploads, request.keepImageIds)
             ?: return ResponseEntity.notFound().build()
         return ResponseEntity.ok(ShopResponse.from(shop))
     }
