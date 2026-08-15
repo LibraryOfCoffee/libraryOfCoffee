@@ -231,6 +231,8 @@ module "ecs_cs_frontend" {
   use_spot            = false
   secret_arns = [
     aws_secretsmanager_secret.cs_frontend_hmac_ssr_key.arn,
+    aws_secretsmanager_secret.cs_frontend_google_ga_id.arn,
+    aws_secretsmanager_secret.cs_frontend_microsoft_clarity_id.arn,
   ]
   environment = [
     { name = "CS_API_BASE_URL", value = "http://cs-api.${local.env}.local:8080" },
@@ -238,6 +240,8 @@ module "ecs_cs_frontend" {
   ]
   secrets = [
     { name = "CS_API_HMAC_KEY_SSR", valueFrom = aws_secretsmanager_secret.cs_frontend_hmac_ssr_key.arn },
+    { name = "GOOGLE_GA_ID", valueFrom = aws_secretsmanager_secret.cs_frontend_google_ga_id.arn },
+    { name = "MICROSOFT_CLARITY_ID", valueFrom = aws_secretsmanager_secret.cs_frontend_microsoft_clarity_id.arn },
   ]
 }
 

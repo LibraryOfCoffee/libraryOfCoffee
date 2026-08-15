@@ -30,6 +30,14 @@
         {
           "name": "CS_API_HMAC_KEY_SSR",
           "valueFrom": "{{ must_env `HMAC_SSR_KEY_SECRET_ARN` }}"
+        },
+        {
+          "name": "GOOGLE_GA_ID",
+          "valueFrom": "{{ must_env `GA_ID_SECRET_ARN` }}"
+        },
+        {
+          "name": "MICROSOFT_CLARITY_ID",
+          "valueFrom": "{{ must_env `CLARITY_ID_SECRET_ARN` }}"
         }
       ],
       "logConfiguration": {
