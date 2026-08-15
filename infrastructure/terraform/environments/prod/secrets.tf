@@ -85,3 +85,28 @@ resource "aws_ssm_parameter" "cs_frontend_hmac_ssr_key_secret_arn" {
   type  = "String"
   value = aws_secretsmanager_secret.cs_frontend_hmac_ssr_key.arn
 }
+
+# GA4測定ID。HTMLに露出する公開値だが、環境変数の受け渡しはSecrets Managerに統一する。
+# 値はTerraform管理外で投入する。
+resource "aws_secretsmanager_secret" "cs_frontend_google_ga_id" {
+  name                    = "${local.account_id}-${local.env}-cs-frontend-google-ga-id"
+  recovery_window_in_days = 0
+}
+
+resource "aws_ssm_parameter" "cs_frontend_google_ga_id_secret_arn" {
+  name  = "/${local.env}/cs-frontend/google-ga-id-secret-arn"
+  type  = "String"
+  value = aws_secretsmanager_secret.cs_frontend_google_ga_id.arn
+}
+
+# Microsoft ClarityのプロジェクトID。値はTerraform管理外で投入する。
+resource "aws_secretsmanager_secret" "cs_frontend_microsoft_clarity_id" {
+  name                    = "${local.account_id}-${local.env}-cs-frontend-microsoft-clarity-id"
+  recovery_window_in_days = 0
+}
+
+resource "aws_ssm_parameter" "cs_frontend_microsoft_clarity_id_secret_arn" {
+  name  = "/${local.env}/cs-frontend/microsoft-clarity-id-secret-arn"
+  type  = "String"
+  value = aws_secretsmanager_secret.cs_frontend_microsoft_clarity_id.arn
+}

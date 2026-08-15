@@ -117,10 +117,16 @@ jobs:
             echo "site_url=https://${ENV}.mametosho.com" >> $GITHUB_OUTPUT
           fi
 
-          HMAC_SSR_KEY_SECRET_ARN=$(aws ssm get-parameter \
-            --name "/${ENV}/cs-frontend/hmac-ssr-key-secret-arn" \
-            --query 'Parameter.Value' --output text)
+          get_param() {
+            aws ssm get-parameter --name "$1" --query 'Parameter.Value' --output text
+          }
+          HMAC_SSR_KEY_SECRET_ARN=$(get_param "/${ENV}/cs-frontend/hmac-ssr-key-secret-arn")
+          GA_ID_SECRET_ARN=$(get_param "/${ENV}/cs-frontend/google-ga-id-secret-arn")
+          CLARITY_ID_SECRET_ARN=$(get_param "/${ENV}/cs-frontend/microsoft-clarity-id-secret-arn")
+
           echo "hmac_ssr_key_secret_arn=${HMAC_SSR_KEY_SECRET_ARN}" >> $GITHUB_OUTPUT
+          echo "ga_id_secret_arn=${GA_ID_SECRET_ARN}" >> $GITHUB_OUTPUT
+          echo "clarity_id_secret_arn=${CLARITY_ID_SECRET_ARN}" >> $GITHUB_OUTPUT
 
       - name: Install ecspresso
         uses: kayac/ecspresso@v2
@@ -133,6 +139,8 @@ jobs:
           IMAGE_TAG: ${{ needs.build.outputs.image_tag }}
           SITE_URL: ${{ steps.params.outputs.site_url }}
           HMAC_SSR_KEY_SECRET_ARN: ${{ steps.params.outputs.hmac_ssr_key_secret_arn }}
+          GA_ID_SECRET_ARN: ${{ steps.params.outputs.ga_id_secret_arn }}
+          CLARITY_ID_SECRET_ARN: ${{ steps.params.outputs.clarity_id_secret_arn }}
         run: |
           ecspresso deploy \
             --config infrastructure/ecspresso/cs-frontend/ecspresso.yml
