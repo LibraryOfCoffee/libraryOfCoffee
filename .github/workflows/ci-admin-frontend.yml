@@ -3,7 +3,7 @@ name: CI Admin Frontend
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-    branches: [main, develop]
+    branches: [main]
     paths:
       - 'admin-frontend/**'
       - '.github/workflows/ci-admin-frontend.yml'
