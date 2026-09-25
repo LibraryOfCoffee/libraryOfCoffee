@@ -16,7 +16,7 @@ variable "alb_arn" {
 variable "rate_limit" {
   type        = number
   description = "評価ウィンドウ内で同一IPからのリクエストを許容する上限数"
-  default     = 2000
+  default     = 1000
 }
 
 variable "rate_limit_window_sec" {
