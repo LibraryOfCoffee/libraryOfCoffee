@@ -156,6 +156,13 @@ module "alb_admin" {
   depends_on = [module.alb_logs]
 }
 
+module "waf" {
+  source = "../../modules/waf"
+
+  env     = local.env
+  alb_arn = module.alb_admin.alb_arn
+}
+
 module "alb_attachment_cs" {
   source = "../../modules/alb_attachment"
 
