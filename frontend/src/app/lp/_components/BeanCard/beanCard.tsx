@@ -1,19 +1,7 @@
 import Image from "next/image";
+import RoastTag from "../RoastTag/roastTag";
+import SpecialtyBadge from "../SpecialtyBadge/specialtyBadge";
 import styles from "./beanCard.module.css";
-
-const ROAST_PILL_CLASS: Record<string, string> = {
-  浅煎り: styles.roastLight,
-  中煎り: styles.roastMedium,
-  中深煎り: styles.roastMediumDark,
-  深煎り: styles.roastDark,
-};
-
-const ROAST_DOT_CLASS: Record<string, string> = {
-  浅煎り: styles.dotLight,
-  中煎り: styles.dotMedium,
-  中深煎り: styles.dotMediumDark,
-  深煎り: styles.dotDark,
-};
 
 interface BeanCardProps {
   imageSrc: string;
@@ -21,6 +9,7 @@ interface BeanCardProps {
   name: string;
   description: string;
   roaster: string;
+  index: number;
   isSpecialty?: boolean;
   onClick?: () => void;
 }
@@ -31,15 +20,12 @@ export default function BeanCard({
   name,
   description,
   roaster,
+  index,
   isSpecialty,
   onClick,
 }: BeanCardProps) {
-  const pillClass = ROAST_PILL_CLASS[tag] ?? styles.roastMedium;
-  const dotClass = ROAST_DOT_CLASS[tag] ?? styles.dotMedium;
-
   return (
     <button type="button" className={styles.card} onClick={onClick}>
-      <div className={styles.punchBar} />
       <div className={styles.body}>
         <div className={styles.imgWrap}>
           {imageSrc && (
@@ -47,37 +33,29 @@ export default function BeanCard({
               src={imageSrc}
               alt={name}
               fill
-              sizes="72px"
+              sizes="92px"
               unoptimized
               className={styles.imgInner}
             />
           )}
-          {isSpecialty && (
-            <span
-              className={styles.crown}
-              role="img"
-              aria-label="スペシャリティコーヒー"
-            >
-              ♔
-            </span>
-          )}
+          {isSpecialty && <SpecialtyBadge />}
         </div>
         <div className={styles.content}>
-          <div className={styles.pillRow}>
-            <span className={`${styles.roastPill} ${pillClass}`}>
-              <span className={`${styles.roastDot} ${dotClass}`} />
-              {tag}
-            </span>
+          <div className={styles.headRow}>
+            <div className={styles.headText}>
+              <div className={styles.roaster}>{roaster}</div>
+              <h3 className={styles.name}>{name}</h3>
+            </div>
+            <RoastTag tag={tag} />
           </div>
-          <h3 className={styles.name}>{name}</h3>
           <p className={styles.desc}>{description}</p>
-          <div className={styles.footer}>
-            <span>
-              提供店舗<span className={styles.roaster}>{roaster}</span>
-            </span>
-            <span className={styles.detailLink}>詳細 ›</span>
-          </div>
         </div>
+      </div>
+      <div className={styles.footer}>
+        <span className={styles.index}>№ {String(index).padStart(2, "0")}</span>
+        <span className={styles.detailLink}>
+          詳細 <span className={styles.detailArrow}>›</span>
+        </span>
       </div>
     </button>
   );

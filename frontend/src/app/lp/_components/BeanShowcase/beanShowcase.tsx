@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import type { BeanDetail } from "../../_lib/coffeeBeanApi";
+import { type BeanDetail, ROAST_ORDER } from "../../_lib/coffeeBeanApi";
 import type { PlanGroup } from "../../_lib/planApi";
 import { getPlanPagePath } from "../../_lib/purchaseLinkUtil";
 import BeanCard from "../BeanCard/beanCard";
 import BeanDetailModal from "../BeanDetailModal/beanDetailModal";
 import LinkWithLoading from "../LinkWithLoading/linkWithLoading";
+import SectionHeading from "../SectionHeading/sectionHeading";
 import styles from "./beanShowcase.module.css";
 
 const KANTO_PREFECTURES = new Set([
@@ -42,7 +43,7 @@ export default function BeanShowcase({ beans, plans }: BeanShowcaseProps) {
     ),
   );
   const countries = Array.from(new Set(beans.map((b) => b.origin)));
-  const roastLevels = Array.from(new Set(beans.map((b) => b.tag)));
+  const roastLevels = ROAST_ORDER.filter((r) => beans.some((b) => b.tag === r));
 
   const filtered = beans.filter((b) => {
     if (prefFilter && b.prefecture !== prefFilter) return false;
@@ -70,7 +71,7 @@ export default function BeanShowcase({ beans, plans }: BeanShowcaseProps) {
 
   const purchaseMethods = [
     {
-      en: "MONTHLY",
+      en: "Monthly",
       ja: "定期便",
       sub: "毎月・送料無料・いつでも解約OK",
       price: minSubPrice != null ? `¥${minSubPrice.toLocaleString()}〜` : "",
@@ -78,7 +79,7 @@ export default function BeanShowcase({ beans, plans }: BeanShowcaseProps) {
       primary: true,
     },
     {
-      en: "ONE-TIME",
+      en: "One-time",
       ja: "単品購入",
       sub: "1回だけのお試しにも",
       price:
@@ -90,12 +91,20 @@ export default function BeanShowcase({ beans, plans }: BeanShowcaseProps) {
 
   return (
     <section id="beans" className={styles.section}>
-      <p className={styles.eyebrow}>— LINEUP</p>
-      <h2 className={styles.headline}>好きな豆を、自由に選ぶ。</h2>
+      <SectionHeading
+        num="04"
+        label="Lineup"
+        title={
+          <>
+            好きな豆を、
+            <br />
+            自由に選ぶ。
+          </>
+        }
+      />
       <p className={styles.subtext}>
         様々な珈琲豆から、お好みの組み合わせを。
-        <br />
-        ♔はスペシャリティコーヒーを示します。
+        <br />♔ はスペシャリティコーヒーを示します。
       </p>
 
       <div className={styles.purchaseMethods}>
@@ -106,40 +115,49 @@ export default function BeanShowcase({ beans, plans }: BeanShowcaseProps) {
             className={`${styles.methodCard} ${m.primary ? styles.methodCardPrimary : styles.methodCardSecondary}`}
           >
             <span className={styles.methodEn}>{m.en}</span>
-            <div className={styles.methodJa}>{m.ja}</div>
-            <div className={styles.methodSub}>{m.sub}</div>
-            <div className={styles.methodPrice}>
+            <span className={styles.methodJa}>{m.ja}</span>
+            <span className={styles.methodSub}>{m.sub}</span>
+            <span className={styles.methodPrice}>
               <span className={styles.methodPriceNum}>
                 {m.price}
                 <span className={styles.methodPriceUnit}>{m.unit}</span>
               </span>
               <span className={styles.methodCta}>選ぶ →</span>
-            </div>
+            </span>
           </LinkWithLoading>
         ))}
       </div>
 
-      <div className={styles.previewLabel}>
-        <span>— PREVIEW</span>
-        {anyFilter && (
-          <button
-            type="button"
-            className={styles.clearBtn}
-            onClick={resetFilters}
-          >
-            ✕ クリア
-          </button>
-        )}
+      <div className={styles.roastBlock}>
+        <div className={styles.filterLabel}>
+          <span>焙煎度</span>
+          {anyFilter && (
+            <button
+              type="button"
+              className={styles.clearBtn}
+              onClick={resetFilters}
+            >
+              ✕ 条件をクリア
+            </button>
+          )}
+        </div>
+        <div className={styles.roastTabs}>
+          {["", ...roastLevels].map((r) => (
+            <button
+              key={r || "all"}
+              type="button"
+              aria-pressed={roastFilter === r}
+              onClick={() => setRoastFilter(r)}
+              className={`${styles.roastTab} ${roastFilter === r ? styles.roastTabActive : ""}`}
+            >
+              {r || "すべて"}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className={styles.filters}>
         {[
-          {
-            label: "焙煎度",
-            value: roastFilter,
-            set: setRoastFilter,
-            opts: roastLevels,
-          },
           {
             label: "産地",
             value: countryFilter,
@@ -153,24 +171,28 @@ export default function BeanShowcase({ beans, plans }: BeanShowcaseProps) {
             opts: prefectures,
           },
         ].map((f) => (
-          <div
-            key={f.label}
-            className={`${styles.filterWrap} ${f.value ? styles.filterWrapActive : styles.filterWrapInactive}`}
-          >
-            <select
-              value={f.value}
-              onChange={(e) => f.set(e.target.value)}
-              className={`${styles.filterSelect} ${f.value ? styles.filterSelectActive : styles.filterSelectInactive}`}
+          <label key={f.label} className={styles.filterField}>
+            <span className={styles.filterLabel}>{f.label}</span>
+            <span
+              className={`${styles.filterWrap} ${f.value ? styles.filterWrapActive : ""}`}
             >
-              <option value="">{f.label}</option>
-              {f.opts.map((o) => (
-                <option key={o} value={o}>
-                  {o}
-                </option>
-              ))}
-            </select>
-            <span className={styles.filterArrow}>▾</span>
-          </div>
+              <select
+                value={f.value}
+                onChange={(e) => f.set(e.target.value)}
+                className={styles.filterSelect}
+              >
+                <option value="">すべて</option>
+                {f.opts.map((o) => (
+                  <option key={o} value={o}>
+                    {o}
+                  </option>
+                ))}
+              </select>
+              <span className={styles.filterArrow} aria-hidden="true">
+                ▾
+              </span>
+            </span>
+          </label>
         ))}
       </div>
 
@@ -183,7 +205,7 @@ export default function BeanShowcase({ beans, plans }: BeanShowcaseProps) {
             </p>
           </div>
         ) : (
-          visible.map((b) => (
+          visible.map((b, i) => (
             <BeanCard
               key={b.id}
               imageSrc={b.imageSrc}
@@ -191,6 +213,7 @@ export default function BeanShowcase({ beans, plans }: BeanShowcaseProps) {
               name={b.name}
               description={b.description}
               roaster={b.roaster}
+              index={i + 1}
               isSpecialty={b.isSpecialty}
               onClick={() => setSelectedBean(b)}
             />
@@ -198,7 +221,11 @@ export default function BeanShowcase({ beans, plans }: BeanShowcaseProps) {
         )}
       </div>
 
-      {remaining > 0 && <div className={styles.andMore}>and more..</div>}
+      <LinkWithLoading href={getPlanPagePath()} className={styles.allLink}>
+        {remaining > 0
+          ? `すべての豆を見る（全${filtered.length}種） →`
+          : "すべての豆を見る →"}
+      </LinkWithLoading>
 
       {selectedBean && (
         <BeanDetailModal

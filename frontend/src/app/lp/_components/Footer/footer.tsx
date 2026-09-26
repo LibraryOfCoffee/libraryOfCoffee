@@ -6,9 +6,9 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.brand}>
         <Image
-          src="/logo.svg"
+          src="/logo_white.svg"
           alt="豆図書"
-          width={80}
+          width={61}
           height={20}
           className={styles.logo}
         />

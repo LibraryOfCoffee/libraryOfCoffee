@@ -1,11 +1,13 @@
 .pageMain {
+  position: relative;
   background: var(--mt-bg);
   max-width: 480px;
   margin: 0 auto;
+  overflow: hidden;
 }
 
 .pageFooterWrap {
   max-width: 480px;
   margin: 0 auto;
-  background: var(--mt-bg);
+  background: var(--mt-dark);
 }

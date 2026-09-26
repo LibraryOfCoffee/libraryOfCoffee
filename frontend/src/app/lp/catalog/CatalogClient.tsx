@@ -4,29 +4,16 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import BeanDetailModal from "../_components/BeanDetailModal/beanDetailModal";
-import type { BeanDetail } from "../_lib/coffeeBeanApi";
+import RoastTag from "../_components/RoastTag/roastTag";
+import SpecialtyBadge from "../_components/SpecialtyBadge/specialtyBadge";
+import { type BeanDetail, ROAST_ORDER } from "../_lib/coffeeBeanApi";
 import {
   groupPlansByGram,
   type PlanGroup,
   type WeightGrams,
 } from "../_lib/planApi";
 import { moveToCoffeeBeanListPage } from "../_lib/purchaseLinkUtil";
-import "../globals.css";
 import styles from "./catalog.module.css";
-
-const ROAST_PILL_CLASS: Record<string, string> = {
-  浅煎り: styles.pillLight,
-  中煎り: styles.pillMedium,
-  中深煎り: styles.pillMediumDark,
-  深煎り: styles.pillDark,
-};
-
-const ROAST_DOT_CLASS: Record<string, string> = {
-  浅煎り: styles.dotLight,
-  中煎り: styles.dotMedium,
-  中深煎り: styles.dotMediumDark,
-  深煎り: styles.dotDark,
-};
 
 const GRID_CLASS: Record<number, string> = {
   3: styles.omakaseSlotsGrid3,
@@ -51,7 +38,7 @@ function CatalogContent({
     new Set(beans.map((b) => b.prefecture).filter((p): p is string => !!p)),
   );
   const countries = Array.from(new Set(beans.map((b) => b.origin)));
-  const roastLevels = Array.from(new Set(beans.map((b) => b.tag)));
+  const roastLevels = ROAST_ORDER.filter((r) => beans.some((b) => b.tag === r));
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -250,6 +237,7 @@ function CatalogContent({
                   },
                 ].map((f) => (
                   <label key={f.label} className={styles.filterLabel}>
+                    <span className={styles.filterLabelText}>{f.label}</span>
                     <div
                       className={`${styles.filterSelectWrap} ${f.value ? styles.filterSelectWrapActive : ""}`}
                     >
@@ -258,14 +246,16 @@ function CatalogContent({
                         onChange={(e) => f.set(e.target.value)}
                         className={`${styles.filterSelect} ${f.value ? styles.filterSelectActive : styles.filterSelectInactive}`}
                       >
-                        <option value="">{f.label}</option>
+                        <option value="">すべて</option>
                         {f.opts.map((o) => (
                           <option key={o} value={o}>
                             {o}
                           </option>
                         ))}
                       </select>
-                      <span className={styles.filterArrow}>▾</span>
+                      <span className={styles.filterArrow} aria-hidden="true">
+                        ▾
+                      </span>
                     </div>
                   </label>
                 ))}
@@ -582,9 +572,6 @@ function LibraryCard({
   onTap: () => void;
   isFirst: boolean;
 }) {
-  const pillClass = ROAST_PILL_CLASS[bean.tag] ?? styles.pillMedium;
-  const dotClass = ROAST_DOT_CLASS[bean.tag] ?? styles.dotMedium;
-
   return (
     // biome-ignore lint/a11y/noStaticElementInteractions: card opens detail modal; inner button handles selection
     // biome-ignore lint/a11y/useKeyWithClickEvents: card is supplementary; inner button is the primary a11y control
@@ -592,7 +579,6 @@ function LibraryCard({
       className={`${styles.libCard} ${selected ? styles.libCardSelected : ""} ${isFirst ? "" : styles.libCardNotFirst}`}
       onClick={onTap}
     >
-      <div className={styles.libCardPunchBar} />
       <div className={styles.libCardBody}>
         <div className={styles.libCardImgWrap}>
           {bean.imageSrc && (
@@ -605,22 +591,11 @@ function LibraryCard({
               className={styles.libCardImg}
             />
           )}
-          {bean.isSpecialty && (
-            <span
-              className={styles.libCardCrown}
-              role="img"
-              aria-label="スペシャリティコーヒー"
-            >
-              ♔
-            </span>
-          )}
+          {bean.isSpecialty && <SpecialtyBadge />}
         </div>
         <div className={styles.libCardContent}>
           <div className={styles.libCardPillRow}>
-            <span className={`${styles.libCardPill} ${pillClass}`}>
-              <span className={`${styles.libCardPillDot} ${dotClass}`} />
-              {bean.tag}
-            </span>
+            <RoastTag tag={bean.tag} />
           </div>
           <h3 className={styles.libCardName}>{bean.name}</h3>
           <p className={styles.libCardDesc}>{bean.description}</p>

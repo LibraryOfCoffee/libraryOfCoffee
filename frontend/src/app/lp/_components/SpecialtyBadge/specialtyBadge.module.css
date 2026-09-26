@@ -1,0 +1,23 @@
+.badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 1;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: var(--mt-accent);
+  color: var(--mt-surface);
+  font-size: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.large {
+  top: 10px;
+  left: 10px;
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
+}

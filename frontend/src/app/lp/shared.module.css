@@ -1,14 +1,52 @@
-.container {
-  max-width: 480px;
-  margin: 0 auto;
-  font-family: var(--font-base);
-  background: var(--color-bg);
-  overflow-x: hidden;
+/* 黒地のメインボタン（購入・確定など） */
+.primaryBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 18px;
+  background: var(--mt-dark);
+  color: var(--mt-on-dark);
+  border: none;
+  font-family: var(--mt-font-jp-serif);
+  font-size: 15px;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.18s;
 }
 
-.containerStep {
+.primaryBtn:hover {
+  opacity: 0.88;
+}
+
+/* 黒背景セクション上のボタン（明色 / 枠線） */
+.onDarkBtn,
+.onDarkGhostBtn {
   display: flex;
-  flex-direction: column;
-  min-height: 100dvh;
-  overflow-x: visible;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mt-font-jp-sans);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.18s;
+}
+
+.onDarkBtn {
+  background: var(--mt-on-dark);
+  color: var(--mt-ink);
+  border: none;
+}
+
+.onDarkGhostBtn {
+  background: transparent;
+  color: var(--mt-on-dark-2);
+  border: 0.5px solid var(--mt-on-dark-line);
+}
+
+.onDarkBtn:hover,
+.onDarkGhostBtn:hover {
+  opacity: 0.85;
 }

@@ -6,7 +6,7 @@
   z-index: 50;
   background: var(--mt-bg);
   border-top: 0.5px solid var(--mt-line);
-  box-shadow: 0 -8px 24px rgba(40, 25, 10, 0.06);
+  box-shadow: var(--mt-shadow-md);
   padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
   opacity: 0;
   pointer-events: none;
@@ -28,26 +28,7 @@
 }
 
 .cta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  background: var(--mt-ink);
-  color: #fbf6ea;
-  border: none;
-  border-radius: 999px;
-  padding: 14px 18px;
-  cursor: pointer;
-  font-family: var(--mt-font-jp-serif);
-  font-size: 15px;
-  letter-spacing: 0.1em;
-  text-decoration: none;
-  transition: opacity 0.18s;
-}
-
-.cta:hover {
-  opacity: 0.88;
+  composes: primaryBtn from "../../shared.module.css";
 }
 
 .label {
