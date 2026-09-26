@@ -128,7 +128,7 @@ export default function BeanShowcase({ beans, plans }: BeanShowcaseProps) {
         ))}
       </div>
 
-      <div className={styles.roastBlock}>
+      <div id="bean-list" className={styles.roastBlock}>
         <div className={styles.filterLabel}>
           <span>焙煎度</span>
           {anyFilter && (
@@ -196,7 +196,7 @@ export default function BeanShowcase({ beans, plans }: BeanShowcaseProps) {
         ))}
       </div>
 
-      <div id="bean-list" className={styles.beanList}>
+      <div className={styles.beanList}>
         {visible.length === 0 ? (
           <div className={styles.empty}>
             <p className={styles.emptyTitle}>該当する豆はありません</p>

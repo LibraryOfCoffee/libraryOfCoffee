@@ -129,6 +129,7 @@
 }
 
 .roastBlock {
+  scroll-margin-top: 16px;
   margin-top: 32px;
 }
 
@@ -226,7 +227,6 @@
 }
 
 .beanList {
-  scroll-margin-top: 24px;
   display: flex;
   flex-direction: column;
   gap: 14px;
