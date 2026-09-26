@@ -30,6 +30,11 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
+  transition: background 0.18s;
+}
+
+.item:hover {
+  background: var(--mt-bg);
 }
 
 .filler {
@@ -40,15 +45,4 @@
   width: 62px;
   height: 62px;
   object-fit: contain;
-  filter: grayscale(1) contrast(1.05);
-  opacity: 0.78;
-  mix-blend-mode: multiply;
-  transition:
-    filter 0.2s,
-    opacity 0.2s;
-}
-
-.item:hover .logo {
-  filter: none;
-  opacity: 1;
 }
