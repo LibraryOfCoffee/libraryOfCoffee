@@ -33,7 +33,7 @@ export default function HeroSection() {
           <LinkWithLoading href={getPlanPagePath()} className={styles.ctaBtn}>
             豆を選ぶ
           </LinkWithLoading>
-          <a href="#beans" className={styles.subCta}>
+          <a href="#bean-list" className={styles.subCta}>
             ラインナップを見る
           </a>
         </div>

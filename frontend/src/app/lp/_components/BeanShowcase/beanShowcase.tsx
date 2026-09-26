@@ -196,7 +196,7 @@ export default function BeanShowcase({ beans, plans }: BeanShowcaseProps) {
         ))}
       </div>
 
-      <div className={styles.beanList}>
+      <div id="bean-list" className={styles.beanList}>
         {visible.length === 0 ? (
           <div className={styles.empty}>
             <p className={styles.emptyTitle}>該当する豆はありません</p>
