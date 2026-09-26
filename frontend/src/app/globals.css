@@ -5,20 +5,20 @@
   --mt-surface: #ffffff;
   --mt-ink: #111110;
   --mt-ink-2: #444444;
-  --mt-ink-3: #8a8a8a;
+  --mt-ink-3: #666666;
   --mt-line: #e2e2e2;
   --mt-line-strong: #c4c4c4;
   --mt-numeral: #d6d3ce;
   --mt-accent: #2f4a6b;
   --mt-accent-deep: #22374f;
-  --mt-accent-light: rgba(159, 182, 214, 0.7);
+  --mt-accent-light: rgba(159, 182, 214, 0.85);
 
   /* Dark surfaces */
   --mt-dark: #111110;
   --mt-on-dark: #f5f0e8;
-  --mt-on-dark-2: rgba(245, 240, 232, 0.6);
-  --mt-on-dark-3: rgba(245, 240, 232, 0.45);
-  --mt-on-dark-4: rgba(245, 240, 232, 0.3);
+  --mt-on-dark-2: rgba(245, 240, 232, 0.72);
+  --mt-on-dark-3: rgba(245, 240, 232, 0.6);
+  --mt-on-dark-4: rgba(245, 240, 232, 0.5);
   --mt-on-dark-line: rgba(245, 240, 232, 0.22);
   --mt-on-dark-hairline: rgba(255, 255, 255, 0.1);
 

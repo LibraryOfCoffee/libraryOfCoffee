@@ -86,12 +86,12 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  background: var(--mt-bg);
 }
 
 .detailLink {
-  font-size: 10px;
-  color: var(--mt-ink-3);
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  color: var(--mt-ink-2);
 }
 
 .detailArrow {
