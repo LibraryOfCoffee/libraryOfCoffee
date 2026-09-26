@@ -257,7 +257,7 @@
   margin-top: 20px;
   padding: 13px;
   text-align: center;
-  background: transparent;
+  background: var(--mt-surface);
   color: var(--mt-ink-2);
   border: 0.5px solid var(--mt-line);
   font-size: 13px;

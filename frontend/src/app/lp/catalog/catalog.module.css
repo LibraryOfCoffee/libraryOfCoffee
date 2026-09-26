@@ -530,7 +530,7 @@
   align-items: center;
   gap: 5px;
   padding: 4px 10px;
-  background: transparent;
+  background: var(--mt-surface);
   border: 0.5px solid var(--mt-line);
   font-family: var(--mt-font-jp-serif);
   font-size: 11px;
@@ -619,7 +619,7 @@
   color: var(--mt-accent-deep);
   border: 0.5px solid var(--mt-accent-deep);
   font-family: var(--mt-font-jp-serif);
-  background: none;
+  background: var(--mt-bg);
   cursor: pointer;
 }
 
@@ -716,8 +716,12 @@
   cursor: pointer;
   transition: all 0.15s;
   color: var(--mt-ink-2);
-  border: 0.5px solid var(--mt-line);
-  background: transparent;
+  border: 0.5px solid var(--mt-line-strong);
+  background: var(--mt-bg);
+}
+
+.libCardToggle:hover {
+  border-color: var(--mt-ink);
 }
 
 .libCardToggleSelected {

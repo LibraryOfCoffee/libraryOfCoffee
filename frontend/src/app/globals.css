@@ -21,6 +21,8 @@
   --mt-on-dark-4: rgba(245, 240, 232, 0.5);
   --mt-on-dark-line: rgba(245, 240, 232, 0.22);
   --mt-on-dark-hairline: rgba(255, 255, 255, 0.1);
+  --mt-on-dark-fill: rgba(245, 240, 232, 0.06);
+  --mt-on-dark-fill-hover: rgba(245, 240, 232, 0.12);
 
   /* Roast level (grayscale scale) */
   --mt-roast-light-bg: #ececec;

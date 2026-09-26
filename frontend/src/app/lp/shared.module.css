@@ -41,12 +41,15 @@
 }
 
 .onDarkGhostBtn {
-  background: transparent;
+  background: var(--mt-on-dark-fill);
   color: var(--mt-on-dark-2);
   border: 0.5px solid var(--mt-on-dark-line);
 }
 
-.onDarkBtn:hover,
-.onDarkGhostBtn:hover {
+.onDarkBtn:hover {
   opacity: 0.85;
+}
+
+.onDarkGhostBtn:hover {
+  background: var(--mt-on-dark-fill-hover);
 }

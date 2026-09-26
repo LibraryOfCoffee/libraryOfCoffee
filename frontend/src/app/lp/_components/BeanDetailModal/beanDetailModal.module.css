@@ -194,7 +194,7 @@
 .footer {
   padding: 12px 20px calc(16px + env(safe-area-inset-bottom));
   border-top: 0.5px solid var(--mt-line);
-  background: var(--mt-bg);
+  background: var(--mt-surface);
 }
 
 .selectBtn {
