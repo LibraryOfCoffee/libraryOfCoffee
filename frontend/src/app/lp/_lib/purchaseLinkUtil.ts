@@ -1,9 +1,5 @@
 export const LOGIN_URL = "https://zcgqx8-tr.myshopify.com/";
 
-export function moveToLoginPage() {
-  window.location.href = "https://zcgqx8-tr.myshopify.com/";
-}
-
 export function moveToCoffeeBeanListPage(planId?: string, beanIds?: string[]) {
   const url = new URL("https://zcgqx8-tr.myshopify.com/pages/from-lp-to-login");
   if (planId) url.searchParams.set("planId", planId);

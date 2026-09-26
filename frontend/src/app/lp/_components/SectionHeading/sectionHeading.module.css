@@ -1,0 +1,57 @@
+.index {
+  font-family: var(--mt-font-en);
+  font-size: 9.5px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--mt-ink-3);
+  margin-bottom: 16px;
+}
+
+.num {
+  color: var(--mt-ink);
+  letter-spacing: 0.12em;
+}
+
+.rule {
+  display: inline-block;
+  width: 18px;
+  height: 0.5px;
+  vertical-align: middle;
+  margin: 0 10px 2px;
+  background: var(--mt-line-strong);
+}
+
+.title {
+  font-family: var(--mt-font-jp-serif);
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--mt-ink);
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.dark .index {
+  color: var(--mt-on-dark-3);
+}
+
+.dark .num {
+  color: var(--mt-on-dark);
+}
+
+.dark .rule {
+  background: var(--mt-on-dark-line);
+}
+
+.dark .title {
+  color: var(--mt-on-dark);
+}
+
+.center {
+  text-align: center;
+}
+
+.center .title {
+  line-height: 1.65;
+  letter-spacing: 0.06em;
+}

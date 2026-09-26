@@ -1,17 +1,35 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import {
+  EB_Garamond,
+  Shippori_Mincho,
+  Zen_Kaku_Gothic_New,
+} from "next/font/google";
 import "./globals.css";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { MicrosoftClarity } from "./MicrosoftClarity";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const shipporiMincho = Shippori_Mincho({
+  weight: ["400", "500", "600"],
   subsets: ["latin"],
+  variable: "--font-shippori",
+  display: "swap",
+  preload: false,
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const ebGaramond = EB_Garamond({
+  weight: ["400", "500"],
+  style: ["normal", "italic"],
   subsets: ["latin"],
+  variable: "--font-eb-garamond",
+  display: "swap",
+});
+
+const zenKakuGothicNew = Zen_Kaku_Gothic_New({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
+  variable: "--font-zen-kaku",
+  display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -52,10 +70,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
-      </body>
+    <html
+      lang="ja"
+      className={`${shipporiMincho.variable} ${ebGaramond.variable} ${zenKakuGothicNew.variable}`}
+    >
+      <body>{children}</body>
       <GoogleAnalytics gaId={process.env.GOOGLE_GA_ID ?? "no-config"} />
       <MicrosoftClarity
         projectId={process.env.MICROSOFT_CLARITY_ID ?? "no-config"}

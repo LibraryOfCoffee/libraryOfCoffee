@@ -5,7 +5,7 @@ import { createAuthenticatedApiClient } from "@/api/client";
 import { planFormSchema } from "@/app/(admin)/plans/_lib/planFormSchema";
 import { isChecked } from "@/lib/formData";
 
-export type EditPlanValues = {
+type EditPlanValues = {
   shopifyPlanId?: string;
   label?: string;
   gramWeight?: string;
@@ -15,7 +15,7 @@ export type EditPlanValues = {
   isRecommended?: boolean;
 };
 
-export type EditPlanState = {
+type EditPlanState = {
   success?: boolean;
   error?: string;
   fieldErrors?: Record<string, string[]>;

@@ -21,6 +21,7 @@ enum class Prefecture {
     FUKUI,
     YAMANASHI,
     NAGANO,
+    GIFU,
     SHIZUOKA,
     AICHI,
     MIE,
