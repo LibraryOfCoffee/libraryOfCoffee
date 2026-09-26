@@ -205,7 +205,7 @@ export default function BeanShowcase({ beans, plans }: BeanShowcaseProps) {
             </p>
           </div>
         ) : (
-          visible.map((b, i) => (
+          visible.map((b) => (
             <BeanCard
               key={b.id}
               imageSrc={b.imageSrc}
@@ -213,7 +213,6 @@ export default function BeanShowcase({ beans, plans }: BeanShowcaseProps) {
               name={b.name}
               description={b.description}
               roaster={b.roaster}
-              index={i + 1}
               isSpecialty={b.isSpecialty}
               onClick={() => setSelectedBean(b)}
             />

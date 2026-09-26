@@ -9,7 +9,6 @@ interface BeanCardProps {
   name: string;
   description: string;
   roaster: string;
-  index: number;
   isSpecialty?: boolean;
   onClick?: () => void;
 }
@@ -20,7 +19,6 @@ export default function BeanCard({
   name,
   description,
   roaster,
-  index,
   isSpecialty,
   onClick,
 }: BeanCardProps) {
@@ -52,7 +50,6 @@ export default function BeanCard({
         </div>
       </div>
       <div className={styles.footer}>
-        <span className={styles.index}>№ {String(index).padStart(2, "0")}</span>
         <span className={styles.detailLink}>
           詳細 <span className={styles.detailArrow}>›</span>
         </span>
