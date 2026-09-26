@@ -53,7 +53,6 @@ export default function BeanShowcase({ beans, plans }: BeanShowcaseProps) {
   });
 
   const visible = filtered.slice(0, PREVIEW_COUNT);
-  const remaining = filtered.length - visible.length;
   const anyFilter = prefFilter || countryFilter || roastFilter;
 
   const resetFilters = () => {
@@ -221,9 +220,7 @@ export default function BeanShowcase({ beans, plans }: BeanShowcaseProps) {
       </div>
 
       <LinkWithLoading href={getPlanPagePath()} className={styles.allLink}>
-        {remaining > 0
-          ? `すべての豆を見る（全${filtered.length}種） →`
-          : "すべての豆を見る →"}
+        すべての豆を見る →
       </LinkWithLoading>
 
       {selectedBean && (
