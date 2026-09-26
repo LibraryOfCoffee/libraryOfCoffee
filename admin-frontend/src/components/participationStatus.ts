@@ -1,9 +1,9 @@
-export const PARTICIPATION_STATUSES = [
+const PARTICIPATION_STATUSES = [
   "BEFORE_PARTICIPATION",
   "PARTICIPATING",
   "DROPPED",
 ] as const;
-export type ParticipationStatus = (typeof PARTICIPATION_STATUSES)[number];
+type ParticipationStatus = (typeof PARTICIPATION_STATUSES)[number];
 
 export const PARTICIPATION_STATUS_LABELS: Record<ParticipationStatus, string> =
   {

@@ -6,7 +6,6 @@ import org.junit.jupiter.api.assertThrows
 import java.time.LocalDate
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
 
 class CustomerSubscriptionTest {
 

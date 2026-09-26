@@ -47,8 +47,6 @@ export const PREFECTURE_OPTIONS = [
   { value: "OKINAWA", label: "沖縄県" },
 ] as const;
 
-export type PrefectureValue = (typeof PREFECTURE_OPTIONS)[number]["value"];
-
 export function getPrefectureLabel(value: string): string {
   return PREFECTURE_OPTIONS.find((p) => p.value === value)?.label ?? value;
 }
