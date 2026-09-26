@@ -253,20 +253,6 @@
 }
 
 .allLink {
-  display: block;
+  composes: primaryBtn from "../../shared.module.css";
   margin-top: 20px;
-  padding: 13px;
-  text-align: center;
-  background: var(--mt-surface);
-  color: var(--mt-ink-2);
-  border: 0.5px solid var(--mt-line);
-  font-size: 13px;
-  letter-spacing: 0.1em;
-  font-family: var(--mt-font-jp-sans);
-  text-decoration: none;
-  transition: border-color 0.18s;
-}
-
-.allLink:hover {
-  border-color: var(--mt-ink);
 }
