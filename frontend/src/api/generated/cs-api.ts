@@ -516,6 +516,7 @@ export interface operations {
           | "FUKUI"
           | "YAMANASHI"
           | "NAGANO"
+          | "GIFU"
           | "SHIZUOKA"
           | "AICHI"
           | "MIE"

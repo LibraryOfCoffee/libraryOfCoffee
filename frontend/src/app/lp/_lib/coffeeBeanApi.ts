@@ -46,6 +46,7 @@ const PREFECTURE_JP: Record<string, string> = {
   FUKUI: "福井県",
   YAMANASHI: "山梨県",
   NAGANO: "長野県",
+  GIFU: "岐阜県",
   SHIZUOKA: "静岡県",
   AICHI: "愛知県",
   MIE: "三重県",
