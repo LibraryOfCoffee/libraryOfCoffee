@@ -10,7 +10,6 @@ import com.mametosho.admin.presentation.dto.request.CreateCoffeeBeanRequest
 import com.mametosho.admin.presentation.dto.request.UpdateCoffeeBeanRequest
 import com.mametosho.admin.presentation.dto.response.CoffeeBeanDetailResponse
 import com.mametosho.admin.presentation.dto.response.CoffeeBeanListResponse
-import com.mametosho.admin.presentation.dto.response.CoffeeBeanSummaryResponse
 import com.mametosho.admin.presentation.dto.response.CoffeeBeanResponse
 import com.mametosho.admin.presentation.dto.response.ErrorResponse
 import com.mametosho.admin.presentation.dto.response.ProcessingMethodResponse

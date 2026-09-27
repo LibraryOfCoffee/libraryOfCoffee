@@ -1,8 +1,3 @@
-variable "account_id" {
-  type        = string
-  description = "AWS account ID"
-}
-
 variable "env" {
   type        = string
   description = "Environment (dev/prod)"

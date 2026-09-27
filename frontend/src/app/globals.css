@@ -1,3 +1,53 @@
+:root {
+  /* Design tokens — monochrome editorial + navy accent */
+  --mt-bg: #f4f4f4;
+  --mt-bg-deep: #eaeaea;
+  --mt-surface: #ffffff;
+  --mt-ink: #111110;
+  --mt-ink-2: #444444;
+  --mt-ink-3: #666666;
+  --mt-line: #e2e2e2;
+  --mt-line-strong: #c4c4c4;
+  --mt-numeral: #d6d3ce;
+  --mt-accent: #2f4a6b;
+  --mt-accent-deep: #22374f;
+  --mt-accent-light: rgba(159, 182, 214, 0.85);
+
+  /* Dark surfaces */
+  --mt-dark: #111110;
+  --mt-on-dark: #f5f0e8;
+  --mt-on-dark-2: rgba(245, 240, 232, 0.72);
+  --mt-on-dark-3: rgba(245, 240, 232, 0.6);
+  --mt-on-dark-4: rgba(245, 240, 232, 0.5);
+  --mt-on-dark-line: rgba(245, 240, 232, 0.22);
+  --mt-on-dark-hairline: rgba(255, 255, 255, 0.1);
+  --mt-on-dark-fill: rgba(245, 240, 232, 0.06);
+  --mt-on-dark-fill-hover: rgba(245, 240, 232, 0.12);
+
+  /* Roast level (grayscale scale) */
+  --mt-roast-light-bg: #ececec;
+  --mt-roast-light-fg: #3a3a3a;
+  --mt-roast-medium-light-bg: #d8d8d8;
+  --mt-roast-medium-light-fg: #2a2a2a;
+  --mt-roast-medium-bg: #bcbcbc;
+  --mt-roast-medium-fg: #2a2a2a;
+  --mt-roast-medium-dark-bg: #6e6e6e;
+  --mt-roast-medium-dark-fg: #f4f4f4;
+  --mt-roast-dark-bg: #2a2a2a;
+  --mt-roast-dark-fg: #f4f4f4;
+
+  /* Fonts（--font-* は root layout の <html> で next/font が定義） */
+  --mt-font-jp-serif:
+    var(--font-shippori), "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --mt-font-jp-sans:
+    var(--font-zen-kaku), "Hiragino Sans", "Yu Gothic", sans-serif;
+  --mt-font-en: var(--font-eb-garamond), "EB Garamond", Georgia, serif;
+
+  --mt-overlay: rgba(17, 17, 16, 0.5);
+  --mt-shadow-md: 0 -8px 24px rgba(17, 17, 16, 0.06);
+  --mt-shadow-lg: 0 20px 60px rgba(17, 17, 16, 0.3);
+}
+
 /* Box sizing rules */
 *,
 *::before,
@@ -20,7 +70,11 @@ dd {
 }
 
 body {
-  font-family: "Tazugane Gothic", Meiryo, Arial, sans-serif;
+  font-family: var(--mt-font-jp-sans);
+  background: var(--mt-bg-deep);
+  color: var(--mt-ink);
+  -webkit-font-smoothing: antialiased;
+  word-break: auto-phrase;
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */

@@ -1,0 +1,36 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 2.5px 8px;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  line-height: 1.4;
+  font-family: var(--mt-font-jp-sans);
+  white-space: nowrap;
+}
+
+.light {
+  background: var(--mt-roast-light-bg);
+  color: var(--mt-roast-light-fg);
+}
+
+.mediumLight {
+  background: var(--mt-roast-medium-light-bg);
+  color: var(--mt-roast-medium-light-fg);
+}
+
+.medium {
+  background: var(--mt-roast-medium-bg);
+  color: var(--mt-roast-medium-fg);
+}
+
+.mediumDark {
+  background: var(--mt-roast-medium-dark-bg);
+  color: var(--mt-roast-medium-dark-fg);
+}
+
+.dark {
+  background: var(--mt-roast-dark-bg);
+  color: var(--mt-roast-dark-fg);
+}

@@ -100,7 +100,6 @@ module "bastion" {
 module "rds" {
   source = "../../modules/rds"
 
-  account_id         = local.account_id
   env                = local.env
   vpc_id             = module.vpc.vpc_id
   private_subnet_ids = module.vpc.private_subnet_ids

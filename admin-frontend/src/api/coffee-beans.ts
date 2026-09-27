@@ -4,8 +4,6 @@ import { notFound } from "next/navigation";
 import { createAuthenticatedApiClient } from "@/api/client";
 import type { components } from "@/api/generated/admin-api";
 
-export type CoffeeBeanListItem =
-  components["schemas"]["CoffeeBeanSummaryResponse"];
 export type CoffeeBeanDetail =
   components["schemas"]["CoffeeBeanDetailResponse"];
 export type CoffeeBeanListResponse =

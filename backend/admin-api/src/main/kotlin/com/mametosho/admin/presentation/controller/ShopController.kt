@@ -11,7 +11,6 @@ import com.mametosho.admin.presentation.dto.request.UpdateShopRequest
 import com.mametosho.admin.presentation.dto.response.ErrorResponse
 import com.mametosho.admin.presentation.dto.response.ShopDetailResponse
 import com.mametosho.admin.presentation.dto.response.ShopListResponse
-import com.mametosho.admin.presentation.dto.response.ShopSummaryResponse
 import com.mametosho.admin.presentation.dto.response.ShopResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter

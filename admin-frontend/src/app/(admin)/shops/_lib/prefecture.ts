@@ -19,6 +19,7 @@ export const PREFECTURE_OPTIONS = [
   { value: "FUKUI", label: "福井県" },
   { value: "YAMANASHI", label: "山梨県" },
   { value: "NAGANO", label: "長野県" },
+  { value: "GIFU", label: "岐阜県" },
   { value: "SHIZUOKA", label: "静岡県" },
   { value: "AICHI", label: "愛知県" },
   { value: "MIE", label: "三重県" },
@@ -46,8 +47,6 @@ export const PREFECTURE_OPTIONS = [
   { value: "KAGOSHIMA", label: "鹿児島県" },
   { value: "OKINAWA", label: "沖縄県" },
 ] as const;
-
-export type PrefectureValue = (typeof PREFECTURE_OPTIONS)[number]["value"];
 
 export function getPrefectureLabel(value: string): string {
   return PREFECTURE_OPTIONS.find((p) => p.value === value)?.label ?? value;

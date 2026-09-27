@@ -1,96 +1,99 @@
 .section {
-  padding: 20px 22px 8px;
-}
-
-.eyebrow {
-  font-family: var(--mt-font-en);
-  font-size: 9px;
-  letter-spacing: 0.3em;
-  color: var(--mt-accent);
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-
-.headline {
-  font-family: var(--mt-font-jp-serif);
-  font-size: 20px;
-  font-weight: 500;
-  color: var(--mt-ink);
-  line-height: 1.5;
-  margin: 0;
+  padding: 68px 22px;
+  background: var(--mt-bg);
 }
 
 .subtext {
-  font-size: 11px;
+  margin-top: 10px;
+  font-size: 12px;
   color: var(--mt-ink-3);
-  margin-top: 4px;
-  line-height: 1.6;
+  line-height: 1.85;
   font-family: var(--mt-font-jp-sans);
 }
 
 .purchaseMethods {
-  margin-top: 14px;
+  margin-top: 28px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
 }
 
 .methodCard {
-  padding: 12px;
-  background: var(--mt-surface);
-  border-radius: 4px;
-  text-align: left;
-  cursor: pointer;
-  text-decoration: none;
   display: flex;
   flex-direction: column;
+  padding: 16px 14px 14px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.18s;
+}
+
+.methodCard:hover {
+  opacity: 0.9;
 }
 
 .methodCardPrimary {
-  border: 0.5px solid var(--mt-accent);
+  background: var(--mt-dark);
+  color: var(--mt-on-dark);
 }
 
 .methodCardSecondary {
+  background: var(--mt-surface);
   border: 0.5px solid var(--mt-line);
+  color: var(--mt-ink);
 }
 
 .methodEn {
   font-family: var(--mt-font-en);
   font-size: 9px;
-  letter-spacing: 0.22em;
-  color: var(--mt-accent);
+  font-style: italic;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
+  color: var(--mt-ink-3);
+}
+
+.methodCardPrimary .methodEn {
+  color: var(--mt-accent-light);
 }
 
 .methodJa {
+  margin-top: 6px;
   font-family: var(--mt-font-jp-serif);
-  font-size: 15px;
-  color: var(--mt-ink);
-  margin-top: 3px;
+  font-size: 16px;
   letter-spacing: 0.04em;
 }
 
 .methodSub {
-  font-size: 10px;
-  color: var(--mt-ink-3);
   margin-top: 4px;
-  line-height: 1.45;
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--mt-ink-3);
   font-family: var(--mt-font-jp-sans);
+}
+
+.methodCardPrimary .methodSub {
+  color: var(--mt-on-dark-2);
 }
 
 .methodPrice {
   margin-top: auto;
   padding-top: 10px;
-  border-top: 0.5px dashed var(--mt-line);
+  border-top: 0.5px solid var(--mt-line);
   display: flex;
   justify-content: space-between;
   align-items: baseline;
 }
 
+.methodCardPrimary .methodPrice {
+  border-top-color: var(--mt-on-dark-hairline);
+}
+
+.methodSub + .methodPrice {
+  margin-top: 14px;
+}
+
 .methodPriceNum {
   font-family: var(--mt-font-en);
-  font-size: 13px;
-  color: var(--mt-ink);
+  font-size: 15px;
 }
 
 .methodPriceUnit {
@@ -98,27 +101,64 @@
   color: var(--mt-ink-3);
 }
 
+.methodCardPrimary .methodPriceUnit {
+  color: var(--mt-on-dark-3);
+}
+
 .methodCta {
   font-family: var(--mt-font-en);
   font-size: 10px;
-  color: var(--mt-accent-deep);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
+  color: var(--mt-accent);
 }
 
-.previewLabel {
-  margin-top: 14px;
+.methodCardPrimary .methodCta {
+  color: var(--mt-accent-light);
+}
+
+.filterLabel {
   font-family: var(--mt-font-en);
-  font-size: 9px;
+  font-size: 8.5px;
   letter-spacing: 0.25em;
-  color: var(--mt-ink-3);
   text-transform: uppercase;
+  color: var(--mt-ink-3);
+  margin-bottom: 8px;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
 }
 
+.roastBlock {
+  scroll-margin-top: 16px;
+  margin-top: 32px;
+}
+
+.roastTabs {
+  display: flex;
+  border-bottom: 0.5px solid var(--mt-line);
+}
+
+.roastTab {
+  flex: 1;
+  min-height: 40px;
+  padding: 10px 0 9px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-family: var(--mt-font-jp-sans);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--mt-ink-3);
+  cursor: pointer;
+}
+
+.roastTabActive {
+  color: var(--mt-ink);
+  border-bottom-color: var(--mt-ink);
+}
+
 .clearBtn {
-  font-family: var(--mt-font-jp-serif);
+  font-family: var(--mt-font-jp-sans);
   font-size: 10px;
   color: var(--mt-ink-3);
   letter-spacing: 0.04em;
@@ -130,46 +170,50 @@
 }
 
 .filters {
-  margin-top: 8px;
+  margin-top: 14px;
+  margin-bottom: 26px;
   display: flex;
   gap: 6px;
 }
 
-.filterWrap {
+.filterField {
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.filterField .filterLabel {
+  margin-bottom: 6px;
+}
+
+.filterWrap {
   position: relative;
+  display: block;
   background: var(--mt-surface);
-  border-radius: 999px;
+  border: 0.5px solid var(--mt-line);
 }
 
 .filterWrapActive {
-  border: 0.5px solid var(--mt-accent);
-}
-
-.filterWrapInactive {
-  border: 0.5px solid var(--mt-line);
+  border-color: var(--mt-ink);
 }
 
 .filterSelect {
   width: 100%;
   appearance: none;
   -webkit-appearance: none;
-  padding: 7px 22px 7px 11px;
+  padding: 9px 22px 9px 10px;
   background: transparent;
   border: none;
   outline: none;
   font-family: var(--mt-font-jp-serif);
-  font-size: 11.5px;
+  font-size: 12px;
+  color: var(--mt-ink-3);
   cursor: pointer;
 }
 
-.filterSelectActive {
+.filterWrapActive .filterSelect {
   color: var(--mt-ink);
-}
-
-.filterSelectInactive {
-  color: var(--mt-ink-3);
 }
 
 .filterArrow {
@@ -183,18 +227,16 @@
 }
 
 .beanList {
-  margin-top: 10px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 14px;
 }
 
 .empty {
-  padding: 24px 16px;
+  padding: 28px 16px;
   text-align: center;
   background: var(--mt-surface);
-  border: 0.5px dashed var(--mt-line);
-  border-radius: 4px;
+  border: 0.5px solid var(--mt-line);
 }
 
 .emptyTitle {
@@ -211,15 +253,7 @@
   font-family: var(--mt-font-jp-sans);
 }
 
-.andMore {
-  margin-top: 12px;
-  padding: 10px 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--mt-ink-3);
-  font-family: var(--mt-font-en);
-  font-style: italic;
-  font-size: 12px;
-  letter-spacing: 0.04em;
+.allLink {
+  composes: primaryBtn from "../../shared.module.css";
+  margin-top: 20px;
 }
