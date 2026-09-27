@@ -29,7 +29,7 @@ export default function PricingSection({ planGroups }: PricingSectionProps) {
     <section id="pricing" className={styles.section}>
       <SectionHeading num="06" label="Pricing" title="料金プラン" />
       <p className={styles.desc}>
-        焙煎したての新鮮な豆を、送料無料でお届け。
+        こだわりの珈琲豆を、送料無料でお届け。
         <br />
         定期便はいつでも解約OK。単品購入も同じプランから選べます。
       </p>
@@ -77,16 +77,11 @@ export default function PricingSection({ planGroups }: PricingSectionProps) {
         </LinkWithLoading>
       ))}
 
-      <div className={styles.notes}>
-        <div>
-          <div>送料無料</div>
-          <div>いつでも解約OK</div>
-        </div>
-        <div className={styles.notesRight}>
-          <div>焙煎したてをお届け</div>
-          <div>単品購入もOK</div>
-        </div>
-      </div>
+      <ul className={styles.notes}>
+        <li>送料無料</li>
+        <li>いつでも解約OK</li>
+        <li>単品購入もOK</li>
+      </ul>
     </section>
   );
 }

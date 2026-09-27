@@ -43,7 +43,7 @@ const productJsonLd = {
   "@type": "Product",
   name: "豆図書 珈琲豆サブスクリプション",
   description:
-    "毎月届く珈琲豆の定額サブスク。注文後焙煎の新鮮な豆30g〜90g×3〜5種類をお届け。",
+    "毎月届く珈琲豆の定額サブスク。自家焙煎店舗の珈琲豆30g〜90g×3〜5種類をお届け。",
   image: "https://mametosho.com/ogImageRectangle.jpeg",
   offers: {
     "@type": "AggregateOffer",

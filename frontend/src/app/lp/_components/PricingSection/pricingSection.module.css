@@ -99,17 +99,17 @@
 }
 
 .notes {
+  margin: 0;
   padding: 14px 16px;
+  list-style: none;
   background: var(--mt-bg);
   border: 0.5px solid var(--mt-line);
   display: flex;
   justify-content: space-between;
+  gap: 8px;
   font-size: 11.5px;
   color: var(--mt-ink-3);
   line-height: 1.75;
   font-family: var(--mt-font-jp-sans);
 }
 
-.notesRight {
-  text-align: right;
-}
