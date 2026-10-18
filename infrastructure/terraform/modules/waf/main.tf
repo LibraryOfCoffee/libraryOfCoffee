@@ -7,6 +7,32 @@ resource "aws_wafv2_web_acl" "this" {
     allow {}
   }
 
+  # 許可した国以外からのリクエストを最初にブロックし、後続ルールの評価コストも抑える
+  rule {
+    name     = "GeoBlock"
+    priority = 0
+
+    action {
+      block {}
+    }
+
+    statement {
+      not_statement {
+        statement {
+          geo_match_statement {
+            country_codes = var.allowed_country_codes
+          }
+        }
+      }
+    }
+
+    visibility_config {
+      cloudwatch_metrics_enabled = true
+      metric_name                = "${var.env}-${var.name}-geo-block"
+      sampled_requests_enabled   = true
+    }
+  }
+
   rule {
     name     = "AWSManagedRulesCommonRuleSet"
     priority = 1

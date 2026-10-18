@@ -13,6 +13,12 @@ variable "alb_arn" {
   description = "WAFをアタッチするALBのARN"
 }
 
+variable "allowed_country_codes" {
+  type        = list(string)
+  description = "アクセスを許可する国コード（ISO 3166-1 alpha-2）。これ以外の国からのリクエストはブロックする"
+  default     = ["JP"]
+}
+
 variable "rate_limit" {
   type        = number
   description = "評価ウィンドウ内で同一IPからのリクエストを許容する上限数"
