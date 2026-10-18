@@ -8,8 +8,6 @@ export type ShopListItem = components["schemas"]["ShopSummaryResponse"];
 export type ShopDetail = components["schemas"]["ShopDetailResponse"];
 export type ShopListResponse = components["schemas"]["ShopListResponse"];
 
-export type ImageDetail = NonNullable<ShopDetail["images"]>[number];
-
 export async function fetchShops(
   page = 0,
   size = 20,

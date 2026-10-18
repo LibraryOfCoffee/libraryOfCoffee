@@ -29,7 +29,6 @@ import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 @SpringBootTest(classes = [com.mametosho.infrastructure.TestApplication::class])
 @Testcontainers
