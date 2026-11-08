@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import BeanDetailModal from "../_components/BeanDetailModal/beanDetailModal";
 import RoastTag from "../_components/RoastTag/roastTag";
@@ -27,6 +28,66 @@ const GRAM_LABELS: Record<number, string> = {
   90: "たっぷり",
 };
 
+const MODE_OPTIONS = [
+  { k: "sub", label: "定期便", sub: "毎月お届け" },
+  { k: "single", label: "単品購入", sub: "1回だけ" },
+] as const;
+
+const GRAMS: WeightGrams[] = [30, 60, 90];
+
+type Mode = "sub" | "single";
+
+function ModeSegment({
+  mode,
+  onChange,
+}: {
+  mode: Mode;
+  onChange: (m: Mode) => void;
+}) {
+  return (
+    <div className={styles.modeSegment}>
+      {MODE_OPTIONS.map((opt) => (
+        <button
+          key={opt.k}
+          type="button"
+          onClick={() => onChange(opt.k)}
+          className={`${styles.segBtn} ${mode === opt.k ? styles.segBtnActive : styles.segBtnInactive}`}
+        >
+          <div className={styles.segBtnLabel}>{opt.label}</div>
+          <div className={styles.segBtnSub}>{opt.sub}</div>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function GramSegment({
+  gram,
+  onChange,
+}: {
+  gram: WeightGrams;
+  onChange: (g: WeightGrams) => void;
+}) {
+  return (
+    <div className={styles.gramSegment}>
+      {GRAMS.map((g) => (
+        <button
+          key={g}
+          type="button"
+          onClick={() => onChange(g)}
+          className={`${styles.gramBtn} ${gram === g ? styles.gramBtnActive : styles.gramBtnInactive}`}
+        >
+          <div className={styles.gramBtnNum}>
+            {g}
+            <span className={styles.gramBtnUnit}>g</span>
+          </div>
+          <div className={styles.gramBtnLabel}>{GRAM_LABELS[g]}</div>
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function CatalogContent({
   beans,
   planGroups,
@@ -40,7 +101,6 @@ function CatalogContent({
   const countries = Array.from(new Set(beans.map((b) => b.origin)));
   const roastLevels = ROAST_ORDER.filter((r) => beans.some((b) => b.tag === r));
 
-  const router = useRouter();
   const searchParams = useSearchParams();
   const preselectedBeanId = searchParams.get("beanId");
   const preselectedPlanId = searchParams.get("planId");
@@ -49,12 +109,11 @@ function CatalogContent({
     ? (planGroups.find((p) => p.subscriptionId === preselectedPlanId) ?? null)
     : null;
 
-  const [mode, setMode] = useState<"sub" | "single">("sub");
+  const [mode, setMode] = useState<Mode>("sub");
   const [gram, setGram] = useState<WeightGrams>(initialPlan?.gramWeight ?? 30);
   const [selectedPlan, setSelectedPlan] = useState<PlanGroup | null>(
     initialPlan,
   );
-  const [planChosen, setPlanChosen] = useState(initialPlan !== null);
   const [omakase, setOmakase] = useState(false);
   const [prefFilter, setPrefFilter] = useState("");
   const [countryFilter, setCountryFilter] = useState("");
@@ -69,6 +128,8 @@ function CatalogContent({
   );
   const [activeBeanId, setActiveBeanId] = useState<string | null>(null);
   const [planSheetOpen, setPlanSheetOpen] = useState(false);
+
+  const planChosen = selectedPlan !== null;
 
   // デフォルトプラン: 定番 30g
   const plan =
@@ -122,7 +183,6 @@ function CatalogContent({
   const handleSelectPlan = (p: PlanGroup) => {
     setSelectedPlan(p);
     setGram(p.gramWeight);
-    setPlanChosen(true);
   };
 
   const activeBean = activeBeanId
@@ -134,14 +194,10 @@ function CatalogContent({
       {/* sticky header */}
       <div className={styles.header}>
         <div className={styles.headerTop}>
-          <button
-            type="button"
-            className={styles.backBtn}
-            onClick={() => router.push("/lp")}
-          >
+          <Link href="/lp" className={styles.backBtn}>
             <span className={styles.backArrow}>‹</span>
             <span>戻る</span>
-          </button>
+          </Link>
           <div className={styles.headerLogo}>
             <Image
               src="/logo.svg"
@@ -411,10 +467,10 @@ function InlinePlanPicker({
   onChangeGram,
   onSelectPlan,
 }: {
-  mode: "sub" | "single";
+  mode: Mode;
   gram: WeightGrams;
   planGroups: PlanGroup[];
-  onChangeMode: (m: "sub" | "single") => void;
+  onChangeMode: (m: Mode) => void;
   onChangeGram: (g: WeightGrams) => void;
   onSelectPlan: (p: PlanGroup) => void;
 }) {
@@ -429,42 +485,10 @@ function InlinePlanPicker({
       </h2>
 
       <div className={styles.pickerSectionLabel}>購入方法</div>
-      <div className={styles.modeSegment}>
-        {(
-          [
-            { k: "sub", label: "定期便", sub: "毎月お届け" },
-            { k: "single", label: "単品購入", sub: "1回だけ" },
-          ] as const
-        ).map((opt) => (
-          <button
-            key={opt.k}
-            type="button"
-            onClick={() => onChangeMode(opt.k)}
-            className={`${styles.segBtn} ${mode === opt.k ? styles.segBtnActive : styles.segBtnInactive}`}
-          >
-            <div className={styles.segBtnLabel}>{opt.label}</div>
-            <div className={styles.segBtnSub}>{opt.sub}</div>
-          </button>
-        ))}
-      </div>
+      <ModeSegment mode={mode} onChange={onChangeMode} />
 
       <div className={styles.pickerSectionLabel}>1種あたりの容量</div>
-      <div className={styles.gramSegment}>
-        {([30, 60, 90] as WeightGrams[]).map((g) => (
-          <button
-            key={g}
-            type="button"
-            onClick={() => onChangeGram(g)}
-            className={`${styles.gramBtn} ${gram === g ? styles.gramBtnActive : styles.gramBtnInactive}`}
-          >
-            <div className={styles.gramBtnNum}>
-              {g}
-              <span className={styles.gramBtnUnit}>g</span>
-            </div>
-            <div className={styles.gramBtnLabel}>{GRAM_LABELS[g]}</div>
-          </button>
-        ))}
-      </div>
+      <GramSegment gram={gram} onChange={onChangeGram} />
 
       <div className={styles.pickerSectionLabel}>プラン</div>
       <div className={styles.planList}>
@@ -504,13 +528,7 @@ function InlinePlanPicker({
   );
 }
 
-function OmakaseBlock({
-  plan,
-  mode,
-}: {
-  plan: PlanGroup;
-  mode: "sub" | "single";
-}) {
+function OmakaseBlock({ plan, mode }: { plan: PlanGroup; mode: Mode }) {
   return (
     <div className={styles.omakaseBlock}>
       <div className={styles.omakaseCard}>
@@ -631,11 +649,11 @@ function PlanSheet({
   onChangeGram,
   onClose,
 }: {
-  mode: "sub" | "single";
+  mode: Mode;
   selectedPlan: PlanGroup;
   gram: WeightGrams;
   planGroups: PlanGroup[];
-  onChangeMode: (m: "sub" | "single") => void;
+  onChangeMode: (m: Mode) => void;
   onChangePlan: (p: PlanGroup) => void;
   onChangeGram: (g: WeightGrams) => void;
   onClose: () => void;
@@ -658,46 +676,14 @@ function PlanSheet({
 
         <div className={styles.sheetBody}>
           <div className={styles.sheetSectionLabel}>購入方法</div>
-          <div className={styles.modeSegment}>
-            {(
-              [
-                { k: "sub", label: "定期便", sub: "毎月お届け" },
-                { k: "single", label: "単品購入", sub: "1回だけ" },
-              ] as const
-            ).map((opt) => (
-              <button
-                key={opt.k}
-                type="button"
-                onClick={() => onChangeMode(opt.k)}
-                className={`${styles.segBtn} ${mode === opt.k ? styles.segBtnActive : styles.segBtnInactive}`}
-              >
-                <div className={styles.segBtnLabel}>{opt.label}</div>
-                <div className={styles.segBtnSub}>{opt.sub}</div>
-              </button>
-            ))}
-          </div>
+          <ModeSegment mode={mode} onChange={onChangeMode} />
 
           <div
             className={`${styles.sheetSectionLabel} ${styles.sheetSectionLabelMt}`}
           >
             1種あたりの容量
           </div>
-          <div className={styles.gramSegment}>
-            {([30, 60, 90] as WeightGrams[]).map((g) => (
-              <button
-                key={g}
-                type="button"
-                onClick={() => onChangeGram(g)}
-                className={`${styles.gramBtn} ${gram === g ? styles.gramBtnActive : styles.gramBtnInactive}`}
-              >
-                <div className={styles.gramBtnNum}>
-                  {g}
-                  <span className={styles.gramBtnUnit}>g</span>
-                </div>
-                <div className={styles.gramBtnLabel}>{GRAM_LABELS[g]}</div>
-              </button>
-            ))}
-          </div>
+          <GramSegment gram={gram} onChange={onChangeGram} />
 
           <div
             className={`${styles.sheetSectionLabel} ${styles.sheetSectionLabelMt}`}

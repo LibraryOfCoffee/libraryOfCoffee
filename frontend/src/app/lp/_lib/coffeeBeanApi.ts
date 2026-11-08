@@ -1,8 +1,7 @@
 import type { components } from "@/api/generated/cs-api";
 import { hmacFetch } from "./hmacFetch";
 
-export type TasteProfile =
-  components["schemas"]["CoffeeBeanResponse"]["tasteProfiles"][number];
+type CoffeeBeanApiItem = components["schemas"]["CoffeeBeanResponse"];
 
 export interface BeanDetail {
   id: string;
@@ -11,19 +10,14 @@ export interface BeanDetail {
   tag: string;
   name: string;
   description: string;
-  detailDescription: string;
   origin: string;
-  farm: string;
-  roastLevel: string;
   processing: string;
   roaster: string;
   roasterLink: string;
   prefecture: string;
-  tasteProfile: TasteProfile[];
+  tasteProfile: CoffeeBeanApiItem["tasteProfiles"];
   isSpecialty: boolean;
 }
-
-type CoffeeBeanApiItem = components["schemas"]["CoffeeBeanResponse"];
 
 const PREFECTURE_JP: Record<string, string> = {
   HOKKAIDO: "北海道",
@@ -95,10 +89,7 @@ function toBeanDetail(item: CoffeeBeanApiItem): BeanDetail {
     tag: roastJP,
     name: item.name,
     description: item.description,
-    detailDescription: item.description,
     origin: item.origin,
-    farm: "",
-    roastLevel: roastJP,
     processing: item.processingMethodName,
     roaster: item.shopName,
     roasterLink: item.shopUrl,

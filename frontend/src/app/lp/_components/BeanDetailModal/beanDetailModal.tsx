@@ -22,10 +22,7 @@ export default function BeanDetailModal({
   onClose,
   selectHref,
   onSelect,
-}: BeanDetailModalProps & {
-  selectHref?: string;
-  onSelect?: (bean: BeanDetail) => void;
-}) {
+}: BeanDetailModalProps) {
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
@@ -79,7 +76,7 @@ export default function BeanDetailModal({
             <RoastTag tag={bean.tag} />
           </div>
 
-          <p className={styles.desc}>{bean.detailDescription}</p>
+          <p className={styles.desc}>{bean.description}</p>
 
           <div>
             <h4 className={styles.sectionLabel}>Details</h4>
@@ -88,15 +85,9 @@ export default function BeanDetailModal({
                 <span className={styles.infoLabel}>産地</span>
                 <span className={styles.infoValue}>{bean.origin}</span>
               </div>
-              {bean.farm && (
-                <div className={styles.infoRow}>
-                  <span className={styles.infoLabel}>農園</span>
-                  <span className={styles.infoValue}>{bean.farm}</span>
-                </div>
-              )}
               <div className={styles.infoRow}>
                 <span className={styles.infoLabel}>焙煎度</span>
-                <span className={styles.infoValue}>{bean.roastLevel}</span>
+                <span className={styles.infoValue}>{bean.tag}</span>
               </div>
               <div className={styles.infoRow}>
                 <span className={styles.infoLabel}>精製方法</span>
@@ -147,10 +138,7 @@ export default function BeanDetailModal({
               <LuPlus size={18} />
             </button>
           ) : (
-            <LinkWithLoading
-              href={selectHref ?? ""}
-              className={styles.selectBtn}
-            >
+            <LinkWithLoading href={selectHref} className={styles.selectBtn}>
               この豆を選ぶ
               <LuPlus size={18} />
             </LinkWithLoading>
