@@ -7,22 +7,19 @@ const features = [
     num: "01",
     label: "未知の体験を",
     desc: "毎月3種類以上の厳選された珈琲豆をお届け",
-    en: "Discovery",
-    image: "/hero-image.jpeg",
+    image: "/experience/discovery.jpg",
   },
   {
     num: "02",
     label: "贅沢な飲み比べ",
     desc: "お試しサイズで、様々なロースタリーの味を飲み比べ",
-    en: "Tasting Flight",
-    image: "/experience/tasting-flight.jpg",
+    image: "/experience/tasting-flight-cups.jpg",
   },
   {
     num: "03",
     label: "プロの技術を自宅で",
     desc: "各店舗推奨の「淹れ方レシピ」で、驚きの1杯を再現",
-    en: "Store Recipe",
-    image: "/experience/store-recipe.jpg",
+    image: "/experience/store-recipe-pour.jpg",
   },
 ];
 
@@ -56,8 +53,6 @@ export default function ExperienceSection() {
                 sizes="(max-width: 480px) 44vw, 212px"
                 className={styles.mediaImg}
               />
-              <div className={styles.mediaShade} />
-              <span className={styles.mediaLabel}>{f.en}</span>
             </div>
             <div className={styles.text}>
               <span className={styles.num} aria-hidden="true">
