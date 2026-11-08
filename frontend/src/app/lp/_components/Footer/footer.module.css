@@ -1,12 +1,13 @@
 .footer {
-  padding: 18px 22px 30px;
-  border-top: 0.5px solid var(--mt-line);
+  padding: 24px 22px 32px;
+  background: var(--mt-dark);
+  border-top: 0.5px solid var(--mt-on-dark-hairline);
 }
 
 .brand {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .logo {
@@ -14,39 +15,41 @@
   width: auto;
   object-fit: contain;
   display: block;
+  opacity: 0.9;
 }
 
 .tagline {
   font-size: 10px;
-  color: var(--mt-ink-3);
+  color: var(--mt-on-dark-3);
+  letter-spacing: 0.06em;
   margin: 0;
   font-family: var(--mt-font-jp-sans);
 }
 
 .links {
-  margin-top: 14px;
+  margin-top: 18px;
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 24px;
+  gap: 8px 22px;
 }
 
 .link {
-  font-size: 10px;
-  color: var(--mt-ink-3);
+  font-size: 10.5px;
+  color: var(--mt-on-dark-2);
   text-decoration: none;
   font-family: var(--mt-font-jp-sans);
 }
 
 .link:hover {
-  color: var(--mt-ink);
+  color: var(--mt-on-dark);
 }
 
 .bottom {
-  margin-top: 14px;
+  margin-top: 16px;
   padding-top: 14px;
-  border-top: 0.5px dashed var(--mt-line);
+  border-top: 0.5px solid var(--mt-on-dark-hairline);
   font-size: 10px;
-  color: var(--mt-ink-3);
+  color: var(--mt-on-dark-3);
   font-family: var(--mt-font-jp-sans);
 }
 
@@ -55,9 +58,13 @@
 }
 
 .email {
-  color: var(--mt-ink-3);
+  color: var(--mt-on-dark-2);
 }
 
 .copy {
   margin: 8px 0 0;
+  font-family: var(--mt-font-en);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  color: var(--mt-on-dark-4);
 }

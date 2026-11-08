@@ -1,32 +1,23 @@
 import type { components } from "@/api/generated/cs-api";
 import { hmacFetch } from "./hmacFetch";
 
-export type TasteProfile =
-  components["schemas"]["CoffeeBeanResponse"]["tasteProfiles"][number];
+type CoffeeBeanApiItem = components["schemas"]["CoffeeBeanResponse"];
 
 export interface BeanDetail {
   id: string;
   shopifyBeanId: string;
   imageSrc: string;
   tag: string;
-  tagColor: string;
   name: string;
   description: string;
-  detailDescription: string;
   origin: string;
-  farm: string;
-  roastLevel: string;
   processing: string;
   roaster: string;
   roasterLink: string;
   prefecture: string;
-  tasteProfile: TasteProfile[];
+  tasteProfile: CoffeeBeanApiItem["tasteProfiles"];
   isSpecialty: boolean;
 }
-
-export const SPECIALTY_TAG_COLOR = "#C4972A";
-
-type CoffeeBeanApiItem = components["schemas"]["CoffeeBeanResponse"];
 
 const PREFECTURE_JP: Record<string, string> = {
   HOKKAIDO: "北海道",
@@ -49,6 +40,7 @@ const PREFECTURE_JP: Record<string, string> = {
   FUKUI: "福井県",
   YAMANASHI: "山梨県",
   NAGANO: "長野県",
+  GIFU: "岐阜県",
   SHIZUOKA: "静岡県",
   AICHI: "愛知県",
   MIE: "三重県",
@@ -85,29 +77,19 @@ const ROAST_LEVEL_JP: Record<string, string> = {
   FRENCH: "深煎り",
 };
 
-const ROAST_TAG_COLOR: Record<string, string> = {
-  LIGHT: "#E2B36E",
-  CINNAMON: "#C48D55",
-  MEDIUM: "#A6683D",
-  CITY: "#5C3317",
-  FRENCH: "#321E14",
-};
+/** 浅い順の焙煎度（表示名） */
+export const ROAST_ORDER = Object.values(ROAST_LEVEL_JP);
 
 function toBeanDetail(item: CoffeeBeanApiItem): BeanDetail {
   const roastJP = ROAST_LEVEL_JP[item.roastLevel] ?? item.roastLevel;
-  const tagColor = ROAST_TAG_COLOR[item.roastLevel] ?? "#A6683D";
   return {
     id: item.id,
     shopifyBeanId: item.shopifyBeanId,
     imageSrc: item.imageUrl,
     tag: roastJP,
-    tagColor,
     name: item.name,
     description: item.description,
-    detailDescription: item.description,
     origin: item.origin,
-    farm: "",
-    roastLevel: roastJP,
     processing: item.processingMethodName,
     roaster: item.shopName,
     roasterLink: item.shopUrl,

@@ -7,10 +7,10 @@ export default function Header() {
     <header className={styles.header}>
       <div className={styles.inner}>
         <Image
-          src="/logo.svg"
+          src="/logo_white.svg"
           alt="豆図書"
-          width={80}
-          height={28}
+          width={67}
+          height={22}
           className={styles.logo}
         />
         <a href={LOGIN_URL} className={styles.login}>

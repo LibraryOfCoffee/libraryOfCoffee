@@ -1,9 +1,5 @@
-"use client";
-
 import Image from "next/image";
-import { Autoplay } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
+import SectionHeading from "../SectionHeading/sectionHeading";
 import styles from "./testimonialsCarousel.module.css";
 
 interface Testimonial {
@@ -15,7 +11,6 @@ interface Testimonial {
 
 interface TestimonialsCarouselProps {
   testimonials: Testimonial[];
-  className?: string;
 }
 
 export default function TestimonialsCarousel({
@@ -23,39 +18,30 @@ export default function TestimonialsCarousel({
 }: TestimonialsCarouselProps) {
   return (
     <section className={styles.section}>
-      <p className={styles.eyebrow}>— VOICE</p>
-      <h2 className={styles.headline}>お客様の声</h2>
-      <Swiper
-        modules={[Autoplay]}
-        spaceBetween={12}
-        slidesPerView={1.15}
-        centeredSlides={false}
-        autoplay={{ delay: 5000, disableOnInteraction: false }}
-        className={styles.swiper}
-      >
+      <SectionHeading num="07" label="Voices" title="お客様の声" />
+      <ul className={styles.list}>
         {testimonials.map((t) => (
-          <SwiperSlide key={t.name} className={styles.slide}>
-            <div className={styles.card}>
-              <p className={styles.quote}>{t.quote}</p>
-              <div className={styles.footer}>
-                <div className={styles.avatarWrap}>
-                  <Image
-                    src={t.avatarSrc}
-                    alt={t.name}
-                    width={28}
-                    height={28}
-                    className={styles.avatarImg}
-                  />
-                </div>
-                <div>
-                  <div className={styles.name}>{t.name}</div>
-                  <div className={styles.meta}>{t.meta}</div>
-                </div>
+          <li key={t.name} className={styles.item}>
+            <div className={styles.mark} aria-hidden="true">
+              “
+            </div>
+            <p className={styles.quote}>{t.quote}</p>
+            <div className={styles.footer}>
+              <Image
+                src={t.avatarSrc}
+                alt=""
+                width={28}
+                height={28}
+                className={styles.avatarImg}
+              />
+              <div>
+                <div className={styles.name}>{t.name}</div>
+                <div className={styles.meta}>{t.meta}</div>
               </div>
             </div>
-          </SwiperSlide>
+          </li>
         ))}
-      </Swiper>
+      </ul>
     </section>
   );
 }

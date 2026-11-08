@@ -9,13 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0,
     },
     {
-      url: "https://mametosho.com/lp/plan",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
-      url: "https://mametosho.com/lp/beans",
+      url: "https://mametosho.com/lp/catalog",
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
