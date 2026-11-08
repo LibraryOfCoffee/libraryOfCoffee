@@ -4,7 +4,7 @@
 # Base stage
 # ============================================
 FROM node:26-alpine AS base
-RUN corepack enable && corepack prepare pnpm@10.24.0 --activate
+RUN npm install -g pnpm@10.24.0
 
 # ============================================
 # Dependencies stage
