@@ -3,7 +3,7 @@
 # ============================================
 # Base stage
 # ============================================
-FROM node:24-alpine AS base
+FROM node:26-alpine AS base
 RUN corepack enable && corepack prepare pnpm@10.24.0 --activate
 
 # ============================================
@@ -29,7 +29,7 @@ RUN pnpm build
 # ============================================
 # Production stage
 # ============================================
-FROM node:24-alpine AS runner
+FROM node:26-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
